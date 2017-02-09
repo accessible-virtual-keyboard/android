@@ -65,7 +65,7 @@ public class SimpleExampleLayout extends StepLayout {
                 reset();
                 break;
             case INPUT2: // Step to the right in the layout
-                currentPosition += 1;
+                currentPosition = (currentPosition + 1) % getSymbolCount();
                 break;
         }
 
