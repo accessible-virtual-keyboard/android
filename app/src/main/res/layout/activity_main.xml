@@ -10,31 +10,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:activity="no.ntnu.stud.avikeyb.MainActivity">
 
+    <TextView
+        android:id="@+id/currentBuffer"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginBottom="12dp"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:id="@+id/layoutWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/currentBuffer"
+        android:orientation="vertical" />
 
     <Button
         android:id="@+id/buttonSelect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutWrapper"
         android:text="Select" />
 
     <Button
         android:id="@+id/buttonRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutWrapper"
         android:layout_toRightOf="@+id/buttonSelect"
         android:text="Next" />
-
-    <LinearLayout
-        android:id="@+id/layoutWrapper"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttonSelect"
-        android:orientation="vertical" />
-
-    <TextView
-        android:id="@+id/currentBuffer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutWrapper" />
-
+    
 </RelativeLayout>
