@@ -27,6 +27,35 @@ public class SimpleExampleLayout extends StepLayout {
         this.keyboard = keyboard;
     }
 
+    /**
+     * Returns the total number of symbols in the layout
+     *
+     * @return the total number of symbols in the layout
+     */
+    public int getSymbolCount() {
+        return symbols.length;
+    }
+
+    /**
+     * Returns the symbol at the given index
+     *
+     * @param index the index of the symbol to return
+     * @return a symbol
+     */
+    public Symbol getSumbolAt(int index) {
+        return symbols[index];
+    }
+
+    /**
+     * Returns the current active position in the layout
+     *
+     * @return the position of the current active symbol
+     */
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
+
     @Override
     protected void onStep(InputType input) {
 
