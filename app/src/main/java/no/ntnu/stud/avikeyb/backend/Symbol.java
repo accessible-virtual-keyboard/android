@@ -50,7 +50,7 @@ public enum Symbol {
     COMMA(","),
 
 
-    SEND("");
+    SEND("Send");
 
 
     private String content;
