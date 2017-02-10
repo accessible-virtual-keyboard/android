@@ -1,39 +1,25 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import no.ntnu.stud.avikeyb.backend.InputInterface;
 import no.ntnu.stud.avikeyb.backend.InputType;
-import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
-import no.ntnu.stud.avikeyb.backend.outputs.OutputLogger;
-
-import static org.junit.Assert.assertEquals;
+import no.ntnu.stud.avikeyb.backend.Layout;
 
 /**
  * Created by pitmairen on 08/02/2017.
  */
-public class BinarySearchLayoutTest {
+public class BinarySearchLayoutTest extends LayoutTestBase {
 
-    private CoreKeyboard keyboard;
-    private OutputLogger output;
-    private InputInterface layout;
-
-    @Before
-    public void setUp() throws Exception {
-
-        keyboard = new CoreKeyboard();
-        output = new OutputLogger();
-        keyboard.addOutputDevice(output);
-        layout = new BinarySearchLayout(keyboard);
+    @Override
+    protected Layout createLayout() {
+        return new BinarySearchLayout(keyboard);
     }
-
 
     @Test
     public void testSelectLetters() throws Exception {
 
-        assertEquals("", keyboard.getCurrentBuffer());
-        assertEquals("", output.getLastOutput());
+        assertOutputBufferEquals("");
+        assertLastOutputEquals("");
 
         // a
         goLeft();
@@ -41,8 +27,8 @@ public class BinarySearchLayoutTest {
         goLeft();
         goLeft();
 
-        assertEquals("a", keyboard.getCurrentBuffer());
-        assertEquals("", output.getLastOutput());
+        assertOutputBufferEquals("a");
+        assertLastOutputEquals("");
 
         // h
         goLeft();
@@ -51,17 +37,16 @@ public class BinarySearchLayoutTest {
         goLeft();
         goLeft();
 
-        assertEquals("ah", keyboard.getCurrentBuffer());
-        assertEquals("", output.getLastOutput());
-
+        assertOutputBufferEquals("ah");
+        assertLastOutputEquals("");
         // a
         goLeft();
         goLeft();
         goLeft();
         goLeft();
 
-        assertEquals("aha", keyboard.getCurrentBuffer());
-        assertEquals("", output.getLastOutput());
+        assertOutputBufferEquals("aha");
+        assertLastOutputEquals("");
 
         // Send
         goRight();
@@ -70,18 +55,18 @@ public class BinarySearchLayoutTest {
         goRight();
         goRight();
 
-        assertEquals("aha", output.getLastOutput());
-        assertEquals("", keyboard.getCurrentBuffer());
+        assertOutputBufferEquals("");
+        assertLastOutputEquals("aha");
     }
 
 
     private void goLeft() {
-        layout.setInputState(InputType.INPUT1, true);
-        layout.setInputState(InputType.INPUT1, false);
+        stepInput(InputType.INPUT1);
     }
 
     private void goRight() {
-        layout.setInputState(InputType.INPUT2, true);
-        layout.setInputState(InputType.INPUT2, false);
+        stepInput(InputType.INPUT2);
     }
+
+
 }

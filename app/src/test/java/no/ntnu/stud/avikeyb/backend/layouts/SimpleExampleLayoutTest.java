@@ -1,69 +1,47 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
 
-import org.junit.Before;
 import org.junit.Test;
 
-import no.ntnu.stud.avikeyb.backend.InputInterface;
 import no.ntnu.stud.avikeyb.backend.InputType;
-import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
-import no.ntnu.stud.avikeyb.backend.outputs.OutputLogger;
-
-import static org.junit.Assert.assertEquals;
+import no.ntnu.stud.avikeyb.backend.Layout;
 
 /**
  * Created by pitmairen on 08/02/2017.
  */
-public class SimpleExampleLayoutTest {
+public class SimpleExampleLayoutTest extends LayoutTestBase {
 
-
-    private CoreKeyboard keyboard;
-    private OutputLogger output;
-    private InputInterface layout;
-
-    @Before
-    public void setUp() throws Exception {
-
-        keyboard = new CoreKeyboard();
-
-        output = new OutputLogger();
-
-        keyboard.addOutputDevice(output);
-        layout = new SimpleExampleLayout(keyboard);
+    @Override
+    protected Layout createLayout() {
+        return new SimpleExampleLayout(keyboard);
     }
 
     @Test
     public void testTyping() throws Exception {
 
-
-        assertEquals("", keyboard.getCurrentBuffer());
+        assertOutputBufferEquals("");
 
         // Move to letter "c" and select
-        toggleInput(InputType.INPUT2);
-        toggleInput(InputType.INPUT2);
-        toggleInput(InputType.INPUT2);
-        toggleInput(InputType.INPUT1);
+        stepInput(InputType.INPUT2);
+        stepInput(InputType.INPUT2);
+        stepInput(InputType.INPUT2);
+        stepInput(InputType.INPUT1);
 
 
-        assertEquals("c", keyboard.getCurrentBuffer());
+        assertOutputBufferEquals("c");
 
 
         // Move to letter "a" and select
-        toggleInput(InputType.INPUT2);
-        toggleInput(InputType.INPUT1);
+        stepInput(InputType.INPUT2);
+        stepInput(InputType.INPUT1);
 
-        assertEquals("ca", keyboard.getCurrentBuffer());
+        assertOutputBufferEquals("ca");
 
         // Send button
-        toggleInput(InputType.INPUT1);
+        stepInput(InputType.INPUT1);
 
-        assertEquals("ca", output.getLastOutput());
-        assertEquals("", keyboard.getCurrentBuffer());
+        assertLastOutputEquals("ca");
+        assertOutputBufferEquals("");
     }
 
-
-    private void toggleInput(InputType input) {
-        layout.setInputState(input, true);
-        layout.setInputState(input, false);
-    }
 }
