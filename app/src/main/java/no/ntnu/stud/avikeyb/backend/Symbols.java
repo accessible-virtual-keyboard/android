@@ -13,6 +13,7 @@ public class Symbols {
      * @return an array of the passed in symbols
      */
     public static Symbol[] build(Symbol... symbols) {
+
         return symbols;
     }
 
@@ -74,6 +75,36 @@ public class Symbols {
 
 
     // Common symbol collections:
+
+
+    private static Symbol[] _etao = { // etaoinsrhldcumfpgwybvkxjqz
+            Symbol.E,
+            Symbol.T,
+            Symbol.A,
+            Symbol.O,
+            Symbol.I,
+            Symbol.N,
+            Symbol.S,
+            Symbol.R,
+            Symbol.H,
+            Symbol.L,
+            Symbol.D,
+            Symbol.C,
+            Symbol.U,
+            Symbol.M,
+            Symbol.F,
+            Symbol.P,
+            Symbol.G,
+            Symbol.W,
+            Symbol.Y,
+            Symbol.B,
+            Symbol.V,
+            Symbol.K,
+            Symbol.X,
+            Symbol.J,
+            Symbol.Q,
+            Symbol.Z
+    };
 
     private static Symbol[] _alphabet = {
             Symbol.A,

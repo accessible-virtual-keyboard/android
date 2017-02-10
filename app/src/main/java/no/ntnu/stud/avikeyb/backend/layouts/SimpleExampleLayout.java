@@ -24,6 +24,7 @@ public class SimpleExampleLayout extends StepLayout {
     private Keyboard keyboard;
 
     public SimpleExampleLayout(Keyboard keyboard) {
+
         this.keyboard = keyboard;
     }
 
@@ -43,6 +44,7 @@ public class SimpleExampleLayout extends StepLayout {
      * @return a symbol
      */
     public Symbol getSumbolAt(int index) {
+
         return symbols[index];
     }
 
