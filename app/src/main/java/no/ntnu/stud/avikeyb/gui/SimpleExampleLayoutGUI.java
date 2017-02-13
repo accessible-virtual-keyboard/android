@@ -14,40 +14,29 @@ import java.util.List;
 
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
-import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.layouts.SimpleExampleLayout;
 
 /**
  * Created by pitmairen on 09/02/2017.
  */
 
-public class SimpleExampleLayoutGUI {
+public class SimpleExampleLayoutGUI extends LayoutGUI {
 
     private Activity activity;
 
     // Store a reference to all the symbol for easy access when updating the gui
     private List<View> symbolViews;
     private SimpleExampleLayout layout;
-    private Keyboard keyboard;
 
     public SimpleExampleLayoutGUI(Activity activity, Keyboard keyboard, SimpleExampleLayout layout) {
+        super(keyboard, layout);
 
         this.layout = layout;
         this.activity = activity;
-        this.keyboard = keyboard;
 
         symbolViews = new ArrayList<>();
-
-        // Update the gui when the layout state changes
-        layout.addLayoutListener(new Layout.LayoutListener() {
-            @Override
-            public void onLayoutChanged() {
-                updateGUI();
-            }
-        });
-
-
     }
+
 
     // Build the gui programmatically
     public ViewGroup buildGUI() {
@@ -82,15 +71,14 @@ public class SimpleExampleLayoutGUI {
             root.addView(row);
         }
 
-        updateGUI();
         return rootWrapper;
     }
 
 
-    private void updateGUI() {
+    public void updateGUI() {
 
         // Update the current buffer view
-        ((TextView) activity.findViewById(R.id.currentBuffer)).setText(keyboard.getCurrentBuffer());
+        ((TextView) activity.findViewById(R.id.currentBuffer)).setText(getKeybaord().getCurrentBuffer());
 
         // Highlight the selected symbol
         int current = layout.getCurrentPosition();
