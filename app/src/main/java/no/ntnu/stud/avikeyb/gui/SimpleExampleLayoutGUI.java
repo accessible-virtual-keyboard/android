@@ -74,7 +74,7 @@ public class SimpleExampleLayoutGUI {
                 lp.setMargins(5, 5, 5, 5);
                 view.setLayoutParams(lp);
                 view.setGravity(Gravity.CENTER);
-                view.setText(layout.getSumbolAt(i).getContent());
+                view.setText(layout.getSymbolAt(i).getContent());
 
                 symbolViews.add(view);
                 row.addView(view);

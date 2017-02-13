@@ -43,7 +43,7 @@ public class SimpleExampleLayout extends StepLayout {
      * @param index the index of the symbol to return
      * @return a symbol
      */
-    public Symbol getSumbolAt(int index) {
+    public Symbol getSymbolAt(int index) {
 
         return symbols[index];
     }
