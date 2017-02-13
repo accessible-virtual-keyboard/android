@@ -33,6 +33,58 @@ public class BinarySearchLayout extends StepLayout {
         reset();
     }
 
+
+    /**
+     * Returns the total number of symbols in the layout
+     *
+     * @return the total number of symbols in the layout
+     */
+    public int getSymbolCount() {
+        return symbols.length;
+    }
+
+    /**
+     * Returns the symbol at the given index
+     *
+     * @param index the index of the symbol to return
+     * @return a symbol
+     */
+    public Symbol getSymbolAt(int index) {
+
+        return symbols[index];
+    }
+
+    /**
+     * Checks if a symbol is active
+     *
+     * @param symbol the symbol to check
+     * @return true if the symbol is active
+     */
+    public boolean symbolIsActive(Symbol symbol) {
+        return currentSymbols.contains(symbol);
+    }
+
+    /**
+     * Checks if a symbol is active
+     *
+     * @param symbol the symbol to check
+     * @return true if the symbol is active
+     */
+    public boolean symbolIsActiveLeft(Symbol symbol) {
+        return currentLeft.contains(symbol);
+    }
+
+    /**
+     * Checks if a symbol is active
+     *
+     * @param symbol the symbol to check
+     * @return true if the symbol is active
+     */
+    public boolean symbolIsActiveRight(Symbol symbol) {
+        return currentRight.contains(symbol);
+    }
+
+
     @Override
     protected void onStep(InputType input) {
 

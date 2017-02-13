@@ -11,7 +11,9 @@ import no.ntnu.stud.avikeyb.backend.InputInterface;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
+import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.SimpleExampleLayout;
+import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
 
@@ -25,9 +27,11 @@ public class MainActivity extends AppCompatActivity {
         CoreKeyboard keyboard = new CoreKeyboard();
         keyboard.addOutputDevice(new ToastOutput());
 
-        SimpleExampleLayout layout = new SimpleExampleLayout(keyboard);
-        LayoutGUI layoutGUI = new SimpleExampleLayoutGUI(this, keyboard, layout);
 
+        //SimpleExampleLayout layout = new SimpleExampleLayout(keyboard);
+        //LayoutGUI layoutGUI = new SimpleExampleLayoutGUI(this, keyboard, layout);
+        BinarySearchLayout layout = new BinarySearchLayout(keyboard);
+        LayoutGUI layoutGUI = new BinarySearchLayoutGUI(this, keyboard, layout);
 
         ViewGroup layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
         layoutWrapper.addView(layoutGUI.createGUI());
