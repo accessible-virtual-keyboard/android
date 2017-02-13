@@ -48,6 +48,7 @@ public enum Symbol {
     EXCLAMATION_MARK("!"),
     PERIOD("."),
     COMMA(","),
+    SPACE(" "),
 
 
     SEND("Send");

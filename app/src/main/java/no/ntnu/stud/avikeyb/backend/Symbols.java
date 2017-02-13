@@ -153,5 +153,6 @@ public class Symbols {
             Symbol.COMMA,
             Symbol.QUESTION_MARK,
             Symbol.EXCLAMATION_MARK,
+            Symbol.SPACE,
     };
 }
