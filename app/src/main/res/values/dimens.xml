@@ -5,4 +5,5 @@
     <dimen name="binsearch_cell_margin">2dp</dimen>
     <dimen name="binsearch_cell_padding">4dp</dimen>
     <dimen name="binsearch_min_width">50dp</dimen>
+    <dimen name="_10sdp">10dp</dimen>
 </resources>
