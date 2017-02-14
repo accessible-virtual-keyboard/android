@@ -16,6 +16,7 @@ public class BinarySearchLayout extends StepLayout {
 
     private static Symbol[] symbols = Symbols.merge(
             Symbols.alphabet(),
+            Symbols.numbers(),
             Symbols.commonPunctuations(),
             Symbols.build(Symbol.SEND));
 
