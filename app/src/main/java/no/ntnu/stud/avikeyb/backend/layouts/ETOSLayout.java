@@ -52,6 +52,17 @@ public class ETOSLayout extends StepLayout {
 
     }
 
+    /**
+     * Returns the symbol at the given index
+     *
+     * @param index the index of the symbol to return
+     * @return a symbol
+     */
+    public Symbol getSymbolAt(int index) {
+
+        return symbols[index];
+    }
+
     private void selectCurrentSymbol() {
 
         Symbol current = symbols[currentPosition];

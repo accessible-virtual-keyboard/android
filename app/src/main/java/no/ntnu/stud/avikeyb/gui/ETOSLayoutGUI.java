@@ -1,20 +1,16 @@
 package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.content.ContextCompat;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Layout;
@@ -24,40 +20,37 @@ import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
  * Created by ingalill on 10/02/2017.
  */
 
-public class ETOSLayoutGUI {
+public class ETOSLayoutGUI extends LayoutGUI {
 
     private Activity activity;
     private List<View> symbolsView;
     private ETOSLayout layout;
-    private Keyboard keyboard;
     private Resources res; // do not work
 
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
-     //   res = Resources.getSystem();
-
+        super(keyboard, layout);
+        //   res = Resources.getSystem();
         this.layout = layout;
-        this.keyboard = keyboard;
         this.activity = activity;
         symbolsView = new ArrayList<>();
-
 
         layout.addLayoutListener(new Layout.LayoutListener() {
             @Override
             public void onLayoutChanged() {
-                // oppdater gui.
+                updateGUI();
             }
-
         });
     }
 
-
+    // Build the GUI programmatically.
     public View buildGUI() {
-      //  int paddingSize = (int) res.getDimension(R.dimen._10sdp);
-        LinearLayout layout = new LinearLayout(activity);
-        layout.setOrientation(LinearLayout.HORIZONTAL);
-        layout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        layout.setId(View.generateViewId());
+        //  int paddingSize = (int) res.getDimension(R.dimen._10sdp);
+
+        LinearLayout root = new LinearLayout(activity);
+        root.setOrientation(LinearLayout.HORIZONTAL);
+        root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        root.setId(View.generateViewId());
 
         LinearLayout nestedLayout = new LinearLayout(activity);
         nestedLayout.setOrientation(LinearLayout.VERTICAL);
@@ -68,45 +61,33 @@ public class ETOSLayoutGUI {
         tableLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         tableLayout.setId(View.generateViewId());
 
-        for (int i = 0; i < 7; i++) {
-            TableRow tr = new TableRow(activity);
-            tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            for (int j = 0; j < 6; j++) {
-                TextView t = new TextView(activity);
-                t.setText("It works");
-                t.setPadding(10, 10, 10, 10); // replace with paddingSize
-             //   t.setBackground();//lightgrey
-                //t.setTextColor(ContextCompat.getColor(context, R.color.black));  // black
-                tr.addView(t);
+        for (int i = 0; i < layout.getSymbolCount(); ) {
+
+            TableRow tableRow = new TableRow(activity);
+            tableRow.setWeightSum(1.0f);
+            // create rows with 6 symbols on each row
+            for (int j = 0; i < layout.getSymbolCount() && j <= 6; i++, j++) {
+
+                TextView view = new TextView(activity);
+
+                tableRow.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                view.setText(layout.getSymbolAt(i).getContent());
+                view.setPadding(20, 20, 20, 20); // replace with paddingSize
+                view.setBackgroundResource(R.color.lightgrey);
+                view.setTextColor(Color.BLACK);
+                symbolsView.add(view);
+                tableRow.addView(view); // Add the views to the tablerow.
             }
-            tableLayout.addView(tr);
+            tableLayout.addView(tableRow); // add the tablerow to the table layout.
         }
-
         nestedLayout.addView(tableLayout);
+        root.addView(nestedLayout); // add the nested linear layout to the root linear layout.
 
-        layout.addView(nestedLayout);
-        /*TableLayout tableLayout = (TableLayout)getActivity().findViewById(R.id.tablelayout);
-        TableRow tablerow1 = (TableRow) getActivity().findViewById(R.id.tableRow1);
+        return root;
+    }
 
-        TableRow tablerow2 = new TableRow(getActivity());
-        tablerow2.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-        tableLayout.addView(tablerow2);
-
-        for (int i = 0; i < adaptiveLayout.size(); i++) {
-            for (Map.Entry<String, String[]> nextLetter : adaptiveLayout.entrySet()) {
-                TextView textView = new TextView(getActivity());
-
-                String key = nextLetter.getKey();
-                String[] value = nextLetter.getValue();
-               // for (int j = 0; j <6 ; j++) {
-                    // textview
-
-                //}
-
-            }
-        }*/
-
-        return layout;
+    @Override
+    protected void updateGUI() {
+        // should update the buffer. Should highlighet the selected symbol.
     }
 }
