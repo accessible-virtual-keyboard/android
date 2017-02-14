@@ -11,14 +11,29 @@ import no.ntnu.stud.avikeyb.backend.InputInterface;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
+<<<<<<< Updated upstream
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.SimpleExampleLayout;
 import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
+=======
+import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
+import no.ntnu.stud.avikeyb.backend.layouts.SimpleExampleLayout;
+import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
+>>>>>>> Stashed changes
 import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
 
 public class MainActivity extends AppCompatActivity {
 
+<<<<<<< Updated upstream
+=======
+    private CoreKeyboard keyboard;
+    private SimpleExampleLayout layout;
+    private SimpleExampleLayoutGUI layoutGUI;
+    private ETOSLayout etosLayout;
+    private ETOSLayoutGUI etosGUI;
+
+>>>>>>> Stashed changes
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +48,18 @@ public class MainActivity extends AppCompatActivity {
         BinarySearchLayout layout = new BinarySearchLayout(keyboard);
         LayoutGUI layoutGUI = new BinarySearchLayoutGUI(this, keyboard, layout);
 
+        etosLayout = new ETOSLayout(keyboard);
+        etosGUI = new ETOSLayoutGUI(this, keyboard,etosLayout);
+
         ViewGroup layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
+<<<<<<< Updated upstream
         layoutWrapper.addView(layoutGUI.createGUI());
 
         final InputInterface input = layout;
+=======
+       // layoutWrapper.addView(layoutGUI.buildGUI());
+        layoutWrapper.addView(etosGUI.buildGUI());
+>>>>>>> Stashed changes
 
 
         // Use buttons to register the inputs

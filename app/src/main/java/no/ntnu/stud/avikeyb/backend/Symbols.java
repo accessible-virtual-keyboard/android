@@ -64,6 +64,15 @@ public class Symbols {
         return _numbers;
     }
 
+
+    /**
+     * Returns the symbols representing ETOS layout.
+     * @return a list of the etos alphabet.
+     */
+    public static Symbol[] etos(){
+        return _etao;
+
+    }
     /**
      * Returs common punctuation symbols
      *
