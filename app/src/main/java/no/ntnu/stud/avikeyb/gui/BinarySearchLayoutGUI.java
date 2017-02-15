@@ -51,7 +51,7 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
     public void updateGUI() {
 
         // Update the current buffer view
-        ((TextView) activity.findViewById(R.id.currentBuffer)).setText(getKeybaord().getCurrentBuffer());
+        ((TextView) activity.findViewById(R.id.currentBuffer)).setText(getKeyboard().getCurrentBuffer());
 
         for (Map.Entry<Symbol, View> it : symbolViewMap.entrySet()) {
 
