@@ -20,7 +20,7 @@ public class BinarySearchLayout extends StepLayout {
             Symbols.commonPunctuations(),
             Symbols.build(Symbol.SEND));
 
-    // The current sumbol list
+    // The current symbol list
     private List<Symbol> currentSymbols;
     // The symbols on the left side
     private List<Symbol> currentLeft;

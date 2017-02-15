@@ -16,7 +16,6 @@ public abstract class BaseLayout implements Layout {
         listeners = new ArrayList<>();
     }
 
-
     @Override
     public void addLayoutListener(LayoutListener listener) {
         listeners.add(listener);

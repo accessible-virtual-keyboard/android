@@ -3,14 +3,17 @@ package no.ntnu.stud.avikeyb.gui;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Layout;
@@ -30,7 +33,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
-        //   res = Resources.getSystem();
+
         this.layout = layout;
         this.activity = activity;
         symbolsView = new ArrayList<>();
@@ -59,26 +62,29 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
         TableLayout tableLayout = new TableLayout(activity);
         tableLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        tableLayout.setId(View.generateViewId());
+        tableLayout.setWeightSum(4); // Should it be 6?
+        tableLayout.setStretchAllColumns(true);
+
 
         for (int i = 0; i < layout.getSymbolCount(); ) {
 
             TableRow tableRow = new TableRow(activity);
-            tableRow.setWeightSum(1.0f);
-            // create rows with 6 symbols on each row
+            tableRow.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, 0.35f));
             for (int j = 0; i < layout.getSymbolCount() && j <= 6; i++, j++) {
 
                 TextView view = new TextView(activity);
 
-                tableRow.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 view.setText(layout.getSymbolAt(i).getContent());
                 view.setPadding(20, 20, 20, 20); // replace with paddingSize
                 view.setBackgroundResource(R.color.lightgrey);
                 view.setTextColor(Color.BLACK);
+                view.setGravity(Gravity.CENTER);
                 symbolsView.add(view);
                 tableRow.addView(view); // Add the views to the tablerow.
             }
-            tableLayout.addView(tableRow); // add the tablerow to the table layout.
+            tableLayout.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, 0, 1f));
+
         }
         nestedLayout.addView(tableLayout);
         root.addView(nestedLayout); // add the nested linear layout to the root linear layout.
