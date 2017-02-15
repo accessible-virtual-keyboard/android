@@ -3,6 +3,7 @@ package no.ntnu.stud.avikeyb.backend.core;
 import org.junit.Before;
 import org.junit.Test;
 
+import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.outputs.OutputLogger;
 
 import static org.junit.Assert.assertEquals;
@@ -130,5 +131,79 @@ public class CoreKeyboardTest {
 
     }
 
+
+    @Test
+    public void testAddKeyboardListener() throws Exception {
+
+        KeyboardStateListenerLogger logger = new KeyboardStateListenerLogger();
+
+        keyboard.addStateListener(logger);
+
+        keyboard.addToCurrentBuffer("hello");
+
+        assertEquals("", logger.getOldBuffer());
+        assertEquals("hello", logger.getNewBuffer());
+
+        keyboard.addToCurrentBuffer(" test");
+
+        assertEquals("hello", logger.getOldBuffer());
+        assertEquals("hello test", logger.getNewBuffer());
+
+        keyboard.sendCurrentBuffer();
+
+        assertEquals("hello test", logger.getOldBuffer());
+        assertEquals("", logger.getNewBuffer());
+
+    }
+
+
+    @Test
+    public void testRemoveKeyboardListener() throws Exception {
+
+        KeyboardStateListenerLogger logger = new KeyboardStateListenerLogger();
+
+        keyboard.addStateListener(logger);
+
+        keyboard.addToCurrentBuffer("hello");
+
+        assertEquals("", logger.getOldBuffer());
+        assertEquals("hello", logger.getNewBuffer());
+
+        // The logger content should not have changed and should never change again
+        keyboard.removeStateListener(logger);
+
+        keyboard.addToCurrentBuffer(" test");
+
+        assertEquals("", logger.getOldBuffer());
+        assertEquals("hello", logger.getNewBuffer());
+
+        keyboard.sendCurrentBuffer();
+
+        assertEquals("", logger.getOldBuffer());
+        assertEquals("hello", logger.getNewBuffer());
+    }
+
+    /**
+     * Used for logging and testing of keybaord state listeners
+     */
+    private static class KeyboardStateListenerLogger implements Keyboard.KeyboardListener {
+
+        private String oldBuffer = "";
+        private String newBuffer = "";
+
+        @Override
+        public void onOutputBufferChange(String oldBuffer, String newBuffer) {
+            this.oldBuffer = oldBuffer;
+            this.newBuffer = newBuffer;
+        }
+
+        public String getNewBuffer() {
+            return newBuffer;
+        }
+
+        public String getOldBuffer() {
+            return oldBuffer;
+        }
+    }
 
 }
