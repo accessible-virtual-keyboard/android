@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import no.ntnu.stud.avikeyb.backend.InputInterface;
@@ -49,11 +50,22 @@ public class MainActivity extends AppCompatActivity {
         ViewGroup layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
         // layoutWrapper.addView(layoutGUI.createGUI());
 
-        final InputInterface input = layout;
 
         //  layoutWrapper.addView(layoutGUI.buildGUI());
         layoutWrapper.addView(etosGUI.buildGUI()); // shows the ETOS gui.
 
+
+
+
+        // Update the buffer view
+        keyboard.addStateListener(new Keyboard.KeyboardListener() {
+            @Override
+            public void onOutputBufferChange(String oldBuffer, String newBuffer) {
+                ((TextView) MainActivity.this.findViewById(R.id.currentBuffer)).setText(newBuffer);
+            }
+        });
+
+        final InputInterface input = layout;
 
         // Use buttons to register the inputs
         ((Button) findViewById(R.id.buttonRight)).setOnClickListener(new View.OnClickListener() {
