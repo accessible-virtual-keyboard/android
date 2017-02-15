@@ -24,7 +24,7 @@ public abstract class LayoutGUI {
         });
     }
 
-    protected Keyboard getKeybaord() {
+    protected Keyboard getKeyboard() {
         return keyboard;
     }
 

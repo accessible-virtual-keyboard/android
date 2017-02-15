@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -14,6 +13,7 @@ import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
+import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 
 /**
  * Created by pitmairen on 13/02/2017.
@@ -31,34 +31,27 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
         this.activity = activity;
         this.layout = layout;
         symbolViewMap = new HashMap<>();
-
     }
 
     @Override
     public ViewGroup buildGUI() {
 
-        TableLayout root = (TableLayout) activity.getLayoutInflater().inflate(R.layout.layout_binsearch, null);
-
-        for (int i = 0; i < layout.getSymbolCount(); i++) {
-
-            Symbol symbol = layout.getSymbolAt(i);
-
-            int res = activity.getResources().getIdentifier("sym_" + symbol.name().toLowerCase(), "id", activity.getPackageName());
-            if (res != 0) {
-                TextView view = (TextView) root.findViewById(res);
+        LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_binsearch);
+        for (Symbol symbol : layout.getSymbols()) {
+            if (loader.hasSymbol(symbol)) {
+                TextView view = (TextView) loader.getViewForSymbol(symbol);
                 view.setText(symbol.getContent());
                 symbolViewMap.put(symbol, view);
             }
         }
-
-        return root;
+        return (ViewGroup) loader.getLayout();
     }
 
     @Override
     public void updateGUI() {
 
         // Update the current buffer view
-        ((TextView) activity.findViewById(R.id.currentBuffer)).setText(getKeybaord().getCurrentBuffer());
+        ((TextView) activity.findViewById(R.id.currentBuffer)).setText(getKeyboard().getCurrentBuffer());
 
         for (Map.Entry<Symbol, View> it : symbolViewMap.entrySet()) {
 

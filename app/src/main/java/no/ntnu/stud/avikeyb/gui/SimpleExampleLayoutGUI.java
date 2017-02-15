@@ -78,7 +78,7 @@ public class SimpleExampleLayoutGUI extends LayoutGUI {
     public void updateGUI() {
 
         // Update the current buffer view
-        ((TextView) activity.findViewById(R.id.currentBuffer)).setText(getKeybaord().getCurrentBuffer());
+        ((TextView) activity.findViewById(R.id.currentBuffer)).setText(getKeyboard().getCurrentBuffer());
 
         // Highlight the selected symbol
         int current = layout.getCurrentPosition();
