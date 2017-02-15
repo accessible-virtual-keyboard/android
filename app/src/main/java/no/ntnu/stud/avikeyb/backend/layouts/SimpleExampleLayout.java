@@ -29,23 +29,12 @@ public class SimpleExampleLayout extends StepLayout {
     }
 
     /**
-     * Returns the total number of symbols in the layout
+     * Returns all symbols in the layout
      *
-     * @return the total number of symbols in the layout
+     * @return the symbols in the layout
      */
-    public int getSymbolCount() {
-        return symbols.length;
-    }
-
-    /**
-     * Returns the symbol at the given index
-     *
-     * @param index the index of the symbol to return
-     * @return a symbol
-     */
-    public Symbol getSymbolAt(int index) {
-
-        return symbols[index];
+    public Symbol[] getSymbols() {
+        return symbols;
     }
 
     /**
@@ -67,7 +56,7 @@ public class SimpleExampleLayout extends StepLayout {
                 reset();
                 break;
             case INPUT2: // Step to the right in the layout
-                currentPosition = (currentPosition + 1) % getSymbolCount();
+                currentPosition = (currentPosition + 1) % symbols.length;
                 break;
         }
 
