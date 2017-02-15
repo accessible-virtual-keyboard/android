@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
         final InputInterface input = layout;
 
         //  layoutWrapper.addView(layoutGUI.buildGUI());
-
-
         layoutWrapper.addView(etosGUI.buildGUI()); // shows the ETOS gui.
 
 

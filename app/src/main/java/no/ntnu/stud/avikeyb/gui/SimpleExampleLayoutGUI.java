@@ -70,7 +70,6 @@ public class SimpleExampleLayoutGUI extends LayoutGUI {
             }
             root.addView(row);
         }
-
         return rootWrapper;
     }
 
