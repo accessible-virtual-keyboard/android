@@ -9,6 +9,20 @@ package no.ntnu.stud.avikeyb.backend;
 public interface Keyboard {
 
     /**
+     * Listen for changes in the internal state of the keyboard
+     */
+    interface KeyboardListener {
+        /**
+         * Called when the output buffer changes
+         *
+         * @param oldBuffer the old value of the buffer
+         * @param newBuffer the new value of the buffer
+         */
+        void onOutputBufferChange(String oldBuffer, String newBuffer);
+    }
+
+
+    /**
      * Adds the string value to the current keyboard output buffer
      *
      * @param value
@@ -39,5 +53,34 @@ public interface Keyboard {
      * Clears the current output buffer and reset it to a empty string
      */
     void clearCurrentBuffer();
+
+    /**
+     * Register an output device to the keyboard
+     *
+     * @param output the output device to register
+     */
+    void addOutputDevice(OutputDevice output);
+
+    /**
+     * Removes a registered output device from the keyboard
+     *
+     * @param output the output device to unregister
+     */
+    void removeOutputDevice(OutputDevice output);
+
+    /**
+     * Register an listener for the keyboard state
+     *
+     * @param listener the output device to register
+     */
+    void addStateListener(KeyboardListener listener);
+
+    /**
+     * Removes a registered listener from the keyboard
+     *
+     * @param listener the output device to unregister
+     */
+    void removeStateListener(KeyboardListener listener);
+
 
 }

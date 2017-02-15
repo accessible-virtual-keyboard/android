@@ -13,6 +13,7 @@ public class CoreKeyboard implements Keyboard {
 
     // List of output devices
     private ArrayList<OutputDevice> outputDevices;
+    private ArrayList<KeyboardListener> listeners;
 
     // The current output buffer
     private StringBuilder currentBuffer;
@@ -20,31 +21,37 @@ public class CoreKeyboard implements Keyboard {
     public CoreKeyboard() {
         currentBuffer = new StringBuilder();
         outputDevices = new ArrayList<>();
+        listeners = new ArrayList<>();
     }
 
 
-    /**
-     * Register an output device to the keyboard
-     *
-     * @param output the output device to register
-     */
+    @Override
     public void addOutputDevice(OutputDevice output) {
         outputDevices.add(output);
     }
 
-    /**
-     * Removes a registered output device from the keyboard
-     *
-     * @param output the output device to unregister
-     */
+    @Override
     public void removeOutputDevice(OutputDevice output) {
         outputDevices.remove(output);
     }
 
 
     @Override
+    public void addStateListener(KeyboardListener listener) {
+        listeners.add(listener);
+    }
+
+    @Override
+    public void removeStateListener(KeyboardListener listener) {
+        listeners.remove(listener);
+    }
+
+
+    @Override
     public void addToCurrentBuffer(String value) {
+        String oldBuffer = getCurrentBuffer();
         currentBuffer.append(value);
+        notifyBufferChanged(oldBuffer, getCurrentBuffer());
     }
 
 
@@ -71,6 +78,15 @@ public class CoreKeyboard implements Keyboard {
 
     @Override
     public void clearCurrentBuffer() {
+        String oldBuffer = getCurrentBuffer();
         currentBuffer.setLength(0);
+        notifyBufferChanged(oldBuffer, getCurrentBuffer());
+    }
+
+
+    private void notifyBufferChanged(String oldBuffer, String newBuffer) {
+        for (KeyboardListener listener : listeners) {
+            listener.onOutputBufferChange(oldBuffer, newBuffer);
+        }
     }
 }

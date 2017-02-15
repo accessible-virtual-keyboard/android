@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import no.ntnu.stud.avikeyb.backend.InputInterface;
 import no.ntnu.stud.avikeyb.backend.InputType;
+import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
@@ -23,7 +24,6 @@ import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
 public class MainActivity extends AppCompatActivity {
 
 
-    private CoreKeyboard keyboard;
     private SimpleExampleLayout layout;
     private SimpleExampleLayoutGUI layoutGUI;
     private ETOSLayout etosLayout;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CoreKeyboard keyboard = new CoreKeyboard();
+        Keyboard keyboard = new CoreKeyboard();
         keyboard.addOutputDevice(new ToastOutput());
 
 

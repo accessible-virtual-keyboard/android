@@ -3,6 +3,7 @@ package no.ntnu.stud.avikeyb.backend.layouts;
 import org.junit.Before;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
+import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
 import no.ntnu.stud.avikeyb.backend.outputs.OutputLogger;
@@ -14,7 +15,7 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class LayoutTestBase {
 
-    protected CoreKeyboard keyboard;
+    protected Keyboard keyboard;
     protected OutputLogger outputLogger;
     protected Layout layout;
 
