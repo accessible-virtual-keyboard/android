@@ -34,7 +34,6 @@ public class SimpleExampleLayoutGUI extends LayoutGUI {
     }
 
 
-    // Build the gui programmatically
     public ViewGroup buildGUI() {
 
         LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_simple_example);
