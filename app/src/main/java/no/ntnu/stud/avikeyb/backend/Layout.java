@@ -30,13 +30,5 @@ public interface Layout extends InputInterface {
      * @param listener the listener to remove to the layout
      */
     void removeLayoutListener(LayoutListener listener);
-
-    /**
-     * Notify the registered listeners that the layout has changed.
-     * <p>
-     * Listeners can be used by e.g. gui code to update the gui when the layout state changes
-     * <p>
-     * Layout implementations must call this every time the internal state changes
-     */
-    void notifyLayoutListeners();
+    
 }

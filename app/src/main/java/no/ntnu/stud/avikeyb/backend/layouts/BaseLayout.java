@@ -26,8 +26,14 @@ public abstract class BaseLayout implements Layout {
         listeners.remove(listener);
     }
 
-    @Override
-    public void notifyLayoutListeners() {
+    /**
+     * Notify the registered listeners that the layout has changed.
+     * <p>
+     * Listeners can be used by e.g. gui code to update the gui when the layout state changes
+     * <p>
+     * The layout implementations must call this every time the internal state changes
+     */
+    protected void notifyLayoutListeners() {
         for (Layout.LayoutListener listener : listeners) {
             listener.onLayoutChanged();
         }
