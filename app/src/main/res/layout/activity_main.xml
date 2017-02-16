@@ -25,42 +25,56 @@
         android:layout_marginBottom="2dp">
     </android.support.design.widget.TabLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutWrapper"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/layoutTabs"
-        android:orientation="vertical" />
+        >
 
-    <Button
-        android:id="@+id/buttonInput1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutWrapper"
-        android:text="Input1" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/buttonInput2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutWrapper"
-        android:layout_toRightOf="@+id/buttonInput1"
-        android:text="Input2" />
+            <LinearLayout
+                android:id="@+id/layoutWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
-    <Button
-        android:id="@+id/buttonInput3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutWrapper"
-        android:layout_toRightOf="@+id/buttonInput2"
-        android:text="Input3" />
+            <Button
+                android:id="@+id/buttonInput1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutWrapper"
+                android:text="Input1" />
 
-    <Button
-        android:id="@+id/buttonInput4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutWrapper"
-        android:layout_toRightOf="@+id/buttonInput3"
-        android:text="Input4" />
+            <Button
+                android:id="@+id/buttonInput2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutWrapper"
+                android:layout_toRightOf="@+id/buttonInput1"
+                android:text="Input2" />
+
+            <Button
+                android:id="@+id/buttonInput3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutWrapper"
+                android:layout_toRightOf="@+id/buttonInput2"
+                android:text="Input3" />
+
+            <Button
+                android:id="@+id/buttonInput4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutWrapper"
+                android:layout_toRightOf="@+id/buttonInput3"
+                android:text="Input4" />
+
+        </RelativeLayout>
+
+
+    </ScrollView>
 
 </RelativeLayout>
