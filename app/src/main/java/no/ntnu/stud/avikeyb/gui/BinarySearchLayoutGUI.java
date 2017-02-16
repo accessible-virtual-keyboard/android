@@ -57,17 +57,17 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
             if (layout.symbolIsActive(it.getKey())) {
 
                 if(it.getValue() instanceof TextView){
-                    ((TextView)it.getValue()).setTextColor(Color.parseColor("#333333"));
+                    ((TextView)it.getValue()).setTextColor(Color.parseColor("#484848"));
                 }
 
                 if (layout.symbolIsActiveLeft(it.getKey()))
-                    it.getValue().setBackgroundColor(Color.parseColor("#5AD035"));
+                    it.getValue().setBackgroundColor(Color.parseColor("#46A8CD"));
                 else
-                    it.getValue().setBackgroundColor(Color.parseColor("#ff4f68"));
+                    it.getValue().setBackgroundColor(Color.parseColor("#F5B821"));
             } else {
                 it.getValue().setBackgroundColor(Color.parseColor("#eeeeee"));
                 if(it.getValue() instanceof TextView){
-                    ((TextView)it.getValue()).setTextColor(Color.parseColor("#aaaaaa"));
+                    ((TextView)it.getValue()).setTextColor(Color.parseColor("#cccccc"));
                 }
             }
         }
