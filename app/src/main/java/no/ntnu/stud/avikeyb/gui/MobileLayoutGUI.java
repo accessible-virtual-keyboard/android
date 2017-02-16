@@ -2,6 +2,7 @@ package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.HashMap;
 
@@ -20,13 +21,14 @@ public class MobileLayoutGUI extends LayoutGUI {
     private Activity activity;
     private HashMap<Symbol, View> symbolViewMap;
 
-    public MobileLayoutGUI(Keyboard keyboard, Layout layout) {
+    public MobileLayoutGUI(Activity activity, Keyboard keyboard, Layout layout) {
         super(keyboard, layout);
+        this.activity = activity;
     }
 
     @Override
     protected View buildGUI() {
-        return null;
+        return new LinearLayout(activity); // Empty stub view
     }
 
     @Override
