@@ -40,7 +40,7 @@ public class LayoutLoader {
      * @return true if the symbol exists in the layout
      */
     public boolean hasSymbol(Symbol symbol) {
-        return getResourceId(symbol) != 0;
+        return getResourceId(symbol) != 0 && getViewForSymbol(symbol) != null;
     }
 
 
