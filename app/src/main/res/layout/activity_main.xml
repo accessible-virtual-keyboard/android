@@ -25,18 +25,34 @@
         android:orientation="vertical" />
 
     <Button
-        android:id="@+id/buttonSelect"
+        android:id="@+id/buttonInput1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutWrapper"
-        android:text="Select" />
+        android:text="Input1" />
 
     <Button
-        android:id="@+id/buttonRight"
+        android:id="@+id/buttonInput2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/layoutWrapper"
-        android:layout_toRightOf="@+id/buttonSelect"
-        android:text="Next" />
-    
+        android:layout_toRightOf="@+id/buttonInput1"
+        android:text="Input2" />
+
+    <Button
+        android:id="@+id/buttonInput3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutWrapper"
+        android:layout_toRightOf="@+id/buttonInput2"
+        android:text="Input3" />
+
+    <Button
+        android:id="@+id/buttonInput4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutWrapper"
+        android:layout_toRightOf="@+id/buttonInput3"
+        android:text="Input4" />
+
 </RelativeLayout>

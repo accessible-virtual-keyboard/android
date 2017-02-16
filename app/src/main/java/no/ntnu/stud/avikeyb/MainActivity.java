@@ -68,7 +68,14 @@ public class MainActivity extends AppCompatActivity {
         final InputInterface input = layout;
 
         // Use buttons to register the inputs
-        ((Button) findViewById(R.id.buttonRight)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.buttonInput1)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                input.setInputState(InputType.INPUT1, true);
+                input.setInputState(InputType.INPUT1, false);
+            }
+        });
+        ((Button) findViewById(R.id.buttonInput2)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Turn the input on and off for each click
@@ -76,14 +83,21 @@ public class MainActivity extends AppCompatActivity {
                 input.setInputState(InputType.INPUT2, false);
             }
         });
-        ((Button) findViewById(R.id.buttonSelect)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.buttonInput3)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input.setInputState(InputType.INPUT1, true);
-                input.setInputState(InputType.INPUT1, false);
+                // Turn the input on and off for each click
+                input.setInputState(InputType.INPUT3, true);
+                input.setInputState(InputType.INPUT3, false);
             }
         });
-
+        ((Button) findViewById(R.id.buttonInput4)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                input.setInputState(InputType.INPUT4, true);
+                input.setInputState(InputType.INPUT4, false);
+            }
+        });
     }
 
 
