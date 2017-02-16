@@ -36,12 +36,29 @@ public class ETOSLayout extends StepLayout {
         return symbols.length;
     }
 
+    /**
+     * Returns the current active position in the layout
+     *
+     * @return the position of the current active symbol
+     */
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
+    /**
+     * Returns all symbols in the layout
+     *
+     * @return the symbols in the layout
+     */
+    public Symbol[] getSymbols() {
+        return symbols;
+    }
 
     @Override
     protected void onStep(InputType input) {
 
         switch (input) {
-            case INPUT1:
+            case INPUT1: //
                 selectCurrentSymbol();
                 reset();
                 break;
