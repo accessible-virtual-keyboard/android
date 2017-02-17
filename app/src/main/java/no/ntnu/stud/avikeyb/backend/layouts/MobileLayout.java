@@ -3,6 +3,7 @@ package no.ntnu.stud.avikeyb.backend.layouts;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
+import no.ntnu.stud.avikeyb.backend.layouts.util.LayoutPosition;
 
 /**
  * Created by Tor-Martin Holen on 15-Feb-17.
@@ -13,7 +14,7 @@ public class MobileLayout extends StepLayout {
     private Symbol[][][] layoutSymbols;
     private Keyboard keyboard;
     private State state = State.SELECT_ROW;
-    private LayoutPosition position = new LayoutPosition();
+    private LayoutPosition position;
 
     public MobileLayout(Keyboard keyboard) {
         this.keyboard = keyboard;
@@ -28,8 +29,9 @@ public class MobileLayout extends StepLayout {
                 {{Symbol.SPACE, Symbol.E, Symbol.O}, {Symbol.T, Symbol.I, Symbol.L}, {Symbol.S, Symbol.C, Symbol.W}}, //Multidimensional array representing rows, columns and symbols (at a given row and column)
                 {{Symbol.A, Symbol.N, Symbol.D}, {Symbol.R, Symbol.U, Symbol.Y}, {Symbol.F, Symbol.V, Symbol.Z}},
                 {{Symbol.H, Symbol.M, Symbol.B}, {Symbol.P, Symbol.K, Symbol.PERIOD}, {Symbol.J, Symbol.QUESTION_MARK, Symbol.SEND}},
-                {{Symbol.G, Symbol.X, Symbol.COMMA}, {Symbol.Q, Symbol.EXCLAMATION_MARK} }
+                {{Symbol.G, Symbol.X, Symbol.COMMA}, {Symbol.Q, Symbol.EXCLAMATION_MARK}}
         };
+        position = new LayoutPosition(layoutSymbols);
     }
 
     public enum State {
@@ -68,7 +70,7 @@ public class MobileLayout extends StepLayout {
                         break;
                     case INPUT2:
                         state = State.SELECT_ROW;
-                        selectCurrentSymbol();
+                        position.selectCurrentSymbol(keyboard);
                         position.resetPosition();
                         break;
                 }
@@ -77,74 +79,9 @@ public class MobileLayout extends StepLayout {
         notifyLayoutListeners();
     }
 
-    /**
-     * Sends the current symbol, only usable in state SELECT_LETTER
-     */
-    private void selectCurrentSymbol() {
-        int[] pos = position.getPosition();
-        Symbol symbol = layoutSymbols[pos[0]][pos[1]][pos[2]];
-
-        if (symbol == Symbol.SEND) {
-            keyboard.sendCurrentBuffer();
-        } else {
-            keyboard.addToCurrentBuffer(symbol.getContent());
-        }
-    }
-
     public Symbol[][][] getLayoutSymbols() {
         return layoutSymbols;
     }
 
-    /**
-     * Handles positional logic for obtaining the symbols from layoutSymbols
-     */
-    private class LayoutPosition {
-        private int[] position;
-
-        public LayoutPosition() {
-            position = new int[]{0, 0, 0};
-        }
-
-        /**
-         * Moves to the next row, if there is no more rows it returns to start row.
-         */
-        public void nextRow() {
-            position[0] += 1;
-            if (position[0] >= layoutSymbols.length) {
-                position[0] = 0;
-            }
-        }
-
-        /**
-         * Moves to the next column, if there is no more columns it returns to start column.
-         */
-        public void nextColumn() {
-            position[1] += 1;
-            if (position[1] >= layoutSymbols[position[0]].length) {
-                position[1] = 0;
-            }
-        }
-
-        /**
-         * Moves to the next letter, if there is no more letters it returns to start letter.
-         */
-        public void nextLetter() {
-            position[2] += 1;
-            if (position[2] >= layoutSymbols[position[0]][position[1]].length) {
-                position[2] = 0;
-            }
-        }
-
-        /**
-         * Resets the position, so the process of selecting a letter can start anew.
-         */
-        public void resetPosition() {
-            position = new int[]{0, 0, 0};
-        }
-
-        public int[] getPosition() {
-            return position;
-        }
-    }
 
 }

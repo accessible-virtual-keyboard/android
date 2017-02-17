@@ -1,9 +1,12 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
+import android.util.Log;
+
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
+import no.ntnu.stud.avikeyb.backend.layouts.util.LayoutPosition;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -17,15 +20,40 @@ public class ETOSLayout extends StepLayout {
             Symbols.numbers(),
             Symbols.commonPunctuations());
 
+    private Symbol[][][] layoutSymbols;
+
+    public enum State {
+        SELECT_ROW,
+        SELECT_COLUMN,
+        SELECT_LETTER
+    }
+
     // The current position of the cursor in the layout
     private int currentPosition = 0;
     // The current row of the cursor in the layout.
-    private int currentRow = 0;
-
+    private State state = State.SELECT_ROW;
     private Keyboard keyboard;
+    private LayoutPosition position;
 
     public ETOSLayout(Keyboard keyboard) {
         this.keyboard = keyboard;
+        layoutSymbols = new Symbol[8][6][1];
+        int row = 0;
+        int tempIndex = 0;
+        for (Symbol sym : symbols) {
+            // Log.d("LayoutDebug","Row: " + row + " Column: " + tempIndex);
+            if (row < 8) {
+                if (tempIndex < 6) {
+                    layoutSymbols[row][tempIndex][0] = sym;
+                    tempIndex++;
+                } else {
+                    row++;
+                    tempIndex = 0;
+                }
+
+            }
+        }
+        position = new LayoutPosition(layoutSymbols);
     }
 
     /**
@@ -46,14 +74,6 @@ public class ETOSLayout extends StepLayout {
         return currentPosition;
     }
 
-    /**
-     * Return the current row in the layout
-     *
-     * @return the position of the current row.
-     */
-    public int getCurrentRow() {
-        return currentRow;
-    }
 
     /**
      * Returns all symbols in the layout
@@ -67,49 +87,33 @@ public class ETOSLayout extends StepLayout {
     @Override
     protected void onStep(InputType input) {
 
-        switch (input) {
-            case INPUT1:
-                selectCurrentSymbol();
-                reset();
+        switch (state) {
+            case SELECT_ROW:
+                switch (input) {
+                    case INPUT1: // move
+                        position.nextRow();
+                        break;
+                    case INPUT2: // selects
+                        state = State.SELECT_COLUMN;
+                        break;
+                }
                 break;
-            case INPUT2: // velge rad så colonne.
-                //currentPosition = (currentPosition + 1) % getSymbolCount();
-                selectCurrentRow();
+            case SELECT_COLUMN:
+                switch (input) {
+                    case INPUT1: // move
+                        position.nextColumn();
+                        break;
+                    case INPUT2: // selects
+                        position.selectCurrentSymbol(keyboard);
+                        state = State.SELECT_ROW;
+                        position.resetPosition();
+                        break;
+                }
+                break;
         }
         notifyLayoutListeners();
     }
 
-    /**
-     * Select a row and then
-     */
-    public void selectCurrentRow() {
-
-        Symbol currentRow = symbols[getCurrentRow()];
-        //System.out.println("The current row is: " + currentRow);
-
-        if (currentRow == Symbol.SEND) {
-            currentPosition = (currentPosition + 1) % getSymbolCount();
-        }
-        if (currentRow == Symbol.A) {
-            currentPosition = (currentPosition + 1) % getSymbolCount();
-        }
-        if (currentRow == Symbol.N) {
-            currentPosition = (currentPosition + 1) % getSymbolCount();
-
-        }
-        if (currentRow == Symbol.D) {
-            currentPosition = (currentPosition + 1) % getSymbolCount();
-        }
-        if (currentRow == Symbol.W) {
-            currentPosition = (currentPosition + 1) % getSymbolCount();
-        }
-        if (currentRow == Symbol.NUM_3) {
-            currentPosition = (currentPosition + 1) % getSymbolCount();
-        }
-        if (currentRow == Symbol.NUM_9) {
-            currentPosition = (currentPosition + 1) % getSymbolCount();
-        }
-    }
 
     /**
      * Returns the symbol at the given index
@@ -118,23 +122,8 @@ public class ETOSLayout extends StepLayout {
      * @return a symbol
      */
     public Symbol getSymbolAt(int index) {
-
         return symbols[index];
     }
 
-    private void selectCurrentSymbol() {
 
-        Symbol current = symbols[currentPosition];
-
-        if (current == Symbol.SEND) {
-            keyboard.sendCurrentBuffer();
-        } else {
-            keyboard.addToCurrentBuffer(current.getContent());
-        }
-    }
-
-    private void reset() {
-        currentPosition = 0;
-        currentRow = 0;
-    }
 } // en of class
