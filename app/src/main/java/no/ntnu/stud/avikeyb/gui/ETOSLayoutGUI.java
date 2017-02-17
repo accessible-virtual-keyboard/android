@@ -60,10 +60,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
         return (ViewGroup) loader.getLayout();
     }
 
-
-
-    @Override
-    protected void updateGUI() { // sette en firkant rundt markert bokstav.
+    public void updateGUI() {
 
         // Highlight the selected symbol
         int current = layout.getCurrentPosition();
@@ -74,16 +71,15 @@ public class ETOSLayoutGUI extends LayoutGUI {
                 if (current == index) {
                     symbolViewMap.get(symbol).setBackgroundColor(Color.YELLOW);
                 } else {
-                    symbolViewMap.get(symbol).setBackgroundColor(Color.GRAY);
+                    symbolViewMap.get(symbol).setBackgroundResource(R.color.lightgrey);
                 }
             }
             index++;
         }
     }
 
-
     // Build the GUI programmatically.
-    public View buildGUI3() {
+    public View buildGUI6() {
         //  int paddingSize = (int) res.getDimension(R.dimen._10sdp);
 
         LinearLayout root = new LinearLayout(activity);

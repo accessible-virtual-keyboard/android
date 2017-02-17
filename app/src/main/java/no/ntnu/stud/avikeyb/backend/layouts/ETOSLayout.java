@@ -19,12 +19,12 @@ public class ETOSLayout extends StepLayout {
 
     // The current position of the cursor in the layout
     private int currentPosition = 0;
+    // The current row of the cursor in the layout.
     private int currentRow = 0;
 
     private Keyboard keyboard;
 
     public ETOSLayout(Keyboard keyboard) {
-
         this.keyboard = keyboard;
     }
 
@@ -76,7 +76,7 @@ public class ETOSLayout extends StepLayout {
                 //currentPosition = (currentPosition + 1) % getSymbolCount();
                 selectCurrentRow();
         }
-
+        notifyLayoutListeners();
     }
 
     /**
@@ -85,10 +85,11 @@ public class ETOSLayout extends StepLayout {
     public void selectCurrentRow() {
 
         Symbol currentRow = symbols[getCurrentRow()];
+        //System.out.println("The current row is: " + currentRow);
 
-       /* if (currentRow == Symbol.SEND) {
-            keyboard.sendCurrentBuffer();
-        }*/
+        if (currentRow == Symbol.SEND) {
+            currentPosition = (currentPosition + 1) % getSymbolCount();
+        }
         if (currentRow == Symbol.A) {
             currentPosition = (currentPosition + 1) % getSymbolCount();
         }
@@ -134,5 +135,6 @@ public class ETOSLayout extends StepLayout {
 
     private void reset() {
         currentPosition = 0;
+        currentRow = 0;
     }
 } // en of class
