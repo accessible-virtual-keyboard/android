@@ -91,6 +91,9 @@ public class MobileLayout extends StepLayout {
         }
     }
 
+    public Symbol[][][] getLayoutSymbols() {
+        return layoutSymbols;
+    }
 
     /**
      * Handles positional logic for obtaining the symbols from layoutSymbols

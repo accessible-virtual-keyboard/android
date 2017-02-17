@@ -5,4 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="black">#040505</color>
     <color name="lightgrey">#B2B5BA</color>
+
+    <color name="mobileLayoutButtonBackground">#B3ACB6</color>
+    <color name="mobileLayoutButtonGroupBackground">#8D8194</color>
+    <color name="mobileLayoutRowBackground">#72627B</color>
+    <color name="mobileLayoutUnusedButtonBackground">#8D8194</color>
 </resources>
