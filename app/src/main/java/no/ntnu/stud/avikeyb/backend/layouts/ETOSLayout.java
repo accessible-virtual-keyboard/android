@@ -19,6 +19,7 @@ public class ETOSLayout extends StepLayout {
 
     // The current position of the cursor in the layout
     private int currentPosition = 0;
+    private int currentRow = 0;
 
     private Keyboard keyboard;
 
@@ -46,6 +47,15 @@ public class ETOSLayout extends StepLayout {
     }
 
     /**
+     * Return the current row in the layout
+     *
+     * @return the position of the current row.
+     */
+    public int getCurrentRow() {
+        return currentRow;
+    }
+
+    /**
      * Returns all symbols in the layout
      *
      * @return the symbols in the layout
@@ -58,15 +68,46 @@ public class ETOSLayout extends StepLayout {
     protected void onStep(InputType input) {
 
         switch (input) {
-            case INPUT1: //
+            case INPUT1:
                 selectCurrentSymbol();
                 reset();
                 break;
-            case INPUT2:
-                currentPosition = (currentPosition +1) % getSymbolCount();
-
+            case INPUT2: // velge rad så colonne.
+                //currentPosition = (currentPosition + 1) % getSymbolCount();
+                selectCurrentRow();
         }
 
+    }
+
+    /**
+     * Select a row and then
+     */
+    public void selectCurrentRow() {
+
+        Symbol currentRow = symbols[getCurrentRow()];
+
+       /* if (currentRow == Symbol.SEND) {
+            keyboard.sendCurrentBuffer();
+        }*/
+        if (currentRow == Symbol.A) {
+            currentPosition = (currentPosition + 1) % getSymbolCount();
+        }
+        if (currentRow == Symbol.N) {
+            currentPosition = (currentPosition + 1) % getSymbolCount();
+
+        }
+        if (currentRow == Symbol.D) {
+            currentPosition = (currentPosition + 1) % getSymbolCount();
+        }
+        if (currentRow == Symbol.W) {
+            currentPosition = (currentPosition + 1) % getSymbolCount();
+        }
+        if (currentRow == Symbol.NUM_3) {
+            currentPosition = (currentPosition + 1) % getSymbolCount();
+        }
+        if (currentRow == Symbol.NUM_9) {
+            currentPosition = (currentPosition + 1) % getSymbolCount();
+        }
     }
 
     /**
@@ -94,4 +135,4 @@ public class ETOSLayout extends StepLayout {
     private void reset() {
         currentPosition = 0;
     }
-}
+} // en of class

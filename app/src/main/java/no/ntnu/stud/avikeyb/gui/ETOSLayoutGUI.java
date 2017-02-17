@@ -43,15 +43,9 @@ public class ETOSLayoutGUI extends LayoutGUI {
         this.activity = activity;
         symbolsView = new ArrayList<>();
 
-      /*  layout.addLayoutListener(new Layout.LayoutListener() {
-            @Override
-            public void onLayoutChanged() {
-                updateGUI();
-            }
-        }); */
     }
 
-    public ViewGroup buildGUI2() {
+    public ViewGroup buildGUI() {
         LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_etos);
         for (Symbol symbol : layout.getSymbols()) {
             if (loader.hasSymbol(symbol)) {
@@ -61,6 +55,8 @@ public class ETOSLayoutGUI extends LayoutGUI {
                 symbolViewMap.put(symbol, view);
             }
         }
+
+
         return (ViewGroup) loader.getLayout();
     }
 
@@ -87,7 +83,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
 
     // Build the GUI programmatically.
-    public View buildGUI() {
+    public View buildGUI3() {
         //  int paddingSize = (int) res.getDimension(R.dimen._10sdp);
 
         LinearLayout root = new LinearLayout(activity);
