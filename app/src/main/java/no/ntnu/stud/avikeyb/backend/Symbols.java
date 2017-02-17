@@ -67,12 +67,14 @@ public class Symbols {
 
     /**
      * Returns the symbols representing ETOS layout.
+     *
      * @return a list of the etos alphabet.
      */
-    public static Symbol[] etos(){
+    public static Symbol[] etos() {
         return _etao;
 
     }
+
     /**
      * Returs common punctuation symbols
      *
@@ -89,30 +91,31 @@ public class Symbols {
     private static Symbol[] _etao = { // etaoinsrhldcumfpgwybvkxjqz
             Symbol.E,
             Symbol.T,
-            Symbol.A,
             Symbol.O,
-            Symbol.I,
-            Symbol.N,
             Symbol.S,
-            Symbol.R,
-            Symbol.H,
             Symbol.L,
-            Symbol.D,
+            Symbol.A,
+            Symbol.I,
+            Symbol.H,
             Symbol.C,
-            Symbol.U,
-            Symbol.M,
             Symbol.F,
-            Symbol.P,
             Symbol.G,
-            Symbol.W,
+            Symbol.N,
+            Symbol.R,
+            Symbol.U,
             Symbol.Y,
-            Symbol.B,
             Symbol.V,
             Symbol.K,
-            Symbol.X,
+            Symbol.D,
+            Symbol.M,
+            Symbol.P,
             Symbol.J,
             Symbol.Q,
-            Symbol.Z
+            Symbol.Z,
+            Symbol.W,
+            Symbol.B,
+            Symbol.X,
+
     };
 
     private static Symbol[] _alphabet = {
@@ -165,3 +168,33 @@ public class Symbols {
             Symbol.SPACE,
     };
 }
+
+
+    /*      Another ETOS setup
+
+            Symbol.E,
+            Symbol.T,
+            Symbol.A,
+            Symbol.O,
+            Symbol.I,
+            Symbol.N,
+            Symbol.S,
+            Symbol.R,
+            Symbol.H,
+            Symbol.L,
+            Symbol.D,
+            Symbol.C,
+            Symbol.U,
+            Symbol.M,
+            Symbol.F,
+            Symbol.P,
+            Symbol.G,
+            Symbol.W,
+            Symbol.Y,
+            Symbol.B,
+            Symbol.V,
+            Symbol.K,
+            Symbol.X,
+            Symbol.J,
+            Symbol.Q,
+            Symbol.Z */

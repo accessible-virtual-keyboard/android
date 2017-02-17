@@ -12,12 +12,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Layout;
+import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
+import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -29,6 +32,8 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private List<View> symbolsView;
     private ETOSLayout layout;
     private Resources res; // do not work
+    private TableRow tableRow;
+    private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
 
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
@@ -38,16 +43,43 @@ public class ETOSLayoutGUI extends LayoutGUI {
         this.activity = activity;
         symbolsView = new ArrayList<>();
 
-        layout.addLayoutListener(new Layout.LayoutListener() {
-            @Override
-            public void onLayoutChanged() {
-                updateGUI();
+    }
+
+    public ViewGroup buildGUI() {
+        LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_etos);
+        for (Symbol symbol : layout.getSymbols()) {
+            if (loader.hasSymbol(symbol)) {
+                TextView view = (TextView) loader.getViewForSymbol(symbol);
+                view.setText(symbol.getContent());
+                view.setTextColor(Color.BLACK);
+                symbolViewMap.put(symbol, view);
             }
-        });
+        }
+
+
+        return (ViewGroup) loader.getLayout();
+    }
+
+    public void updateGUI() {
+
+        // Highlight the selected symbol
+        int current = layout.getCurrentPosition();
+        int index = 0;
+
+        for (Symbol symbol : layout.getSymbols()) {
+            if (symbolViewMap.containsKey(symbol)) {
+                if (current == index) {
+                    symbolViewMap.get(symbol).setBackgroundColor(Color.YELLOW);
+                } else {
+                    symbolViewMap.get(symbol).setBackgroundResource(R.color.lightgrey);
+                }
+            }
+            index++;
+        }
     }
 
     // Build the GUI programmatically.
-    public View buildGUI() {
+    public View buildGUI6() {
         //  int paddingSize = (int) res.getDimension(R.dimen._10sdp);
 
         LinearLayout root = new LinearLayout(activity);
@@ -68,32 +100,27 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
         for (int i = 0; i < layout.getSymbolCount(); ) {
 
-            TableRow tableRow = new TableRow(activity);
+            tableRow = new TableRow(activity);
             tableRow.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT, 0.35f));
+                    LinearLayout.LayoutParams.WRAP_CONTENT)); //, 0.35f));
+            tableRow.setClickable(true);
             for (int j = 0; i < layout.getSymbolCount() && j <= 6; i++, j++) {
 
                 TextView view = new TextView(activity);
 
                 view.setText(layout.getSymbolAt(i).getContent());
                 view.setPadding(20, 20, 20, 20); // replace with paddingSize
-                view.setBackgroundResource(R.color.lightgrey);
+                //view.setBackgroundResource(R.color.lightgrey);
                 view.setTextColor(Color.BLACK);
                 view.setGravity(Gravity.CENTER);
                 symbolsView.add(view);
                 tableRow.addView(view); // Add the views to the tablerow.
             }
             tableLayout.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, 0, 1f));
-
         }
         nestedLayout.addView(tableLayout);
         root.addView(nestedLayout); // add the nested linear layout to the root linear layout.
 
         return root;
     }
-
-    @Override
-    protected void updateGUI() {
-        // should update the buffer. Should highlighet the selected symbol.
-    }
-}
+} // end of class
