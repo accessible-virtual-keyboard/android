@@ -14,10 +14,12 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
+import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.SimpleExampleLayout;
+import no.ntnu.stud.avikeyb.gui.AdaptiveLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         layoutTabs.addTab(layoutTabs.newTab().setText("ETOS"));
         layoutTabs.addTab(layoutTabs.newTab().setText("BINS"));
         layoutTabs.addTab(layoutTabs.newTab().setText("MOB"));
+        layoutTabs.addTab(layoutTabs.newTab().setText("ADAPTIVE"));
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
@@ -64,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
                     case 3: {
                         MobileLayout l = new MobileLayout(keyboard);
                         switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l));
+                        break;
+                    }
+                    case 4: {
+                        AdaptiveLayout l = new AdaptiveLayout(keyboard);
+                        switchLayout(l, new AdaptiveLayoutGUI(MainActivity.this, keyboard, l));
                         break;
                     }
                     default: { // 0

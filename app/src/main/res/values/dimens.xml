@@ -9,5 +9,11 @@
     <dimen name="simple_example_cell_margin">2dp</dimen>
     <dimen name="simple_example_cell_padding">4dp</dimen>
     <dimen name="simple_example_min_width">50dp</dimen>
+
     <dimen name="mobile_grid_element_padding">4dp</dimen>
+
+    <dimen name="adaptive_cell_margin">2dp</dimen>
+    <dimen name="adaptive_cell_padding">4dp</dimen>
+    <dimen name="adaptive_min_width">50dp</dimen>
+
 </resources>

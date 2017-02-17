@@ -85,6 +85,16 @@ public class AdaptiveLayout extends StepLayout {
     }
 
 
+    /**
+     * Returns the row length used in the layout
+     *
+     * @return the length of the rows
+     */
+    public int getRowSize() {
+        return ROW_LENGTH;
+    }
+
+
     @Override
     protected void onStep(InputType input) {
 
@@ -203,10 +213,11 @@ public class AdaptiveLayout extends StepLayout {
         for (String letter : letterToLayout.keySet()) {
 
             String stringLayout = letterToLayout.get(letter);
-            Symbol[] symbolLayout = new Symbol[stringLayout.length()];
+            Symbol[] symbolLayout = new Symbol[stringLayout.length() + 1];
             for (int i = 0; i < stringLayout.length(); i++) {
                 symbolLayout[i] = stringToSymbol.get(Character.toString(stringLayout.charAt(i)));
             }
+            symbolLayout[stringLayout.length()] = Symbol.SEND;
             symbolLayoutMap.put(letter, symbolLayout);
         }
 
