@@ -20,12 +20,10 @@ public class ETOSLayout extends StepLayout {
             Symbols.numbers(),
             Symbols.commonPunctuations());
 
-    private Symbol[][][] layoutSymbols;
-
     public enum State {
         SELECT_ROW,
         SELECT_COLUMN,
-        SELECT_LETTER
+
     }
 
     // The current position of the cursor in the layout
@@ -37,23 +35,7 @@ public class ETOSLayout extends StepLayout {
 
     public ETOSLayout(Keyboard keyboard) {
         this.keyboard = keyboard;
-        layoutSymbols = new Symbol[8][6][1];
-        int row = 0;
-        int tempIndex = 0;
-        for (Symbol sym : symbols) {
-            // Log.d("LayoutDebug","Row: " + row + " Column: " + tempIndex);
-            if (row < 8) {
-                if (tempIndex < 6) {
-                    layoutSymbols[row][tempIndex][0] = sym;
-                    tempIndex++;
-                } else {
-                    row++;
-                    tempIndex = 0;
-                }
 
-            }
-        }
-        position = new LayoutPosition(layoutSymbols);
     }
 
     /**
@@ -91,7 +73,7 @@ public class ETOSLayout extends StepLayout {
             case SELECT_ROW:
                 switch (input) {
                     case INPUT1: // move
-                        position.nextRow();
+                        currentPosition = (currentPosition + 6) % symbols.length;
                         break;
                     case INPUT2: // selects
                         state = State.SELECT_COLUMN;
@@ -101,12 +83,12 @@ public class ETOSLayout extends StepLayout {
             case SELECT_COLUMN:
                 switch (input) {
                     case INPUT1: // move
-                        position.nextColumn();
+                        currentPosition = (currentPosition + 1) % symbols.length;
                         break;
                     case INPUT2: // selects
-                        position.selectCurrentSymbol(keyboard);
+                        selectCurrentSymbol();
                         state = State.SELECT_ROW;
-                        position.resetPosition();
+                        currentPosition = 0;
                         break;
                 }
                 break;
@@ -114,6 +96,17 @@ public class ETOSLayout extends StepLayout {
         notifyLayoutListeners();
     }
 
+
+    private void selectCurrentSymbol() {
+
+        Symbol current = symbols[currentPosition];
+
+        if (current == Symbol.SEND) {
+            keyboard.sendCurrentBuffer();
+        } else {
+            keyboard.addToCurrentBuffer(current.getContent());
+        }
+    }
 
     /**
      * Returns the symbol at the given index
@@ -124,6 +117,4 @@ public class ETOSLayout extends StepLayout {
     public Symbol getSymbolAt(int index) {
         return symbols[index];
     }
-
-
 } // en of class

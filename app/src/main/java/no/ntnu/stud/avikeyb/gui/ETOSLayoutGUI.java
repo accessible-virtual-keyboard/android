@@ -17,7 +17,6 @@ import java.util.List;
 
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
-import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
@@ -48,14 +47,13 @@ public class ETOSLayoutGUI extends LayoutGUI {
     public ViewGroup buildGUI() {
         LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_etos);
         for (Symbol symbol : layout.getSymbols()) {
-            if (loader.hasSymbol(symbol)) {
+            if (symbol != null && loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
                 view.setText(symbol.getContent());
                 view.setTextColor(Color.BLACK);
                 symbolViewMap.put(symbol, view);
             }
         }
-
 
         return (ViewGroup) loader.getLayout();
     }
@@ -67,7 +65,8 @@ public class ETOSLayoutGUI extends LayoutGUI {
         int index = 0;
 
         for (Symbol symbol : layout.getSymbols()) {
-            if (symbolViewMap.containsKey(symbol)) {
+
+            if (symbol != null && symbolViewMap.containsKey(symbol)) {
                 if (current == index) {
                     symbolViewMap.get(symbol).setBackgroundColor(Color.YELLOW);
                 } else {
@@ -77,6 +76,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
             index++;
         }
     }
+
 
     // Build the GUI programmatically.
     public View buildGUI6() {
