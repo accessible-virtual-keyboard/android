@@ -101,6 +101,15 @@ public class EpocHeadset implements Runnable {
         sendMessageToWorkerThead(Event.LOAD_PROFILE.ordinal(), profileName);
     }
 
+    /**
+     * Disconnect from the headset
+     * <p>
+     * This will stop the headset thread and disconnect from the cloud service and the headset
+     */
+    public void disconnect() {
+        sendMessageToWorkerThead(Event.QUIT.ordinal());
+    }
+
 
     @Override
     public void run() {
@@ -129,6 +138,11 @@ public class EpocHeadset implements Runnable {
         mCloudProfile = new CloudProfile(mActivity);
 
         Looper.loop();
+
+
+        // The looper has quit so we logout and disconnect
+        mCloudProfile.logout();
+        epocEngine.disconnect();
     }
 
 
@@ -166,8 +180,9 @@ public class EpocHeadset implements Runnable {
                     sendMessageToUIThead(Event.USER_LOGIN.ordinal(), mCloudProfile.getProfileNames());
                 } else if (msg.what == Event.LOAD_PROFILE.ordinal()) {
                     mCloudProfile.loadProfile((String) msg.obj);
+                } else if (msg.what == Event.QUIT.ordinal()) {
+                    Looper.myLooper().quit();
                 }
-
             }
         };
 
@@ -178,6 +193,11 @@ public class EpocHeadset implements Runnable {
         mWorkerThreadHandler.sendMessage(Message.obtain(mWorkerThreadHandler, what, obj));
     }
 
+    private void sendMessageToWorkerThead(int what) {
+        mWorkerThreadHandler.sendEmptyMessage(what);
+    }
+
+
     private void sendMessageToUIThead(int what, Object obj) {
         mUIThreadHandler.sendMessage(Message.obtain(mUIThreadHandler, what, obj));
     }
@@ -186,12 +206,14 @@ public class EpocHeadset implements Runnable {
         mUIThreadHandler.sendEmptyMessage(what);
     }
 
+
     // Different event used for internal message passing
     private enum Event {
         HEADSET_CONNECTED,
         HEADSET_DISCONNECTED,
         USER_LOGIN,
         LOAD_PROFILE,
-        MENTAL_COMMAND
+        MENTAL_COMMAND,
+        QUIT
     }
 }
