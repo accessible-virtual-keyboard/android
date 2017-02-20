@@ -15,5 +15,6 @@
     <dimen name="adaptive_cell_margin">2dp</dimen>
     <dimen name="adaptive_cell_padding">4dp</dimen>
     <dimen name="adaptive_min_width">50dp</dimen>
+    <dimen name="mobileLayoutButtonGroupPadding">2dp</dimen>
 
 </resources>
