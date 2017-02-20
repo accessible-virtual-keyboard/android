@@ -89,7 +89,7 @@ public class EpocHeadset implements Runnable {
         creds.add(username);
         creds.add(password);
 
-        sendMessageToWorkerThead(Event.USER_LOGIN.ordinal(), creds);
+        sendMessageToWorkerThread(Event.USER_LOGIN.ordinal(), creds);
     }
 
     /**
@@ -98,7 +98,7 @@ public class EpocHeadset implements Runnable {
      * @param profileName the profile to load
      */
     public void loadProfile(String profileName) {
-        sendMessageToWorkerThead(Event.LOAD_PROFILE.ordinal(), profileName);
+        sendMessageToWorkerThread(Event.LOAD_PROFILE.ordinal(), profileName);
     }
 
     /**
@@ -107,7 +107,7 @@ public class EpocHeadset implements Runnable {
      * This will stop the headset thread and disconnect from the cloud service and the headset
      */
     public void disconnect() {
-        sendMessageToWorkerThead(Event.QUIT.ordinal());
+        sendMessageToWorkerThread(Event.QUIT.ordinal());
     }
 
 
@@ -120,17 +120,17 @@ public class EpocHeadset implements Runnable {
 
             @Override
             public void onHeadsetConnected() {
-                sendMessageToUIThead(Event.HEADSET_CONNECTED.ordinal());
+                sendMessageToUIThread(Event.HEADSET_CONNECTED.ordinal());
             }
 
             @Override
             public void onHeadsetDisconnected() {
-                sendMessageToUIThead(Event.HEADSET_DISCONNECTED.ordinal());
+                sendMessageToUIThread(Event.HEADSET_DISCONNECTED.ordinal());
             }
 
             @Override
             public void onMentalCommand(EpocEngine.Action action) {
-                sendMessageToUIThead(Event.MENTAL_COMMAND.ordinal(), action);
+                sendMessageToUIThread(Event.MENTAL_COMMAND.ordinal(), action);
 
             }
         });
@@ -177,7 +177,7 @@ public class EpocHeadset implements Runnable {
                 if (msg.what == Event.USER_LOGIN.ordinal()) {
                     ArrayList<String> creds = (ArrayList<String>) msg.obj;
                     mCloudProfile.login(creds.get(0), creds.get(1));
-                    sendMessageToUIThead(Event.USER_LOGIN.ordinal(), mCloudProfile.getProfileNames());
+                    sendMessageToUIThread(Event.USER_LOGIN.ordinal(), mCloudProfile.getProfileNames());
                 } else if (msg.what == Event.LOAD_PROFILE.ordinal()) {
                     mCloudProfile.loadProfile((String) msg.obj);
                 } else if (msg.what == Event.QUIT.ordinal()) {
@@ -189,20 +189,20 @@ public class EpocHeadset implements Runnable {
     }
 
 
-    private void sendMessageToWorkerThead(int what, Object obj) {
+    private void sendMessageToWorkerThread(int what, Object obj) {
         mWorkerThreadHandler.sendMessage(Message.obtain(mWorkerThreadHandler, what, obj));
     }
 
-    private void sendMessageToWorkerThead(int what) {
+    private void sendMessageToWorkerThread(int what) {
         mWorkerThreadHandler.sendEmptyMessage(what);
     }
 
 
-    private void sendMessageToUIThead(int what, Object obj) {
+    private void sendMessageToUIThread(int what, Object obj) {
         mUIThreadHandler.sendMessage(Message.obtain(mUIThreadHandler, what, obj));
     }
 
-    private void sendMessageToUIThead(int what) {
+    private void sendMessageToUIThread(int what) {
         mUIThreadHandler.sendEmptyMessage(what);
     }
 
