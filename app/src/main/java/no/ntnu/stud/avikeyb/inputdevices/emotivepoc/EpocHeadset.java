@@ -108,6 +108,7 @@ public class EpocHeadset implements Runnable {
      */
     public void disconnect() {
         sendMessageToWorkerThread(Event.QUIT.ordinal());
+        mEventListener = null; // Don't send any more events to the listener
     }
 
 
@@ -139,7 +140,6 @@ public class EpocHeadset implements Runnable {
 
         Looper.loop();
 
-
         // The looper has quit so we logout and disconnect
         mCloudProfile.logout();
         epocEngine.disconnect();
@@ -152,6 +152,10 @@ public class EpocHeadset implements Runnable {
 
             @Override
             public void handleMessage(Message msg) {
+
+                if(mEventListener == null){
+                    return;
+                }
 
                 if (msg.what == Event.HEADSET_CONNECTED.ordinal()) {
                     mEventListener.headsetConnected();
