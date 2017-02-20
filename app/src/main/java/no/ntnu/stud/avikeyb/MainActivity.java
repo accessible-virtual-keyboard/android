@@ -1,5 +1,6 @@
 package no.ntnu.stud.avikeyb;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -25,10 +26,14 @@ import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
+import no.ntnu.stud.avikeyb.inputdevices.EmotivEpocDriverAndroid;
+import no.ntnu.stud.avikeyb.inputdevices.emotivepoc.PermissionsHelper;
 
 public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
+    private EmotivEpocDriverAndroid headsetInput;
+    private PermissionsHelper headsetPermissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,16 @@ public class MainActivity extends AppCompatActivity {
         layoutTabs.addTab(layoutTabs.newTab().setText("ADAPTIVE"));
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
+
+
+        headsetInput = new EmotivEpocDriverAndroid(this);
+
+        // The requesting of permissions are somewhat buggy. The app probably has to be
+        // reloaded after the required permissions have been granted.
+        headsetPermissions = new PermissionsHelper(this);
+        if (!headsetPermissions.hasRequirements()) {
+            headsetPermissions.requestRequirements();
+        }
 
 
         TabLayout.OnTabSelectedListener tabSwitcher = new TabLayout.OnTabSelectedListener() {
@@ -111,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         layoutWrapper.removeAllViews();
         layoutWrapper.addView(layoutGui.createGUI());
         setupInputButtons(layout);
+        setupInputHeadset(layout);
     }
 
     private void setupInputButtons(final InputInterface input) {
@@ -146,6 +162,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Register the input interface with the headset input driver
+    private void setupInputHeadset(InputInterface input) {
+        headsetInput.setInputInterface(input);
+    }
 
     // Shows the keyboard output in a toast message
     private class ToastOutput implements OutputDevice {
@@ -153,5 +173,31 @@ public class MainActivity extends AppCompatActivity {
         public void sendOutput(String output) {
             Toast.makeText(MainActivity.this, output, Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    // The below is needed for the headset connection
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        headsetPermissions.handlePermimssionResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        headsetPermissions.handleActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        headsetInput.connect("student_group57", "pralina2017PRALINA", "per"); // Hard coded user profile used for testing
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        headsetInput.disconnect();
     }
 }
