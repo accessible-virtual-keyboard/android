@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="black">#040505</color>
     <color name="lightgrey">#B2B5BA</color>
+    <color name="purpleparty">#B076E2</color>
 
     <color name="mobileLayoutButtonSelectedBackground">#DDDDC0</color>
     <color name="mobileLayoutButtonBackground">#B3ACB6</color>

@@ -55,6 +55,14 @@ public class LayoutLoader {
         return layout.findViewById(resId);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public View getViewById(int id){
+        return layout.findViewById(id);
+    }
 
     // Returns the resource id for the given symbol
     private int getResourceId(Symbol symbol) {
