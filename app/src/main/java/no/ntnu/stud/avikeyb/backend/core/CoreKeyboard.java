@@ -67,7 +67,7 @@ public class CoreKeyboard implements Keyboard {
     @Override
     public String getCurrentWord() {
         // Very basic implementation that do not take into consideration punctuation or other special characters
-        String[] buffer = getCurrentBuffer().split(" ");
+        String[] buffer = getCurrentBuffer().split(" ", -1); // -1 to keep the empty string caused by trailing whitespace
         return buffer[buffer.length - 1];
     }
 

@@ -89,6 +89,17 @@ public class CoreKeyboardTest {
 
     }
 
+    @Test
+    public void testGetCurrentWordSpaceAtEnd() throws Exception {
+
+        assertEquals("", keyboard.getCurrentBuffer());
+        assertEquals("", keyboard.getCurrentWord());
+
+        keyboard.addToCurrentBuffer("hello ");
+        assertEquals("hello ", keyboard.getCurrentBuffer());
+        assertEquals("", keyboard.getCurrentWord());
+    }
+
 
     @Test
     public void testAddOutputDevice() throws Exception {
