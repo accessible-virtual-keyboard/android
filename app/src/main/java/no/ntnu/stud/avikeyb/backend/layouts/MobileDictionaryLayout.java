@@ -2,13 +2,15 @@ package no.ntnu.stud.avikeyb.backend.layouts;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
-import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
+import no.ntnu.stud.avikeyb.backend.dictionary.LinearRadixDictionary;
 
 /**
  * Created by Tor-Martin Holen on 21-Feb-17.
@@ -17,11 +19,11 @@ import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
 public class MobileDictionaryLayout extends MobileLayout {
 
     private Node root = new Node(null);
-    private LinearDictionary dictionary;
+    private LinearRadixDictionary dictionary;
 
     public MobileDictionaryLayout(Keyboard keyboard, Context context) {
         super(keyboard);
-        //dictionary = new LinearDictionary(context);
+        dictionary = new LinearRadixDictionary(context);
     }
 
     @Override
@@ -62,7 +64,7 @@ public class MobileDictionaryLayout extends MobileLayout {
             }
             else{
                 for (Symbol symbol : markedSymbols) {
-                    if(radixExistsInDictionary()){ //TODO implement properly
+                    if(radixExistsInDictionary("[INSERT_RADIX_HERE]")){ //TODO implement properly
                         Node child = new Node(symbol.getContent());
                         node.addChild(child);
                     }
@@ -74,9 +76,16 @@ public class MobileDictionaryLayout extends MobileLayout {
         }
     }
 
-    private boolean radixExistsInDictionary() {
+    private boolean radixExistsInDictionary(String radix) {
+        dictionary.findSuggestionsWithRadix(radix);
+        if(dictionary.getRadixSuggestions().isEmpty()){
+            return false;
+        }else{
+            //TODO logic for handling suggestions
+            return true;
+        }
 
-        return false;
+
     }
 
     private class Node {

@@ -1,5 +1,6 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
-import android.app.Activity;
+
+import android.content.Context;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import no.ntnu.stud.avikeyb.backend.Dictionary;
  * Created by Tor-Martin Holen on 21-Feb-17 (Originally 31-Jan-17).
  */
 
-public class LinearDictionary implements Dictionary{
+public class LinearDictionary implements Dictionary {
 
     private BufferedReader bufferedReader;
     private ArrayList<DictionaryEntry> dictionary;
@@ -24,24 +25,24 @@ public class LinearDictionary implements Dictionary{
     private SortingOrder preferredOrder = SortingOrder.FREQUENCY_HIGH_TO_LOW;
     private String textWritten = "";
     private Boolean dictionaryLoaded = false;
-    private Activity activity;
+    private Context context;
 
     /**
      * Constructs a dictionary
      */
-    public LinearDictionary(Activity activity) {
+    public LinearDictionary(Context context) {
         dictionary = new ArrayList<>();
-        this.activity = activity;
+        this.context = context;
         loadDictionary();
 
         //printDictionary();
     }
 
-    public void loadDictionary(){
-        if(!dictionaryLoaded){
+    public void loadDictionary() {
+        if (!dictionaryLoaded) {
 
 
-            InputStream inputStream = activity.getResources().openRawResource(R.raw.dictionary);
+            InputStream inputStream = context.getResources().openRawResource(R.raw.dictionary);
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
             String currentLine;
@@ -49,14 +50,14 @@ public class LinearDictionary implements Dictionary{
                 try {
                     currentLine = bufferedReader.readLine().toLowerCase();//Produces null pointer when no more lines
                     int separatingIndex = currentLine.indexOf(" ");
-                    String currentWord = currentLine.substring(0,separatingIndex);
+                    String currentWord = currentLine.substring(0, separatingIndex);
                     //System.out.println(currentLine);
                     int frequency = Integer.parseInt(currentLine.substring(++separatingIndex).trim());
-                    int reducedFrequency = Math.round(frequency/77);
-                    dictionary.add(new DictionaryEntry(currentWord,reducedFrequency));
+                    int reducedFrequency = Math.round(frequency / 77);
+                    dictionary.add(new DictionaryEntry(currentWord, reducedFrequency));
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     break;
                 }
             }
@@ -75,17 +76,14 @@ public class LinearDictionary implements Dictionary{
 
     @Override
     public List<String> getSuggestionsStartingWith(String match) {
-        primarySuggestions = new ArrayList<>();
-        this.textWritten = match;
-        for (DictionaryEntry currentEntry : dictionary) {
-            String currentWord = currentEntry.getWord();
-            if (currentWord.startsWith(match) && !currentWord.equals(match)) {
-                primarySuggestions.add(currentEntry);
-            }
-        }
+        findPrimarySuggestions(match);
         sortList(primarySuggestions, SortingOrder.FREQUENCY_HIGH_TO_LOW);
+        return extractWords(primarySuggestions);
+    }
+
+    public ArrayList<String> extractWords(ArrayList<DictionaryEntry> list) {
         ArrayList<String> suggestions = new ArrayList<>();
-        for (DictionaryEntry entry:primarySuggestions) {
+        for (DictionaryEntry entry : list) {
             suggestions.add(entry.getWord());
         }
         return suggestions;
@@ -93,15 +91,15 @@ public class LinearDictionary implements Dictionary{
 
     @Override
     public void updateWordUsage(String string) {
-        for (DictionaryEntry entry:dictionary) {
+        for (DictionaryEntry entry : dictionary) {
             if (entry.getWord().equals(string)) {
-                int newFrequency = entry.getFrequency() + 1 ;
+                int newFrequency = entry.getFrequency() + 1;
                 entry.setFrequency(newFrequency);
             }
         }
     }
 
-    public enum SortingOrder{
+    protected enum SortingOrder {
         ALPHABETICALLY_A_TO_Z,
         ALPHABETICALLY_Z_TO_A,
         FREQUENCY_HIGH_TO_LOW,
@@ -111,12 +109,13 @@ public class LinearDictionary implements Dictionary{
 
     /**
      * Sorts list according to an order from the SortingOrder enum
-     * @param list List to sort
+     *
+     * @param list  List to sort
      * @param order SortingOrder Enum
      */
-    private void sortList(ArrayList<DictionaryEntry> list, final SortingOrder order){
+    protected void sortList(ArrayList<DictionaryEntry> list, final SortingOrder order) {
         Comparator<DictionaryEntry> comparator = null;
-        if(order != SortingOrder.CURRENT_ORDER) {
+        if (order != SortingOrder.CURRENT_ORDER) {
             if (order == SortingOrder.ALPHABETICALLY_A_TO_Z) {
                 comparator = (o1, o2) -> o1.getWord().compareTo(o2.getWord());
             }
@@ -137,16 +136,16 @@ public class LinearDictionary implements Dictionary{
      * Use with a list that contains duplicate entries to fix them.
      * Note:dictionary.txt doesn't contain duplicates, but other lists might
      */
-    private void fixDuplicateEntries(){
+    private void fixDuplicateEntries() {
         sortList(dictionary, SortingOrder.ALPHABETICALLY_A_TO_Z);
         DictionaryEntry previousEntry = null;
         for (int i = 0; i < dictionary.size(); i++) {
             DictionaryEntry currentEntry = dictionary.get(i);
-            if(previousEntry != null && previousEntry.getWord().equals(currentEntry.getWord())){
+            if (previousEntry != null && previousEntry.getWord().equals(currentEntry.getWord())) {
                 previousEntry.setFrequency(previousEntry.getFrequency() + currentEntry.getFrequency());
                 dictionary.remove(currentEntry);
                 i--;
-            }else{
+            } else {
                 previousEntry = currentEntry;
             }
         }
@@ -156,9 +155,10 @@ public class LinearDictionary implements Dictionary{
 
     /**
      * Finds suggestions starting with or containing whats already written
+     *
      * @param textWritten Currently written text
      */
-    public void findSuggestions(String textWritten){
+    public void findSuggestions(String textWritten) {
         primarySuggestions = new ArrayList<>();
         secondarySuggestions = new ArrayList<>();
         this.textWritten = textWritten;
@@ -166,10 +166,9 @@ public class LinearDictionary implements Dictionary{
         for (DictionaryEntry currentEntry : dictionary) {
             String currentWord = currentEntry.getWord();
 
-            if( currentWord.startsWith(textWritten)){
+            if (currentWord.startsWith(textWritten)) {
                 primarySuggestions.add(currentEntry);
-            }
-            else if (currentWord.contains(textWritten) && !currentWord.startsWith(textWritten)){
+            } else if (currentWord.contains(textWritten) && !currentWord.startsWith(textWritten)) {
                 secondarySuggestions.add(currentEntry);
             }
         }
@@ -177,13 +176,30 @@ public class LinearDictionary implements Dictionary{
         sortList(secondarySuggestions, preferredOrder);
     }
 
+    /**
+     * Finds suggestions starting with
+     *
+     * @param textWritten Currently written text
+     */
+    public void findPrimarySuggestions(String textWritten) {
+        primarySuggestions = new ArrayList<>();
+        this.textWritten = textWritten;
 
-    public void printPrimarySuggestions(){
+        for (DictionaryEntry currentEntry : dictionary) {
+            String currentWord = currentEntry.getWord();
+            if (currentWord.startsWith(textWritten)) {
+                primarySuggestions.add(currentEntry);
+            }
+        }
+    }
+
+
+    public void printPrimarySuggestions() {
 
         printSuggestions(primarySuggestions, "Primary");
     }
 
-    public void printSecondarySuggestions(){
+    public void printSecondarySuggestions() {
 
         printSuggestions(secondarySuggestions, "Secondary");
     }
@@ -200,21 +216,23 @@ public class LinearDictionary implements Dictionary{
 
     /**
      * Returns all the suggestions starting with or containing the search
+     *
      * @return
      */
     public ArrayList<DictionaryEntry> getSuggestions() {
         ArrayList<DictionaryEntry> allSuggestions = getPrimarySuggestions();
         allSuggestions.addAll(getSecondarySuggestions());
-        printSuggestions(allSuggestions,"All");
+        printSuggestions(allSuggestions, "All");
         return allSuggestions;
     }
 
     /**
      * Prints suggestions
-     * @param suggestions List containing suggestions
+     *
+     * @param suggestions    List containing suggestions
      * @param suggestionType Title for which type of suggestions this is
      */
-    private void printSuggestions(ArrayList<DictionaryEntry> suggestions, String suggestionType){
+    private void printSuggestions(ArrayList<DictionaryEntry> suggestions, String suggestionType) {
         System.out.println(suggestionType + " suggestion for: \"" + textWritten + "\"");
         printList(suggestions);
     }
@@ -222,16 +240,17 @@ public class LinearDictionary implements Dictionary{
     /**
      * Prints all the words in the dictionary.
      */
-    public void printDictionary(){
+    public void printDictionary() {
         printList(dictionary);
     }
 
 
     /**
      * Prints a list with the word and frequency
+     *
      * @param list
      */
-    public void printList(ArrayList<DictionaryEntry> list){
+    public void printList(ArrayList<DictionaryEntry> list) {
         for (DictionaryEntry entry : list) {
             System.out.println(entry.getWord() + " - " + entry.getFrequency());
         }
@@ -239,14 +258,15 @@ public class LinearDictionary implements Dictionary{
 
     /**
      * Gets which index current word is in the list that is being searched.
-     * @param list List to search.
+     *
+     * @param list       List to search.
      * @param targetWord Word to find.
      * @return
      */
-    public int findWordIndex(ArrayList<DictionaryEntry> list, String targetWord){
+    public int findWordIndex(ArrayList<DictionaryEntry> list, String targetWord) {
         for (int i = 0; i < list.size(); i++) {
             String currentWord = list.get(i).getWord();
-            if(currentWord.equals(targetWord)){
+            if (currentWord.equals(targetWord)) {
                 return i;
             }
         }
