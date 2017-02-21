@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import no.ntnu.stud.avikeyb.backend.InputInterface;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
@@ -33,7 +31,6 @@ import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
-import no.ntnu.stud.avikeyb.gui.core.DummyDictionary;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
+        Suggestions suggestions = new SuggestionsAndroid(keyboard, new LinearDictionary(this));
+
+        final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard, suggestions);
+
 
         TabLayout.OnTabSelectedListener tabSwitcher = new TabLayout.OnTabSelectedListener() {
             @Override
@@ -69,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 2: {
-                        BinarySearchLayout l = new BinarySearchLayout(keyboard);
-                        switchLayout(l, new BinarySearchLayoutGUI(MainActivity.this, keyboard, l));
+                        switchLayout(binLayout, new BinarySearchLayoutGUI(MainActivity.this, keyboard, binLayout));
                         break;
                     }
                     case 3: {
@@ -115,24 +115,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Suggestions suggestions = new SuggestionsAndroid(keyboard, new LinearDictionary(this));
-
-        suggestions.addListener(new Suggestions.Listener() {
-            @Override
-            public void onSuggestions(List<String> suggestions) {
-                System.out.print("Suggestions: ");
-                System.out.println(suggestions);
-            }
-        });
-
-
-
         layoutTabs.addOnTabSelectedListener(tabSwitcher);
 
         // Trigger the creation of the layout in the first tab
         tabSwitcher.onTabSelected(layoutTabs.getTabAt(0));
     } // end of on create
-
+    
     private void switchLayout(Layout layout, LayoutGUI layoutGui) {
         layoutWrapper.removeAllViews();
         layoutWrapper.addView(layoutGui.createGUI());

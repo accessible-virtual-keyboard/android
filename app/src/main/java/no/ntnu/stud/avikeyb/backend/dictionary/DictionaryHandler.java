@@ -27,7 +27,7 @@ public class DictionaryHandler implements Dictionary {
      */
     public DictionaryHandler() {
         dictionaryWords = ResourceLoader.loadDictionaryFromFile("./res/word.list");
-//        prefixSearch("aa");
+//        prefixSearch("zyzz");
     }
 
 
@@ -40,19 +40,36 @@ public class DictionaryHandler implements Dictionary {
      */
     public ArrayList<String> prefixSearch(String prefix) {
 
-        ArrayList<String> foundWords = new ArrayList<String>();
-        String foundWord = null;
+        ArrayList<String> matchingWords = new ArrayList<String>();
+        String currentWord = null;
+        boolean doneSearching = false;
 
         int firstLocation = 0;
         int lastLocation = dictionaryWords.size() - 1;
         int middleLocation = (firstLocation + lastLocation) / 2;
 
-        // Find first occurrence of the prefix in dictionary.
-        while (firstLocation + 1 < lastLocation) {
-//            System.out.println("firstLocation:" + firstLocation + " middleLocation:" + middleLocation + " lastLocation:" + lastLocation);
-            // Get the dictionary word at the current location, and find out if we need to search backwards or forwards.
-            foundWord = dictionaryWords.get(middleLocation);
-            int delta = prefix.compareTo(foundWord);
+        // Find the first matching word.
+        while (!doneSearching) {
+
+            // Get the dictionary word at the current location.
+            currentWord = dictionaryWords.get(middleLocation);
+            int delta = prefix.compareToIgnoreCase(currentWord);
+
+            // When there are only two alternatives left.
+            if ((lastLocation - firstLocation) <= 1) {
+                if (delta > 0) {
+                    middleLocation = lastLocation;
+                } else if (delta < 0) {
+                    middleLocation = firstLocation;
+                } else if (delta == 0) {
+                    // Do nothing. We are in the correct position.
+                }
+                currentWord = dictionaryWords.get(middleLocation);
+                doneSearching = true;
+                break;
+            }
+
+            // Find out if we need to search backwards or forwards.
             if (delta < 0) {
                 // Target might be behind us.
                 lastLocation = middleLocation;
@@ -62,28 +79,30 @@ public class DictionaryHandler implements Dictionary {
                 firstLocation = middleLocation;
                 middleLocation = (firstLocation + lastLocation) / 2;
             } else if (delta == 0) {
-                // Landed directly on the first occurrence.
-                break;
+                // Landed directly on the first matching word.
+                doneSearching = true;
             }
+//            System.out.println("firstLocation:" + firstLocation + " middleLocation:" + middleLocation + " lastLocation:" + lastLocation);
         }
 
-        // Iterate forwards until we find all the matches.
+        // Iterate forwards and collect all the matches.
         boolean allFound = false;
-        while (!allFound && middleLocation < dictionaryWords.size()) {
-            if (foundWord.startsWith(prefix)) {
-                foundWords.add(foundWord);
+        while (!allFound && middleLocation < dictionaryWords.size() - 1) {
+            if (currentWord.startsWith(prefix)) {
+                matchingWords.add(currentWord);
                 middleLocation += 1;
-                foundWord = dictionaryWords.get(middleLocation);
+                currentWord = dictionaryWords.get(middleLocation);
+//                System.out.println(currentWord);
             } else {
                 // There are now more matches.
                 allFound = true;
             }
         }
 
-//        for (String word : foundWords) {
+//        for (String word : matchingWords) {
 //            System.out.println(word);
 //        }
-        return foundWords;
+        return matchingWords;
     }
 
     /**

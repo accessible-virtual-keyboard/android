@@ -7,8 +7,8 @@
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:stretchColumns="*"
         android:id="@+id/binsearchAlphabet"
+        android:stretchColumns="*"
         android:layout_weight="0.3"
         android:layout_marginRight="4dp"
         >
@@ -63,7 +63,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:stretchColumns="*"
-        android:layout_weight="0.7"
+        android:layout_weight="0.3"
+        android:layout_marginRight="4dp"
         >
         <TableRow>
             <TextView android:id="@+id/sym_num_0" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="0"/>
@@ -94,4 +95,14 @@
             <TextView android:layout_span="3" android:id="@+id/sym_send" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="Send"/>
         </TableRow>
     </TableLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_weight="0.3"
+        android:id="@+id/suggestionsList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>
