@@ -1,12 +1,11 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
-import android.util.Log;
+
 
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
-import no.ntnu.stud.avikeyb.backend.layouts.util.LayoutPosition;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -18,12 +17,12 @@ public class ETOSLayout extends StepLayout {
             Symbols.build(Symbol.SEND),
             Symbols.etos(),
             Symbols.numbers(),
+            Symbols.menuOptions(), // test
             Symbols.commonPunctuations());
 
     public enum State {
         SELECT_ROW,
         SELECT_COLUMN,
-
     }
 
     // The current position of the cursor in the layout
@@ -31,7 +30,6 @@ public class ETOSLayout extends StepLayout {
     // The current row of the cursor in the layout.
     private State state = State.SELECT_ROW;
     private Keyboard keyboard;
-    private LayoutPosition position;
 
     public ETOSLayout(Keyboard keyboard) {
         this.keyboard = keyboard;
@@ -44,6 +42,7 @@ public class ETOSLayout extends StepLayout {
      * @return the position of the current active symbol
      */
     public int getSymbolCount() {
+
         return symbols.length;
     }
 
@@ -53,6 +52,7 @@ public class ETOSLayout extends StepLayout {
      * @return the position of the current active symbol
      */
     public int getCurrentPosition() {
+
         return currentPosition;
     }
 
@@ -63,6 +63,7 @@ public class ETOSLayout extends StepLayout {
      * @return the symbols in the layout
      */
     public Symbol[] getSymbols() {
+
         return symbols;
     }
 
@@ -115,6 +116,7 @@ public class ETOSLayout extends StepLayout {
      * @return a symbol
      */
     public Symbol getSymbolAt(int index) {
+
         return symbols[index];
     }
 } // en of class

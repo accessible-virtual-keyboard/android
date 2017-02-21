@@ -76,6 +76,16 @@ public class Symbols {
     }
 
     /**
+     * Testing
+     * Returns the symbols represention menu options
+     * @return a list of the options
+     */
+    public static Symbol[] menuOptions(){
+
+        return _menuOptions;
+    }
+
+    /**
      * Returs common punctuation symbols
      *
      * @return a list of punctuation symbols
@@ -166,6 +176,15 @@ public class Symbols {
             Symbol.QUESTION_MARK,
             Symbol.EXCLAMATION_MARK,
             Symbol.SPACE,
+    };
+
+    private static Symbol[] _menuOptions ={
+            Symbol.SETTING,
+            Symbol.PROFILE,
+            Symbol.DICTIONARY,
+            Symbol.OPTION1,
+            Symbol.OPTION2,
+            Symbol.OPTION3,
     };
 }
 
