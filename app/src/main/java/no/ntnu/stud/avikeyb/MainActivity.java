@@ -23,6 +23,7 @@ import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
+import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.SimpleExampleLayout;
 import no.ntnu.stud.avikeyb.gui.AdaptiveLayoutGUI;
@@ -80,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
                     case 4: {
                         AdaptiveLayout l = new AdaptiveLayout(keyboard);
                         switchLayout(l, new AdaptiveLayoutGUI(MainActivity.this, keyboard, l));
+                        break;
+                    }
+                    case 5:{
+                        MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, getBaseContext());
+                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l));
                         break;
                     }
                     default: { // 0

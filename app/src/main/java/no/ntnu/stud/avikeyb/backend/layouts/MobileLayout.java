@@ -15,11 +15,11 @@ import no.ntnu.stud.avikeyb.backend.Symbol;
 
 public class MobileLayout extends StepLayout {
 
-    private Symbol[] symbols;
-    private Keyboard keyboard;
-    private State state = State.SELECT_ROW;
-    private ArrayList<Symbol> markedSymbols = new ArrayList<>();
-    private int[] location = new int[]{-1, -1, -1};
+    protected Symbol[] symbols;
+    protected Keyboard keyboard;
+    protected State state = State.SELECT_ROW;
+    protected ArrayList<Symbol> markedSymbols = new ArrayList<>();
+    protected int[] location = new int[]{-1, -1, -1};
 
     public MobileLayout(Keyboard keyboard) {
         this.keyboard = keyboard;
@@ -81,7 +81,7 @@ public class MobileLayout extends StepLayout {
     /**
      * Handles positional logic for rows
      */
-    private void nextRow() {
+    protected void nextRow() {
         location[0]++;
 
         if (location[0] >= 4) {
@@ -100,7 +100,7 @@ public class MobileLayout extends StepLayout {
     /**
      * Handles positional logic for columns
      */
-    private void nextColumn() {
+    protected void nextColumn() {
         location[1]++;
         int cols = location[0] * 9;
         int symbolsLeft = symbols.length - cols;
@@ -124,7 +124,7 @@ public class MobileLayout extends StepLayout {
     /**
      * Handles positional logic for selecting letters
      */
-    private void nextLetter() {
+    protected void nextLetter() {
         location[2]++;
         int lowerBound = location[0] * 9 + location[1] * 3;
         int symbolsLeft = symbols.length - lowerBound;
