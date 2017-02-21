@@ -1,13 +1,16 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import no.ntnu.stud.avikeyb.backend.Dictionary;
 
 /**
  * Handles the dictionary features.
  *
  * @author Kristian Honningsvag.
  */
-public class Dictionary {
+public class DictionaryHandler implements Dictionary {
 
     private ArrayList<String> dictionaryWords;
 
@@ -15,14 +18,14 @@ public class Dictionary {
 //     * TODO: This is just for testing. Remove later.
 //     */
 //    public static void main(String[] args) {
-//        Dictionary dictionary = new Dictionary();
+//        DictionaryHandler dictionaryHandler = new DictionaryHandler();
 //    }
 
 
     /**
      * Constructor.
      */
-    public Dictionary() {
+    public DictionaryHandler() {
         dictionaryWords = ResourceLoader.loadDictionaryFromFile("./res/word.list");
 //        prefixSearch("aa");
     }
@@ -94,6 +97,15 @@ public class Dictionary {
     private int findRelativeLocation(Character firstCharacter, Character secondCharacter) {
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
         return alphabet.lastIndexOf(firstCharacter) - alphabet.lastIndexOf(secondCharacter);
+    }
+
+    @Override
+    public List<String> getSuggestionsStartingWith(String match) {
+        return prefixSearch(match);
+    }
+
+    @Override
+    public void updateWordUsage(String string) {
     }
 
 }
