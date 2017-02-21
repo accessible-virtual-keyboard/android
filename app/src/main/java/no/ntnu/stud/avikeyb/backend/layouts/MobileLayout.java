@@ -103,9 +103,9 @@ public class MobileLayout extends StepLayout {
     private void nextColumn() {
         location[1]++;
         int cols = location[0] * 9;
-        Symbol[] symbolsLeft = Arrays.copyOfRange(symbols, cols, symbols.length);
+        int symbolsLeft = symbols.length - cols;
         //Log.d("MobLayout", "Symbols left: " + Math.ceil(symbolsLeft.length/3.0));
-        if (location[1] >= Math.ceil(symbolsLeft.length/3.0) || location[1] >= 3) {
+        if (location[1] >= Math.ceil(symbolsLeft/3.0) || location[1] >= 3) {
             location[1] = 0;
         }
 
@@ -127,9 +127,9 @@ public class MobileLayout extends StepLayout {
     private void nextLetter() {
         location[2]++;
         int lowerBound = location[0] * 9 + location[1] * 3;
-        Symbol[] symbolsLeft = Arrays.copyOfRange(symbols, lowerBound, symbols.length);
+        int symbolsLeft = symbols.length - lowerBound;
         //Log.d("MobLayout", "Symbols left: " + symbolsLeft.length);
-        if (location[2] >= symbolsLeft.length || location[2] >=3) {
+        if (location[2] >= symbolsLeft || location[2] >=3) {
             location[2] = 0;
         }
 
