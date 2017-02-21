@@ -12,4 +12,10 @@
     <color name="mobileLayoutButtonGroupBackground">#8D8194</color>
     <color name="mobileLayoutRowBackground">#72627B</color>
     <color name="mobileLayoutUnusedButtonBackground">#8D8194</color>
+
+    <color name="binsearch_active_fg">#484848</color>
+    <color name="binsearch_active_left_bg">#46A8CD</color>
+    <color name="binsearch_active_right_bg">#F5B821</color>
+    <color name="binsearch_inactive_bg">#eeeeee</color>
+    <color name="binsearch_inactive_fg">#cccccc</color>
 </resources>

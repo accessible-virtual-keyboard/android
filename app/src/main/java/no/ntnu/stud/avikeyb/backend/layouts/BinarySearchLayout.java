@@ -1,10 +1,12 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
+import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
 
@@ -20,17 +22,21 @@ public class BinarySearchLayout extends StepLayout {
             Symbols.commonPunctuations(),
             Symbols.build(Symbol.SEND));
 
-    // The current symbol list
-    private List<Symbol> currentSymbols;
-    // The symbols on the left side
-    private List<Symbol> currentLeft;
-    // The symbols on the right side
-    private List<Symbol> currentRight;
+    // The current items list
+    private List<Object> currentItems;
+    // The items on the left side
+    private List<Object> currentLeft;
+    // The items on the right side
+    private List<Object> currentRight;
 
+    private List<String> suggestions = new ArrayList<>();
     private Keyboard keyboard;
+    private Suggestions suggestionsEngine;
 
-    public BinarySearchLayout(Keyboard keyboard) {
+    public BinarySearchLayout(Keyboard keyboard, Suggestions suggestionsEngine) {
         this.keyboard = keyboard;
+        this.suggestionsEngine = suggestionsEngine;
+        listenForSuggestions();
         reset();
     }
 
@@ -50,7 +56,7 @@ public class BinarySearchLayout extends StepLayout {
      * @return true if the symbol is active
      */
     public boolean symbolIsActive(Symbol symbol) {
-        return currentSymbols.contains(symbol);
+        return currentItems.contains(symbol);
     }
 
     /**
@@ -74,6 +80,47 @@ public class BinarySearchLayout extends StepLayout {
     }
 
 
+    /**
+     * Check if a suggestion is active in the left bucket
+     *
+     * @param suggestion the suggestion to check
+     * @return true if the suggestion is in the left bucket
+     */
+    public boolean suggestionIsLeft(String suggestion) {
+        return currentLeft.contains(suggestion);
+    }
+
+    /**
+     * Check if a suggestion is active in the right bucket
+     *
+     * @param suggestion the suggestion to check
+     * @return true if the suggestion is in the right bucket
+     */
+    public boolean suggestionIsRight(String suggestion) {
+        return currentRight.contains(suggestion);
+    }
+
+    /**
+     * Check if a suggestion is active
+     *
+     * @param suggestion the suggestion to check
+     * @return true if the suggestion is currently selectable
+     */
+    public boolean suggestionIsActive(String suggestion) {
+        return currentItems.contains(suggestion);
+    }
+
+
+    /**
+     * Returns the list of current suggested words
+     *
+     * @return a list of words
+     */
+    public List<String> getSuggestions() {
+        return suggestions;
+    }
+
+
     @Override
     protected void onStep(InputType input) {
 
@@ -85,7 +132,6 @@ public class BinarySearchLayout extends StepLayout {
         }
         splitCurrent();
 
-
         // Check if we have reached a final selection
         checkCompleted();
 
@@ -95,41 +141,75 @@ public class BinarySearchLayout extends StepLayout {
     private void checkCompleted() {
         // If one of the sides are empty the other one will contain the selected symbol
         if (currentLeft.isEmpty()) {
-            selectSymbol(currentRight);
+            selectCurrent(currentRight);
             reset();
         } else if (currentRight.isEmpty()) {
-            selectSymbol(currentLeft);
+            selectCurrent(currentLeft);
             reset();
         }
     }
 
+    // Get the current item from the list and send it to the keyboard
+    private void selectCurrent(List<Object> list) {
+        Object item = list.get(0);
+        if (item instanceof Symbol) {
+            selectSymbol((Symbol) item);
+        } else if (item instanceof String) {
+            selectSuggestion((String) item);
+        }
+    }
 
-    // Get the character from the list and send it to the keyboard
-    private void selectSymbol(List<Symbol> list) {
-        Symbol sym = list.get(0);
-        if (sym == Symbol.SEND) {
+
+    // Send symbol value to keybaord
+    private void selectSymbol(Symbol symbol) {
+        if (symbol == Symbol.SEND) {
             keyboard.sendCurrentBuffer();
         } else {
-            keyboard.addToCurrentBuffer(sym.getContent());
+            keyboard.addToCurrentBuffer(symbol.getContent());
         }
+    }
+
+    private void selectSuggestion(String suggestion) {
+        // Remove the characters that has already been written
+        String sug = suggestion.substring(keyboard.getCurrentWord().length());
+        keyboard.addToCurrentBuffer(sug + Symbol.SPACE.getContent());
     }
 
     private void selectLeft() {
-        currentSymbols = currentLeft;
+        currentItems = currentLeft;
     }
 
     private void selectRight() {
-        currentSymbols = currentRight;
+        currentItems = currentRight;
     }
 
+    // Split the current items bucket into a left and a right bucket
     private void splitCurrent() {
-        int middle = currentSymbols.size() / 2;
-        currentLeft = currentSymbols.subList(0, middle);
-        currentRight = currentSymbols.subList(middle, currentSymbols.size());
+        int middle = currentItems.size() / 2;
+        currentLeft = currentItems.subList(0, middle);
+        currentRight = currentItems.subList(middle, currentItems.size());
     }
 
     private void reset() {
-        currentSymbols = Arrays.asList(symbols);
+        currentItems = new ArrayList<>(Arrays.asList(symbols));
         splitCurrent();
     }
+
+    // Listen for suggestions and add new suggestions to the layout
+    private void listenForSuggestions() {
+
+        suggestionsEngine.addListener(suggestions1 -> {
+
+            // Take only the 5 first suggestions. A new list is needed to copy the items because
+            // the sub list will keep a reference to the underlying list an keep it from
+            // getting garbage collected.
+            suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(5, suggestions1.size())));
+
+            currentItems.addAll(suggestions);
+            splitCurrent();
+            notifyLayoutListeners();
+        });
+
+    }
+
 }
