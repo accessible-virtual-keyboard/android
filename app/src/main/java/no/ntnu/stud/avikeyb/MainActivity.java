@@ -19,6 +19,7 @@ import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
+import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Suggestions suggestions = new SuggestionsAndroid(keyboard, new DummyDictionary());
+        Suggestions suggestions = new SuggestionsAndroid(keyboard, new LinearDictionary(this));
 
         suggestions.addListener(new Suggestions.Listener() {
             @Override
