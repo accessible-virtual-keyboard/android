@@ -11,6 +11,7 @@ import no.ntnu.stud.avikeyb.backend.Layout;
 public abstract class LayoutGUI {
 
     private Keyboard keyboard;
+    private View view;
 
     public LayoutGUI(Keyboard keyboard, Layout layout) {
         this.keyboard = keyboard;
@@ -35,7 +36,9 @@ public abstract class LayoutGUI {
      * @return a view of the layout
      */
     public View createGUI() {
-        View view = buildGUI();
+        if(view == null){
+            view = buildGUI(); // cache the view
+        }
         updateGUI(); // The GUI must be updated after it has been created
         return view;
     }
