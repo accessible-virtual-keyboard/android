@@ -10,11 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import no.ntnu.stud.avikeyb.backend.InputInterface;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
+import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
@@ -27,6 +30,8 @@ import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
+import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
+import no.ntnu.stud.avikeyb.gui.core.DummyDictionary;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -101,6 +106,19 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) MainActivity.this.findViewById(R.id.currentBuffer)).setText(newBuffer);
             }
         });
+
+
+        Suggestions suggestions = new SuggestionsAndroid(keyboard, new DummyDictionary());
+
+        suggestions.addListener(new Suggestions.Listener() {
+            @Override
+            public void onSuggestions(List<String> suggestions) {
+                System.out.print("Suggestions: ");
+                System.out.println(suggestions);
+            }
+        });
+
+
 
         layoutTabs.addOnTabSelectedListener(tabSwitcher);
 
