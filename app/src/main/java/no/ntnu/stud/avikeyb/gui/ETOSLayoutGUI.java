@@ -1,14 +1,16 @@
 package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.view.ActionMode;
 import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -16,9 +18,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,7 +35,7 @@ import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 public class ETOSLayoutGUI extends LayoutGUI {
 
     private Activity activity;
-    private List<View> symbolsView;
+    private List<View> symbolsView; // used in programmically build gui
     private ETOSLayout layout;
     private Resources res; // do not work
     private TableRow tableRow;
@@ -43,8 +43,8 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private String[] menuOptions = new String[]{"Setting", "User profile", "Personal dictionary", "Option 4", "Option 5"};
 
-    ArrayList<String> listItems = new ArrayList<String>();
-    ArrayAdapter<String> adapter1;
+    ArrayList<Symbol> listItems = new ArrayList<>();
+    ArrayAdapter<Symbol> adapter1;
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
@@ -65,19 +65,22 @@ public class ETOSLayoutGUI extends LayoutGUI {
             }
         }
 
+        // todo add a own adapter.
+        // todo listview is not added to the "keyboard"
         ListView listview = (ListView) loader.getViewById(R.id.listview);
-        adapter1 = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, listItems);
+        adapter1 = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, listItems);
         listview.setAdapter(adapter1);
 
-        for (String items : menuOptions) {
-            System.out.println("The item is " + items);
+        for (Symbol items : symbolViewMap.keySet()) {
+
             listItems.add(items);
         }
+
         adapter1.notifyDataSetChanged();
-
-
         return (ViewGroup) loader.getLayout();
     }
+
+    
 
     public void updateGUI() {
 
@@ -145,6 +148,5 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
         return root;
     }
-
 
 } // end of class

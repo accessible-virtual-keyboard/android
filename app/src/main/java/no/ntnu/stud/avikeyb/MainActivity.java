@@ -114,39 +114,7 @@ public class MainActivity extends AppCompatActivity {
         // Trigger the creation of the layout in the first tab
         tabSwitcher.onTabSelected(layoutTabs.getTabAt(0));
     } // end of on create
-
-
-    @Override // test
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.context_menu, menu);
-        return true;
-    }
-
-    @Override // test
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.action_settings:
-                //todo
-                break;
-            case R.id.action_save:
-                //todo
-                break;
-            case R.id.action_option3:
-                //todo
-                break;
-            case R.id.action_option4:
-                //todo
-                break;
-            case R.id.action_option5:
-                //todo
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
+    
     private void switchLayout(Layout layout, LayoutGUI layoutGui) {
         layoutWrapper.removeAllViews();
         layoutWrapper.addView(layoutGui.createGUI());
