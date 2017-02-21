@@ -56,9 +56,10 @@ public class LayoutLoader {
     }
 
     /**
+     * Return the view for the given Id
      *
-     * @param id
-     * @return
+     * @param id the id to get
+     * @return the view for the id
      */
     public View getViewById(int id){
         return layout.findViewById(id);
