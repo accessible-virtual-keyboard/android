@@ -51,7 +51,15 @@ public enum Symbol {
     SPACE(" "),
 
 
-    SEND("Send");
+    SEND("Send"),
+
+    // Testing for menu options.
+    PROFILE("profile"),
+    DICTIONARY("Dictionary"),
+    OPTION1("Option 1"),
+    OPTION2("Option 2"),
+    OPTION3("Option 3"),
+    SETTING("Setting");
 
 
     private String content;
