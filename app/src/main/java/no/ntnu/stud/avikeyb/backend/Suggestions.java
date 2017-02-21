@@ -92,6 +92,9 @@ public abstract class Suggestions {
                 String currentWord = keyboard.getCurrentWord();
                 if (!currentWord.isEmpty()) {
                     executeQuery(currentWord);
+                }else{
+                    // Notify with an empty list when there current word is empty
+                    notifyListeners(new ArrayList<String>());
                 }
 
             }
