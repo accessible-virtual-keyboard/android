@@ -1,24 +1,24 @@
 package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.view.ActionMode;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
+
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,15 +39,19 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private ETOSLayout layout;
     private Resources res; // do not work
     private TableRow tableRow;
+
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
-    
+    private String[] menuOptions = new String[]{"Setting", "User profile", "Personal dictionary", "Option 4", "Option 5"};
+
+    ArrayList<String> listItems = new ArrayList<String>();
+    ArrayAdapter<String> adapter1;
+
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
 
         this.layout = layout;
         this.activity = activity;
         symbolsView = new ArrayList<>();
-
     }
 
     public ViewGroup buildGUI() {
@@ -60,7 +64,17 @@ public class ETOSLayoutGUI extends LayoutGUI {
                 symbolViewMap.put(symbol, view);
             }
         }
+
         ListView listview = (ListView) loader.getViewById(R.id.listview);
+        adapter1 = new ArrayAdapter<String>(activity, android.R.layout.simple_list_item_1, listItems);
+        listview.setAdapter(adapter1);
+
+        for (String items : menuOptions) {
+            System.out.println("The item is " + items);
+            listItems.add(items);
+        }
+        adapter1.notifyDataSetChanged();
+
 
         return (ViewGroup) loader.getLayout();
     }
@@ -75,7 +89,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
             if (symbol != null && symbolViewMap.containsKey(symbol)) {
                 if (current == index) {
-                  //  symbolViewMap.get(symbol).setBackgroundColor(Color.YELLOW);
+                    //  symbolViewMap.get(symbol).setBackgroundColor(Color.YELLOW);
                     symbolViewMap.get(symbol).setBackgroundResource(R.color.purpleparty);
                 } else {
                     symbolViewMap.get(symbol).setBackgroundResource(R.color.lightgrey);
@@ -84,6 +98,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
             index++;
         }
     }
+
 
     // Build the GUI programmatically.
     public View buildGUI6() {
@@ -130,4 +145,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
         return root;
     }
+
+
 } // end of class

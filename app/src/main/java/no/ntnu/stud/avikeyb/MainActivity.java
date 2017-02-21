@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
         tabSwitcher.onTabSelected(layoutTabs.getTabAt(0));
     } // end of on create
 
+
+
     @Override // test
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.context_menu, menu);
