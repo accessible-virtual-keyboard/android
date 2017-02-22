@@ -3,7 +3,6 @@ package no.ntnu.stud.avikeyb.backend.layouts;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
@@ -69,7 +68,7 @@ public class MobileLayout extends StepLayout {
                         break;
                     case INPUT2:
                         state = State.SELECT_ROW;
-                        selectCurrentSymbol(keyboard);
+                        selectCurrentSymbols(keyboard);
                         reset();
                         break;
                 }
@@ -94,7 +93,12 @@ public class MobileLayout extends StepLayout {
         for (int i = lowerBound; i < upperBound; i++) {
             addMarkedSymbol(i);
         }
-        //Log.d("MobLayout", "Position: " + location[0] + ", " + location[1] + ", " + location[2]);
+        Log.d("MobLayout", "Position: " + location[0] + ", " + location[1] + ", " + location[2]);
+        String markedSymbolsText = "";
+        for (Symbol s:markedSymbols) {
+            markedSymbolsText += s.getContent() + " ";
+        }
+        Log.d("MobLayout", markedSymbolsText);
     }
 
     /**
@@ -117,7 +121,12 @@ public class MobileLayout extends StepLayout {
 
         }
 
-        //Log.d("MobLayout", "Position: " + location[0] + ", " + location[1] + ", " + location[2]);
+        Log.d("MobLayout", "Position: " + location[0] + ", " + location[1] + ", " + location[2]);
+        String markedSymbolsText = "";
+        for (Symbol s:markedSymbols) {
+            markedSymbolsText += s.getContent() + " ";
+        }
+        Log.d("MobLayout", markedSymbolsText);
     }
 
 
@@ -146,7 +155,7 @@ public class MobileLayout extends StepLayout {
     /**
      * Sends the current symbol, only usable in state SELECT_LETTER
      */
-    private void selectCurrentSymbol(Keyboard keyboard) {
+    protected void selectCurrentSymbols(Keyboard keyboard) {
         Symbol symbol = markedSymbols.get(0); // will only contain one symbol in SELECT_LETTER state.
 
         if (symbol == Symbol.SEND) {

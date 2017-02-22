@@ -3,8 +3,6 @@ package no.ntnu.stud.avikeyb;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -52,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         layoutTabs.addTab(layoutTabs.newTab().setText("BINS"));
         layoutTabs.addTab(layoutTabs.newTab().setText("MOB"));
         layoutTabs.addTab(layoutTabs.newTab().setText("ADAPTIVE"));
+        layoutTabs.addTab(layoutTabs.newTab().setText("MobDic"));
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case 3: {
                         MobileLayout l = new MobileLayout(keyboard);
-                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l));
+                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile));
                         break;
                     }
                     case 4: {
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case 5:{
                         MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, getBaseContext());
-                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l));
+                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile));
                         break;
                     }
                     default: { // 0

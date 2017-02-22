@@ -2,6 +2,7 @@ package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,6 +13,7 @@ import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.Symbol;
+import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 
@@ -25,17 +27,19 @@ public class MobileLayoutGUI extends LayoutGUI {
     private Activity activity;
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private ArrayList<Symbol> previouslyMarked = new ArrayList<>();
+    private int layoutResource;
 
-
-    public MobileLayoutGUI(Activity activity, Keyboard keyboard, Layout layout) {
+    public MobileLayoutGUI(Activity activity, Keyboard keyboard, MobileLayout layout, int layoutResource) {
         super(keyboard, layout);
         this.activity = activity;
-        this.layout = (MobileLayout) layout;
+        this.layout = layout;
+        this.layoutResource = layoutResource;
     }
+
 
     @Override
     protected View buildGUI() {
-        LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_mobile);
+        LayoutLoader loader = new LayoutLoader(activity, layoutResource);
 
         for (Symbol symbol : layout.getSymbols()) {
             if (symbol != null && loader.hasSymbol(symbol)) {

@@ -31,4 +31,13 @@ public class LinearRadixDictionary extends LinearDictionary {
     public ArrayList<DictionaryEntry> getRadixSuggestions() {
         return radixSuggestions;
     }
+
+    public void resetRadixSuggestions(){
+        radixSuggestions = new ArrayList<>();
+    }
+
+    public ArrayList<DictionaryEntry> getSortedRadixSuggestions(){
+        sortList(radixSuggestions, SortingOrder.FREQUENCY_HIGH_TO_LOW);
+        return radixSuggestions;
+    }
 }
