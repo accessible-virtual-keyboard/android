@@ -16,7 +16,9 @@ public class ETOSLayout extends StepLayout {
             Symbols.build(Symbol.SEND),
             Symbols.etos(),
             Symbols.numbers(),
-            Symbols.commonPunctuations());
+            Symbols.commonPunctuations(),
+            Symbols.menuOptions()// test
+            );
 
     private static Symbol[] menu = Symbols.menuOptions();
 
@@ -77,6 +79,7 @@ public class ETOSLayout extends StepLayout {
 
     }
 
+
     @Override
     protected void onStep(InputType input) {
 
@@ -107,6 +110,10 @@ public class ETOSLayout extends StepLayout {
         notifyLayoutListeners();
     }
 
+    private void selectCurrentMenu() {
+        Symbol current = menu[currentPosition];
+        keyboard.addToCurrentBuffer(current.getContent());
+    }
 
     private void selectCurrentSymbol() {
 
