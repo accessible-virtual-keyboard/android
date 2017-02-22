@@ -1,7 +1,6 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
 
-
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
@@ -17,8 +16,9 @@ public class ETOSLayout extends StepLayout {
             Symbols.build(Symbol.SEND),
             Symbols.etos(),
             Symbols.numbers(),
-            Symbols.menuOptions(), // test
             Symbols.commonPunctuations());
+
+    private static Symbol[] menu = Symbols.menuOptions();
 
     public enum State {
         SELECT_ROW,
@@ -65,6 +65,16 @@ public class ETOSLayout extends StepLayout {
     public Symbol[] getSymbols() {
 
         return symbols;
+    }
+
+    /**
+     * Returns all the menu options in the layout
+     *
+     * @return the menu options in the layout
+     */
+    public Symbol[] getMenuOptions() {
+        return menu;
+
     }
 
     @Override
