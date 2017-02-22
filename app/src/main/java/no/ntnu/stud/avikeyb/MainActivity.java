@@ -3,8 +3,6 @@ package no.ntnu.stud.avikeyb;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -29,6 +27,7 @@ import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
+import no.ntnu.stud.avikeyb.gui.core.DictionaryFileLoader;
 import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
-        Suggestions suggestions = new SuggestionsAndroid(keyboard, new LinearDictionary(this));
+        Suggestions suggestions = new SuggestionsAndroid(keyboard, new LinearDictionary(new DictionaryFileLoader(this, R.raw.dictionary)));
+
 
         final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard, suggestions);
 
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         // Trigger the creation of the layout in the first tab
         tabSwitcher.onTabSelected(layoutTabs.getTabAt(0));
     } // end of on create
-    
+
     private void switchLayout(Layout layout, LayoutGUI layoutGui) {
         layoutWrapper.removeAllViews();
         layoutWrapper.addView(layoutGui.createGUI());
