@@ -1,6 +1,6 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
-import android.content.Context;
+import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +8,7 @@ import java.util.List;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryLoader;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearRadixDictionary;
 
 /**
@@ -19,9 +20,9 @@ public class MobileDictionaryLayout extends MobileLayout {
     private Node root = new Node("");
     private LinearRadixDictionary dictionary;
 
-    public MobileDictionaryLayout(Keyboard keyboard, Context context) {
-        super(keyboard);
-        dictionary = new LinearRadixDictionary(context);
+    public MobileDictionaryLayout(Keyboard keyboard, DictionaryLoader dictionaryLoader, int layoutResource) {
+        super(keyboard, layoutResource);
+        dictionary = new LinearRadixDictionary(dictionaryLoader);
     }
 
     @Override
@@ -81,6 +82,7 @@ public class MobileDictionaryLayout extends MobileLayout {
             String radix = parent.getRadix() + symbol.getContent();
             dictionary.findSuggestionsWithRadix(radix);
             if(radixExists()){
+                Log.d("mobDicLayout", "Radix: \"" + radix + "\"" + " Symbol: " + "\"" + symbol.getContent() + "\"");
                 Node child = new Node(radix);
                 parent.addChild(child);
                 dictionary.getRadixSuggestions();
@@ -92,7 +94,7 @@ public class MobileDictionaryLayout extends MobileLayout {
     }
 
     private boolean radixExists() {
-        if(dictionary.getRadixSuggestions().isEmpty()){
+        if(dictionary.getLastAddendums().isEmpty()){
             return false;
         }else{
             return true;
@@ -108,7 +110,10 @@ public class MobileDictionaryLayout extends MobileLayout {
         }
 
         public void addChild(Node node) {
-            children.add(node);
+            if(!isTerminated()){
+                children.add(node);
+            }
+
         }
 
         public List<Node> getChildren() {
@@ -120,7 +125,7 @@ public class MobileDictionaryLayout extends MobileLayout {
         }
 
         public boolean hasChildren(){
-            if(children.isEmpty()){
+            if(children != null && children.isEmpty()){
                 return false;
             }else {
                 return true;

@@ -89,7 +89,7 @@ public class LinearDictionary implements Dictionary {
      * @param list  List to sort
      * @param order SortingOrder Enum
      */
-    private void sortList(List<DictionaryEntry> list, final SortingOrder order){
+    protected void sortList(List<DictionaryEntry> list, final SortingOrder order){
         Comparator<DictionaryEntry> comparator = null;
         if (order != SortingOrder.CURRENT_ORDER) {
             if (order == SortingOrder.ALPHABETICALLY_A_TO_Z) {

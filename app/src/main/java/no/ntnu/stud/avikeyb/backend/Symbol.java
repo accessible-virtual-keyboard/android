@@ -1,5 +1,7 @@
 package no.ntnu.stud.avikeyb.backend;
 
+import android.view.KeyEvent;
+
 /**
  * The various symbols that can be selected and typed in the keyboard
  */
@@ -50,6 +52,8 @@ public enum Symbol {
     COMMA(","),
     SPACE(" "),
 
+    NULL(null),
+    BACKSPACE(KeyEvent.keyCodeToString(KeyEvent.KEYCODE_BACK)),
 
     SEND("Send"),
 

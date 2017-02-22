@@ -15,6 +15,7 @@ import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryLoader;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 3: {
-                        MobileLayout l = new MobileLayout(keyboard);
+                        MobileLayout l = new MobileLayout(keyboard, R.layout.layout_mobile);
                         switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile));
                         break;
                     }
@@ -85,8 +86,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 5:{
-                        MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, getBaseContext());
-                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile));
+                        int layoutResource = R.layout.layout_mobile;
+                        DictionaryFileLoader dictionaryLoader = new DictionaryFileLoader(getBaseContext(), R.raw.dictionary);
+                        MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, dictionaryLoader, layoutResource);
+                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, layoutResource));
                         break;
                     }
                     default: { // 0

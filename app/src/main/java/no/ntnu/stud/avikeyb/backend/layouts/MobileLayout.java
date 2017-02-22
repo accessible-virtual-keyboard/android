@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
@@ -20,13 +21,21 @@ public class MobileLayout extends StepLayout {
     protected ArrayList<Symbol> markedSymbols = new ArrayList<>();
     protected int[] location = new int[]{-1, -1, -1};
 
-    public MobileLayout(Keyboard keyboard) {
+    public MobileLayout(Keyboard keyboard, int layoutResource) {
         this.keyboard = keyboard;
 
-        symbols = new Symbol[]{Symbol.SPACE, Symbol.E, Symbol.O, Symbol.T, Symbol.I, Symbol.L, Symbol.S, Symbol.C, Symbol.W,
-                Symbol.A, Symbol.N, Symbol.D, Symbol.R, Symbol.U, Symbol.Y, Symbol.F, Symbol.V, Symbol.Z,
-                Symbol.H, Symbol.M, Symbol.B, Symbol.P, Symbol.K, Symbol.PERIOD, Symbol.J, Symbol.QUESTION_MARK, Symbol.SEND,
-                Symbol.G, Symbol.X, Symbol.COMMA, Symbol.Q, Symbol.EXCLAMATION_MARK};
+        if(layoutResource == R.layout.layout_mobile){
+            symbols = new Symbol[]{Symbol.SPACE, Symbol.E, Symbol.O, Symbol.T, Symbol.I, Symbol.L, Symbol.S, Symbol.C, Symbol.W,
+                    Symbol.A, Symbol.N, Symbol.D, Symbol.R, Symbol.U, Symbol.Y, Symbol.F, Symbol.V, Symbol.Z,
+                    Symbol.H, Symbol.M, Symbol.B, Symbol.P, Symbol.K, Symbol.PERIOD, Symbol.J, Symbol.QUESTION_MARK, Symbol.SEND,
+                    Symbol.G, Symbol.X, Symbol.COMMA, Symbol.Q, Symbol.EXCLAMATION_MARK};
+        }
+        if(layoutResource == R.layout.layout_mobile_dictionary){
+            symbols = new Symbol[]{Symbol.E, Symbol.T, Symbol.A, Symbol.S, Symbol.R, Symbol.H, Symbol.L, Symbol.D, Symbol.C,
+                    Symbol.O, Symbol.I, Symbol.N, Symbol.U, Symbol.M, Symbol.F, Symbol.Y, Symbol.B, Symbol.V,
+                    Symbol.P, Symbol.G, Symbol.W, Symbol.K, Symbol.X, Symbol.J, Symbol.SEND, Symbol.SEND, Symbol.SEND,
+                    Symbol.Q, Symbol.Z, Symbol.PERIOD, Symbol.DICTIONARY, Symbol.DICTIONARY, Symbol.DICTIONARY, Symbol.BACKSPACE, Symbol.BACKSPACE, Symbol.BACKSPACE};
+        }
         nextRow();
     }
 
