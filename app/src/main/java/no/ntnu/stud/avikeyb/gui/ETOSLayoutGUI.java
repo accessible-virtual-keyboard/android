@@ -71,16 +71,15 @@ public class ETOSLayoutGUI extends LayoutGUI {
         adapter1 = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, listItems);
         listview.setAdapter(adapter1);
 
-        for (Symbol items : symbolViewMap.keySet()) {
-
-            listItems.add(items);
+        for (Symbol item : layout.getMenuOptions()) {
+            listItems.add(item);
         }
+
 
         adapter1.notifyDataSetChanged();
         return (ViewGroup) loader.getLayout();
     }
 
-    
 
     public void updateGUI() {
 
