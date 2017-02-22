@@ -39,12 +39,9 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private ETOSLayout layout;
     private Resources res; // do not work
     private TableRow tableRow;
-
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
-    private String[] menuOptions = new String[]{"Setting", "User profile", "Personal dictionary", "Option 4", "Option 5"};
-
-    ArrayList<Symbol> listItems = new ArrayList<>();
-    ArrayAdapter<Symbol> adapter1;
+    private ArrayList<Symbol> listItems = new ArrayList<>();
+    private ArrayAdapter<Symbol> adapter;
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
@@ -68,19 +65,17 @@ public class ETOSLayoutGUI extends LayoutGUI {
         // todo add a own adapter.
         // todo listview is not added to the "keyboard"
         ListView listview = (ListView) loader.getViewById(R.id.listview);
-        adapter1 = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, listItems);
-        listview.setAdapter(adapter1);
+        adapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, listItems);
+        listview.setAdapter(adapter);
 
-        for (Symbol items : symbolViewMap.keySet()) {
-
-            listItems.add(items);
+        for (Symbol item : layout.getMenuOptions()) {
+            listItems.add(item);
         }
 
-        adapter1.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         return (ViewGroup) loader.getLayout();
     }
 
-    
 
     public void updateGUI() {
 
@@ -92,7 +87,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
             if (symbol != null && symbolViewMap.containsKey(symbol)) {
                 if (current == index) {
-                    //  symbolViewMap.get(symbol).setBackgroundColor(Color.YELLOW);
                     symbolViewMap.get(symbol).setBackgroundResource(R.color.purpleparty);
                 } else {
                     symbolViewMap.get(symbol).setBackgroundResource(R.color.lightgrey);
@@ -106,7 +100,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
     // Build the GUI programmatically.
     public View buildGUI6() {
         //  int paddingSize = (int) res.getDimension(R.dimen._10sdp);
-
         LinearLayout root = new LinearLayout(activity);
         root.setOrientation(LinearLayout.HORIZONTAL);
         root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
