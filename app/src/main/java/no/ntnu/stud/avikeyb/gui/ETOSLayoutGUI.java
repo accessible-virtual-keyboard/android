@@ -26,6 +26,7 @@ import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
+import no.ntnu.stud.avikeyb.gui.utils.Adapter;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 
 /**
@@ -41,7 +42,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private TableRow tableRow;
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private ArrayList<Symbol> listItems = new ArrayList<>();
-    private ArrayAdapter<Symbol> adapter;
+    private Adapter adapterTest;
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
@@ -62,17 +63,14 @@ public class ETOSLayoutGUI extends LayoutGUI {
             }
         }
 
-        // todo add a own adapter.
-        // todo listview is not added to the "keyboard"
+        // todo listview is not added to the "keyboard" maybe
         ListView listview = (ListView) loader.getViewById(R.id.listview);
-        adapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, listItems);
-        listview.setAdapter(adapter);
-
+        adapterTest = new Adapter(activity, listItems);
+        listview.setAdapter(adapterTest);
         for (Symbol item : layout.getMenuOptions()) {
             listItems.add(item);
         }
-
-        adapter.notifyDataSetChanged();
+        adapterTest.notifyDataSetChanged();
         return (ViewGroup) loader.getLayout();
     }
 
