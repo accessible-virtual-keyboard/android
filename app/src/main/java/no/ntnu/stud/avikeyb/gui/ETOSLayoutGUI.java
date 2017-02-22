@@ -42,7 +42,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private TableRow tableRow;
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private ArrayList<Symbol> listItems = new ArrayList<>();
-    private Adapter adapterTest;
+    private Adapter adapter;
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
@@ -65,12 +65,12 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
         // todo listview is not added to the "keyboard" maybe
         ListView listview = (ListView) loader.getViewById(R.id.listview);
-        adapterTest = new Adapter(activity, listItems);
-        listview.setAdapter(adapterTest);
+        adapter = new Adapter(activity, listItems);
+        listview.setAdapter(adapter);
         for (Symbol item : layout.getMenuOptions()) {
             listItems.add(item);
         }
-        adapterTest.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
         return (ViewGroup) loader.getLayout();
     }
 
