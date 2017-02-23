@@ -12,7 +12,7 @@ import no.ntnu.stud.avikeyb.backend.Dictionary;
  * Created by Tor-Martin Holen on 21-Feb-17 (Originally 31-Jan-17).
  */
 
-public class LinearDictionary implements Dictionary{
+public class LinearDictionary implements Dictionary, InMemoryDictionary {
 
     private List<DictionaryEntry> dictionary;
     private List<DictionaryEntry> primarySuggestions;
@@ -20,23 +20,22 @@ public class LinearDictionary implements Dictionary{
     private SortingOrder preferredOrder = SortingOrder.FREQUENCY_HIGH_TO_LOW;
     private String textWritten = "";
     private Boolean dictionaryLoaded = false;
-    private DictionaryLoader dictionaryLoader;
 
     /**
      * Constructs a dictionary
      */
-    public LinearDictionary(DictionaryLoader dictionaryLoader) {
-        dictionary = new ArrayList<>();
-        this.dictionaryLoader = dictionaryLoader;
-
-        //printDictionary();
+    public LinearDictionary(List<DictionaryEntry> dictionary) {
+        this.dictionary = dictionary;
     }
 
-    public void loadDictionary(){
-        if(!dictionaryLoaded){
-            dictionary = dictionaryLoader.loadDictionary();
-            dictionaryLoaded = true;
-        }
+    public LinearDictionary() {
+        this(new ArrayList<>());
+    }
+
+
+    @Override
+    public void setDictionary(List<DictionaryEntry> dictionary) {
+        this.dictionary = dictionary;
     }
 
     public SortingOrder getPreferredOrder() {
@@ -49,8 +48,6 @@ public class LinearDictionary implements Dictionary{
 
     @Override
     public List<String> getSuggestionsStartingWith(String match) {
-
-        loadDictionary();
 
         primarySuggestions = new ArrayList<>();
         this.textWritten = match;
@@ -71,8 +68,6 @@ public class LinearDictionary implements Dictionary{
     @Override
     public void updateWordUsage(String string) {
 
-        loadDictionary();
-
         for (DictionaryEntry entry:dictionary) {
             if (entry.getWord().equals(string)) {
                 int newFrequency = entry.getFrequency() + 1 ;
@@ -80,6 +75,8 @@ public class LinearDictionary implements Dictionary{
             }
         }
     }
+
+
 
     public enum SortingOrder{
         ALPHABETICALLY_A_TO_Z,
@@ -139,8 +136,6 @@ public class LinearDictionary implements Dictionary{
      * @param textWritten Currently written text
      */
     public void findSuggestions(String textWritten){
-
-        loadDictionary();
 
         primarySuggestions = new ArrayList<>();
         secondarySuggestions = new ArrayList<>();
