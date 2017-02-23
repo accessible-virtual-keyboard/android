@@ -1,5 +1,6 @@
 package no.ntnu.stud.avikeyb;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
+import no.ntnu.stud.avikeyb.backend.Dictionary;
 import no.ntnu.stud.avikeyb.backend.InputInterface;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
@@ -15,8 +19,10 @@ import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
-import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryLoader;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
+import no.ntnu.stud.avikeyb.backend.dictionary.InMemoryDictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
+import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
@@ -29,7 +35,7 @@ import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
-import no.ntnu.stud.avikeyb.gui.core.DictionaryFileLoader;
+import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
 import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,9 +62,11 @@ public class MainActivity extends AppCompatActivity {
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
-        Suggestions suggestions = new SuggestionsAndroid(keyboard, new LinearDictionary(new DictionaryFileLoader(this, R.raw.dictionary)));
+        final Dictionary dictionary = createDictionary();
+        final LinearEliminationDictionary mobileDictionary = createMobileDictionary();
 
-
+        Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionary);
+        final ETOSLayout etosLayout= new ETOSLayout(keyboard, suggestions);
         final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard, suggestions);
 
 
@@ -67,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 1: {
-                        ETOSLayout l = new ETOSLayout(keyboard);
-                        switchLayout(l, new ETOSLayoutGUI(MainActivity.this, keyboard, l));
+
+                        switchLayout(etosLayout, new ETOSLayoutGUI(MainActivity.this, keyboard, etosLayout));
                         break;
                     }
                     case 2: {
@@ -87,8 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case 5:{
                         int layoutResource = R.layout.layout_mobile_dictionary;
-                        DictionaryFileLoader dictionaryLoader = new DictionaryFileLoader(getBaseContext(), R.raw.dictionary);
-                        MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, dictionaryLoader, layoutResource);
+                        MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary, layoutResource);
                         switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, layoutResource));
                         break;
                     }
@@ -132,38 +139,70 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupInputButtons(final InputInterface input) {
-        findViewById(R.id.buttonInput1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                input.setInputState(InputType.INPUT1, true);
-                input.setInputState(InputType.INPUT1, false);
-            }
+        findViewById(R.id.buttonInput1).setOnClickListener(view -> {
+            input.setInputState(InputType.INPUT1, true);
+            input.setInputState(InputType.INPUT1, false);
         });
-        findViewById(R.id.buttonInput2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Turn the input on and off for each click
-                input.setInputState(InputType.INPUT2, true);
-                input.setInputState(InputType.INPUT2, false);
-            }
+        findViewById(R.id.buttonInput2).setOnClickListener(view -> {
+            // Turn the input on and off for each click
+            input.setInputState(InputType.INPUT2, true);
+            input.setInputState(InputType.INPUT2, false);
         });
-        findViewById(R.id.buttonInput3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Turn the input on and off for each click
-                input.setInputState(InputType.INPUT3, true);
-                input.setInputState(InputType.INPUT3, false);
-            }
+        findViewById(R.id.buttonInput3).setOnClickListener(view -> {
+            // Turn the input on and off for each click
+            input.setInputState(InputType.INPUT3, true);
+            input.setInputState(InputType.INPUT3, false);
         });
-        findViewById(R.id.buttonInput4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                input.setInputState(InputType.INPUT4, true);
-                input.setInputState(InputType.INPUT4, false);
-            }
+        findViewById(R.id.buttonInput4).setOnClickListener(view -> {
+            input.setInputState(InputType.INPUT4, true);
+            input.setInputState(InputType.INPUT4, false);
         });
     }
 
+
+    /**
+     * Creates and loads the keyboards dictionary
+     *
+     * @return a dictionary
+     */
+    private Dictionary createDictionary() {
+        LinearDictionary dictionary = new LinearDictionary();
+
+        // Load the dictionary content in an async task. The dictionary will be empty
+        // until the task is loading task is finished
+        loadDictionaryFromFile(dictionary, R.raw.dictionary);
+        return dictionary;
+
+    }
+
+    /**
+     * Creates and loads the keyboards dictionary
+     *
+     * @return a dictionary
+     */
+    private LinearEliminationDictionary createMobileDictionary() {
+        LinearEliminationDictionary dictionary = new LinearEliminationDictionary();
+        // Load the dictionary content in an async task. The dictionary will be empty
+        // until the task is loading task is finished
+        loadDictionaryFromFile(dictionary, R.raw.dictionary);
+        return dictionary;
+
+    }
+
+    // Fill the in memory dictionary from a file
+    private void loadDictionaryFromFile(final InMemoryDictionary dictionary, final int resourceId) {
+        new AsyncTask<Void, Void, List<DictionaryEntry>>() {
+            @Override
+            protected List<DictionaryEntry> doInBackground(Void... voids) {
+                return AndroidResourceLoader.loadDictionaryFromResource(MainActivity.this, resourceId);
+            }
+
+            @Override
+            protected void onPostExecute(List<DictionaryEntry> dictionaryEntries) {
+                dictionary.setDictionary(dictionaryEntries);
+            }
+        }.execute();
+    }
 
     // Shows the keyboard output in a toast message
     private class ToastOutput implements OutputDevice {

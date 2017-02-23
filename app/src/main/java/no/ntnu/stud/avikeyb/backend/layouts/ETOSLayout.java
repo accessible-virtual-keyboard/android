@@ -1,10 +1,16 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
+import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryLoader;
+import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -33,10 +39,24 @@ public class ETOSLayout extends StepLayout {
     private State state = State.SELECT_ROW;
     private Keyboard keyboard;
 
-    public ETOSLayout(Keyboard keyboard) {
+    List<String> dictionsuggestions = new ArrayList<>();
+
+    private LinearDictionary dictionary;
+
+    public ETOSLayout(Keyboard keyboard, Suggestions suggestions) {//}, DictionaryLoader loader) {
         this.keyboard = keyboard;
 
+        suggestions.addListener(suggestions1 -> {
+            dictionsuggestions.addAll(suggestions1);
+            //notifyLayoutListeners();
+        });
     }
+
+
+    public List<String> getSugestions() {
+        return dictionsuggestions;
+    }
+
 
     /**
      * Returns the current active position in the layout

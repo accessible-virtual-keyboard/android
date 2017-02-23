@@ -5,8 +5,10 @@ import android.util.Log;
 import java.util.LinkedList;
 import java.util.List;
 
+import no.ntnu.stud.avikeyb.backend.Dictionary;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryLoader;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
 
@@ -22,9 +24,9 @@ public class MobileDictionaryLayout extends MobileLayout {
     private String[] prefixes = null;
     private boolean[] validPrefixes = null;
 
-    public MobileDictionaryLayout(Keyboard keyboard, DictionaryLoader dictionaryLoader, int layoutResource) {
+    public MobileDictionaryLayout(Keyboard keyboard, LinearEliminationDictionary dictionary, int layoutResource) {
         super(keyboard, layoutResource);
-        dictionary = new LinearEliminationDictionary(dictionaryLoader);
+        this.dictionary = dictionary;
     }
 
     @Override

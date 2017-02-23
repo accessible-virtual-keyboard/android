@@ -12,7 +12,7 @@ import no.ntnu.stud.avikeyb.backend.Dictionary;
  * Created by Tor-Martin Holen on 21-Feb-17 (Originally 31-Jan-17).
  */
 
-public class LinearDictionary implements Dictionary {
+public class LinearDictionary implements Dictionary, InMemoryDictionary {
 
     private List<DictionaryEntry> dictionary;
     private List<DictionaryEntry> primarySuggestions;
@@ -20,25 +20,24 @@ public class LinearDictionary implements Dictionary {
     private SortingOrder preferredOrder = SortingOrder.FREQUENCY_HIGH_TO_LOW;
     private String textWritten = "";
     private Boolean dictionaryLoaded = false;
-    private DictionaryLoader dictionaryLoader;
 
     /**
      * Constructs a dictionary
      */
 
-    public LinearDictionary(DictionaryLoader dictionaryLoader) {
-        dictionary = new ArrayList<>();
-        this.dictionaryLoader = dictionaryLoader;
+    public LinearDictionary(List<DictionaryEntry> dictionary) {
+        this.dictionary = dictionary;
+    }
 
-        //printDictionary();
+    public LinearDictionary() {
+        this(new ArrayList<>());
     }
 
 
-    public void loadDictionary(){
-        if(!dictionaryLoaded){
-            dictionary = dictionaryLoader.loadDictionary();
-            dictionaryLoaded = true;
-        }
+
+    @Override
+    public void setDictionary(List<DictionaryEntry> dictionary) {
+        this.dictionary = dictionary;
     }
 
     public List<DictionaryEntry> getDictionary() {
@@ -56,9 +55,14 @@ public class LinearDictionary implements Dictionary {
     @Override
     public List<String> getSuggestionsStartingWith(String match) {
 
-        loadDictionary();
-        findPrimarySuggestions(match);
-
+        primarySuggestions = new ArrayList<>();
+        this.textWritten = match;
+        for (DictionaryEntry currentEntry : dictionary) {
+            String currentWord = currentEntry.getWord();
+            if (currentWord.startsWith(match) && !currentWord.equals(match)) {
+                primarySuggestions.add(currentEntry);
+            }
+        }
         sortList(primarySuggestions, SortingOrder.FREQUENCY_HIGH_TO_LOW);
         return extractWords(primarySuggestions);
     }
@@ -73,7 +77,7 @@ public class LinearDictionary implements Dictionary {
 
     @Override
     public void updateWordUsage(String string) {
-        loadDictionary();
+
 
         for (DictionaryEntry entry:dictionary) {
             if (entry.getWord().equals(string)) {
@@ -82,6 +86,7 @@ public class LinearDictionary implements Dictionary {
             }
         }
     }
+
 
     protected enum SortingOrder {
         ALPHABETICALLY_A_TO_Z,
@@ -143,8 +148,6 @@ public class LinearDictionary implements Dictionary {
      * @param textWritten Currently written text
      */
     public void findSuggestions(String textWritten){
-
-        loadDictionary();
 
         primarySuggestions = new ArrayList<>();
         secondarySuggestions = new ArrayList<>();

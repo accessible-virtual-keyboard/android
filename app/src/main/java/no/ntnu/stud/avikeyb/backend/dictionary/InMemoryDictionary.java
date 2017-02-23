@@ -2,6 +2,8 @@ package no.ntnu.stud.avikeyb.backend.dictionary;
 
 import java.util.List;
 
+import no.ntnu.stud.avikeyb.backend.Dictionary;
+
 
 /**
  * @author Kristian Honningsvag.

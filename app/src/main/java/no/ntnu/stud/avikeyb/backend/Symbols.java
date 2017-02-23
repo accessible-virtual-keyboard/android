@@ -176,6 +176,7 @@ public class Symbols {
             Symbol.QUESTION_MARK,
             Symbol.EXCLAMATION_MARK,
             Symbol.SPACE,
+            Symbol.SWITCH, // TEST!!
     };
 
     private static Symbol[] _menuOptions ={

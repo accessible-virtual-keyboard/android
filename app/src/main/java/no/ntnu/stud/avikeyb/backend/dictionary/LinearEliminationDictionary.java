@@ -14,15 +14,14 @@ import no.ntnu.stud.avikeyb.backend.Symbol;
 public class LinearEliminationDictionary extends LinearDictionary {
 
     private List<DictionaryEntry> suggestionList;
-    private List<DictionaryEntry> reducedSuggestionList;
+
     /**
      * Constructs a dictionary
      *
-     * @param dictionaryLoader
+     *
      */
-    public LinearEliminationDictionary(DictionaryLoader dictionaryLoader) {
-        super(dictionaryLoader);
-        reducedSuggestionList = new ArrayList<>();
+    public LinearEliminationDictionary() {
+        super();
     }
 
 
@@ -33,10 +32,9 @@ public class LinearEliminationDictionary extends LinearDictionary {
 
     public void findValidSuggestions(int index, List<Symbol> prefixes) {
         if(suggestionList == null){
-            loadDictionary();
             suggestionList = getDictionary();
         }
-        reducedSuggestionList = new ArrayList<>();
+        List<DictionaryEntry> reducedSuggestionList = new ArrayList<>();
 
         for (DictionaryEntry entry: suggestionList) {
             for (int i = 0; i < prefixes.size(); i++) {

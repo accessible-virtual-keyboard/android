@@ -17,12 +17,7 @@ public abstract class LayoutGUI {
         this.keyboard = keyboard;
 
         // Update the gui when the layout state changes
-        layout.addLayoutListener(new Layout.LayoutListener() {
-            @Override
-            public void onLayoutChanged() {
-                updateGUI();
-            }
-        });
+        layout.addLayoutListener(() -> updateGUI());
     }
 
     protected Keyboard getKeyboard() {

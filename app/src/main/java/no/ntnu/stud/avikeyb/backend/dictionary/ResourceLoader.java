@@ -38,19 +38,35 @@ public class ResourceLoader {
 
         ArrayList<DictionaryEntry> dictionary = new ArrayList<>();
         BufferedReader bufferedReader = null;
+        String line;
+        String[] parts;
+        int frequency = 0;
 
         try {
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-            String line;
             // Read each line and add them to the dictionary.
             while ((line = bufferedReader.readLine()) != null) {
-                dictionary.add(new DictionaryEntry(line.toLowerCase(), 0));
+                parts = line.split(" ");  // Split at whitespace to check if line contains usage frequency.
+
+                if (parts.length == 1) {  // Assume that it is a single word on each line.
+                    dictionary.add(new DictionaryEntry(line.toLowerCase(), 0));  // Set all frequencies to zero since there is no data.
+                } else if (parts.length == 2) {  // Assume that each line has a word followed by the usage frequency.
+                    try {
+                        frequency = Integer.parseInt(parts[1]);
+                    } catch (NumberFormatException ex) {
+                        System.err.println("Incorrect dictionary format detected. Second element on line is not an integer.");
+                        ex.printStackTrace();
+                    }
+                    dictionary.add(new DictionaryEntry(parts[0], frequency));
+                } else {
+                    System.err.println("Incorrect dictionary format detected. More than 2 elements on a line.");
+                }
             }
             bufferedReader.close();
 
         } catch (Exception ex) {
-            System.err.println("Failed when attempting to read from input stream");
+            System.err.println("Failed when attempting to read from input stream.");
             ex.printStackTrace();
         }
         return dictionary;
