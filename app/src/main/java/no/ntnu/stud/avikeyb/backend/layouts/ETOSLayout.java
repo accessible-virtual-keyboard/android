@@ -5,6 +5,8 @@ import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryLoader;
+import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -33,10 +35,14 @@ public class ETOSLayout extends StepLayout {
     private State state = State.SELECT_ROW;
     private Keyboard keyboard;
 
-    public ETOSLayout(Keyboard keyboard) {
-        this.keyboard = keyboard;
+    private LinearDictionary dictionary;
 
+    public ETOSLayout(Keyboard keyboard){//}, DictionaryLoader loader) {
+        this.keyboard = keyboard;
+       // dictionary = new LinearDictionary(loader);
     }
+
+
 
     /**
      * Returns the current active position in the layout

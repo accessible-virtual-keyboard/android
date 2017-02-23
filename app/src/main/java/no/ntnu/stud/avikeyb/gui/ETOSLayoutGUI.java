@@ -3,30 +3,22 @@ package no.ntnu.stud.avikeyb.gui;
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.view.ActionMode;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
-import no.ntnu.stud.avikeyb.gui.utils.Adapter;
+import no.ntnu.stud.avikeyb.gui.utils.MenuAdapter;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 
 /**
@@ -42,7 +34,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private TableRow tableRow;
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private ArrayList<Symbol> listItems = new ArrayList<>();
-    private Adapter adapter;
+    private MenuAdapter menuAdapter;
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
@@ -64,18 +56,17 @@ public class ETOSLayoutGUI extends LayoutGUI {
         }
 
         ListView listview = (ListView) loader.getViewById(R.id.listview);
-        adapter = new Adapter(activity, listItems,layout);
-        listview.setAdapter(adapter);
+        menuAdapter = new MenuAdapter(activity, listItems,layout);
+        listview.setAdapter(menuAdapter);
 
         for (Symbol item : layout.getMenuOptions()) {
             listItems.add(item);
-           // System.out.println("Items in listItems" + item);
         }
-        adapter.notifyDataSetChanged();
+
+        menuAdapter.notifyDataSetChanged();
         return (ViewGroup) loader.getLayout();
     }
 
-    // todo make listview options purple
     public void updateGUI() {
 
         // Highlight the selected symbol
@@ -93,7 +84,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
             }
             index++;
         }
-        adapter.notifyDataSetChanged();
+        menuAdapter.notifyDataSetChanged();
     }
 
 

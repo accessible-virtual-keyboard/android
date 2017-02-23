@@ -39,6 +39,8 @@ import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
+    DictionaryFileLoader dictionaryLoader = new DictionaryFileLoader(getBaseContext(), R.raw.dictionary);
+    LinearDictionary linearDictionary = new LinearDictionary(dictionaryLoader);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 1: {
-                        ETOSLayout l = new ETOSLayout(keyboard);
+                        DictionaryFileLoader dictionaryLoader = new DictionaryFileLoader(getBaseContext(), R.raw.dictionary);
+                        ETOSLayout l = new ETOSLayout(keyboard);//, dictionaryLoader);
                         switchLayout(l, new ETOSLayoutGUI(MainActivity.this, keyboard, l));
                         break;
                     }
@@ -112,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onOutputBufferChange(String oldBuffer, String newBuffer) {
                 ((TextView) MainActivity.this.findViewById(R.id.currentBuffer)).setText(newBuffer);
+                //  linearDictionary.findSuggestions(newBuffer);
             }
         });
 
