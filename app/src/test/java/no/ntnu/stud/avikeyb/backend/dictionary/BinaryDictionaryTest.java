@@ -22,7 +22,7 @@ public class BinaryDictionaryTest {
 
     @Before
     public void setUp() {
-        binaryDictionary = new BinaryDictionary(ResourceLoader.loadDictionaryFromFile("./src/main/res/raw/word.list"));  // Working directory for test is: /AccessibleVirtualKeyboard/AViKEYB/app
+        binaryDictionary = new BinaryDictionary(new DictionaryFileLoader("./src/main/res/raw/word.list").loadDictionary());  // Working directory for test is: /AccessibleVirtualKeyboard/AViKEYB/app
     }
 
     /**
@@ -66,7 +66,6 @@ public class BinaryDictionaryTest {
 
         expectedOutputs = Arrays.asList("sarment", "sarmenta", "sarmentaceous", "sarmentose", "sarmentous", "sarments", "sarmentum");
         assertEquals(expectedOutputs, binaryDictionary.prefixSearch("sarmen"));
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("sarment"));
     }
 
 
