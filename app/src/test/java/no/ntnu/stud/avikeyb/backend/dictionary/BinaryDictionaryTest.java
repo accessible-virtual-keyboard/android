@@ -22,6 +22,7 @@ public class BinaryDictionaryTest {
 
     @Before
     public void setUp() {
+//        System.out.println(getClass().getClassLoader().getResourceAsStream("raw/word.list"));
         binaryDictionary = new BinaryDictionary(new DictionaryFileLoader("./src/main/res/raw/word.list").loadDictionary());  // Working directory for test is: /AccessibleVirtualKeyboard/AViKEYB/app
     }
 

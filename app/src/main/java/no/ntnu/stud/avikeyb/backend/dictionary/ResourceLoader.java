@@ -1,6 +1,8 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,29 +23,8 @@ public class ResourceLoader {
      * @param filePath File path of the file containing the dictionary.
      * @return The contents of the file as an array of strings.
      */
-    public static List<DictionaryEntry> loadDictionaryFromFile(String filePath) {
-
-        ArrayList<DictionaryEntry> dictionary = new ArrayList<DictionaryEntry>();
-//        StringBuilder stringBuilder = new StringBuilder();
-        BufferedReader bufferedReader = null;
-
-        try {
-            bufferedReader = new BufferedReader(new FileReader(filePath));
-
-            String line;
-            // Read each line from the file and add them to the dictionary.
-            while ((line = bufferedReader.readLine()) != null) {
-                dictionary.add(new DictionaryEntry(line.toLowerCase(), 0));
-//                stringBuilder.append(line).append("\n");  // Also manually adding newline.
-            }
-            bufferedReader.close();
-
-        } catch (Exception ex) {
-            System.err.println("Failed when attempting to read from " + filePath);
-            ex.printStackTrace();
-//            System.exit(1);
-        }
-        return dictionary;
+    public static List<DictionaryEntry> loadDictionaryFromFile(String filePath) throws FileNotFoundException {
+        return loadDictionaryFromStream(new FileInputStream(filePath));
     }
 
     /**

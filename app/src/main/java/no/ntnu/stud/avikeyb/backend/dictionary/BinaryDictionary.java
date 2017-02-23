@@ -10,10 +10,17 @@ import no.ntnu.stud.avikeyb.backend.Dictionary;
  *
  * @author Kristian Honningsvag.
  */
-public class BinaryDictionary implements Dictionary {
+public class BinaryDictionary implements Dictionary, InMemoryDictionary {
 
     private List<DictionaryEntry> dictionaryEntries;
 
+
+    /**
+     * Constructs a dictionary with no entries.
+     */
+    public BinaryDictionary() {
+        this(new ArrayList<DictionaryEntry>());
+    }
 
     /**
      * Constructs the dictionary.
@@ -128,6 +135,11 @@ public class BinaryDictionary implements Dictionary {
 
     @Override
     public void updateWordUsage(String string) {
+        // TODO: Implement this.
     }
 
+    @Override
+    public void setDictionary(List<DictionaryEntry> dictionary) {
+        this.dictionaryEntries = dictionary;
+    }
 }

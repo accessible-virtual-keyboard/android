@@ -1,5 +1,7 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +24,14 @@ public class DictionaryFileLoader implements DictionaryLoader {
 
     @Override
     public List<DictionaryEntry> loadDictionary() {
-        return ResourceLoader.loadDictionaryFromFile(filePath);
+        List<DictionaryEntry> dictionary = new ArrayList<>();
+        try {
+            dictionary = ResourceLoader.loadDictionaryFromFile(filePath);
+        } catch (FileNotFoundException e) {
+            System.err.println("Failed loading dictionary from file " + filePath);
+            e.printStackTrace();
+        }
+        return dictionary;
     }
 
 }
