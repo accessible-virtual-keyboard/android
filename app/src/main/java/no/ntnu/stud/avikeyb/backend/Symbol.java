@@ -54,7 +54,7 @@ public enum Symbol {
     SEND("Send"),
 
     // Testing for menu options.
-    PROFILE("profile"),
+    PROFILE("Profile"),
     DICTIONARY("Dictionary"),
     OPTION1("Option 1"),
     OPTION2("Option 2"),

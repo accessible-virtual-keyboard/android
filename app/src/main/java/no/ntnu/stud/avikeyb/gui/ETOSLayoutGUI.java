@@ -63,18 +63,19 @@ public class ETOSLayoutGUI extends LayoutGUI {
             }
         }
 
-        // todo listview is not added to the "keyboard" maybe
         ListView listview = (ListView) loader.getViewById(R.id.listview);
-        adapter = new Adapter(activity, listItems);
+        adapter = new Adapter(activity, listItems,layout);
         listview.setAdapter(adapter);
+
         for (Symbol item : layout.getMenuOptions()) {
             listItems.add(item);
+           // System.out.println("Items in listItems" + item);
         }
         adapter.notifyDataSetChanged();
         return (ViewGroup) loader.getLayout();
     }
 
-
+    // todo make listview options purple
     public void updateGUI() {
 
         // Highlight the selected symbol
@@ -92,6 +93,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
             }
             index++;
         }
+        adapter.notifyDataSetChanged();
     }
 
 
