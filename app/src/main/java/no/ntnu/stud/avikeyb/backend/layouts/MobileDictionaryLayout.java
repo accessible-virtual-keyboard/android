@@ -50,6 +50,7 @@ public class MobileDictionaryLayout extends MobileLayout {
                         state = State.SELECT_ROW;
 
                         System.out.println("--------------------------------------");
+                        //TODO convert markedSymbols to List<String>
                         dictionary.findValidSuggestions(searchStart, markedSymbols);
                         dictionary.printListWithNSuggestions(10);
                         searchStart++;

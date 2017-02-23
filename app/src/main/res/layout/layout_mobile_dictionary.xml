@@ -241,7 +241,7 @@
             <Button
                 android:id="@+id/sym_x"
                 style="?attr/buttonBarButtonStyle"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
@@ -249,14 +249,14 @@
             <Button
                 android:id="@+id/sym_j"
                 style="?attr/buttonBarButtonStyle"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
             <Button
                 android:id="@+id/sym_q"
                 style="?attr/buttonBarButtonStyle"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
@@ -264,7 +264,7 @@
             <Button
                 android:id="@+id/sym_z"
                 style="?attr/buttonBarButtonStyle"
-                android:layout_width="50dp"
+                android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
@@ -294,7 +294,7 @@
             android:weightSum="1">
 
             <Button
-                android:id="@+id/sym_comma"
+                android:id="@+id/sym_dictionary"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
@@ -307,7 +307,7 @@
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
-            android:weightSum="1">
+            android:weightSum="4">
 
             <Button
                 android:id="@+id/sym_period"
@@ -317,6 +317,30 @@
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
+            <Button
+                android:id="@+id/sym_comma"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@color/mobileLayoutButtonBackground" />
+
+            <Button
+                android:id="@+id/sym_question_mark"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@color/mobileLayoutButtonBackground" />
+
+            <Button
+                android:id="@+id/sym_exclamation_mark"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@color/mobileLayoutButtonBackground" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -325,7 +349,7 @@
             android:weightSum="1">
 
             <Button
-                android:id="@+id/sym_question_mark"
+                android:id="@+id/sym_backspace"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="50dp"

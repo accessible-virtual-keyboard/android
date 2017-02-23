@@ -47,6 +47,7 @@ public class LinearEliminationDictionary extends LinearDictionary {
                     break;
                 }
             }
+            //TODO List.contains implementation
         }
         suggestionList = reducedSuggestionList;
         System.out.println("Suggestions: " + suggestionList.size());

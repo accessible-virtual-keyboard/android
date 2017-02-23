@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 5:{
-                        int layoutResource = R.layout.layout_mobile;
+                        int layoutResource = R.layout.layout_mobile_dictionary;
                         DictionaryFileLoader dictionaryLoader = new DictionaryFileLoader(getBaseContext(), R.raw.dictionary);
                         MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, dictionaryLoader, layoutResource);
                         switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, layoutResource));
