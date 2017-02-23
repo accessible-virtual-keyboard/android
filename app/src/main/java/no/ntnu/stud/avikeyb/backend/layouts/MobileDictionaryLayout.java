@@ -7,9 +7,8 @@ import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
-import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryLoader;
-import no.ntnu.stud.avikeyb.backend.dictionary.LinearRadixDictionary;
+import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
 
 /**
  * Created by Tor-Martin Holen on 21-Feb-17.
@@ -17,12 +16,15 @@ import no.ntnu.stud.avikeyb.backend.dictionary.LinearRadixDictionary;
 
 public class MobileDictionaryLayout extends MobileLayout {
 
-    private Node root = new Node("");
-    private LinearRadixDictionary dictionary;
+    //private Node root = new Node("");
+    private LinearEliminationDictionary dictionary;
+    private int searchStart = 0;
+    private String[] prefixes = null;
+    private boolean[] validPrefixes = null;
 
     public MobileDictionaryLayout(Keyboard keyboard, DictionaryLoader dictionaryLoader, int layoutResource) {
         super(keyboard, layoutResource);
-        dictionary = new LinearRadixDictionary(dictionaryLoader);
+        dictionary = new LinearEliminationDictionary(dictionaryLoader);
     }
 
     @Override
@@ -46,10 +48,12 @@ public class MobileDictionaryLayout extends MobileLayout {
                         break;
                     case INPUT2:
                         state = State.SELECT_ROW;
-                        dictionary.resetRadixSuggestions();
-                        addRadixTreeBranch(root);
+
                         System.out.println("--------------------------------------");
-                        dictionary.printList(dictionary.getSortedRadixSuggestions());
+                        dictionary.findValidSuggestions(searchStart, markedSymbols);
+                        dictionary.printListWithNSuggestions(10);
+                        searchStart++;
+
                         reset();
                         break;
                 }
@@ -58,59 +62,64 @@ public class MobileDictionaryLayout extends MobileLayout {
         notifyLayoutListeners();
     }
 
-    @Override
+/*    @Override
     protected void selectCurrentSymbols(Keyboard keyboard) {
 
     }
 
-    private void addRadixTreeBranch(Node parentNode){
-        for (Node node:parentNode.getChildren()){
-            if(!node.isTerminated() && node.hasChildren()){
-                addRadixTreeBranch(node);
+    private void addNodeTreeBranch(Node parentNode) {
+
+        updatePrefixes(parentNode);
+
+        for (Node node : parentNode.getChildren()) {
+            if(!node.isTerminated()){
+                if (node.hasChildren()) {
+                    addNodeTreeBranch(node);
+                } else {
+                    addNodeTreeChildNodes(node, prefixes, validPrefixes);
+                }
             }
-            else{
-                addRadixTreeChildNodes(node);
-            }
+
         }
-        if(!root.hasChildren()){
-            addRadixTreeChildNodes(root);
+        if (!root.hasChildren()) {
+            addNodeTreeChildNodes(root, prefixes, validPrefixes);
         }
     }
 
-    private void addRadixTreeChildNodes(Node parent){
-        for (Symbol symbol : markedSymbols) {
-            String radix = parent.getRadix() + symbol.getContent();
-            dictionary.findSuggestionsWithRadix(radix);
-            if(radixExists()){
-                Log.d("mobDicLayout", "Radix: \"" + radix + "\"" + " Symbol: " + "\"" + symbol.getContent() + "\"");
-                Node child = new Node(radix);
-                parent.addChild(child);
-                dictionary.getRadixSuggestions();
+    private void addNodeTreeChildNodes(Node parentNode, String[] prefixes, boolean[] validPrefixes) {
+        for (int i = 0; i < prefixes.length; i++) {
+            String prefix = parentNode.getPrefix() + prefixes[i];
+            if (validPrefixes[i]) {
+                Log.d("mobDicLayout", "Prefix: \"" + prefix + "\"");
+                Node child = new Node(prefix);
+                parentNode.addChild(child);
             }
         }
-        if(!parent.hasChildren()){
-            parent.terminate();
+        if (!parentNode.hasChildren()) {
+            parentNode.terminate();
         }
     }
 
-    private boolean radixExists() {
-        if(dictionary.getLastAddendums().isEmpty()){
-            return false;
-        }else{
-            return true;
+    private void updatePrefixes(Node parentNode){
+        if(!parentNode.hasChildren()){
+            *//*prefixes = new String[markedSymbols.size()];
+            for (int i = 0; i < markedSymbols.size(); i++) {
+                prefixes[i] = markedSymbols.get(i).getContent();
+            }*//*
+            //validPrefixes = dictionary.findValidSuggestions(searchStart, markedSymbols);
         }
     }
 
     private class Node {
-        String radix;
+        String prefix;
         List<Node> children = new LinkedList<>();
 
-        public Node(String radix) {
-            this.radix = radix;
+        public Node(String prefix) {
+            this.prefix = prefix;
         }
 
         public void addChild(Node node) {
-            if(!isTerminated()){
+            if (!isTerminated()) {
                 children.add(node);
             }
 
@@ -120,28 +129,28 @@ public class MobileDictionaryLayout extends MobileLayout {
             return children;
         }
 
-        public String getRadix() {
-            return radix;
+        public String getPrefix() {
+            return prefix;
         }
 
-        public boolean hasChildren(){
-            if(children != null && children.isEmpty()){
+        public boolean hasChildren() {
+            if (children != null && children.isEmpty()) {
                 return false;
-            }else {
+            } else {
                 return true;
             }
         }
 
-        public void terminate(){
+        public void terminate() {
             children = null;
         }
 
-        public boolean isTerminated(){
-            if(children == null){
+        public boolean isTerminated() {
+            if (children == null) {
                 return true;
-            } else{
+            } else {
                 return false;
             }
         }
-    }
+    }*/
 }

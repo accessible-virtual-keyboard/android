@@ -42,6 +42,10 @@ public class LinearDictionary implements Dictionary {
         }
     }
 
+    public List<DictionaryEntry> getDictionary() {
+        return dictionary;
+    }
+
     public SortingOrder getPreferredOrder() {
         return preferredOrder;
     }
@@ -162,6 +166,18 @@ public class LinearDictionary implements Dictionary {
         this.textWritten = textWritten;
 
         for (DictionaryEntry currentEntry : dictionary) {
+            String currentWord = currentEntry.getWord();
+            if (currentWord.startsWith(textWritten)) {
+                primarySuggestions.add(currentEntry);
+            }
+        }
+    }
+
+    public void findPrimarySuggestions(List<DictionaryEntry> listToSearch, String textWritten) {
+        primarySuggestions = new ArrayList<>();
+        this.textWritten = textWritten;
+
+        for (DictionaryEntry currentEntry : listToSearch) {
             String currentWord = currentEntry.getWord();
             if (currentWord.startsWith(textWritten)) {
                 primarySuggestions.add(currentEntry);

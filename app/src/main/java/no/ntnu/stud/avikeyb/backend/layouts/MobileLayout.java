@@ -102,12 +102,7 @@ public class MobileLayout extends StepLayout {
         for (int i = lowerBound; i < upperBound; i++) {
             addMarkedSymbol(i);
         }
-        Log.d("MobLayout", "Position: " + location[0] + ", " + location[1] + ", " + location[2]);
-        String markedSymbolsText = "";
-        for (Symbol s:markedSymbols) {
-            markedSymbolsText += s.getContent() + " ";
-        }
-        Log.d("MobLayout", markedSymbolsText);
+        //logLocation();
     }
 
     /**
@@ -127,15 +122,9 @@ public class MobileLayout extends StepLayout {
         int upperBound = lowerBound + 3;
         for (int i = lowerBound; i < upperBound; i++) {
             addMarkedSymbol(i);
-
         }
 
-        Log.d("MobLayout", "Position: " + location[0] + ", " + location[1] + ", " + location[2]);
-        String markedSymbolsText = "";
-        for (Symbol s:markedSymbols) {
-            markedSymbolsText += s.getContent() + " ";
-        }
-        Log.d("MobLayout", markedSymbolsText);
+        //logLocation();
     }
 
 
@@ -154,7 +143,7 @@ public class MobileLayout extends StepLayout {
         markedSymbols = new ArrayList<>();
         int index = location[0] * 9 + location[1] * 3 + location[2];
         addMarkedSymbol(index);
-        //Log.d("MobLayout", "Position: " + location[0] + ", " + location[1] + ", " + location[2]);
+        //logLocation();
     }
 
     public ArrayList<Symbol> getMarkedSymbols() {
@@ -190,5 +179,14 @@ public class MobileLayout extends StepLayout {
 
     public Symbol[] getSymbols() {
         return symbols;
+    }
+
+    private void logLocation(){
+        Log.d("MobLayout", "Position: " + location[0] + ", " + location[1] + ", " + location[2]);
+        String markedSymbolsText = "";
+        for (Symbol s:markedSymbols) {
+            markedSymbolsText += s.getContent() + " ";
+        }
+        Log.d("MobLayout", markedSymbolsText);
     }
 }
