@@ -1,7 +1,6 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
@@ -18,26 +17,22 @@ public class BinarySearchLayout extends StepLayout {
 
     private static Symbol[] symbols = Symbols.merge(
             Symbols.alphabet(),
+            Symbols.build(Symbol.SPACE, Symbol.SEND),
             Symbols.numbers(),
-            Symbols.commonPunctuations(),
-            Symbols.build(Symbol.SEND));
+            Symbols.commonPunctuations());
 
-    // The current items list
-    private List<Object> currentItems;
-    // The items on the left side
-    private List<Object> currentLeft;
-    // The items on the right side
-    private List<Object> currentRight;
 
-    private List<String> suggestions = new ArrayList<>();
     private Keyboard keyboard;
     private Suggestions suggestionsEngine;
+    private List<String> suggestions = new ArrayList<>();
+
+    private BinarySearchTreeDefinition.Node currentNode;
 
     public BinarySearchLayout(Keyboard keyboard, Suggestions suggestionsEngine) {
         this.keyboard = keyboard;
         this.suggestionsEngine = suggestionsEngine;
-        listenForSuggestions();
         reset();
+        listenForSuggestions();
     }
 
     /**
@@ -56,7 +51,7 @@ public class BinarySearchLayout extends StepLayout {
      * @return true if the symbol is active
      */
     public boolean symbolIsActive(Symbol symbol) {
-        return currentItems.contains(symbol);
+        return currentNode.contains(symbol);
     }
 
     /**
@@ -66,7 +61,7 @@ public class BinarySearchLayout extends StepLayout {
      * @return true if the symbol is active
      */
     public boolean symbolIsActiveLeft(Symbol symbol) {
-        return currentLeft.contains(symbol);
+        return currentNode.getLeft().contains(symbol);
     }
 
     /**
@@ -76,7 +71,7 @@ public class BinarySearchLayout extends StepLayout {
      * @return true if the symbol is active
      */
     public boolean symbolIsActiveRight(Symbol symbol) {
-        return currentRight.contains(symbol);
+        return currentNode.getRight().contains(symbol);
     }
 
 
@@ -87,7 +82,7 @@ public class BinarySearchLayout extends StepLayout {
      * @return true if the suggestion is in the left bucket
      */
     public boolean suggestionIsLeft(String suggestion) {
-        return currentLeft.contains(suggestion);
+        return currentNode.getLeft().contains(suggestion);
     }
 
     /**
@@ -97,7 +92,7 @@ public class BinarySearchLayout extends StepLayout {
      * @return true if the suggestion is in the right bucket
      */
     public boolean suggestionIsRight(String suggestion) {
-        return currentRight.contains(suggestion);
+        return currentNode.getRight().contains(suggestion);
     }
 
     /**
@@ -107,7 +102,7 @@ public class BinarySearchLayout extends StepLayout {
      * @return true if the suggestion is currently selectable
      */
     public boolean suggestionIsActive(String suggestion) {
-        return currentItems.contains(suggestion);
+        return currentNode.contains(suggestion);
     }
 
 
@@ -130,7 +125,6 @@ public class BinarySearchLayout extends StepLayout {
         } else if (input == InputType.INPUT2) {
             selectRight();
         }
-        splitCurrent();
 
         // Check if we have reached a final selection
         checkCompleted();
@@ -139,28 +133,25 @@ public class BinarySearchLayout extends StepLayout {
     }
 
     private void checkCompleted() {
-        // If one of the sides are empty the other one will contain the selected symbol
-        if (currentLeft.isEmpty()) {
-            selectCurrent(currentRight);
-            reset();
-        } else if (currentRight.isEmpty()) {
-            selectCurrent(currentLeft);
+        // If the current node is a single node we have reached the end of the selection process
+        // so we select the current item
+        if (currentNode.isSingle()) {
+            selectCurrent();
             reset();
         }
     }
 
-    // Get the current item from the list and send it to the keyboard
-    private void selectCurrent(List<Object> list) {
-        Object item = list.get(0);
+    // Get the current item and send it to the keyboard
+    private void selectCurrent() {
+        Object item = currentNode.getItem();
         if (item instanceof Symbol) {
-            selectSymbol((Symbol) item);
+            selectSymbol((Symbol)item);
         } else if (item instanceof String) {
             selectSuggestion((String) item);
         }
     }
 
 
-    // Send symbol value to keybaord
     private void selectSymbol(Symbol symbol) {
         if (symbol == Symbol.SEND) {
             keyboard.sendCurrentBuffer();
@@ -170,43 +161,34 @@ public class BinarySearchLayout extends StepLayout {
     }
 
     private void selectSuggestion(String suggestion) {
-        // Remove the characters that has already been written
+        // Remove the characters that has already been written and add a space to the word before
+        // adding it to the keyboard output buffer
         String sug = suggestion.substring(keyboard.getCurrentWord().length());
         keyboard.addToCurrentBuffer(sug + Symbol.SPACE.getContent());
     }
 
     private void selectLeft() {
-        currentItems = currentLeft;
+        currentNode = currentNode.getLeft();
     }
 
     private void selectRight() {
-        currentItems = currentRight;
+        currentNode = currentNode.getRight();
     }
 
-    // Split the current items bucket into a left and a right bucket
-    private void splitCurrent() {
-        int middle = currentItems.size() / 2;
-        currentLeft = currentItems.subList(0, middle);
-        currentRight = currentItems.subList(middle, currentItems.size());
-    }
-
+    // Rebuild the selection tree so that the user can start typing something new
     private void reset() {
-        currentItems = new ArrayList<>(Arrays.asList(symbols));
-        splitCurrent();
+        currentNode = BinarySearchTreeDefinition.buildBinarySearchLayoutTree(suggestions);
     }
 
     // Listen for suggestions and add new suggestions to the layout
     private void listenForSuggestions() {
 
         suggestionsEngine.addListener(suggestions1 -> {
-
-            // Take only the 5 first suggestions. A new list is needed to copy the items because
+            // Take only the 7 first suggestions. A new list is needed to copy the items because
             // the sub list will keep a reference to the underlying list an keep it from
             // getting garbage collected.
-            suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(5, suggestions1.size())));
-
-            currentItems.addAll(suggestions);
-            splitCurrent();
+            suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(7, suggestions1.size())));
+            reset();
             notifyLayoutListeners();
         });
 

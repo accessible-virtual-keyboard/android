@@ -54,7 +54,11 @@
         <TableRow >
             <TextView android:id="@+id/sym_y" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="y"/>
             <TextView android:id="@+id/sym_z" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="z"/>
+            <TextView android:id="@+id/sym_space" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="_"/>
+            <TextView android:id="@+id/sym_send" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="\>"/>
         </TableRow>
+
+
 
     </TableLayout>
 
@@ -70,29 +74,23 @@
             <TextView android:id="@+id/sym_num_0" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="0"/>
             <TextView android:id="@+id/sym_num_1" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="1"/>
             <TextView android:id="@+id/sym_num_2" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="2"/>
+            <TextView android:id="@+id/sym_num_3" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="3"/>
         </TableRow>
         <TableRow>
-            <TextView android:id="@+id/sym_num_3" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="3"/>
             <TextView android:id="@+id/sym_num_4" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="4"/>
             <TextView android:id="@+id/sym_num_5" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="5"/>
-        </TableRow>
-        <TableRow>
             <TextView android:id="@+id/sym_num_6" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="6"/>
             <TextView android:id="@+id/sym_num_7" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="7"/>
+        </TableRow>
+        <TableRow>
             <TextView android:id="@+id/sym_num_8" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="8"/>
-        </TableRow>
-        <TableRow>
             <TextView android:id="@+id/sym_num_9" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="9"/>
-            <TextView android:id="@+id/sym_period" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="."/>
-            <TextView android:id="@+id/sym_comma" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text=","/>
-        </TableRow>
-        <TableRow>
             <TextView android:id="@+id/sym_question_mark" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="\?"/>
             <TextView android:id="@+id/sym_exclamation_mark" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="!"/>
-            <TextView android:id="@+id/sym_space" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="_"/>
         </TableRow>
         <TableRow>
-            <TextView android:layout_span="3" android:id="@+id/sym_send" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="Send"/>
+            <TextView android:id="@+id/sym_period" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text="."/>
+            <TextView android:id="@+id/sym_comma" android:layout_margin="@dimen/binsearch_cell_margin" android:gravity="center" android:padding="@dimen/binsearch_cell_padding" android:minWidth="@dimen/binsearch_min_width" android:text=","/>
         </TableRow>
     </TableLayout>
 
