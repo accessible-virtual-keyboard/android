@@ -1,6 +1,8 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.Dictionary;
@@ -34,7 +36,8 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
 
     /**
      * Performs a prefix search on the dictionary, returning a list of all words that begin with the
-     * prefix.
+     * prefix. The returned list is sorted by the words frequency of occurrence.
+     * <p>
      * This method expects the dictionary to be in an alphabetical ordering.
      *
      * @param prefix The prefix.
@@ -48,6 +51,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
         }
 
         ArrayList<String> matchingWords = new ArrayList<>();
+        ArrayList<DictionaryEntry> matchingDictionaryEntries = new ArrayList<>();
         String currentWord = null;
         boolean doneSearching = false;
         boolean allFound = false;
@@ -98,7 +102,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
         while (!allFound) {
             if (currentWord.startsWith(prefix)) {
                 if (!currentWord.equalsIgnoreCase(prefix)) {  // Don't add the word if it is identical to the prefix.
-                    matchingWords.add(currentWord);
+                    matchingDictionaryEntries.add(dictionaryEntries.get(searchLocation));
                 }
                 searchLocation += 1;
                 if (searchLocation < dictionaryEntries.size()) {
@@ -111,6 +115,19 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
                 // There are now more matches.
                 allFound = true;
             }
+        }
+
+        // Sort list by the words frequency of occurrence.
+        Collections.sort(matchingDictionaryEntries, new Comparator<DictionaryEntry>() {
+            @Override
+            public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                return o2.getFrequency() - o1.getFrequency();
+            }
+        });
+
+        // Get only the words.
+        for (DictionaryEntry dictionaryEntry : matchingDictionaryEntries) {
+            matchingWords.add(dictionaryEntry.getWord());
         }
         return matchingWords;
     }
@@ -135,7 +152,11 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
 
     @Override
     public void updateWordUsage(String string) {
-        // TODO: Implement this.
+        for (DictionaryEntry dictionaryEntry : dictionaryEntries) {
+            if (dictionaryEntry.getWord().equals(string)) {
+                dictionaryEntry.setFrequency(dictionaryEntry.getFrequency() + 1);
+            }
+        }
     }
 
     @Override

@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -17,8 +19,8 @@ import java.util.List;
 public class ResourceLoader {
 
     /**
-     * Loads a dictionary from a text file. And returns it's contents as an array of strings.
-     * Loader expects a single word per line.
+     * Loads a dictionary from a text file, and returns it's contents as an array of dictionary entries.
+     * The returned list is in alphabetically ordering.
      *
      * @param filePath File path of the file containing the dictionary.
      * @return The contents of the file as an array of strings.
@@ -28,8 +30,8 @@ public class ResourceLoader {
     }
 
     /**
-     * Loads a dictionary from an input stream, and returns it's contents as an array of dictionary
-     * entries.
+     * Loads a dictionary from an input stream, and returns it's contents as an array of dictionary entries.
+     * The returned list is in alphabetically ordering.
      *
      * @param inputStream The input stream containing the dictionary.
      * @return The contents of the stream as an array dictionary entries.
@@ -69,6 +71,14 @@ public class ResourceLoader {
             System.err.println("Failed when attempting to read from input stream.");
             ex.printStackTrace();
         }
+
+        // Sort the dictionary alphabetically.
+        Collections.sort(dictionary, new Comparator<DictionaryEntry>() {
+            @Override
+            public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                return o1.getWord().compareToIgnoreCase(o2.getWord());
+            }
+        });
         return dictionary;
     }
 

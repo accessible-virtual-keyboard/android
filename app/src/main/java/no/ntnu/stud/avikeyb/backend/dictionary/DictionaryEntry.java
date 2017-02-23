@@ -4,7 +4,7 @@ package no.ntnu.stud.avikeyb.backend.dictionary;
  * Help class used for Dictionary class.
  * Created by Tor-Martin Holen on 01-Feb-17 (Originally 21-Feb-17).
  */
-public class DictionaryEntry{
+public class DictionaryEntry {
     private String word;
     private int frequency;
 
@@ -23,5 +23,10 @@ public class DictionaryEntry{
 
     public void setFrequency(int frequency) {
         this.frequency = frequency;
+    }
+
+    @Override
+    public String toString() {
+        return "DictionaryEntry{word='" + word + "', frequency=" + frequency + "}";
     }
 }

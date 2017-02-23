@@ -17,13 +17,19 @@ import static org.junit.Assert.*;
 
 public class BinaryDictionaryTest {
 
-    private BinaryDictionary binaryDictionary;
+    private BinaryDictionary binaryDictionaryNoFrequency;
+    private BinaryDictionary binaryDictionaryWithFrequency;
     List<String> expectedOutputs;
 
+    /**
+     * Working directory for tests are: /AccessibleVirtualKeyboard/AViKEYB/app
+     */
     @Before
     public void setUp() {
+
 //        System.out.println(getClass().getClassLoader().getResourceAsStream("raw/word.list"));
-        binaryDictionary = new BinaryDictionary(new DictionaryFileLoader("./src/main/res/raw/word.list").loadDictionary());  // Working directory for test is: /AccessibleVirtualKeyboard/AViKEYB/app
+        binaryDictionaryNoFrequency = new BinaryDictionary(new DictionaryFileLoader("./src/main/res/raw/word.list").loadDictionary());
+        binaryDictionaryWithFrequency = new BinaryDictionary(new DictionaryFileLoader("./src/main/res/raw/dictionary.txt").loadDictionary());
     }
 
     /**
@@ -32,10 +38,10 @@ public class BinaryDictionaryTest {
     @Test
     public void testInvalidInput() {
         expectedOutputs = Arrays.asList();
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch(""));
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("1239461598247264023421552"));
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("./!@#$%^&*("));
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch(null));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch(""));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("1239461598247264023421552"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("./!@#$%^&*("));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch(null));
     }
 
     /**
@@ -44,13 +50,13 @@ public class BinaryDictionaryTest {
     @Test
     public void testSingleResults() {
         expectedOutputs = Arrays.asList("enormousnesses");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("enormousness"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("enormousness"));
 
         expectedOutputs = Arrays.asList("brattishnesses");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("brattishness"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("brattishness"));
 
         expectedOutputs = Arrays.asList("patrializations");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("patrialization"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("patrialization"));
     }
 
 
@@ -60,13 +66,13 @@ public class BinaryDictionaryTest {
     @Test
     public void testMultipleResults() {
         expectedOutputs = Arrays.asList("isoclinal", "isoclinally", "isoclinals", "isocline", "isoclines", "isoclinic", "isoclinics");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("isocl"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("isocl"));
 
         expectedOutputs = Arrays.asList("teniacide", "teniacides", "teniae", "teniafuge", "teniafuges", "tenias", "teniases", "teniasis");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("tenia"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("tenia"));
 
         expectedOutputs = Arrays.asList("sarment", "sarmenta", "sarmentaceous", "sarmentose", "sarmentous", "sarments", "sarmentum");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("sarmen"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("sarmen"));
     }
 
 
@@ -76,7 +82,7 @@ public class BinaryDictionaryTest {
     @Test
     public void testNotInDictionary() {
         expectedOutputs = Arrays.asList();
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("kkxkkxkfkkdfksdfkd"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("kkxkkxkfkkdfksdfkd"));
     }
 
 
@@ -86,7 +92,7 @@ public class BinaryDictionaryTest {
     @Test
     public void testFirstEntry() {
         expectedOutputs = Arrays.asList("aah", "aahed", "aahing", "aahs", "aal", "aalii", "aaliis", "aals", "aardvark", "aardvarks", "aardwolf", "aardwolves", "aargh", "aarrgh", "aarrghh", "aas", "aasvogel", "aasvogels");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("aa"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("aa"));
     }
 
     /**
@@ -95,10 +101,19 @@ public class BinaryDictionaryTest {
     @Test
     public void testEndReached() {
         expectedOutputs = Arrays.asList("zyzzyva", "zyzzyvas");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("zyz"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("zyz"));
 
         expectedOutputs = Arrays.asList();
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("zyzzyvas"));
+        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearch("zyzzyvas"));
+    }
+
+    /**
+     * Test with a dictionary that has usage frequencies in addition to the words.
+     */
+    @Test
+    public void testWithFrequencyDictionary() {
+        expectedOutputs = Arrays.asList("you", "your", "you're", "yeah", "yes", "you've");
+        assertEquals(expectedOutputs, binaryDictionaryWithFrequency.prefixSearch("y").subList(0, 6));
     }
 
 }
