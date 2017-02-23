@@ -50,7 +50,7 @@ public class ResourceLoader {
      * Loads a dictionary from an input stream, and returns it's contents as an array of dictionary
      * entries.
      *
-     * @param inputStream
+     * @param inputStream The input stream containing the dictionary.
      * @return The contents of the stream as an array dictionary entries.
      */
     public static List<DictionaryEntry> loadDictionaryFromStream(InputStream inputStream) {
