@@ -42,14 +42,14 @@ public class BinaryDictionaryTest {
      */
     @Test
     public void testSingleResults() {
-        expectedOutputs = Arrays.asList("dystrophications");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("dystrophications"));
+        expectedOutputs = Arrays.asList("enormousnesses");
+        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("enormousness"));
 
-        expectedOutputs = Arrays.asList("aberrational");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("aberrational"));
+        expectedOutputs = Arrays.asList("brattishnesses");
+        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("brattishness"));
 
-        expectedOutputs = Arrays.asList("podzolizations");
-        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("podzolizations"));
+        expectedOutputs = Arrays.asList("patrializations");
+        assertEquals(expectedOutputs, binaryDictionary.prefixSearch("patrialization"));
     }
 
 
@@ -61,16 +61,9 @@ public class BinaryDictionaryTest {
         expectedOutputs = Arrays.asList("isoclinal", "isoclinally", "isoclinals", "isocline", "isoclines", "isoclinic", "isoclinics");
         assertEquals(expectedOutputs, binaryDictionary.prefixSearch("isocl"));
 
-        expectedOutputs = Arrays.asList("tenia", "teniacide", "teniacides", "teniae", "teniafuge", "teniafuges", "tenias", "teniases", "teniasis");
+        expectedOutputs = Arrays.asList("teniacide", "teniacides", "teniae", "teniafuge", "teniafuges", "tenias", "teniases", "teniasis");
         assertEquals(expectedOutputs, binaryDictionary.prefixSearch("tenia"));
-    }
 
-    /**
-     * Test if a partial prefix gives the same result as using the whole first returned word as the prefix.
-     * This should only be the case if all the returned words starts with whole first word.
-     */
-    @Test
-    public void testPartialPrefix() {
         expectedOutputs = Arrays.asList("sarment", "sarmenta", "sarmentaceous", "sarmentose", "sarmentous", "sarments", "sarmentum");
         assertEquals(expectedOutputs, binaryDictionary.prefixSearch("sarmen"));
         assertEquals(expectedOutputs, binaryDictionary.prefixSearch("sarment"));
@@ -92,7 +85,7 @@ public class BinaryDictionaryTest {
      */
     @Test
     public void testFirstEntry() {
-        expectedOutputs = Arrays.asList("aa", "aah", "aahed", "aahing", "aahs", "aal", "aalii", "aaliis", "aals", "aardvark", "aardvarks", "aardwolf", "aardwolves", "aargh", "aarrgh", "aarrghh", "aas", "aasvogel", "aasvogels");
+        expectedOutputs = Arrays.asList("aah", "aahed", "aahing", "aahs", "aal", "aalii", "aaliis", "aals", "aardvark", "aardvarks", "aardwolf", "aardwolves", "aargh", "aarrgh", "aarrghh", "aas", "aasvogel", "aasvogels");
         assertEquals(expectedOutputs, binaryDictionary.prefixSearch("aa"));
     }
 
@@ -104,7 +97,7 @@ public class BinaryDictionaryTest {
         expectedOutputs = Arrays.asList("zyzzyva", "zyzzyvas");
         assertEquals(expectedOutputs, binaryDictionary.prefixSearch("zyz"));
 
-        expectedOutputs = Arrays.asList("zyzzyvas");
+        expectedOutputs = Arrays.asList();
         assertEquals(expectedOutputs, binaryDictionary.prefixSearch("zyzzyvas"));
     }
 

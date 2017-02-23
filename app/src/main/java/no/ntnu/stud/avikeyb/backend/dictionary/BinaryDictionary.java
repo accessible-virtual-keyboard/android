@@ -28,8 +28,9 @@ public class BinaryDictionary implements Dictionary {
     /**
      * Performs a prefix search on the dictionary, returning a list of all words that begin with the
      * prefix.
+     * This method expects the dictionary to be in an alphabetical ordering.
      *
-     * @param prefix The prefix
+     * @param prefix The prefix.
      * @return All words that begin with the prefix.
      */
     public List<String> prefixSearch(String prefix) {
@@ -89,7 +90,9 @@ public class BinaryDictionary implements Dictionary {
         // Iterate forwards and collect all the matches.
         while (!allFound) {
             if (currentWord.startsWith(prefix)) {
-                matchingWords.add(currentWord);
+                if (!currentWord.equalsIgnoreCase(prefix)) {  // Don't add the word if it is identical to the prefix.
+                    matchingWords.add(currentWord);
+                }
                 searchLocation += 1;
                 if (searchLocation < dictionaryEntries.size()) {
                     currentWord = dictionaryEntries.get(searchLocation).getWord();
