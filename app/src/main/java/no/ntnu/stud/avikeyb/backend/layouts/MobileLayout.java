@@ -15,33 +15,27 @@ import no.ntnu.stud.avikeyb.backend.Symbol;
 
 public class MobileLayout extends StepLayout {
 
-    private  int[] stepIndices;
+    protected int[] stepIndices;
     protected Symbol[] symbols;
     protected Keyboard keyboard;
     protected State state = State.SELECT_ROW;
     protected ArrayList<Symbol> markedSymbols = new ArrayList<>();
     protected int[] location = new int[]{-1, -1, -1};
 
-    public MobileLayout(Keyboard keyboard, int layoutResource) {
+    public MobileLayout(Keyboard keyboard) {
         this.keyboard = keyboard;
 
-        if(layoutResource == R.layout.layout_mobile){
-            symbols = new Symbol[]{
-                    Symbol.SPACE, Symbol.E, Symbol.O,       Symbol.T, Symbol.I, Symbol.L,       Symbol.S, Symbol.C, Symbol.W,
-                    Symbol.A, Symbol.N, Symbol.D,           Symbol.R, Symbol.U, Symbol.Y,       Symbol.F, Symbol.V, Symbol.Z,
-                    Symbol.H, Symbol.M, Symbol.B,           Symbol.P, Symbol.K, Symbol.PERIOD,  Symbol.J, Symbol.QUESTION_MARK, Symbol.SEND,
-                    Symbol.G, Symbol.X, Symbol.COMMA,       Symbol.Q, Symbol.EXCLAMATION_MARK};
-            stepIndices = new int[]{0,3,6,9,12,15,18,21,24,27,30,32,32};
-        }
-        if(layoutResource == R.layout.layout_mobile_dictionary){
-            symbols = new Symbol[]{ //Tabs imitate corresponding layout in xml
-                    Symbol.E, Symbol.T, Symbol.A,           Symbol.S, Symbol.R, Symbol.H,                                                   Symbol.L, Symbol.D, Symbol.C,
-                    Symbol.O, Symbol.I, Symbol.N,           Symbol.U, Symbol.M, Symbol.F,                                                   Symbol.Y, Symbol.B, Symbol.V, Symbol.K,
-                    Symbol.P, Symbol.G, Symbol.W,           Symbol.X, Symbol.J, Symbol.Q, Symbol.Z,                                         Symbol.SEND,
-                    Symbol.DICTIONARY,                      Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK,     Symbol.BACKSPACE};
-            stepIndices = new int[]{0,3,6,9,12,15,19,22,26,27,28,32,33};
-        }
+        symbols = new Symbol[]{
+                Symbol.SPACE, Symbol.E, Symbol.O, Symbol.T, Symbol.I, Symbol.L, Symbol.S, Symbol.C, Symbol.W,
+                Symbol.A, Symbol.N, Symbol.D, Symbol.R, Symbol.U, Symbol.Y, Symbol.F, Symbol.V, Symbol.Z,
+                Symbol.H, Symbol.M, Symbol.B, Symbol.P, Symbol.K, Symbol.PERIOD, Symbol.J, Symbol.QUESTION_MARK, Symbol.SEND,
+                Symbol.G, Symbol.X, Symbol.COMMA, Symbol.Q, Symbol.EXCLAMATION_MARK};
+        stepIndices = new int[]{0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 32, 32};
+
         nextRow();
+    }
+
+    protected MobileLayout(){
     }
 
     public enum State {
@@ -102,10 +96,9 @@ public class MobileLayout extends StepLayout {
         }
 
 
-
         markedSymbols = new ArrayList<>();
-        int lowerBound = stepIndices[location[0]*3];
-        int upperBound = stepIndices[location[0]*3 + 3];
+        int lowerBound = stepIndices[location[0] * 3];
+        int upperBound = stepIndices[location[0] * 3 + 3];
         Log.d("MobLayout", "Bounds, Lower: " + lowerBound + " Upper: " + upperBound);
         for (int i = lowerBound; i < upperBound; i++) {
             addMarkedSymbol(i);
@@ -120,15 +113,15 @@ public class MobileLayout extends StepLayout {
         location[1]++;
         markedSymbols = new ArrayList<>();
 
-        int[] bounds = new int[]{0,0};
-        if(stepIndices.length == location[0]*3 + location[1]+1){
+        int[] bounds = new int[]{0, 0};
+        if (stepIndices.length == location[0] * 3 + location[1] + 1) {
             location[1] = 0;
             bounds = updateColumnBounds(bounds);
-        }else{
+        } else {
             bounds = updateColumnBounds(bounds);
         }
 
-        if(bounds[0] == bounds[1] || location[1] >=3){
+        if (bounds[0] == bounds[1] || location[1] >= 3) {
             location[1] = 0;
             bounds = updateColumnBounds(bounds);
         }
@@ -138,12 +131,11 @@ public class MobileLayout extends StepLayout {
         //logLocation();
     }
 
-    private int[] updateColumnBounds(int[] bounds){
-        bounds[0] = stepIndices[location[0]*3 + location[1]];
-        bounds[1] = stepIndices[location[0]*3 + location[1] + 1];
+    private int[] updateColumnBounds(int[] bounds) {
+        bounds[0] = stepIndices[location[0] * 3 + location[1]];
+        bounds[1] = stepIndices[location[0] * 3 + location[1] + 1];
         return bounds;
     }
-
 
 
     /**
@@ -152,8 +144,8 @@ public class MobileLayout extends StepLayout {
     protected void nextLetter() {
         location[2]++;
 
-        int lowerBound = stepIndices[location[0]*3 + location[1]];
-        int upperBound = stepIndices[location[0]*3 + location[1] + 1];
+        int lowerBound = stepIndices[location[0] * 3 + location[1]];
+        int upperBound = stepIndices[location[0] * 3 + location[1] + 1];
         int symbolsInGroup = upperBound - lowerBound;
 
         //Log.d("MobLayout", "Symbols in group: " + symbolsInGroup);
@@ -163,7 +155,7 @@ public class MobileLayout extends StepLayout {
         }
 
         markedSymbols = new ArrayList<>();
-        int index = stepIndices[location[0]*3 + location[1]] + location[2];
+        int index = stepIndices[location[0] * 3 + location[1]] + location[2];
         Log.d("MobLayout", "Index: " + index);
         addMarkedSymbol(index);
         //logLocation();
@@ -186,10 +178,10 @@ public class MobileLayout extends StepLayout {
         }
     }
 
-    private void addMarkedSymbol(int index){
-        try{
+    private void addMarkedSymbol(int index) {
+        try {
             markedSymbols.add(symbols[index]);
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -204,10 +196,10 @@ public class MobileLayout extends StepLayout {
         return symbols;
     }
 
-    private void logLocation(){
+    private void logLocation() {
         Log.d("MobLayout", "Position: " + location[0] + ", " + location[1] + ", " + location[2]);
         String markedSymbolsText = "";
-        for (Symbol s:markedSymbols) {
+        for (Symbol s : markedSymbols) {
             markedSymbolsText += s.getContent() + " ";
         }
         Log.d("MobLayout", markedSymbolsText);

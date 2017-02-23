@@ -29,16 +29,15 @@ public class LinearEliminationDictionary extends LinearDictionary {
      * Finds suggestions matching radix and adds them to the suggestion list
      *
      */
-
-    public void findValidSuggestions(int index, List<Symbol> prefixes) {
+    public void findValidSuggestions(int index, List<String> lettersToFindAtIndex) {
         if(suggestionList == null){
             suggestionList = getDictionary();
         }
         List<DictionaryEntry> reducedSuggestionList = new ArrayList<>();
 
         for (DictionaryEntry entry: suggestionList) {
-            for (int i = 0; i < prefixes.size(); i++) {
-                String letter = prefixes.get(i).getContent();
+            for (int i = 0; i < lettersToFindAtIndex.size(); i++) {
+                String letter = lettersToFindAtIndex.get(i);
                 boolean contained = entry.getWord().substring(index).startsWith(letter);
                 if (contained) {
                     reducedSuggestionList.add(entry);

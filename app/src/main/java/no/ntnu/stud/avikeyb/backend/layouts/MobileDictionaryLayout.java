@@ -1,15 +1,12 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
-import android.util.Log;
-
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-import no.ntnu.stud.avikeyb.backend.Dictionary;
+import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
-import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
-import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryLoader;
+import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
 
 /**
@@ -18,15 +15,21 @@ import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
 
 public class MobileDictionaryLayout extends MobileLayout {
 
-    //private Node root = new Node("");
     private LinearEliminationDictionary dictionary;
     private int searchStart = 0;
-    private String[] prefixes = null;
-    private boolean[] validPrefixes = null;
 
-    public MobileDictionaryLayout(Keyboard keyboard, LinearEliminationDictionary dictionary, int layoutResource) {
-        super(keyboard, layoutResource);
+    public MobileDictionaryLayout(Keyboard keyboard, LinearEliminationDictionary dictionary) {
+        super();
+        this.keyboard = keyboard;
         this.dictionary = dictionary;
+
+        symbols = new Symbol[]{ //Tabs imitate corresponding layout in xml
+                Symbol.E, Symbol.T, Symbol.A, Symbol.S, Symbol.R, Symbol.H, Symbol.L, Symbol.D, Symbol.C,
+                Symbol.O, Symbol.I, Symbol.N, Symbol.U, Symbol.M, Symbol.F, Symbol.Y, Symbol.B, Symbol.V, Symbol.K,
+                Symbol.P, Symbol.G, Symbol.W, Symbol.X, Symbol.J, Symbol.Q, Symbol.Z, Symbol.SEND,
+                Symbol.DICTIONARY, Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK, Symbol.BACKSPACE};
+        stepIndices = new int[]{0, 3, 6, 9, 12, 15, 19, 22, 26, 27, 28, 32, 33};
+        nextRow();
     }
 
     @Override
@@ -52,8 +55,7 @@ public class MobileDictionaryLayout extends MobileLayout {
                         state = State.SELECT_ROW;
 
                         System.out.println("--------------------------------------");
-                        //TODO convert markedSymbols to List<String>
-                        dictionary.findValidSuggestions(searchStart, markedSymbols);
+                        dictionary.findValidSuggestions(searchStart, getStringsFromMarkedSymbols());
                         dictionary.printListWithNSuggestions(10);
                         searchStart++;
 
@@ -65,6 +67,13 @@ public class MobileDictionaryLayout extends MobileLayout {
         notifyLayoutListeners();
     }
 
+    private List<String> getStringsFromMarkedSymbols() {
+        List<String> stringList = new ArrayList<>();
+        for (Symbol sym : markedSymbols) {
+            stringList.add(sym.getContent());
+        }
+        return stringList;
+    }
 /*    @Override
     protected void selectCurrentSymbols(Keyboard keyboard) {
 

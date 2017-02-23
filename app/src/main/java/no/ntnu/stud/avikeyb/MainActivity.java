@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 3: {
-                        MobileLayout l = new MobileLayout(keyboard, R.layout.layout_mobile);
+                        MobileLayout l = new MobileLayout(keyboard);
                         switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile));
                         break;
                     }
@@ -94,9 +94,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 5:{
-                        int layoutResource = R.layout.layout_mobile_dictionary;
-                        MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary, layoutResource);
-                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, layoutResource));
+                        MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary);
+                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary));
                         break;
                     }
                     default: { // 0
