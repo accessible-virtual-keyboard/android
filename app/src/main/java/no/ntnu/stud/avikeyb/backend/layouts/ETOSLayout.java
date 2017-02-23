@@ -18,7 +18,7 @@ public class ETOSLayout extends StepLayout {
             Symbols.numbers(),
             Symbols.commonPunctuations(),
             Symbols.menuOptions()// test
-            );
+    );
 
     private static Symbol[] menu = Symbols.menuOptions();
 
@@ -58,6 +58,10 @@ public class ETOSLayout extends StepLayout {
         return currentPosition;
     }
 
+
+    public Symbol getCurrentSymbol() {
+        return symbols[currentPosition];
+    }
 
     /**
      * Returns all symbols in the layout
@@ -108,11 +112,6 @@ public class ETOSLayout extends StepLayout {
                 break;
         }
         notifyLayoutListeners();
-    }
-
-    private void selectCurrentMenu() {
-        Symbol current = menu[currentPosition];
-        keyboard.addToCurrentBuffer(current.getContent());
     }
 
     private void selectCurrentSymbol() {
