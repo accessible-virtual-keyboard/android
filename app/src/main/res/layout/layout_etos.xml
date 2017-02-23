@@ -7,7 +7,7 @@
     tools:context=".MainActivity"
     android:gravity="center"
     >
-    
+
     <LinearLayout
         android:id="@+id/firstLayout"
         android:layout_width="match_parent"
@@ -19,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:layout_weight="1"
             android:stretchColumns="*">
+            <!--  android:layout_weight="1" -->
 
     <TableRow >
         <TextView android:layout_weight="1" android:id="@+id/sym_send" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>

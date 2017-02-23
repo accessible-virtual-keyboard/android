@@ -39,8 +39,6 @@ import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
-    DictionaryFileLoader dictionaryLoader = new DictionaryFileLoader(getBaseContext(), R.raw.dictionary);
-    LinearDictionary linearDictionary = new LinearDictionary(dictionaryLoader);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Dictionary dictionary = createDictionary();
 
+
         Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionary);
 
         final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard, suggestions);
@@ -73,8 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 1: {
-                        DictionaryFileLoader dictionaryLoader = new DictionaryFileLoader(getBaseContext(), R.raw.dictionary);
-                        ETOSLayout l = new ETOSLayout(keyboard);//, dictionaryLoader);
+                        ETOSLayout l = new ETOSLayout(keyboard, suggestions);
                         switchLayout(l, new ETOSLayoutGUI(MainActivity.this, keyboard, l));
                         break;
                     }
@@ -115,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onOutputBufferChange(String oldBuffer, String newBuffer) {
                 ((TextView) MainActivity.this.findViewById(R.id.currentBuffer)).setText(newBuffer);
-                //  linearDictionary.findSuggestions(newBuffer);
             }
         });
 

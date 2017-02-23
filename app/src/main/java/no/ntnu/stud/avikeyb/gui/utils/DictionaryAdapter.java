@@ -1,5 +1,6 @@
 package no.ntnu.stud.avikeyb.gui.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,7 @@ public class DictionaryAdapter extends ArrayAdapter<String> {
     ArrayList<String> dictionary;
     ETOSLayout layout;
 
-    public DictionaryAdapter(Context context, ArrayList<String> dictionary) {
+    public DictionaryAdapter(Activity context, ArrayList<String> dictionary,ETOSLayout layout) {
         super(context, 0, dictionary);
     }
 
