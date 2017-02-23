@@ -53,7 +53,7 @@ public enum Symbol {
     SPACE(" "),
 
     NULL(null),
-    BACKSPACE(KeyEvent.keyCodeToString(KeyEvent.KEYCODE_BACK)),
+    BACKSPACE("\u2190"), //http://www.fileformat.info/info/unicode/char/2190/index.htm
 
     SEND("Send"),
 

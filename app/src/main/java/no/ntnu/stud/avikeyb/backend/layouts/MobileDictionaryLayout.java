@@ -7,6 +7,7 @@ import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
 
 /**
@@ -16,14 +17,13 @@ import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
 public class MobileDictionaryLayout extends MobileLayout {
 
     private LinearEliminationDictionary dictionary;
-    private int searchStart = 0;
 
     public MobileDictionaryLayout(Keyboard keyboard, LinearEliminationDictionary dictionary) {
         super();
         this.keyboard = keyboard;
         this.dictionary = dictionary;
 
-        symbols = new Symbol[]{ //Tabs imitate corresponding layout in xml
+        symbols = new Symbol[]{
                 Symbol.E, Symbol.T, Symbol.A, Symbol.S, Symbol.R, Symbol.H, Symbol.L, Symbol.D, Symbol.C,
                 Symbol.O, Symbol.I, Symbol.N, Symbol.U, Symbol.M, Symbol.F, Symbol.Y, Symbol.B, Symbol.V, Symbol.K,
                 Symbol.P, Symbol.G, Symbol.W, Symbol.X, Symbol.J, Symbol.Q, Symbol.Z, Symbol.SEND,
@@ -55,16 +55,29 @@ public class MobileDictionaryLayout extends MobileLayout {
                         state = State.SELECT_ROW;
 
                         System.out.println("--------------------------------------");
-                        dictionary.findValidSuggestions(searchStart, getStringsFromMarkedSymbols());
-                        dictionary.printListWithNSuggestions(10);
-                        searchStart++;
+                        if (markedSymbols.get(0).equals(Symbol.SEND)) {
+                            //TODO send typed text
+                            keyboard.sendCurrentBuffer();
+                        } else if (markedSymbols.get(0).equals(Symbol.DICTIONARY)) {
+                            //TODO go to dictionary
+                            keyboard.addToCurrentBuffer(dictionary.getValidSuggestions(1).get(0).getWord() + " ");
+                        } else if(markedSymbols.get(0).equals(Symbol.BACKSPACE)){
+                            //TODO handle backspace
+                            dictionary.revertLastSuggestions();
+                            dictionary.printListWithNSuggestions(10);
+                        }else{
+                            dictionary.findValidSuggestions(getStringsFromMarkedSymbols());
+                            dictionary.printListWithNSuggestions(10);
+                        }
 
                         reset();
                         break;
                 }
                 break;
         }
+
         notifyLayoutListeners();
+
     }
 
     private List<String> getStringsFromMarkedSymbols() {
@@ -74,7 +87,10 @@ public class MobileDictionaryLayout extends MobileLayout {
         }
         return stringList;
     }
-/*    @Override
+
+
+
+    /*    @Override
     protected void selectCurrentSymbols(Keyboard keyboard) {
 
     }

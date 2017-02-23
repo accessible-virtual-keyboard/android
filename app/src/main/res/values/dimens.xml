@@ -23,5 +23,9 @@
     <dimen name="adaptive_min_width">50dp</dimen>
     <dimen name="mobileLayoutButtonGroupPadding">2dp</dimen>
 
+    <dimen name="backspaceSize">50sp</dimen>
+    <dimen name="mobileLayoutButtonHeight">50dp</dimen>
+    <dimen name="mobileLayoutButtonWidth">50dp</dimen>
+
 </resources>
 <!-- <dimen name="_10sdp">10dp</dimen>-->
