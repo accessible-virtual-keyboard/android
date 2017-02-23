@@ -80,15 +80,22 @@
         <TextView android:layout_weight="1" android:id="@+id/sym_exclamation_mark" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
         <TextView android:layout_weight="1" android:id="@+id/sym_space" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
     </TableRow>
+
+    <TableRow > <!--Will maybe used. -->
+        <TextView android:layout_weight="1" android:id="@+id/t1" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
+        <TextView android:layout_weight="1" android:id="@+id/t2" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
+        <TextView android:layout_weight="1" android:id="@+id/t3" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
+        <TextView android:layout_weight="1" android:id="@+id/t4" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
+        <TextView android:layout_weight="1" android:id="@+id/t5" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
+        <TextView android:layout_weight="1" android:id="@+id/t6" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
+    </TableRow>
     </TableLayout>
     </LinearLayout>
-   <!-- <include layout="@layout/sidemenu"/> -->
-           <ListView
+
+    <include layout="@layout/listview" />
+       <!--    <ListView
              android:id="@+id/listview"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="3" />
+                android:layout_weight="3" /> -->
 </LinearLayout>
-<!-- Was in ListView
-
-android:entries="@array/temp_items_listview" -->

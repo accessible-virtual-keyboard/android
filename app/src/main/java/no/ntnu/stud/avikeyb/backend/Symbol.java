@@ -55,12 +55,11 @@ public enum Symbol {
 
     // Testing for menu options.
     PROFILE("Profile"),
+    SETTING("Setting"),
     DICTIONARY("Dictionary"),
     OPTION1("Option 1"),
     OPTION2("Option 2"),
-    OPTION3("Option 3"),
-    SETTING("Setting");
-
+    OPTION3("Option 3");
 
     private String content;
 

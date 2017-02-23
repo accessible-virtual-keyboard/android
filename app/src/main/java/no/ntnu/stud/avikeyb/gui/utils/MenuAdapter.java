@@ -18,9 +18,8 @@ import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
  * Created by ingalill on 21/02/2017.
  */
 
-public class Adapter extends ArrayAdapter<Symbol> {
+public class MenuAdapter extends ArrayAdapter<Symbol> {
 
-    Activity context;
     ArrayList<Symbol> symbols;
     ETOSLayout layout;
 
@@ -30,9 +29,8 @@ public class Adapter extends ArrayAdapter<Symbol> {
      * @param context
      * @param symbols
      */
-    public Adapter(Activity context, ArrayList<Symbol> symbols, ETOSLayout layout) {
+    public MenuAdapter(Activity context, ArrayList<Symbol> symbols, ETOSLayout layout) {
         super(context, 0, symbols);
-        this.context = context;
         this.symbols = symbols;
         this.layout = layout;
     }
@@ -40,7 +38,6 @@ public class Adapter extends ArrayAdapter<Symbol> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutLoader loader = new LayoutLoader(context, R.layout.sidemenu);
         // Get the data item for this position.
         Symbol symbol = getItem(position);
 
@@ -48,17 +45,14 @@ public class Adapter extends ArrayAdapter<Symbol> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.sidemenu, parent, false);
         }
 
-        TextView setting = (TextView) convertView.findViewById(R.id.listviewtext);
-        setting.setText(symbol.getContent());
-        setting.setPadding(2, 20, 2, 20);
-
-        System.out.println("Symbol is " + symbol);
-        System.out.println("The current position " + layout.getCurrentSymbol());
+        TextView listviewText = (TextView) convertView.findViewById(R.id.listviewtext);
+        listviewText.setText(symbol.getContent());
+        listviewText.setPadding(2, 20, 2, 20);
 
         if (symbol == layout.getCurrentSymbol()) {
-            setting.setBackgroundResource(R.color.purpleparty);
+            listviewText.setBackgroundResource(R.color.purpleparty);
         } else {
-            setting.setBackgroundResource(R.color.lightgrey);
+            listviewText.setBackgroundResource(R.color.lightgrey);
         }
 
         return convertView;
