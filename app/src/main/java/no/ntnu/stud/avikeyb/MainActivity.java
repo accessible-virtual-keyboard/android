@@ -61,9 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
         final Dictionary dictionary = createDictionary();
 
-
         Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionary);
-
+        final ETOSLayout etosLayout= new ETOSLayout(keyboard, suggestions);
         final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard, suggestions);
 
 
@@ -72,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 1: {
-                        ETOSLayout l = new ETOSLayout(keyboard, suggestions);
-                        switchLayout(l, new ETOSLayoutGUI(MainActivity.this, keyboard, l));
+
+                        switchLayout(etosLayout, new ETOSLayoutGUI(MainActivity.this, keyboard, etosLayout));
                         break;
                     }
                     case 2: {
