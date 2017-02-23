@@ -29,7 +29,6 @@ public class LinearDictionary implements Dictionary {
     public LinearDictionary(DictionaryLoader dictionaryLoader) {
         dictionary = new ArrayList<>();
         this.dictionaryLoader = dictionaryLoader;
-        loadDictionary();
 
         //printDictionary();
     }
@@ -56,7 +55,10 @@ public class LinearDictionary implements Dictionary {
 
     @Override
     public List<String> getSuggestionsStartingWith(String match) {
+
+        loadDictionary();
         findPrimarySuggestions(match);
+
         sortList(primarySuggestions, SortingOrder.FREQUENCY_HIGH_TO_LOW);
         return extractWords(primarySuggestions);
     }
@@ -71,7 +73,9 @@ public class LinearDictionary implements Dictionary {
 
     @Override
     public void updateWordUsage(String string) {
-        for (DictionaryEntry entry : dictionary) {
+        loadDictionary();
+
+        for (DictionaryEntry entry:dictionary) {
             if (entry.getWord().equals(string)) {
                 int newFrequency = entry.getFrequency() + 1;
                 entry.setFrequency(newFrequency);
@@ -138,7 +142,10 @@ public class LinearDictionary implements Dictionary {
      *
      * @param textWritten Currently written text
      */
-    public void findSuggestions(String textWritten) {
+    public void findSuggestions(String textWritten){
+
+        loadDictionary();
+
         primarySuggestions = new ArrayList<>();
         secondarySuggestions = new ArrayList<>();
         this.textWritten = textWritten;

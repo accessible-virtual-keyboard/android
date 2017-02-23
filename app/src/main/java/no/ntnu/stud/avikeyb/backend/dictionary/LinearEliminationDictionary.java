@@ -22,7 +22,6 @@ public class LinearEliminationDictionary extends LinearDictionary {
      */
     public LinearEliminationDictionary(DictionaryLoader dictionaryLoader) {
         super(dictionaryLoader);
-        suggestionList = getDictionary();
         reducedSuggestionList = new ArrayList<>();
     }
 
@@ -33,6 +32,10 @@ public class LinearEliminationDictionary extends LinearDictionary {
      */
 
     public void findValidSuggestions(int index, List<Symbol> prefixes) {
+        if(suggestionList == null){
+            loadDictionary();
+            suggestionList = getDictionary();
+        }
         reducedSuggestionList = new ArrayList<>();
 
         for (DictionaryEntry entry: suggestionList) {
