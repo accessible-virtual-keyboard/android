@@ -23,7 +23,7 @@ public class LinearDictionaryTest {
     @Before
     public void setUp() throws Exception {
 
-        dictionary = new LinearDictionary(() -> Arrays.asList(
+        dictionary = new LinearDictionary(Arrays.asList(
                 de("test11", 8),
                 de("test2", 7),
                 de("test3", 6),
@@ -37,7 +37,7 @@ public class LinearDictionaryTest {
 
     @Test
     public void testEmptyDictionary() throws Exception {
-        Dictionary dictionary = new LinearDictionary(() -> Collections.emptyList());
+        Dictionary dictionary = new LinearDictionary(Collections.emptyList());
         List<String> res = dictionary.getSuggestionsStartingWith("test");
         assertThat(res, is(Collections.emptyList()));
     }
@@ -45,7 +45,7 @@ public class LinearDictionaryTest {
 
     @Test
     public void testSingleElementNoMatch() throws Exception {
-        Dictionary dictionary = new LinearDictionary(() -> Arrays.asList(de("test", 0)));
+        Dictionary dictionary = new LinearDictionary(Arrays.asList(de("test", 0)));
         List<String> res = dictionary.getSuggestionsStartingWith("hello");
         assertThat(res, is(Collections.emptyList()));
     }
@@ -55,21 +55,21 @@ public class LinearDictionaryTest {
      */
     @Test
     public void testSingleElementNoMatchTooLong() throws Exception {
-        Dictionary dictionary = new LinearDictionary(() -> Arrays.asList(de("test", 0)));
+        Dictionary dictionary = new LinearDictionary(Arrays.asList(de("test", 0)));
         List<String> res = dictionary.getSuggestionsStartingWith("testing");
         assertThat(res, is(Collections.emptyList()));
     }
 
     @Test
     public void testSingleElementWithMatch() throws Exception {
-        Dictionary dictionary = new LinearDictionary(() -> Arrays.asList(de("test", 0)));
+        Dictionary dictionary = new LinearDictionary(Arrays.asList(de("test", 0)));
         List<String> res = dictionary.getSuggestionsStartingWith("te");
         assertThat(res, is(Arrays.asList("test")));
     }
 
     @Test
     public void testDontIncludePerfectMatch() throws Exception {
-        Dictionary dictionary = new LinearDictionary(() -> Arrays.asList(de("test", 0)));
+        Dictionary dictionary = new LinearDictionary(Arrays.asList(de("test", 0)));
         // perfect match
         List<String> res = dictionary.getSuggestionsStartingWith("test");
         assertThat(res, is(Collections.emptyList()));
@@ -113,7 +113,7 @@ public class LinearDictionaryTest {
 
     @Test
     public void testFrequencies() throws Exception {
-        Dictionary dictionary = new LinearDictionary(() -> Arrays.asList(
+        Dictionary dictionary = new LinearDictionary(Arrays.asList(
                 de("test1", 1),
                 de("test2", 10),
                 de("test3", 4),
