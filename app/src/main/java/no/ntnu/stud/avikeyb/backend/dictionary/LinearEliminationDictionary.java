@@ -10,7 +10,7 @@ import java.util.List;
 public class LinearEliminationDictionary extends LinearDictionary {
 
     private List<List<DictionaryEntry>> suggestionHistory;
-    private int searchIndex = 0;
+    //private int searchIndex = 0;
     /**
      * Constructs a dictionary
      */
@@ -33,7 +33,7 @@ public class LinearEliminationDictionary extends LinearDictionary {
         for (DictionaryEntry entry : getLastSuggestions()) {
             for (int i = 0; i < lettersToFindAtIndex.size(); i++) {
                 String letter = lettersToFindAtIndex.get(i);
-                boolean contained = entry.getWord().substring(searchIndex).startsWith(letter);
+                boolean contained = entry.getWord().substring(findSearchIndex()).startsWith(letter);
                 if (contained) {
                     reducedSuggestionList.add(entry);
                     break;
@@ -45,7 +45,7 @@ public class LinearEliminationDictionary extends LinearDictionary {
         if(reducedSuggestionList.isEmpty()){
             resetSuggestionHistory();
         }else{
-            searchIndex++;
+            //searchIndex++;
             suggestionHistory.add(reducedSuggestionList);
         }
 
@@ -67,7 +67,7 @@ public class LinearEliminationDictionary extends LinearDictionary {
      */
     public void resetSuggestionHistory() {
         suggestionHistory = suggestionHistory.subList(0,1); //We want to keep the dictionary list
-        searchIndex = 0;
+        //searchIndex = 0;
     }
 
     /**
@@ -89,7 +89,7 @@ public class LinearEliminationDictionary extends LinearDictionary {
     public void revertLastSuggestions(int steps){
         int index = suggestionHistory.size()-steps;
         suggestionHistory = suggestionHistory.subList(0, index);
-        searchIndex -= steps;
+        //searchIndex -= steps;
     }
 
     /**
@@ -113,5 +113,9 @@ public class LinearEliminationDictionary extends LinearDictionary {
         } else {
             return lastSuggestions.subList(0, n);
         }
+    }
+
+    private int findSearchIndex(){
+        return suggestionHistory.size()-1;
     }
 }

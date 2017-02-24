@@ -4,34 +4,36 @@
     android:layout_height="match_parent"
     android:stretchColumns="*">
 
-    <TableRow android:background="@color/mobileLayoutRowBackground">
+    <TableRow android:layout_height="wrap_content"
+        android:layout_width="match_parent">
 
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="3">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_e"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_t"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_a"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
         </LinearLayout>
@@ -39,29 +41,30 @@
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="3">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_s"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_r"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_h"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
         </LinearLayout>
@@ -69,62 +72,65 @@
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="3">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_l"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_d"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_c"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
         </LinearLayout>
     </TableRow>
 
-    <TableRow>
+    <TableRow android:layout_height="wrap_content"
+        android:layout_width="match_parent">
 
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="3">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_o"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_i"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_n"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
         </LinearLayout>
@@ -133,29 +139,30 @@
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="3">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_u"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_m"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_f"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
         </LinearLayout>
@@ -163,72 +170,75 @@
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="4">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_y"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_b"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_v"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_k"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
         </LinearLayout>
 
     </TableRow>
 
-    <TableRow>
+    <TableRow android:layout_height="wrap_content"
+        android:layout_width="match_parent">
 
 
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="3">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_p"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_g"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_w"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
         </LinearLayout>
@@ -236,36 +246,37 @@
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="4">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_x"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_j"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
-            <Button
+            <TextView
                 android:id="@+id/sym_q"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_z"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
@@ -275,30 +286,35 @@
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="1">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_send"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="@dimen/_25sdp"
                 android:background="@color/mobileLayoutButtonBackground" />
         </LinearLayout>
     </TableRow>
 
-    <TableRow>
+    <TableRow android:layout_height="wrap_content"
+        android:layout_width="match_parent">
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="1">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_dictionary"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:textSize="@dimen/_25sdp"
                 android:background="@color/mobileLayoutButtonBackground" />
 
         </LinearLayout>
@@ -307,37 +323,38 @@
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
+            android:layout_height="match_parent"
             android:weightSum="4">
 
-            <Button
+            <TextView
                 android:id="@+id/sym_period"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_comma"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_question_mark"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
-            <Button
+            <TextView
                 android:id="@+id/sym_exclamation_mark"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/mobileLayoutButtonBackground" />
 
@@ -346,17 +363,18 @@
         <LinearLayout
             android:background="@color/mobileLayoutButtonGroupBackground"
             android:padding="@dimen/mobileLayoutButtonGroupPadding"
-            android:weightSum="1">
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            >
 
-            <Button
+            <TextView
                 android:id="@+id/sym_backspace"
                 style="?attr/buttonBarButtonStyle"
                 android:layout_width="@dimen/mobileLayoutButtonWidth"
-                android:layout_height="@dimen/mobileLayoutButtonHeight"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="1dp"
-                android:gravity="top"
-                android:textSize="@dimen/_35sdp"
+                android:layout_margin="0dp"
+                android:textSize="@dimen/_25sdp"
                 android:textAlignment="center"
                 android:background="@color/mobileLayoutButtonBackground" />
 

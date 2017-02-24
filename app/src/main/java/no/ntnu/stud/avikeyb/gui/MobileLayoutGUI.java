@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,16 +44,22 @@ public class MobileLayoutGUI extends LayoutGUI {
 
         for (Symbol symbol : layout.getSymbols()) {
             if (symbol != null && loader.hasSymbol(symbol)) {
-                Button btn = (Button) loader.getViewForSymbol(symbol);
+                TextView btn = (TextView) loader.getViewForSymbol(symbol);
 
 /*                if (symbol.equals(Symbol.SEND)) {
                     btn.setBackgroundResource(R.drawable.btn_send);
                 } else if (symbol.equals(Symbol.SPACE)) {
                     btn.setBackgroundResource(R.drawable.btn_spacebar);
                 } else {*/
-                    btn.setText(symbol.getContent());
-                    btn.setTextColor(Color.BLACK);
-                    btn.setBackgroundResource(R.color.selected_button);
+
+                btn.setText(symbol.getContent());
+                btn.setTextColor(Color.BLACK);
+                btn.setBackgroundResource(R.color.selected_button);
+
+                if(symbol.equals(Symbol.DICTIONARY)){
+                    btn.setText(Symbol.DICTIONARY_UNICODE_SYMBOL.getContent());
+                }
+
                 //}
                 symbolViewMap.put(symbol, btn);
             }

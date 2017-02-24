@@ -53,16 +53,22 @@ public enum Symbol {
     SPACE(" "),
 
     NULL(null),
-    BACKSPACE("\u2190"), //http://www.fileformat.info/info/unicode/char/2190/index.htm
 
-    SEND("Send"),
+    BACKSPACE("\u232B"), //http://www.fileformat.info/info/unicode/char/2190/index.htm
+    SEND("\u2332"),
 
     SWITCH("Switch"),
 
     // Testing for menu options.
     PROFILE("Profile"),
-    SETTING("Setting"),
+    PROFILE_UNICODE_SYMBOL("\uD83D\uDE42"), //Draft
+
+    SETTING("Settings"),
+    SETTING_UNICODE_SYMBOL("\u2699"), //Draft
+
     DICTIONARY("Dictionary"),
+    DICTIONARY_UNICODE_SYMBOL("\uD83D\uDCD6"), //Draft
+
     OPTION1("Option 1"),
     OPTION2("Option 2"),
     OPTION3("Option 3");
