@@ -26,7 +26,6 @@ public class DictionaryAdapter extends ArrayAdapter<String> {
         super(context, 0, dictionary);
         this.dictionary = dictionary;
         this.layout = layout;
-
     }
 
     @Override
@@ -38,12 +37,10 @@ public class DictionaryAdapter extends ArrayAdapter<String> {
         }
         TextView dictionaryText = (TextView) convertView.findViewById(R.id.listviewtext);
 
-
         dictionaryText.setText(suggestion);
         dictionaryText.setPadding(2, 20, 2, 20);
-        System.out.println("Does it work: " + suggestion);
-        
-        if (layout.getCurrentSuggestion() == suggestion) {
+
+        if (layout.getCurrentSuggestion().equals(suggestion)) {
             dictionaryText.setBackgroundResource(R.color.purpleparty);
         } else {
             dictionaryText.setBackgroundResource(R.color.lightgrey);

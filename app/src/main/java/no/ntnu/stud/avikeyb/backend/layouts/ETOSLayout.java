@@ -57,7 +57,6 @@ public class ETOSLayout extends StepLayout {
         });
     }
 
-
     /**
      * Checks if a symbol is active
      *
@@ -66,6 +65,10 @@ public class ETOSLayout extends StepLayout {
      */
     public boolean symbolIsActive(Symbol symbol) {
         return dictionsuggestions.contains(symbol);
+    }
+
+    public boolean suggestionIsActive(String suggestion){
+        return dictionsuggestions.contains(suggestion);
     }
 
     public List<String> getSuggestions() {
@@ -78,19 +81,16 @@ public class ETOSLayout extends StepLayout {
         keyboard.addToCurrentBuffer(sug + Symbol.SPACE.getContent());
     }
 
-
-    public String getCurrentSuggestion(){
-        return dictionsuggestions.get(currentPosition);
-    }
-
     /**
-     * Check if a suggestion is active
+     * Get the current suggestion word
      *
-     * @param suggestion the suggestion to check
-     * @return true if the suggestion is currently selectable
+     * @return return the current suggestion from its position.
      */
-    public boolean suggestionIsActive(String suggestion) {
-        return dictionsuggestions.contains(suggestion);
+    public String getCurrentSuggestion() {
+        if(currentPosition < dictionsuggestions.size()){
+            return dictionsuggestions.get(currentPosition);
+        }
+        return "";
     }
 
     /**
@@ -161,7 +161,6 @@ public class ETOSLayout extends StepLayout {
 
                         selectCurrentSymbol();
                         state = State.SELECT_ROW;
-                        reset();
                         currentPosition = 0;
                         break;
                 }
@@ -192,21 +191,5 @@ public class ETOSLayout extends StepLayout {
             SwitchMenu();
         }
          */
-    }
-
-
-    private void reset() {
-       // dictionsuggestions = new ArrayList<>(Arrays.asList(symbols));
-    }
-
-    /**
-     * Returns the symbol at the given index
-     *
-     * @param index the index of the symbol to return
-     * @return a symbol
-     */
-    public Symbol getSymbolAt(int index) {
-
-        return symbols[index];
     }
 } // en of class
