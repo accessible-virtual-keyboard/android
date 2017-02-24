@@ -40,7 +40,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private MenuAdapter menuAdapter;
     private DictionaryAdapter dictionaryAdapter; // test
 
-
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
         this.layout = layout;
@@ -81,13 +80,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
         // listview.setAdapter(menuAdapter); // orginal
 
-        System.out.println("hei?==");
         listview.setAdapter(dictionaryAdapter);
-        System.out.println("HEIIIAAAS");
-
-        // set adapter to menu.
-        System.out.println(listDictionary); // tom
-
         dictionaryAdapter.notifyDataSetChanged();
         menuAdapter.notifyDataSetChanged();
         return (ViewGroup) loader.getLayout();

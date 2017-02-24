@@ -79,6 +79,10 @@ public class ETOSLayout extends StepLayout {
     }
 
 
+    public String getCurrentSuggestion(){
+        return dictionsuggestions.get(currentPosition);
+    }
+
     /**
      * Check if a suggestion is active
      *

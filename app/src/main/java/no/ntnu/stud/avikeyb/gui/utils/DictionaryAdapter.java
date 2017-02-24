@@ -42,8 +42,8 @@ public class DictionaryAdapter extends ArrayAdapter<String> {
         dictionaryText.setText(suggestion);
         dictionaryText.setPadding(2, 20, 2, 20);
         System.out.println("Does it work: " + suggestion);
-
-        if (layout.suggestionIsActive(suggestion)) {
+        
+        if (layout.getCurrentSuggestion() == suggestion) {
             dictionaryText.setBackgroundResource(R.color.purpleparty);
         } else {
             dictionaryText.setBackgroundResource(R.color.lightgrey);
