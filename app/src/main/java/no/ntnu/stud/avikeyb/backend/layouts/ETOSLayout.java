@@ -2,6 +2,7 @@ package no.ntnu.stud.avikeyb.backend.layouts;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
@@ -9,8 +10,6 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
-import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryLoader;
-import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -41,24 +40,54 @@ public class ETOSLayout extends StepLayout {
     private State state = State.SELECT_ROW;
     private Keyboard keyboard;
     private State menuOptions = State.DICTIONARY_STATE;
+    private List<String> dictionsuggestions = new ArrayList<>();
 
-    List<String> dictionsuggestions = new ArrayList<>();
+    private Suggestions suggestionEngine;
 
 
     public ETOSLayout(Keyboard keyboard, Suggestions suggestions) {
         this.keyboard = keyboard;
+        this.suggestionEngine = suggestions;
 
-        suggestions.addListener(suggestions1 -> {
+        // Listen for suggestions
+        suggestionEngine.addListener(suggestions1 -> {
+            dictionsuggestions.clear();
             dictionsuggestions.addAll(suggestions1);
             //notifyLayoutListeners();
         });
     }
 
 
+    /**
+     * Checks if a symbol is active
+     *
+     * @param symbol the symbol to check
+     * @return true if the symbol is active
+     */
+    public boolean symbolIsActive(Symbol symbol) {
+        return dictionsuggestions.contains(symbol);
+    }
+
     public List<String> getSuggestions() {
         return dictionsuggestions;
     }
 
+    private void selectSuggestion(String suggestion) {
+        // Remove the characters that has already been written
+        String sug = suggestion.substring(keyboard.getCurrentWord().length());
+        keyboard.addToCurrentBuffer(sug + Symbol.SPACE.getContent());
+    }
+
+
+    /**
+     * Check if a suggestion is active
+     *
+     * @param suggestion the suggestion to check
+     * @return true if the suggestion is currently selectable
+     */
+    public boolean suggestionIsActive(String suggestion) {
+        return dictionsuggestions.contains(suggestion);
+    }
 
     /**
      * Returns the current active position in the layout
@@ -125,8 +154,10 @@ public class ETOSLayout extends StepLayout {
                         currentPosition = (currentPosition + 1) % symbols.length;
                         break;
                     case INPUT2: // selects
+
                         selectCurrentSymbol();
                         state = State.SELECT_ROW;
+                        reset();
                         currentPosition = 0;
                         break;
                 }
@@ -135,19 +166,16 @@ public class ETOSLayout extends StepLayout {
         notifyLayoutListeners();
     }
 
-    private void SwitchMenu() {
-
-        Symbol current = symbols[currentPosition];
-
-        if (current == Symbol.SWITCH) {
-            menuOptions = State.MENU_STATE;
+    private void SwitchMenu() { // todo
+        if (menuOptions == State.DICTIONARY_STATE) {
+            //
         } else {
-            menuOptions = State.DICTIONARY_STATE;
+            menuOptions = State.MENU_STATE;
         }
     }
 
     private void selectCurrentSymbol() {
-
+        Object item;
         Symbol current = symbols[currentPosition];
 
         if (current == Symbol.SEND) {
@@ -155,6 +183,16 @@ public class ETOSLayout extends StepLayout {
         } else {
             keyboard.addToCurrentBuffer(current.getContent());
         }
+        /*
+        if (current == Symbol.SWITCH) { // todo
+            SwitchMenu();
+        }
+         */
+    }
+
+
+    private void reset() {
+       // dictionsuggestions = new ArrayList<>(Arrays.asList(symbols));
     }
 
     /**
