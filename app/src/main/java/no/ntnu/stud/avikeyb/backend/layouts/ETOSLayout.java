@@ -31,6 +31,8 @@ public class ETOSLayout extends StepLayout {
     public enum State {
         SELECT_ROW,
         SELECT_COLUMN,
+        MENU_STATE,
+        DICTIONARY_STATE,
     }
 
     // The current position of the cursor in the layout
@@ -38,12 +40,12 @@ public class ETOSLayout extends StepLayout {
     // The current row of the cursor in the layout.
     private State state = State.SELECT_ROW;
     private Keyboard keyboard;
+    private State menuOptions = State.DICTIONARY_STATE;
 
     List<String> dictionsuggestions = new ArrayList<>();
 
-    private LinearDictionary dictionary;
 
-    public ETOSLayout(Keyboard keyboard, Suggestions suggestions) {//}, DictionaryLoader loader) {
+    public ETOSLayout(Keyboard keyboard, Suggestions suggestions) {
         this.keyboard = keyboard;
 
         suggestions.addListener(suggestions1 -> {
@@ -53,7 +55,7 @@ public class ETOSLayout extends StepLayout {
     }
 
 
-    public List<String> getSugestions() {
+    public List<String> getSuggestions() {
         return dictionsuggestions;
     }
 
@@ -103,7 +105,6 @@ public class ETOSLayout extends StepLayout {
 
     }
 
-
     @Override
     protected void onStep(InputType input) {
 
@@ -132,6 +133,17 @@ public class ETOSLayout extends StepLayout {
                 break;
         }
         notifyLayoutListeners();
+    }
+
+    private void SwitchMenu() {
+
+        Symbol current = symbols[currentPosition];
+
+        if (current == Symbol.SWITCH) {
+            menuOptions = State.MENU_STATE;
+        } else {
+            menuOptions = State.DICTIONARY_STATE;
+        }
     }
 
     private void selectCurrentSymbol() {

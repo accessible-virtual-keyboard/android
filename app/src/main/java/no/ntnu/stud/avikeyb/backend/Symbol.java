@@ -57,7 +57,7 @@ public enum Symbol {
 
     SEND("Send"),
 
-    SWITCH("switch"),
+    SWITCH("Switch"),
 
     // Testing for menu options.
     PROFILE("Profile"),
