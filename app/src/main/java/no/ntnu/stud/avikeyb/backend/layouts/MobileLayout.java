@@ -3,6 +3,7 @@ package no.ntnu.stud.avikeyb.backend.layouts;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.InputType;
@@ -21,8 +22,11 @@ public class MobileLayout extends StepLayout {
     protected State state = State.SELECT_ROW;
     protected ArrayList<Symbol> markedSymbols = new ArrayList<>();
     protected int[] location = new int[]{-1, -1, -1};
+    protected int markedWord = 0;
+    protected List<String> suggestions;
 
     public MobileLayout(Keyboard keyboard) {
+        suggestions = new ArrayList<>();
         this.keyboard = keyboard;
 
         symbols = new Symbol[]{
@@ -41,7 +45,8 @@ public class MobileLayout extends StepLayout {
     public enum State {
         SELECT_ROW,
         SELECT_COLUMN,
-        SELECT_LETTER
+        SELECT_LETTER,
+        SELECT_DICTIONARY
     }
 
     @Override
@@ -77,6 +82,18 @@ public class MobileLayout extends StepLayout {
                     case INPUT2:
                         state = State.SELECT_ROW;
                         selectCurrentSymbols(keyboard);
+                        reset();
+                        break;
+                }
+                break;
+            case SELECT_DICTIONARY:
+                switch (input){
+                    case INPUT1:
+
+                        break;
+                    case INPUT2:
+                        state = State.SELECT_ROW;
+                        //selectCurrentSymbols(keyboard);
                         reset();
                         break;
                 }
@@ -203,5 +220,17 @@ public class MobileLayout extends StepLayout {
             markedSymbolsText += s.getContent() + " ";
         }
         Log.d("MobLayout", markedSymbolsText);
+    }
+
+    public List<String> getSuggestions() {
+        return suggestions;
+    }
+
+    public void setSuggestions(List<String> suggestions) {
+        this.suggestions = suggestions;
+    }
+
+    public int getMarkedWord() {
+        return markedWord;
     }
 }

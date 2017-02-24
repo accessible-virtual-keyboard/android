@@ -63,7 +63,7 @@ public class LinearDictionary implements Dictionary, InMemoryDictionary {
                 primarySuggestions.add(currentEntry);
             }
         }
-        sortList(primarySuggestions, SortingOrder.FREQUENCY_HIGH_TO_LOW);
+        ListSorter.sortList(primarySuggestions, SortingOrder.FREQUENCY_HIGH_TO_LOW);
         return extractWords(primarySuggestions);
     }
 
@@ -87,46 +87,12 @@ public class LinearDictionary implements Dictionary, InMemoryDictionary {
         }
     }
 
-
-    protected enum SortingOrder {
-        ALPHABETICALLY_A_TO_Z,
-        ALPHABETICALLY_Z_TO_A,
-        FREQUENCY_HIGH_TO_LOW,
-        FREQUENCY_LOW_TO_HIGH,
-        CURRENT_ORDER
-    }
-
-    /**
-     * Sorts list according to an order from the SortingOrder enum
-     *
-     * @param list  List to sort
-     * @param order SortingOrder Enum
-     */
-    protected void sortList(List<DictionaryEntry> list, final SortingOrder order){
-        Comparator<DictionaryEntry> comparator = null;
-        if (order != SortingOrder.CURRENT_ORDER) {
-            if (order == SortingOrder.ALPHABETICALLY_A_TO_Z) {
-                comparator = (o1, o2) -> o1.getWord().compareTo(o2.getWord());
-            }
-            if (order == SortingOrder.ALPHABETICALLY_Z_TO_A) {
-                comparator = (o1, o2) -> o2.getWord().compareTo(o1.getWord());
-            }
-            if (order == SortingOrder.FREQUENCY_HIGH_TO_LOW) {
-                comparator = (o1, o2) -> Integer.compare(o2.getFrequency(), o1.getFrequency());
-            }
-            if (order == SortingOrder.FREQUENCY_LOW_TO_HIGH) {
-                comparator = (o1, o2) -> Integer.compare(o1.getFrequency(), o2.getFrequency());
-            }
-            Collections.sort(list, comparator);
-        }
-    }
-
     /**
      * Use with a list that contains duplicate entries to fix them.
      * Note:dictionary.txt doesn't contain duplicates, but other lists might
      */
     private void fixDuplicateEntries() {
-        sortList(dictionary, SortingOrder.ALPHABETICALLY_A_TO_Z);
+        ListSorter.sortList(dictionary, SortingOrder.ALPHABETICALLY_A_TO_Z);
         DictionaryEntry previousEntry = null;
         for (int i = 0; i < dictionary.size(); i++) {
             DictionaryEntry currentEntry = dictionary.get(i);
@@ -139,7 +105,7 @@ public class LinearDictionary implements Dictionary, InMemoryDictionary {
             }
         }
 
-        sortList(dictionary, preferredOrder);
+        ListSorter.sortList(dictionary, preferredOrder);
     }
 
     /**
@@ -163,7 +129,7 @@ public class LinearDictionary implements Dictionary, InMemoryDictionary {
             }
         }
 
-        sortList(secondarySuggestions, preferredOrder);
+        ListSorter.sortList(secondarySuggestions, preferredOrder);
     }
 
     /**

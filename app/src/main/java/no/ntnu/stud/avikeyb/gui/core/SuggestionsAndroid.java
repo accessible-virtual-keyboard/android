@@ -9,7 +9,7 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 
 /**
- * Suggestion engine implementation that runs the query in a async task to prevent
+ * WordHistory engine implementation that runs the query in a async task to prevent
  * blocking of the GUI.
  */
 public class SuggestionsAndroid extends Suggestions {

@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,7 +33,7 @@ public class MobileLayoutGUI extends LayoutGUI {
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private ArrayList<Symbol> previouslyMarked = new ArrayList<>();
     private int layoutResource;
-
+    private ListView dictionaryList;
     public MobileLayoutGUI(Activity activity, Keyboard keyboard, MobileLayout layout, int layoutResource) {
         super(keyboard, layout);
         this.activity = activity;
@@ -41,6 +45,8 @@ public class MobileLayoutGUI extends LayoutGUI {
     @Override
     protected View buildGUI() {
         LayoutLoader loader = new LayoutLoader(activity, layoutResource);
+
+        dictionaryList = (ListView) loader.getViewById(R.id.listview);
 
         for (Symbol symbol : layout.getSymbols()) {
             if (symbol != null && loader.hasSymbol(symbol)) {
@@ -83,6 +89,14 @@ public class MobileLayoutGUI extends LayoutGUI {
                 symbolViewMap.get(symbol).setSelected(true);
             }
         }
+        if(layout.getSuggestions() != null){
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(activity.getApplicationContext(),
+                    android.R.layout.simple_list_item_1, layout.getSuggestions());
+            dictionaryList.setAdapter(adapter);
+            /*dictionaryList.getItemAtPosition(layout.getMarkedWord());
+            dictionaryList.getSelectedView().setBackgroundResource(R.color.colorPrimary);*/
+        }
+
 
         previouslyMarked = newlyMarked;
 

@@ -1,5 +1,7 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,15 +9,16 @@ import java.util.List;
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
 
-public class LinearEliminationDictionary extends LinearDictionary {
+public class LinearEliminationDictionary implements InMemoryDictionary {
+    private List<DictionaryEntry> fullDictionary; //Kept in its own list to reduce memory usage
 
-    private List<List<DictionaryEntry>> suggestionHistory;
-    //private int searchIndex = 0;
+    private List<List<List<DictionaryEntry>>> sentenceHistory; //Stores all the word histories until the sentence is sent.
+    private List<List<DictionaryEntry>> wordHistory; //List of suggestions given at different word lengths.
     /**
      * Constructs a dictionary
      */
-    public LinearEliminationDictionary() {
-        super();
+    public LinearEliminationDictionary()  {
+        sentenceHistory = new ArrayList<>();
     }
 
     /**
@@ -24,32 +27,43 @@ public class LinearEliminationDictionary extends LinearDictionary {
      * list is much smaller than the previous one.
      */
     public void findValidSuggestions(List<String> lettersToFindAtIndex) {
-        if (suggestionHistory == null) {
-            suggestionHistory = new ArrayList<>();
-            suggestionHistory.add(getDictionary());
-        }
-        List<DictionaryEntry> reducedSuggestionList = new ArrayList<>();
+        isWordHistoryInitialized();
 
-        for (DictionaryEntry entry : getLastSuggestions()) {
+        List<DictionaryEntry> reducedSuggestionList;
+        Log.d("MobLayout", "Word history size: " + wordHistory.size());
+        reducedSuggestionList = reduceValidSuggestions(lettersToFindAtIndex, getLastSuggestions());
+
+        if(reducedSuggestionList.isEmpty()){
+            Log.d("MobLayout", "Reduced suggestion is empty");
+            nextWord();
+        }else{
+            wordHistory.add(reducedSuggestionList);
+        }
+
+    }
+
+    private void isWordHistoryInitialized(){
+        if(wordHistory == null){
+            wordHistory = new ArrayList<>();
+            wordHistory.add(fullDictionary);
+        }
+    }
+
+    private List<DictionaryEntry> reduceValidSuggestions(List<String> lettersToFindAtIndex, List<DictionaryEntry> searchList){
+        List<DictionaryEntry> reducedSuggestionList = new ArrayList<>();
+        int searchIndex = findSearchIndex();
+        for (DictionaryEntry entry : searchList) {
             for (int i = 0; i < lettersToFindAtIndex.size(); i++) {
                 String letter = lettersToFindAtIndex.get(i);
-                boolean contained = entry.getWord().substring(findSearchIndex()).startsWith(letter);
+                boolean contained = entry.getWord().substring(searchIndex).startsWith(letter);
                 if (contained) {
                     reducedSuggestionList.add(entry);
                     break;
                 }
             }
         }
-
-        System.out.println("Suggestions: " + getLastSuggestions().size());
-        if(reducedSuggestionList.isEmpty()){
-            resetSuggestionHistory();
-        }else{
-            //searchIndex++;
-            suggestionHistory.add(reducedSuggestionList);
-        }
-
-
+        System.out.println("Suggestions: " + searchList.size());
+        return reducedSuggestionList;
     }
 
     /**
@@ -58,16 +72,30 @@ public class LinearEliminationDictionary extends LinearDictionary {
      * @return List<DictionaryEntry> containing valid suggestions
      */
     private List<DictionaryEntry> getLastSuggestions(){
-        return suggestionHistory.get(suggestionHistory.size()-1);
+        /*if(wordHistory.size() == 0){
+            return fullDictionary;
+        }else{*/
+            return wordHistory.get(wordHistory.size()-1);
+        //}
+
     }
 
     /**
-     * Resets the suggestion history to all the words contained in the dictionary.
-     * Should be called when the user sends his word
+     * Adds word to sentence history and resets the word history to a empty list.
+     * Should be called when the user selects word from dictionary
      */
-    public void resetSuggestionHistory() {
-        suggestionHistory = suggestionHistory.subList(0,1); //We want to keep the dictionary list
-        //searchIndex = 0;
+    public void nextWord() {
+        sentenceHistory.add(wordHistory);
+        wordHistory = wordHistory.subList(0,1);
+    }
+    /**
+     * Adds the previous word to word history again and removes it from the sentence history.
+     * Should be called when the user reverts to a state with no letters left in current word history.
+     */
+    public void previousWord() {
+        int sentenceHistoryIndex = sentenceHistory.size()-1;
+        wordHistory = sentenceHistory.get(sentenceHistoryIndex);
+        sentenceHistory.remove(sentenceHistoryIndex);
     }
 
     /**
@@ -75,39 +103,44 @@ public class LinearEliminationDictionary extends LinearDictionary {
      *
      * @param n the amount of suggestions needed
      */
-    public void printListWithNSuggestions(int n) {
-        List<DictionaryEntry> lastSuggestions = getLastSuggestions();
-        sortList(lastSuggestions, SortingOrder.FREQUENCY_HIGH_TO_LOW);
-        printList(getValidSuggestions(n));
+    public void printListSuggestions(int n) {
+        printList(getSuggestionsWithFrequencies(n));
     }
 
     /**
      * Reverts the suggestion history n steps, so it deletes n entries from the end of the
      * suggestion history (used to implement backspace functionality).
      * @param steps number of steps to revert.
+     * @return true if reversion succeeded
      */
-    public void revertLastSuggestions(int steps){
-        int index = suggestionHistory.size()-steps;
-        suggestionHistory = suggestionHistory.subList(0, index);
-        //searchIndex -= steps;
+    public boolean revertLastSuggestions(int steps){
+        int index = wordHistory.size()-steps;
+        if(index > 0){
+            wordHistory = wordHistory.subList(0, index);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
      * Reverts the suggestion history one step, so it deletes a entry from the end of the
      * suggestion history (used to implement backspace functionality).
+     * @return true if reversion succeeded
      */
-    public void revertLastSuggestions(){
-        revertLastSuggestions(1);
+    public boolean revertLastSuggestions(){
+        return revertLastSuggestions(1);
     }
 
     /**
-     * Returns the suggestion list containing n elements of the original list.
+     * Returns the suggestion list containing n elements of the original list, sorted by frequency.
      *
      * @param n number of suggestions to include in sublist
      * @return
      */
-    public List<DictionaryEntry> getValidSuggestions(int n) {
+    public List<DictionaryEntry> getSuggestionsWithFrequencies(int n) {
         List<DictionaryEntry> lastSuggestions = getLastSuggestions();
+        ListSorter.sortList(lastSuggestions, SortingOrder.FREQUENCY_HIGH_TO_LOW);
         if (lastSuggestions.size() < n) {
             return lastSuggestions;
         } else {
@@ -115,7 +148,48 @@ public class LinearEliminationDictionary extends LinearDictionary {
         }
     }
 
+    /**
+     * Returns the suggestion list containing n elements of the original list, sorted by frequency.
+     *
+     * @param n number of suggestions to include in sublist
+     * @return
+     */
+    public List<String> getSuggestions(int n) {
+        List<DictionaryEntry> list = getSuggestionsWithFrequencies(n);
+        List<String> resultList = new ArrayList<>();
+        for (DictionaryEntry entry:list) {
+            resultList.add(entry.getWord());
+        }
+        return resultList;
+    }
+
+    /**
+     * Finds the index where last suggestion list should be searched to eliminate unfit words.
+     * @return index where findValidSuggestion() should search last suggestion list.
+     */
     private int findSearchIndex(){
-        return suggestionHistory.size()-1;
+        if(wordHistory.size() == 0){
+            return 0;
+        }else{
+            return wordHistory.size()-1;
+        }
+
+    }
+
+    /**
+     * Prints a list with the word and frequency
+     *
+     * @param list
+     */
+    public void printList(List<DictionaryEntry> list){
+        for (DictionaryEntry entry : list) {
+            System.out.println(entry.getWord() + " - " + entry.getFrequency());
+        }
+    }
+
+
+    @Override
+    public void setDictionary(List<DictionaryEntry> dictionary) {
+        fullDictionary = dictionary;
     }
 }

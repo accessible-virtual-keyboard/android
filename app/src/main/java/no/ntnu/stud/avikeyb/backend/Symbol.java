@@ -51,6 +51,7 @@ public enum Symbol {
     PERIOD("."),
     COMMA(","),
     SPACE(" "),
+    SPACE_UNICODE_SYMBOL("\u005F"),
 
     NULL(null),
 

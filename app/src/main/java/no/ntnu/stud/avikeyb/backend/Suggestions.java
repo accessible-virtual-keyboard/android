@@ -8,7 +8,7 @@ import java.util.List;
  * <p>
  * Objects of this class will listen to the keyboard and find suggested words as new characters
  * are added to the keyboard output buffer. Someone interested in the suggestion can register
- * an Suggestion.Listener to be notified when new suggestions are found.
+ * an WordHistory.Listener to be notified when new suggestions are found.
  * <p>
  * This class does not implement the actual search as the search may need to talk to an
  * database or do other long running tasks that could block when used with a gui library.
