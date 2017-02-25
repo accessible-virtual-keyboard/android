@@ -43,6 +43,7 @@ public class BinarySearchLayoutTest extends LayoutTestBase {
         goLeft();
         goLeft();
         goLeft();
+        goLeft();
 
         assertOutputBufferEquals("a");
         assertLastOutputEquals("");
@@ -51,8 +52,9 @@ public class BinarySearchLayoutTest extends LayoutTestBase {
         goLeft();
         goLeft();
         goRight();
-        goRight();
         goLeft();
+        goRight();
+        goRight();
 
         assertOutputBufferEquals("ah");
         assertLastOutputEquals("");
@@ -63,13 +65,13 @@ public class BinarySearchLayoutTest extends LayoutTestBase {
         goLeft();
         goLeft();
         goLeft();
+        goLeft();
 
         assertOutputBufferEquals("aha");
         assertLastOutputEquals("");
 
         // Send
-        goRight();
-        goRight();
+        goLeft();
         goRight();
         goRight();
         goRight();
