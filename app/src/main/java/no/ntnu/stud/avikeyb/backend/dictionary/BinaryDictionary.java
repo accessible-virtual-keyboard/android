@@ -166,6 +166,30 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
         return alphabet.lastIndexOf(firstCharacter) - alphabet.lastIndexOf(secondCharacter);
     }
 
+    /**
+     * Adds a new word to the dictionary.
+     *
+     * @param word              Word to be added.
+     * @param standardFrequency The standard usage frequency.
+     * @param userFrequency     The user specific usage frequency.
+     * @return 1 if word was successfully added. -1 if there was an error.
+     */
+    public int addWordToDictionary(String word, int standardFrequency, int userFrequency) {
+
+        // First check if word already exists.
+        for (DictionaryEntry dictionaryEntry : this.dictionaryEntries) {
+            if (dictionaryEntry.getWord().equals(word)) {
+                // Entry already exists.
+                return -1;
+            }
+        }
+        DictionaryEntry newEntry = new DictionaryEntry(word, standardFrequency, userFrequency);
+        dictionaryEntries.add(newEntry);
+        sortDictionary();
+        // TODO: Verify that everything works.
+        return 1;
+    }
+
     // Override.
     @Override
     public List<String> getSuggestionsStartingWith(String match) {
@@ -174,9 +198,15 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
 
     @Override
     public void updateWordUsage(String string) {
+        boolean wordExist = false;
         for (DictionaryEntry dictionaryEntry : this.dictionaryEntries) {
             if (dictionaryEntry.getWord().equals(string)) {
                 dictionaryEntry.setUserFrequency(dictionaryEntry.getUserFrequency() + 1);
+                wordExist = true;
+            }
+            if (!wordExist) {
+                // Word does not exist in dictionary. Add it.
+                addWordToDictionary(string, 0, 1);
             }
         }
     }

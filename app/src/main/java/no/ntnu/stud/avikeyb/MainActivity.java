@@ -20,6 +20,7 @@ import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
 import no.ntnu.stud.avikeyb.backend.core.WordUpdater;
+import no.ntnu.stud.avikeyb.backend.dictionary.BinaryDictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
 import no.ntnu.stud.avikeyb.backend.dictionary.InMemoryDictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
      * @return a dictionary
      */
     private Dictionary createDictionary() {
-        LinearDictionary dictionary = new LinearDictionary();
+        BinaryDictionary dictionary = new BinaryDictionary();
 
         // Load the dictionary content in an async task. The dictionary will be empty
         // until the task is finished
