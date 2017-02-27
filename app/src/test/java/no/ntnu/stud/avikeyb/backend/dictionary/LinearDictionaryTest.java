@@ -112,7 +112,8 @@ public class LinearDictionaryTest {
     }
 
     @Test
-    public void testFrequencies() throws Exception {
+    public void testStandardFrequencies() throws Exception {
+        // User frequencies are all 0
         Dictionary dictionary = new LinearDictionary(Arrays.asList(
                 de("test1", 1),
                 de("test2", 10),
@@ -128,7 +129,30 @@ public class LinearDictionaryTest {
     }
 
 
+    @Test
+    public void testUserFrequencies() throws Exception {
+        // User frequency should count more than the standard frequency, but the standard frequency
+        // should still be used for sorting as well
+        Dictionary dictionary = new LinearDictionary(Arrays.asList(
+                de("test1", 1, 100),
+                de("test2", 10, 0),
+                de("test3", 4, 50),
+                de("testing4", 2),
+                de("testing5", 2),
+                de("testing6", 8),
+                de("testing7", 4)
+        ));
+
+        List<String> res = dictionary.getSuggestionsStartingWith("test");
+        assertThat(res, is(Arrays.asList("test1", "test3", "test2", "testing6", "testing7", "testing4", "testing5")));
+    }
+
+
     private DictionaryEntry de(String word, int frequency) {
-        return new DictionaryEntry(word, frequency);
+        return new DictionaryEntry(word, frequency, 0);
+    }
+
+    private DictionaryEntry de(String word, int frequency, int userFreq) {
+        return new DictionaryEntry(word, frequency, userFreq);
     }
 }
