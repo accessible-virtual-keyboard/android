@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         LinearDictionary dictionary = new LinearDictionary();
 
         // Load the dictionary content in an async task. The dictionary will be empty
-        // until the task is loading task is finished
+        // until the task is finished
         loadDictionaryFromFile(dictionary, R.raw.dictionary);
         return dictionary;
 
