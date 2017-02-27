@@ -39,15 +39,18 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
     private MenuAdapter menuAdapter;
     private DictionaryAdapter dictionaryAdapter; // test
+    LayoutLoader loader;
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
         this.layout = layout;
         this.activity = activity;
+        loader = new LayoutLoader(activity, R.layout.layout_etos);
     }
 
+    // runs only one time.
     public ViewGroup buildGUI() {
-        LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_etos);
+        // LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_etos);
         for (Symbol symbol : layout.getSymbols()) {
             if (symbol != null && loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
@@ -59,10 +62,10 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
         // ha en sjekk på switch testview for å sette adapter
 
-        ListView listview = (ListView) loader.getViewById(R.id.listview);
+       /* ListView listview = (ListView) loader.getViewById(R.id.listview);
         menuAdapter = new MenuAdapter(activity, listItems, layout);
         dictionaryAdapter = new DictionaryAdapter(activity, listDictionary, layout); // test
-
+*/
         // Hvordan velge adapter
       /*  if (layout.getCurrentSymbol().equals("switch")) {
             listview.setAdapter(menuAdapter);
@@ -80,35 +83,55 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
         // listview.setAdapter(menuAdapter); // orginal
 
-        listview.setAdapter(dictionaryAdapter);
-        dictionaryAdapter.notifyDataSetChanged();
-        menuAdapter.notifyDataSetChanged();
+//        listview.setAdapter(dictionaryAdapter);
+      //  dictionaryAdapter.notifyDataSetChanged();
+       // menuAdapter.notifyDataSetChanged();
         return (ViewGroup) loader.getLayout();
     }
 
     public void updateGUI() {
 
-        // Highlight the selected symbol
-        int current = layout.getCurrentPosition();
-        int index = 0;
+        // test
+        ListView listview = (ListView) loader.getViewById(R.id.listview);
+        menuAdapter = new MenuAdapter(activity, listItems, layout);
+        dictionaryAdapter = new DictionaryAdapter(activity, listDictionary, layout);
 
-        for (Symbol symbol : layout.getSymbols()) {
 
-            if (symbol != null && symbolViewMap.containsKey(symbol)) {
-                if (current == index) {
-                    symbolViewMap.get(symbol).setBackgroundResource(R.color.purpleparty);
-                } else {
-                    symbolViewMap.get(symbol).setBackgroundResource(R.color.lightgrey);
-                }
+        // todo this do not work atm.
+        if (layout.getCurrentSymbol().equals("switch")) {
+            listview.setAdapter(menuAdapter);
+            for (Symbol item : layout.getMenuOptions()) {
+                listItems.add(item);
             }
-            index++;
+        } else {
+            listview.setAdapter(dictionaryAdapter);
+            // set adapter to menu.
+            for (String dictionaryoptions : layout.getSuggestions()) {
+                listDictionary.add(dictionaryoptions);
+            }
+
+            // Highlight the selected symbol
+            int current = layout.getCurrentPosition();
+            int index = 0;
+
+            for (Symbol symbol : layout.getSymbols()) {
+
+                if (symbol != null && symbolViewMap.containsKey(symbol)) {
+                    if (current == index) {
+                        symbolViewMap.get(symbol).setBackgroundResource(R.color.purpleparty);
+                    } else {
+                        symbolViewMap.get(symbol).setBackgroundResource(R.color.lightgrey);
+                    }
+                }
+                index++;
+            }
+            dictionaryAdapter.clear();
+
+            listDictionary.addAll(layout.getSuggestions());
+
+            menuAdapter.notifyDataSetChanged();
+            dictionaryAdapter.notifyDataSetChanged(); //test
         }
-        dictionaryAdapter.clear();
 
-        listDictionary.addAll(layout.getSuggestions());
-
-        menuAdapter.notifyDataSetChanged();
-        dictionaryAdapter.notifyDataSetChanged(); //test
     }
-
-} // end of class
+}// end of class

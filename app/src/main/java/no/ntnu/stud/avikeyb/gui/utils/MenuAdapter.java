@@ -35,7 +35,6 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
         this.layout = layout;
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position.
