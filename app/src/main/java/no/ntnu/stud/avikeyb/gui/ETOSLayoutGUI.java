@@ -50,7 +50,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
     // runs only one time.
     public ViewGroup buildGUI() {
-        // LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_etos);
         for (Symbol symbol : layout.getSymbols()) {
             if (symbol != null && loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
@@ -59,79 +58,45 @@ public class ETOSLayoutGUI extends LayoutGUI {
                 symbolViewMap.put(symbol, view);
             }
         }
-
-        // ha en sjekk på switch testview for å sette adapter
-
-       /* ListView listview = (ListView) loader.getViewById(R.id.listview);
         menuAdapter = new MenuAdapter(activity, listItems, layout);
-        dictionaryAdapter = new DictionaryAdapter(activity, listDictionary, layout); // test
-*/
-        // Hvordan velge adapter
-      /*  if (layout.getCurrentSymbol().equals("switch")) {
-            listview.setAdapter(menuAdapter);
-            for (Symbol item : layout.getMenuOptions()) {
-                listItems.add(item);
-            }
-        } else {
-            listview.setAdapter(dictionaryAdapter);
-            // set adapter to menu.
-            for (String dictionaryoptions : layout.getSuggestions()) {
-                listDictionary.add(dictionaryoptions);
-            }
+        dictionaryAdapter = new DictionaryAdapter(activity, listDictionary, layout);
 
-        } */
-
-        // listview.setAdapter(menuAdapter); // orginal
-
-//        listview.setAdapter(dictionaryAdapter);
-      //  dictionaryAdapter.notifyDataSetChanged();
-       // menuAdapter.notifyDataSetChanged();
         return (ViewGroup) loader.getLayout();
     }
 
     public void updateGUI() {
-
         // test
         ListView listview = (ListView) loader.getViewById(R.id.listview);
-        menuAdapter = new MenuAdapter(activity, listItems, layout);
-        dictionaryAdapter = new DictionaryAdapter(activity, listDictionary, layout);
 
-
-        // todo this do not work atm.
-        if (layout.getCurrentSymbol().equals("switch")) {
+        if (layout.getMenuState().equals(ETOSLayout.State.MENU_STATE)) {
             listview.setAdapter(menuAdapter);
             for (Symbol item : layout.getMenuOptions()) {
                 listItems.add(item);
             }
+            menuAdapter.notifyDataSetChanged();
         } else {
             listview.setAdapter(dictionaryAdapter);
-            // set adapter to menu.
-            for (String dictionaryoptions : layout.getSuggestions()) {
-                listDictionary.add(dictionaryoptions);
-            }
 
-            // Highlight the selected symbol
-            int current = layout.getCurrentPosition();
-            int index = 0;
-
-            for (Symbol symbol : layout.getSymbols()) {
-
-                if (symbol != null && symbolViewMap.containsKey(symbol)) {
-                    if (current == index) {
-                        symbolViewMap.get(symbol).setBackgroundResource(R.color.purpleparty);
-                    } else {
-                        symbolViewMap.get(symbol).setBackgroundResource(R.color.lightgrey);
-                    }
-                }
-                index++;
-            }
             dictionaryAdapter.clear();
-
             listDictionary.addAll(layout.getSuggestions());
-
-            menuAdapter.notifyDataSetChanged();
-            dictionaryAdapter.notifyDataSetChanged(); //test
+            dictionaryAdapter.notifyDataSetChanged();
         }
+        
+        // Highlight the selected symbol
+        int current = layout.getCurrentPosition();
+        int index = 0;
 
+        for (Symbol symbol : layout.getSymbols()) {
+
+            if (symbol != null && symbolViewMap.containsKey(symbol)) {
+                if (current == index) {
+                    symbolViewMap.get(symbol).setBackgroundResource(R.color.purpleparty);
+                } else {
+                    symbolViewMap.get(symbol).setBackgroundResource(R.color.lightgrey);
+                }
+            }
+            index++;
+        }
     }
+
 }// end of class

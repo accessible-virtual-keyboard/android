@@ -39,7 +39,7 @@ public class ETOSLayout extends StepLayout {
     // The current row of the cursor in the layout.
     private State state = State.SELECT_ROW;
     private Keyboard keyboard;
-    private State menuOptions = State.DICTIONARY_STATE;
+    private State menuOptions = State.DICTIONARY_STATE; // sidemenu is initialized to be dictionary.
     private List<String> dictionsuggestions = new ArrayList<>();
 
     private Suggestions suggestionEngine;
@@ -152,16 +152,13 @@ public class ETOSLayout extends StepLayout {
                         break;
                     case INPUT2: // selects
 
-                        // sjekke her om det er switch eller ikke.
                         if (current == Symbol.SWITCH) {
                             SwitchMenu();
                         } else {
                             selectCurrentSymbol();
                         }
-
                         state = State.SELECT_ROW;
                         currentPosition = 0;
-                        System.out.println("The state is: " + menuOptions);
                         break;
                 }
                 break;
@@ -169,14 +166,25 @@ public class ETOSLayout extends StepLayout {
         notifyLayoutListeners();
     }
 
-    private void SwitchMenu() { // todo
+    /**
+     * Get the current menu state.
+     *
+     * @return menuOptions the current state.
+     */
+    public State getMenuState() {
+        return menuOptions;
+
+    }
+
+    public void SwitchMenu() { // todo
         if (menuOptions == State.MENU_STATE) {
             menuOptions = State.DICTIONARY_STATE;
-            System.out.println("We are noe in menu state");
+            System.out.println("We are noe in dictionary state");
             // vise muligheter for ordbok
+
         } else {
             menuOptions = State.MENU_STATE;
-            System.out.println("We are noe in dictionary state");
+            System.out.println("We are noe in menu state");
             // vise menyen
         }
     }
@@ -186,15 +194,11 @@ public class ETOSLayout extends StepLayout {
 
         if (current == Symbol.SEND) {
             keyboard.sendCurrentBuffer();
-        }
-        /*
-        else if (current == Symbol.SWITCH) { // todo
-            SwitchMenu();
-        }
-         */
-        else {
+        } else {
             keyboard.addToCurrentBuffer(current.getContent());
         }
 
+        // sjekk på om det er currentSuggestion og velge det å legge til buffer.
+        // selectSuggestion(); skal ta inn en string.
     }
 } // en of class
