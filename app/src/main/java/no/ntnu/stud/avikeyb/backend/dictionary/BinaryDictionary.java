@@ -206,7 +206,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
             }
             if (!wordExist) {
                 // Word does not exist in dictionary. Add it.
-                addWordToDictionary(string, 0, 1);
+//                addWordToDictionary(string, 0, 1);
             }
         }
     }
