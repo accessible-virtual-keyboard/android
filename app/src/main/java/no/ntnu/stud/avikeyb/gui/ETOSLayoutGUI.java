@@ -60,7 +60,9 @@ public class ETOSLayoutGUI extends LayoutGUI {
         }
         menuAdapter = new MenuAdapter(activity, listItems, layout);
         dictionaryAdapter = new DictionaryAdapter(activity, listDictionary, layout);
-
+        for (Symbol item : layout.getMenuOptions()) {
+            listItems.add(item);
+        }
         return (ViewGroup) loader.getLayout();
     }
 
@@ -70,9 +72,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
         if (layout.getMenuState().equals(ETOSLayout.State.MENU_STATE)) {
             listview.setAdapter(menuAdapter);
-            for (Symbol item : layout.getMenuOptions()) {
-                listItems.add(item);
-            }
             menuAdapter.notifyDataSetChanged();
         } else {
             listview.setAdapter(dictionaryAdapter);
@@ -81,7 +80,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
             listDictionary.addAll(layout.getSuggestions());
             dictionaryAdapter.notifyDataSetChanged();
         }
-        
+
         // Highlight the selected symbol
         int current = layout.getCurrentPosition();
         int index = 0;
