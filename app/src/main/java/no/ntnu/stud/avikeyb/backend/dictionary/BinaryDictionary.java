@@ -118,9 +118,18 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
         }
 
         // Sort list by the words frequency of occurrence.
+        // Sorts first on standard frequencies, then on user frequencies.
         Collections.sort(matchingDictionaryEntries, new Comparator<DictionaryEntry>() {
             @Override
             public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                System.out.println(o1.toString());
+                return o2.getStandardFrequency() - o1.getStandardFrequency();
+            }
+        });
+        Collections.sort(matchingDictionaryEntries, new Comparator<DictionaryEntry>() {
+            @Override
+            public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                System.out.println(o1.toString());
                 return o2.getUserFrequency() - o1.getUserFrequency();
             }
         });
