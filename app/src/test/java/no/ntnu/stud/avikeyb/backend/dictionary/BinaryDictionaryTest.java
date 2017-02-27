@@ -18,7 +18,8 @@ import static org.junit.Assert.*;
 public class BinaryDictionaryTest {
 
     private BinaryDictionary binaryDictionaryNoFrequency;
-    private BinaryDictionary binaryDictionaryWithFrequency;
+    private BinaryDictionary binaryDictionaryWithOneFrequency;
+    private BinaryDictionary binaryDictionaryWithTwoFrequency;
     List<String> expectedOutputs;
 
     /**
@@ -26,10 +27,10 @@ public class BinaryDictionaryTest {
      */
     @Before
     public void setUp() {
-
 //        System.out.println(getClass().getClassLoader().getResourceAsStream("raw/word.list"));
         binaryDictionaryNoFrequency = new BinaryDictionary(new DictionaryFileLoader("./src/main/res/raw/word.list").loadDictionary());
-        binaryDictionaryWithFrequency = new BinaryDictionary(new DictionaryFileLoader("./src/main/res/raw/dictionary.txt").loadDictionary());
+        binaryDictionaryWithOneFrequency = new BinaryDictionary(new DictionaryFileLoader("./src/main/res/raw/dictionary.txt").loadDictionary());
+        binaryDictionaryWithTwoFrequency = new BinaryDictionary(new DictionaryFileLoader("./src/main/res/raw/test_dictionary.txt").loadDictionary());
     }
 
     /**
@@ -108,12 +109,21 @@ public class BinaryDictionaryTest {
     }
 
     /**
-     * Test with a dictionary that has usage frequencies in addition to the words.
+     * Test with a dictionary that has one set of frequencies in addition to the words.
      */
     @Test
-    public void testWithFrequencyDictionary() {
+    public void testWithOneFrequencyDictionary() {
         expectedOutputs = Arrays.asList("you", "your", "you're", "yeah", "yes", "you've");
-        assertEquals(expectedOutputs, binaryDictionaryWithFrequency.prefixSearch("y").subList(0, 6));
+        assertEquals(expectedOutputs, binaryDictionaryWithOneFrequency.prefixSearch("y").subList(0, 6));
+    }
+
+    /**
+     * Test with a dictionary that has both standard and user frequencies in addition to the words.
+     */
+    @Test
+    public void testWithTwoFrequencyDictionary() {
+        expectedOutputs = Arrays.asList("you're", "yeah", "you", "your", "yes");
+        assertEquals(expectedOutputs, binaryDictionaryWithTwoFrequency.prefixSearch("y").subList(0, 5));
     }
 
 }

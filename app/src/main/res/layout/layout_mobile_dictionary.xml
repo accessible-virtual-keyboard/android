@@ -419,6 +419,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:layout_weight="1"
+        android:choiceMode="singleChoice"
         android:background="@color/mobileLayoutButtonGroupBackground" />
 
 </LinearLayout>

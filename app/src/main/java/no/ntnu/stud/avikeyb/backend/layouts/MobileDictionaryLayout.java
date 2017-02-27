@@ -19,6 +19,7 @@ public class MobileDictionaryLayout extends MobileLayout {
 
     private LinearEliminationDictionary dictionary;
 
+
     public MobileDictionaryLayout(Keyboard keyboard, LinearEliminationDictionary dictionary) {
         super();
         this.keyboard = keyboard;
@@ -62,7 +63,9 @@ public class MobileDictionaryLayout extends MobileLayout {
                         } else if (markedSymbols.contains(Symbol.DICTIONARY)) {
                             //TODO go to dictionary
                             state = State.SELECT_DICTIONARY;
+                            markedWord = 0;
                             softReset();
+
                             break;
                         } else if (markedSymbols.contains(Symbol.BACKSPACE)) {
                             //TODO handle backspace
@@ -74,8 +77,8 @@ public class MobileDictionaryLayout extends MobileLayout {
                             break;
                         } else {
                             dictionary.findValidSuggestions(getStringsFromMarkedSymbols());
-                            dictionary.printListSuggestions(10);
-                            setSuggestions(dictionary.getSuggestions(10));
+                            dictionary.printListSuggestions(nSuggestions);
+                            setSuggestions(dictionary.getSuggestions(nSuggestions));
                         }
 
                         logMarked();
@@ -102,15 +105,19 @@ public class MobileDictionaryLayout extends MobileLayout {
                 switch (input) {
                     case INPUT1:
                         markedWord++;
+                        if(markedWord >= suggestions.size() || markedWord >= nSuggestions){
+                            markedWord = 0;
+                        }
                         break;
                     case INPUT2:
                         //TODO selection logic
 
-                        keyboard.addToCurrentBuffer(getSuggestions().get(markedWord));
+                        keyboard.addToCurrentBuffer(getSuggestions().get(markedWord)+ " ");
                         dictionary.nextWord();
 
                         state = State.SELECT_ROW;
                         nextRow();
+                        markedWord = -1;
                         //keyboard.addToCurrentBuffer(dictionary.getSuggestionsWithFrequencies(1).get(0).getWord() + " ");
                         break;
                 }

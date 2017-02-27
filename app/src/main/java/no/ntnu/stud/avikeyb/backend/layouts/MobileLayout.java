@@ -5,7 +5,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
@@ -22,8 +21,9 @@ public class MobileLayout extends StepLayout {
     protected State state = State.SELECT_ROW;
     protected ArrayList<Symbol> markedSymbols = new ArrayList<>();
     protected int[] location = new int[]{-1, -1, -1};
-    protected int markedWord = 0;
+    protected int markedWord = -1;
     protected List<String> suggestions;
+    protected int nSuggestions = 10;
 
     public MobileLayout(Keyboard keyboard) {
         suggestions = new ArrayList<>();
@@ -41,6 +41,7 @@ public class MobileLayout extends StepLayout {
 
     protected MobileLayout(){
     }
+
 
     public enum State {
         SELECT_ROW,
@@ -222,9 +223,6 @@ public class MobileLayout extends StepLayout {
         Log.d("MobLayout", markedSymbolsText);
     }
 
-    public List<String> getSuggestions() {
-        return suggestions;
-    }
 
     public void setSuggestions(List<String> suggestions) {
         this.suggestions = suggestions;
@@ -233,4 +231,15 @@ public class MobileLayout extends StepLayout {
     public int getMarkedWord() {
         return markedWord;
     }
+
+
+    public List<String> getSuggestions(){
+        return suggestions;
+    }
+
+
+    public int getMaxPossibleSuggestions() {
+        return nSuggestions;
+    }
+
 }
