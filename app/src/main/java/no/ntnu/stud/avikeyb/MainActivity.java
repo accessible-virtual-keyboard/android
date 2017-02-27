@@ -19,6 +19,7 @@ import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
+import no.ntnu.stud.avikeyb.backend.core.WordUpdater;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
 import no.ntnu.stud.avikeyb.backend.dictionary.InMemoryDictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearDictionary;
@@ -123,6 +124,10 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) MainActivity.this.findViewById(R.id.currentBuffer)).setText(newBuffer);
             }
         });
+
+
+        // Update user word usage count
+        keyboard.addStateListener(new WordUpdater(dictionary));
 
 
         layoutTabs.addOnTabSelectedListener(tabSwitcher);
