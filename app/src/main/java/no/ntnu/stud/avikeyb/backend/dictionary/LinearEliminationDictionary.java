@@ -183,7 +183,7 @@ public class LinearEliminationDictionary implements InMemoryDictionary {
      */
     public void printList(List<DictionaryEntry> list){
         for (DictionaryEntry entry : list) {
-            System.out.println(entry.getWord() + " - " + entry.getFrequency());
+            System.out.println(entry.getWord() + " - " + entry.getUserFrequency());
         }
     }
 

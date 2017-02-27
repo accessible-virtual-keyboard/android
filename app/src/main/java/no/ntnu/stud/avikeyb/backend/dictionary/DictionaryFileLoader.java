@@ -27,7 +27,7 @@ public class DictionaryFileLoader implements DictionaryLoader {
         List<DictionaryEntry> dictionary = new ArrayList<>();
         try {
             dictionary = ResourceLoader.loadDictionaryFromFile(filePath);
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             System.err.println("Failed loading dictionary from file " + filePath);
             e.printStackTrace();
         }

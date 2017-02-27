@@ -39,7 +39,7 @@ public class ETOSLayout extends StepLayout {
     // The current row of the cursor in the layout.
     private State state = State.SELECT_ROW;
     private Keyboard keyboard;
-    private State menuOptions = State.DICTIONARY_STATE;
+    private State menuOptions = State.DICTIONARY_STATE; // sidemenu is initialized to be dictionary.
     private List<String> dictionsuggestions = new ArrayList<>();
 
     private Suggestions suggestionEngine;
@@ -57,24 +57,15 @@ public class ETOSLayout extends StepLayout {
         });
     }
 
-    /**
-     * Checks if a symbol is active
-     *
-     * @param symbol the symbol to check
-     * @return true if the symbol is active
-     */
-    public boolean symbolIsActive(Symbol symbol) {
-        return dictionsuggestions.contains(symbol);
-    }
-
-    public boolean suggestionIsActive(String suggestion){
-        return dictionsuggestions.contains(suggestion);
-    }
-
     public List<String> getSuggestions() {
         return dictionsuggestions;
     }
 
+    /**
+     * Adds the suggestion to the output buffer.
+     *
+     * @param suggestion
+     */
     private void selectSuggestion(String suggestion) {
         // Remove the characters that has already been written
         String sug = suggestion.substring(keyboard.getCurrentWord().length());
@@ -87,7 +78,7 @@ public class ETOSLayout extends StepLayout {
      * @return return the current suggestion from its position.
      */
     public String getCurrentSuggestion() {
-        if(currentPosition < dictionsuggestions.size()){
+        if (currentPosition < dictionsuggestions.size()) {
             return dictionsuggestions.get(currentPosition);
         }
         return "";
@@ -141,6 +132,8 @@ public class ETOSLayout extends StepLayout {
     @Override
     protected void onStep(InputType input) {
 
+        Symbol current = symbols[currentPosition]; // test
+
         switch (state) {
             case SELECT_ROW:
                 switch (input) {
@@ -159,7 +152,11 @@ public class ETOSLayout extends StepLayout {
                         break;
                     case INPUT2: // selects
 
-                        selectCurrentSymbol();
+                        if (current == Symbol.SWITCH) {
+                            SwitchMenu();
+                        } else {
+                            selectCurrentSymbol();
+                        }
                         state = State.SELECT_ROW;
                         currentPosition = 0;
                         break;
@@ -169,16 +166,30 @@ public class ETOSLayout extends StepLayout {
         notifyLayoutListeners();
     }
 
-    private void SwitchMenu() { // todo
-        if (menuOptions == State.DICTIONARY_STATE) {
-            //
+    /**
+     * Get the current menu state.
+     *
+     * @return menuOptions the current state.
+     */
+    public State getMenuState() {
+        return menuOptions;
+
+    }
+
+    public void SwitchMenu() { // todo
+        if (menuOptions == State.MENU_STATE) {
+            menuOptions = State.DICTIONARY_STATE;
+            System.out.println("We are noe in dictionary state");
+            // vise muligheter for ordbok
+
         } else {
             menuOptions = State.MENU_STATE;
+            System.out.println("We are noe in menu state");
+            // vise menyen
         }
     }
 
     private void selectCurrentSymbol() {
-        Object item;
         Symbol current = symbols[currentPosition];
 
         if (current == Symbol.SEND) {
@@ -186,10 +197,8 @@ public class ETOSLayout extends StepLayout {
         } else {
             keyboard.addToCurrentBuffer(current.getContent());
         }
-        /*
-        if (current == Symbol.SWITCH) { // todo
-            SwitchMenu();
-        }
-         */
+
+        // sjekk på om det er currentSuggestion og velge det å legge til buffer.
+        // selectSuggestion(); skal ta inn en string.
     }
 } // en of class

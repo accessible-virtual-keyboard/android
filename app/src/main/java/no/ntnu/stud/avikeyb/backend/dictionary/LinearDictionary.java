@@ -1,8 +1,6 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.Dictionary;
@@ -81,8 +79,8 @@ public class LinearDictionary implements Dictionary, InMemoryDictionary {
 
         for (DictionaryEntry entry:dictionary) {
             if (entry.getWord().equals(string)) {
-                int newFrequency = entry.getFrequency() + 1;
-                entry.setFrequency(newFrequency);
+                int newFrequency = entry.getUserFrequency() + 1;
+                entry.setUserFrequency(newFrequency);
             }
         }
     }
@@ -97,7 +95,7 @@ public class LinearDictionary implements Dictionary, InMemoryDictionary {
         for (int i = 0; i < dictionary.size(); i++) {
             DictionaryEntry currentEntry = dictionary.get(i);
             if (previousEntry != null && previousEntry.getWord().equals(currentEntry.getWord())) {
-                previousEntry.setFrequency(previousEntry.getFrequency() + currentEntry.getFrequency());
+                previousEntry.setUserFrequency(previousEntry.getUserFrequency() + currentEntry.getUserFrequency());
                 dictionary.remove(currentEntry);
                 i--;
             } else {
@@ -220,7 +218,7 @@ public class LinearDictionary implements Dictionary, InMemoryDictionary {
      */
     public void printList(List<DictionaryEntry> list){
         for (DictionaryEntry entry : list) {
-            System.out.println(entry.getWord() + " - " + entry.getFrequency());
+            System.out.println(entry.getWord() + " - " + entry.getUserFrequency());
         }
     }
 
