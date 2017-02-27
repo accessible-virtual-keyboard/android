@@ -153,6 +153,59 @@ public abstract class DictionaryTester {
     }
 
 
+    @Test
+    public void testUpdateWordUsage() throws Exception {
+
+        Dictionary dictionary = createDictionary(Arrays.asList(
+                de("test1", 1),
+                de("test2", 10),
+                de("test3", 4),
+                de("testing4", 2),
+                de("testing5", 2),
+                de("testing6", 8),
+                de("testing7", 4)
+        ));
+
+        List<String> res = dictionary.getSuggestionsStartingWith("test");
+
+        // Should be sorted on standard frequency
+        assertThat(res, is(Arrays.asList("test2", "testing6", "test3", "testing7", "testing4", "testing5", "test1")));
+
+        dictionary.updateWordUsage("test1");
+        res = dictionary.getSuggestionsStartingWith("test");
+
+        // Should be sorted on standard frequency, with test1 first because of 1 usage count
+        assertThat(res, is(Arrays.asList("test1", "test2", "testing6", "test3", "testing7", "testing4", "testing5")));
+
+        dictionary.updateWordUsage("testing5");
+        res = dictionary.getSuggestionsStartingWith("test");
+
+        // testing5 should be before test1 because of higher standard frequency
+        assertThat(res, is(Arrays.asList("testing5", "test1", "test2", "testing6", "test3", "testing7", "testing4")));
+
+        dictionary.updateWordUsage("testing7");
+        dictionary.updateWordUsage("testing7");
+        res = dictionary.getSuggestionsStartingWith("test");
+
+        // testing7 should the first because of highest user frequency
+        assertThat(res, is(Arrays.asList("testing7", "testing5", "test1", "test2", "testing6", "test3", "testing4")));
+
+        dictionary.updateWordUsage("testing5");
+        res = dictionary.getSuggestionsStartingWith("test");
+
+        // testing7 and testing5 has equal user freqency, but testing7 has higher standard frequency
+        assertThat(res, is(Arrays.asList("testing7", "testing5", "test1", "test2", "testing6", "test3", "testing4")));
+
+        dictionary.updateWordUsage("testing5");
+        res = dictionary.getSuggestionsStartingWith("test");
+
+        // testing5 has highest user frequency
+        assertThat(res, is(Arrays.asList("testing5", "testing7", "test1", "test2", "testing6", "test3", "testing4")));
+
+
+    }
+
+
     private DictionaryEntry de(String word, int frequency) {
         return new DictionaryEntry(word, frequency, 0);
     }
