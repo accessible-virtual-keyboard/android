@@ -1,5 +1,7 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
+import android.support.test.espresso.core.deps.guava.collect.ComparisonChain;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,11 +27,18 @@ public abstract class ListSorter {
                 comparator = (o1, o2) -> o2.getWord().compareTo(o1.getWord());
             }
             if (order == SortingOrder.FREQUENCY_HIGH_TO_LOW) {
-                comparator = (o1, o2) -> Integer.compare(o2.getUserFrequency(), o1.getUserFrequency());
+                comparator = (o1, o2) -> ComparisonChain.start()
+                        .compare(o2.getUserFrequency(),o1.getUserFrequency())
+                        .compare(o2.getStandardFrequency(),o1.getStandardFrequency())
+                        .compare(o1.getWord(),o2.getWord()).result();
             }
             if (order == SortingOrder.FREQUENCY_LOW_TO_HIGH) {
-                comparator = (o1, o2) -> Integer.compare(o1.getUserFrequency(), o2.getUserFrequency());
+                comparator = (o1, o2) -> ComparisonChain.start()
+                        .compare(o1.getUserFrequency(),o2.getUserFrequency())
+                        .compare(o1.getStandardFrequency(),o2.getStandardFrequency())
+                        .compare(o1.getWord(),o2.getWord()).result();
             }
+
             Collections.sort(list, comparator);
         }
     }

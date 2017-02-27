@@ -44,4 +44,5 @@ dependencies {
     compile 'com.emotiv.sdk:community:3.3.4'
     compile 'com.intuit.sdp:sdp-android:1.0.4'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support.test.espresso:espresso-core:2.2.2'
 }
