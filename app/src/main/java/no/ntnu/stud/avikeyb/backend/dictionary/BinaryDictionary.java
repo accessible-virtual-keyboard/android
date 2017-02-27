@@ -26,13 +26,27 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
 
     /**
      * Constructs the dictionary.
+     * Automatically sorts the dictionary alphabetically.
      *
      * @param dictionary
      */
     public BinaryDictionary(List<DictionaryEntry> dictionary) {
         this.dictionaryEntries = dictionary;
+        sortDictionary();
     }
 
+    /**
+     * Sorts the dictionary in an alphabetically order.
+     */
+    private void sortDictionary() {
+        // Sort the dictionary alphabetically.
+        Collections.sort(dictionaryEntries, new Comparator<DictionaryEntry>() {
+            @Override
+            public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                return o1.getWord().compareToIgnoreCase(o2.getWord());
+            }
+        });
+    }
 
     /**
      * Performs a prefix search on the dictionary, returning a list of all words that begin with the
@@ -45,8 +59,8 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
      */
     public List<String> prefixSearch(String prefix) {
 
-        // Return empty list if invalid input.
-        if (prefix == null || prefix.equalsIgnoreCase("")) {
+        // Return empty list if invalid input, or if dictionary is empty.
+        if (prefix == null || prefix.equalsIgnoreCase("") || dictionaryEntries.isEmpty()) {
             return new ArrayList<String>();
         }
 
@@ -152,6 +166,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
         return alphabet.lastIndexOf(firstCharacter) - alphabet.lastIndexOf(secondCharacter);
     }
 
+    // Override.
     @Override
     public List<String> getSuggestionsStartingWith(String match) {
         return prefixSearch(match);
@@ -159,7 +174,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
 
     @Override
     public void updateWordUsage(String string) {
-        for (DictionaryEntry dictionaryEntry : dictionaryEntries) {
+        for (DictionaryEntry dictionaryEntry : this.dictionaryEntries) {
             if (dictionaryEntry.getWord().equals(string)) {
                 dictionaryEntry.setUserFrequency(dictionaryEntry.getUserFrequency() + 1);
             }
@@ -169,5 +184,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
     @Override
     public void setDictionary(List<DictionaryEntry> dictionary) {
         this.dictionaryEntries = dictionary;
+        sortDictionary();
     }
+
 }
