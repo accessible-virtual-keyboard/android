@@ -25,10 +25,10 @@ public abstract class ListSorter {
                 comparator = (o1, o2) -> o2.getWord().compareTo(o1.getWord());
             }
             if (order == SortingOrder.FREQUENCY_HIGH_TO_LOW) {
-                comparator = (o1, o2) -> Integer.compare(o2.getFrequency(), o1.getFrequency());
+                comparator = (o1, o2) -> Integer.compare(o2.getUserFrequency(), o1.getUserFrequency());
             }
             if (order == SortingOrder.FREQUENCY_LOW_TO_HIGH) {
-                comparator = (o1, o2) -> Integer.compare(o1.getFrequency(), o2.getFrequency());
+                comparator = (o1, o2) -> Integer.compare(o1.getUserFrequency(), o2.getUserFrequency());
             }
             Collections.sort(list, comparator);
         }

@@ -121,7 +121,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
         Collections.sort(matchingDictionaryEntries, new Comparator<DictionaryEntry>() {
             @Override
             public int compare(DictionaryEntry o1, DictionaryEntry o2) {
-                return o2.getFrequency() - o1.getFrequency();
+                return o2.getUserFrequency() - o1.getUserFrequency();
             }
         });
 
@@ -154,7 +154,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
     public void updateWordUsage(String string) {
         for (DictionaryEntry dictionaryEntry : dictionaryEntries) {
             if (dictionaryEntry.getWord().equals(string)) {
-                dictionaryEntry.setFrequency(dictionaryEntry.getFrequency() + 1);
+                dictionaryEntry.setUserFrequency(dictionaryEntry.getUserFrequency() + 1);
             }
         }
     }

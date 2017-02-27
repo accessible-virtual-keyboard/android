@@ -1,32 +1,65 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
 /**
+ * Represents an entry in the dictionary.
  * Help class used for Dictionary class.
- * Created by Tor-Martin Holen on 01-Feb-17 (Originally 21-Feb-17).
+ *
+ * @author Tor-Martin Holen on 01-Feb-17 (Originally 21-Feb-17).
+ * @author Kristian Honningsvag.
  */
 public class DictionaryEntry {
     private String word;
-    private int frequency;
+    private int standardFrequency;
+    private int userFrequency;
 
+    @Deprecated
     public DictionaryEntry(String word, int frequency) {
         this.word = word;
-        this.frequency = frequency;
+        this.userFrequency = frequency;
     }
 
+    /**
+     * Constructs the dictionary entry.
+     *
+     * @param word              The word.
+     * @param standardFrequency The standard usage frequency of the word. This should be based on
+     *                          general statistically average and should rarely change.
+     * @param userFrequency     The frequency of use for a particular user. Should get updated each
+     *                          time this word is typed.
+     */
+    public DictionaryEntry(String word, int standardFrequency, int userFrequency) {
+        this.word = word;
+        this.standardFrequency = standardFrequency;
+        this.userFrequency = userFrequency;
+    }
+
+
+    // Getters.
     public String getWord() {
         return word;
     }
 
-    public int getFrequency() {
-        return frequency;
+    public int getStandardFrequency() {
+        return standardFrequency;
     }
 
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
+    public int getUserFrequency() {
+        return userFrequency;
+    }
+
+
+    // Setters.
+    public void setStandardFrequency(int standardFrequency) {
+        this.standardFrequency = standardFrequency;
+    }
+
+    public void setUserFrequency(int userFrequency) {
+        this.userFrequency = userFrequency;
     }
 
     @Override
     public String toString() {
-        return "DictionaryEntry{word='" + word + "', frequency=" + frequency + "}";
+        return "DictionaryEntry{word='" + word + "', standardFrequency=" + standardFrequency + "', userFrequency=" + userFrequency + "}";
     }
+
 }
