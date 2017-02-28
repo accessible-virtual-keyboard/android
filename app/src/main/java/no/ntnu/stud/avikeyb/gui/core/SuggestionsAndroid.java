@@ -4,9 +4,9 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
-import no.ntnu.stud.avikeyb.backend.Dictionary;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
+import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
 
 /**
  * WordHistory engine implementation that runs the query in a async task to prevent
@@ -14,7 +14,7 @@ import no.ntnu.stud.avikeyb.backend.Suggestions;
  */
 public class SuggestionsAndroid extends Suggestions {
 
-    // Remember the current task so it can be canceled if a new seach is started
+    // Remember the current task so it can be canceled if a new search is started
     // before the previous one is done
 
     private AsyncTask<String, Void, List<String>> currentTask;

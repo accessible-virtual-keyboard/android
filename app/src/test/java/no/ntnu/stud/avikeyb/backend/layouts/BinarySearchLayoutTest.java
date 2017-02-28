@@ -5,11 +5,10 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
-import no.ntnu.stud.avikeyb.backend.Dictionary;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Layout;
-import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.SingleThreadSuggestions;
+import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
 
 /**
  * Created by pitmairen on 08/02/2017.

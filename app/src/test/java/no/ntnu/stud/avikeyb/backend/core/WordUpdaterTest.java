@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import no.ntnu.stud.avikeyb.backend.Dictionary;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
+import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
 
 import static org.junit.Assert.assertEquals;
 
@@ -167,7 +167,7 @@ public class WordUpdaterTest {
     /**
      * Used for logging the word update count
      */
-    private static class LoggingDictionary implements Dictionary {
+    private static class LoggingDictionary extends Dictionary {
 
         private Map<String, Integer> updateCount = new HashMap<>();
 
@@ -180,12 +180,10 @@ public class WordUpdaterTest {
         }
 
 
-        @Override
         public List<String> getSuggestionsStartingWith(String match) {
             return Collections.emptyList();
         }
 
-        @Override
         public void updateWordUsage(String string) {
             if (!updateCount.containsKey(string)) {
                 updateCount.put(string, 0);

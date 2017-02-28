@@ -3,8 +3,8 @@ package no.ntnu.stud.avikeyb.backend.core;
 import java.util.HashSet;
 import java.util.Set;
 
-import no.ntnu.stud.avikeyb.backend.Dictionary;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
+import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
 
 /**
  * Listener for the keyboard that will log all words typed on the keyboard and pass them on to

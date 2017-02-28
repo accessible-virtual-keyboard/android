@@ -11,7 +11,7 @@ import java.util.List;
  * @author Kristian Honningsvag.
  * @author Tor-Martin Holen.
  */
-public class Dictionary implements no.ntnu.stud.avikeyb.backend.Dictionary {
+public class Dictionary {
 
     private List<DictionaryEntry> dictionaryEntries;
     private List<DictionaryEntry> primarySuggestions;
@@ -375,13 +375,22 @@ public class Dictionary implements no.ntnu.stud.avikeyb.backend.Dictionary {
     }
 
 
-    // Overridden methods.
-    @Override
+    /**
+     * Returns a list of words that starts with the match string.
+     *
+     * @param match the string to match against the start of the words
+     * @return a list of suggested words
+     */
     public List<String> getSuggestionsStartingWith(String match) {
         return prefixSearchBinary(match);
     }
 
-    @Override
+
+    /**
+     * Should be called every time a word is used to update usage statistics.
+     *
+     * @param string the word that was used and should be updated
+     */
     public void updateWordUsage(String string) {
         boolean wordExist = false;
         for (DictionaryEntry dictionaryEntry : this.dictionaryEntries) {
@@ -396,6 +405,9 @@ public class Dictionary implements no.ntnu.stud.avikeyb.backend.Dictionary {
         }
     }
 
+    /**
+     * @param dictionary
+     */
     public void setDictionary(List<DictionaryEntry> dictionary) {
         this.dictionaryEntries = dictionary;
         sortDictionary();

@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
-        final no.ntnu.stud.avikeyb.backend.Dictionary dictionary = createDictionary();
+        final Dictionary dictionary = createDictionary();
         final LinearEliminationDictionary mobileDictionary = createMobileDictionary();
 
         Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionary);
-        final ETOSLayout etosLayout= new ETOSLayout(keyboard, suggestions);
+        final ETOSLayout etosLayout = new ETOSLayout(keyboard, suggestions);
         final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard, suggestions);
 
 
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                         switchLayout(l, new AdaptiveLayoutGUI(MainActivity.this, keyboard, l));
                         break;
                     }
-                    case 5:{
+                    case 5: {
                         MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary);
                         switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary));
                         break;
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return a dictionary
      */
-    private no.ntnu.stud.avikeyb.backend.Dictionary createDictionary() {
+    private Dictionary createDictionary() {
         Dictionary dictionary = new Dictionary();
 
         // Load the dictionary content in an async task. The dictionary will be empty

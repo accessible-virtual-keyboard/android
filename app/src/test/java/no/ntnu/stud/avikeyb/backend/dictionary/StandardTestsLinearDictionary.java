@@ -3,8 +3,6 @@ package no.ntnu.stud.avikeyb.backend.dictionary;
 
 import java.util.List;
 
-import no.ntnu.stud.avikeyb.backend.Dictionary;
-
 /**
  * Created by pitmairen on 22/02/2017.
  */

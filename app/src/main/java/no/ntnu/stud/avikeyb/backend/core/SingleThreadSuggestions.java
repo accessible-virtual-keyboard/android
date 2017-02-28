@@ -1,8 +1,8 @@
 package no.ntnu.stud.avikeyb.backend.core;
 
-import no.ntnu.stud.avikeyb.backend.Dictionary;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
+import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
 
 /**
  * Simple single threaded implementation of the suggestion engine that runs the
