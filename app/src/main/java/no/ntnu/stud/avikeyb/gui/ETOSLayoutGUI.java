@@ -39,7 +39,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
     private MenuAdapter menuAdapter;
     private DictionaryAdapter dictionaryAdapter; // test
-    LayoutLoader loader;
+    private LayoutLoader loader;
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
@@ -60,9 +60,12 @@ public class ETOSLayoutGUI extends LayoutGUI {
         }
         menuAdapter = new MenuAdapter(activity, listItems, layout);
         dictionaryAdapter = new DictionaryAdapter(activity, listDictionary, layout);
-        for (Symbol item : layout.getMenuOptions()) {
+
+        //todo se over. med tanke på den ligger i bakgrunnen.
+       /* for (Symbol item : layout.getMenuOptions()) {
             listItems.add(item);
         }
+*/
         return (ViewGroup) loader.getLayout();
     }
 
@@ -70,12 +73,16 @@ public class ETOSLayoutGUI extends LayoutGUI {
         // test
         ListView listview = (ListView) loader.getViewById(R.id.listview);
 
+        // switch between the two adapters.
         if (layout.getMenuState().equals(ETOSLayout.State.MENU_STATE)) {
             listview.setAdapter(menuAdapter);
+            menuAdapter.clear();
+            for (Symbol item : layout.getMenuOptions()) {
+                listItems.add(item);
+            }
             menuAdapter.notifyDataSetChanged();
         } else {
             listview.setAdapter(dictionaryAdapter);
-
             dictionaryAdapter.clear();
             listDictionary.addAll(layout.getSuggestions());
             dictionaryAdapter.notifyDataSetChanged();
