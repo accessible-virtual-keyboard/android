@@ -35,7 +35,6 @@ public class MobileLayout extends StepLayout {
                 Symbol.H, Symbol.M, Symbol.B, Symbol.P, Symbol.K, Symbol.PERIOD, Symbol.J, Symbol.QUESTION_MARK, Symbol.SEND,
                 Symbol.G, Symbol.X, Symbol.COMMA, Symbol.Q, Symbol.EXCLAMATION_MARK};
         stepIndices = new int[]{0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 32, 32};
-
         nextRow();
     }
 
@@ -237,6 +236,9 @@ public class MobileLayout extends StepLayout {
         return suggestions;
     }
 
+    public State getState() {
+        return state;
+    }
 
     public int getMaxPossibleSuggestions() {
         return nSuggestions;

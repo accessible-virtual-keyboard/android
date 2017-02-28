@@ -61,18 +61,7 @@ public class MobileLayoutGUI extends LayoutGUI {
 
             }
         });
-/*
-        dictionaryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                dictionaryList.getAdapter().getItem(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });*/
+        dictionaryList.setEnabled(false);
 
         for (Symbol symbol : layout.getSymbols()) {
             if (symbol != null && loader.hasSymbol(symbol)) {
@@ -103,7 +92,11 @@ public class MobileLayoutGUI extends LayoutGUI {
 
     @Override
     protected void updateGUI() {
-        // Highlight the selected symbol
+        updateKeyboardPart();
+        updateDictionaryPart();
+    }
+
+    private void updateKeyboardPart(){
         ArrayList<Symbol> newlyMarked = new ArrayList<>(layout.getMarkedSymbols());
         for (Symbol symbol : previouslyMarked) {
             if (symbol != null && symbolViewMap.containsKey(symbol)) {
@@ -115,8 +108,14 @@ public class MobileLayoutGUI extends LayoutGUI {
                 symbolViewMap.get(symbol).setSelected(true);
             }
         }
+        previouslyMarked = newlyMarked;
+    }
+
+    private void updateDictionaryPart(){
+
         if(layout.getMarkedWord() == -1 && layout.getSuggestions() != null){
             dictionaryListAdapter.update(layout.getSuggestions());
+            dictionaryList.smoothScrollToPosition(0);
         }else {
             int position = layout.getMarkedWord();
             dictionaryList.performItemClick(dictionaryList.getChildAt(position),
@@ -130,11 +129,7 @@ public class MobileLayoutGUI extends LayoutGUI {
                     dictionaryList.smoothScrollToPosition(0);
                 }
             }
-
-
         }
-
-        previouslyMarked = newlyMarked;
-
     }
+
 }

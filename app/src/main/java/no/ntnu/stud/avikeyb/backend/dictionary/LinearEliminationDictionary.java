@@ -10,7 +10,8 @@ import java.util.List;
  */
 
 public class LinearEliminationDictionary implements InMemoryDictionary {
-    private List<DictionaryEntry> fullDictionary; //Kept in its own list to reduce memory usage
+    private List<DictionaryEntry> fullDictionary;
+    private List<DictionaryEntry> fullDictionaryFrequencySorted;
 
     private List<List<List<DictionaryEntry>>> sentenceHistory; //Stores all the word histories until the sentence is sent.
     private List<List<DictionaryEntry>> wordHistory; //List of suggestions given at different word lengths.
@@ -30,11 +31,9 @@ public class LinearEliminationDictionary implements InMemoryDictionary {
         isWordHistoryInitialized();
 
         List<DictionaryEntry> reducedSuggestionList;
-        Log.d("MobLayout", "Word history size: " + wordHistory.size());
         reducedSuggestionList = reduceValidSuggestions(lettersToFindAtIndex, getLastSuggestions());
 
         if(reducedSuggestionList.isEmpty()){
-            Log.d("MobLayout", "Reduced suggestion is empty");
             nextWord();
         }else{
             wordHistory.add(reducedSuggestionList);
@@ -52,17 +51,18 @@ public class LinearEliminationDictionary implements InMemoryDictionary {
     private List<DictionaryEntry> reduceValidSuggestions(List<String> lettersToFindAtIndex, List<DictionaryEntry> searchList){
         List<DictionaryEntry> reducedSuggestionList = new ArrayList<>();
         int searchIndex = findSearchIndex();
+        Log.d("LinearElimination", "Original suggestions: " + searchList.size());
         for (DictionaryEntry entry : searchList) {
             for (int i = 0; i < lettersToFindAtIndex.size(); i++) {
                 String letter = lettersToFindAtIndex.get(i);
-                boolean contained = entry.getWord().substring(searchIndex).startsWith(letter);
+                boolean contained = entry.getWord().substring(searchIndex).startsWith(letter); //TODO fix index out of bounds exception
                 if (contained) {
                     reducedSuggestionList.add(entry);
                     break;
                 }
             }
         }
-        System.out.println("Suggestions: " + searchList.size());
+        Log.d("LinearElimination", "Original suggestions: " + reducedSuggestionList.size());
         return reducedSuggestionList;
     }
 
@@ -149,6 +149,23 @@ public class LinearEliminationDictionary implements InMemoryDictionary {
     }
 
     /**
+     *
+     * @param n number of suggestions wanted
+     * @return
+     */
+    public List<String> getBaseSuggestion(int n){
+        isWordHistoryInitialized();
+
+        List<DictionaryEntry> dictionaryEntryList = fullDictionaryFrequencySorted.subList(0,n);
+        List<String> resultList = new ArrayList<>(n);
+        for (int i = 0; i < dictionaryEntryList.size(); i++) {
+            DictionaryEntry de = dictionaryEntryList.get(i);
+            resultList.add(de.getWord());
+        }
+        return resultList;
+    }
+
+    /**
      * Returns the suggestion list containing n elements of the original list, sorted by frequency.
      *
      * @param n number of suggestions to include in sublist
@@ -187,9 +204,17 @@ public class LinearEliminationDictionary implements InMemoryDictionary {
         }
     }
 
+    public void reset(){
+        sentenceHistory.clear();
+        wordHistory = wordHistory.subList(0,1);
+    }
 
     @Override
     public void setDictionary(List<DictionaryEntry> dictionary) {
         fullDictionary = dictionary;
+        fullDictionaryFrequencySorted = new ArrayList<>();
+        fullDictionaryFrequencySorted.addAll(dictionary);
+        ListSorter.sortList(fullDictionaryFrequencySorted, SortingOrder.FREQUENCY_HIGH_TO_LOW);
+
     }
 }
