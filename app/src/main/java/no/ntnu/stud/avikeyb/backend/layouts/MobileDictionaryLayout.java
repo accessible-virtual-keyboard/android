@@ -4,12 +4,10 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
-import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
 
 import static android.content.ContentValues.TAG;
@@ -74,29 +72,15 @@ public class MobileDictionaryLayout extends MobileLayout {
                             //TODO handle backspace
                             Log.d(TAG, "Keyboard word: " + keyboard.getCurrentWord());
 
-                            if (keyboard.getCurrentWord().equals("")) {
-                                String currentBuffer = keyboard.getCurrentBuffer();
-                                int secondLastSpace = currentBuffer.trim().lastIndexOf(" ");
-                                if (secondLastSpace == -1) {
-                                    currentBuffer = "";
-                                } else {
-                                    currentBuffer = currentBuffer.substring(0, secondLastSpace) + " ";
-                                }
-
-                                keyboard.clearCurrentBuffer();
-                                keyboard.addToCurrentBuffer(currentBuffer);
-                                dictionary.previousWord();
-                                setSuggestions(dictionary.getSuggestions(nSuggestions));
-                            } else {
-                                dictionary.revertLastSuggestions();
-                            }
-
+                            deleteLastWord();
+                            getPreviousSuggestions();
+                            //dictionary.revertLastSearch();
                             dictionary.printListSuggestions(10);
                         } else if (markedSymbols.contains(Symbol.PERIOD)) {
-                            if(!keyboard.getCurrentBuffer().isEmpty()){
+                            if (!keyboard.getCurrentBuffer().isEmpty()) {
                                 state = State.SELECT_LETTER;
                                 nextLetter();
-                            }else{
+                            } else {
                                 reset();
                             }
                             break;
@@ -224,7 +208,21 @@ public class MobileDictionaryLayout extends MobileLayout {
     }
 
 
-    private void deleteLastWord(){
+    private void deleteLastWord() {
+        String currentBuffer = keyboard.getCurrentBuffer();
+        int secondLastSpace = currentBuffer.trim().lastIndexOf(" ");
+        if (secondLastSpace == -1) {
+            currentBuffer = "";
+        } else {
+            currentBuffer = currentBuffer.substring(0, secondLastSpace) + " ";
+        }
 
+        keyboard.clearCurrentBuffer();
+        keyboard.addToCurrentBuffer(currentBuffer);
+    }
+
+    private void getPreviousSuggestions() {
+        dictionary.previousWord();
+        setSuggestions(dictionary.getSuggestions(nSuggestions));
     }
 }

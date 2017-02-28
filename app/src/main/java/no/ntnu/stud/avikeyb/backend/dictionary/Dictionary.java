@@ -205,16 +205,17 @@ public class Dictionary {
     }
 
     /**
-     * Use with a list that contains duplicate entries to fix them.
+     * Use with a list that contains duplicate entries to merge them.
      * Note:dictionary.txt doesn't contain duplicates, but other lists might
      */
-    private void fixDuplicateEntries() {
+    private void mergeDuplicateEntries() {
         ListSorter.sortList(dictionaryEntries, SortingOrder.ALPHABETICALLY_A_TO_Z);
         DictionaryEntry previousEntry = null;
         for (int i = 0; i < dictionaryEntries.size(); i++) {
             DictionaryEntry currentEntry = dictionaryEntries.get(i);
             if (previousEntry != null && previousEntry.getWord().equals(currentEntry.getWord())) {
                 previousEntry.setUserFrequency(previousEntry.getUserFrequency() + currentEntry.getUserFrequency());
+                previousEntry.setStandardFrequency(previousEntry.getStandardFrequency() + currentEntry.getStandardFrequency());
                 dictionaryEntries.remove(currentEntry);
                 i--;
             } else {

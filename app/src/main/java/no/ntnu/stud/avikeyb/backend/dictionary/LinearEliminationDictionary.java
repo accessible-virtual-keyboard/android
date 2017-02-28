@@ -5,8 +5,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.ntnu.stud.avikeyb.backend.*;
-
 /**
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
@@ -117,7 +115,7 @@ public class LinearEliminationDictionary extends Dictionary {
      * @param steps number of steps to revert.
      * @return true if reversion succeeded
      */
-    public boolean revertLastSuggestions(int steps){
+    public boolean revertLastSearch(int steps){
         int index = wordHistory.size()-steps;
         if(index > 0){
             wordHistory = wordHistory.subList(0, index);
@@ -132,8 +130,8 @@ public class LinearEliminationDictionary extends Dictionary {
      * suggestion history (used to implement backspace functionality).
      * @return true if reversion succeeded
      */
-    public boolean revertLastSuggestions(){
-        return revertLastSuggestions(1);
+    public boolean revertLastSearch(){
+        return revertLastSearch(1);
     }
 
     /**
