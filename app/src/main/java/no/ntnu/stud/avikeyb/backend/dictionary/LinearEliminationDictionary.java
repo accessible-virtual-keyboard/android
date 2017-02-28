@@ -5,11 +5,13 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import no.ntnu.stud.avikeyb.backend.*;
+
 /**
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
 
-public class LinearEliminationDictionary implements InMemoryDictionary {
+public class LinearEliminationDictionary extends Dictionary {
     private List<DictionaryEntry> fullDictionary;
     private List<DictionaryEntry> fullDictionaryFrequencySorted;
 

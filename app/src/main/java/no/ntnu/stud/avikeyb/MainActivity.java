@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import no.ntnu.stud.avikeyb.backend.Dictionary;
 import no.ntnu.stud.avikeyb.backend.InputInterface;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
@@ -19,9 +18,8 @@ import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
 import no.ntnu.stud.avikeyb.backend.core.WordUpdater;
-import no.ntnu.stud.avikeyb.backend.dictionary.BinaryDictionary;
+import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
-import no.ntnu.stud.avikeyb.backend.dictionary.InMemoryDictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
-        final Dictionary dictionary = createDictionary();
+        final no.ntnu.stud.avikeyb.backend.Dictionary dictionary = createDictionary();
         final LinearEliminationDictionary mobileDictionary = createMobileDictionary();
 
         Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionary);
@@ -168,8 +166,8 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return a dictionary
      */
-    private Dictionary createDictionary() {
-        BinaryDictionary dictionary = new BinaryDictionary();
+    private no.ntnu.stud.avikeyb.backend.Dictionary createDictionary() {
+        Dictionary dictionary = new Dictionary();
 
         // Load the dictionary content in an async task. The dictionary will be empty
         // until the task is finished
@@ -193,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Fill the in memory dictionary from a file
-    private void loadDictionaryFromFile(final InMemoryDictionary dictionary, final int resourceId) {
+    private void loadDictionaryFromFile(final Dictionary dictionary, final int resourceId) {
         new AsyncTask<Void, Void, List<DictionaryEntry>>() {
             @Override
             protected List<DictionaryEntry> doInBackground(Void... voids) {

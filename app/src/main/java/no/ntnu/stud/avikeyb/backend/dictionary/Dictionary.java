@@ -5,15 +5,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import no.ntnu.stud.avikeyb.backend.Dictionary;
-
 /**
  * Dictionary that uses binary search to find matches.
  *
  * @author Kristian Honningsvag.
  * @author Tor-Martin Holen.
  */
-public class BinaryDictionary implements Dictionary, InMemoryDictionary {
+public class Dictionary implements no.ntnu.stud.avikeyb.backend.Dictionary {
 
     private List<DictionaryEntry> dictionaryEntries;
     private List<DictionaryEntry> primarySuggestions;
@@ -25,7 +23,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
     /**
      * Constructs a dictionary with no entries.
      */
-    public BinaryDictionary() {
+    public Dictionary() {
         this(new ArrayList<DictionaryEntry>());
     }
 
@@ -35,7 +33,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
      *
      * @param dictionary
      */
-    public BinaryDictionary(List<DictionaryEntry> dictionary) {
+    public Dictionary(List<DictionaryEntry> dictionary) {
         this.dictionaryEntries = dictionary;
         sortDictionary();
     }
@@ -398,7 +396,6 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
         }
     }
 
-    @Override
     public void setDictionary(List<DictionaryEntry> dictionary) {
         this.dictionaryEntries = dictionary;
         sortDictionary();
