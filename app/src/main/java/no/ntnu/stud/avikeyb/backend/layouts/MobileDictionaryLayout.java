@@ -62,7 +62,6 @@ public class MobileDictionaryLayout extends MobileLayout {
 
                         System.out.println("--------------------------------------");
                         if (markedSymbols.contains(Symbol.SEND)) {
-                            //TODO send typed text
                             keyboard.sendCurrentBuffer();
                             dictionary.reset();
                             setSuggestions(dictionary.getBaseSuggestion(nSuggestions));
@@ -74,27 +73,32 @@ public class MobileDictionaryLayout extends MobileLayout {
                         } else if (markedSymbols.contains(Symbol.BACKSPACE)) {
                             //TODO handle backspace
                             Log.d(TAG, "Keyboard word: " + keyboard.getCurrentWord());
-                            if(keyboard.getCurrentWord().equals("")){
+
+                            if (keyboard.getCurrentWord().equals("")) {
                                 String currentBuffer = keyboard.getCurrentBuffer();
                                 int secondLastSpace = currentBuffer.trim().lastIndexOf(" ");
-                                if(secondLastSpace == -1){
+                                if (secondLastSpace == -1) {
                                     currentBuffer = "";
-                                }else{
-                                    currentBuffer = currentBuffer.substring(0,secondLastSpace) + " ";
+                                } else {
+                                    currentBuffer = currentBuffer.substring(0, secondLastSpace) + " ";
                                 }
 
                                 keyboard.clearCurrentBuffer();
                                 keyboard.addToCurrentBuffer(currentBuffer);
                                 dictionary.previousWord();
                                 setSuggestions(dictionary.getSuggestions(nSuggestions));
-                            }else{
+                            } else {
                                 dictionary.revertLastSuggestions();
                             }
 
                             dictionary.printListSuggestions(10);
                         } else if (markedSymbols.contains(Symbol.PERIOD)) {
-                            state = State.SELECT_LETTER;
-                            nextLetter();
+                            if(!keyboard.getCurrentBuffer().isEmpty()){
+                                state = State.SELECT_LETTER;
+                                nextLetter();
+                            }else{
+                                reset();
+                            }
                             break;
                         } else {
                             logMarked();
@@ -133,20 +137,17 @@ public class MobileDictionaryLayout extends MobileLayout {
                 switch (input) {
                     case INPUT1:
                         markedWord++;
-                        if(markedWord >= suggestions.size() || markedWord >= nSuggestions){
+                        if (markedWord >= suggestions.size() || markedWord >= nSuggestions) {
                             markedWord = 0;
                         }
                         break;
                     case INPUT2:
                         String currentText = keyboard.getCurrentBuffer();
-
                         String currentWord = getSuggestions().get(markedWord);
-                        if(currentText.isEmpty()){
-                            String capitalizedLetter = currentWord.substring(0,1).toUpperCase();
-                            currentWord = currentWord.replaceFirst("[a-z]", capitalizedLetter);
-                        }
 
-                        keyboard.addToCurrentBuffer(currentWord+ " ");
+                        currentWord = capitalizationCheck(currentText, currentWord);
+
+                        keyboard.addToCurrentBuffer(currentWord + " ");
                         dictionary.nextWord();
 
                         state = State.SELECT_ROW;
@@ -162,6 +163,9 @@ public class MobileDictionaryLayout extends MobileLayout {
 
     }
 
+    /**
+     * @return list of strings
+     */
     private List<String> getStringsFromMarkedSymbols() {
         List<String> stringList = new ArrayList<>();
         for (Symbol sym : markedSymbols) {
@@ -170,17 +174,57 @@ public class MobileDictionaryLayout extends MobileLayout {
         return stringList;
     }
 
-    private void logMarked(){
+    private void logMarked() {
         String result = "";
-        for (Symbol sym:markedSymbols) {
+        for (Symbol sym : markedSymbols) {
             result += sym.getContent() + " ";
         }
         Log.d("MobLayout", "Marked symbols: " + result);
     }
 
     public void softReset() {
-        location = new int[]{-1,-1,-1};
+        location = new int[]{-1, -1, -1};
         markedSymbols = new ArrayList<>();
     }
 
+    /**
+     * Capitalizes a word if it starts with an lowercase letter [a-z], returns original word if not.
+     *
+     * @param currentWord
+     * @return
+     */
+    private String capitalizeWord(String currentWord) {
+        String capitalizedLetter = currentWord.substring(0, 1).toUpperCase();
+        if (currentWord.substring(0, 1).matches("[a-z]")) {
+            return currentWord.replaceFirst("[a-z]", capitalizedLetter);
+        } else {
+            return currentWord;
+        }
+
+    }
+
+    /**
+     * Capitalizes a word that should be added to a text, if deemed appropriate.
+     * Should be called every time a word is added to current text, if not all appropriate cases won't be found.
+     *
+     * @param currentText the text to check, for occurrences where a capital letter should be present.
+     * @param nextWord    the word to check, if it should be modified to have a capital letter
+     * @return
+     */
+    private String capitalizationCheck(String currentText, String nextWord) {
+        if (currentText.isEmpty()) {
+            nextWord = capitalizeWord(nextWord);
+        }
+
+        //RegExp if end matches ". ", "! " or "? " nextWord should be capitalized.
+        if (currentText.matches("^[A-Za-z,.!?'\"\\s]+[.!?][ ]$")) {
+            nextWord = capitalizeWord(nextWord);
+        }
+        return nextWord;
+    }
+
+
+    private void deleteLastWord(){
+
+    }
 }

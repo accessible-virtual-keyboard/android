@@ -96,8 +96,10 @@ public class LinearEliminationDictionary extends Dictionary {
      */
     public void previousWord() {
         int sentenceHistoryIndex = sentenceHistory.size()-1;
-        wordHistory = sentenceHistory.get(sentenceHistoryIndex);
-        sentenceHistory.remove(sentenceHistoryIndex);
+        if(sentenceHistoryIndex != -1){
+            wordHistory = sentenceHistory.get(sentenceHistoryIndex);
+            sentenceHistory.remove(sentenceHistoryIndex);
+        }
     }
 
     /**
