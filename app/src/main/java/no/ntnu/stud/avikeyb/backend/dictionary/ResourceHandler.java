@@ -9,17 +9,20 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import no.ntnu.stud.avikeyb.backend.Dictionary;
 
 /**
  * Handles loading resources.
  *
  * @author Kristian Honningsvag.
  */
-public class ResourceLoader {
+public class ResourceHandler {
 
     /**
      * Loads a dictionary from a text file, and returns it's contents as an array of dictionary entries.
@@ -57,9 +60,7 @@ public class ResourceLoader {
 
                 if (parts.length == 1) {  // Assume format: (word)
                     dictionary.add(new DictionaryEntry(line.toLowerCase(), 0, 0));  // Set all frequencies to zero since there is no data.
-                }
-
-                else if (parts.length == 2) {  // Assume format: (word, standardFrequency)
+                } else if (parts.length == 2) {  // Assume format: (word, standardFrequency)
                     try {
                         standardFrequency = Integer.parseInt(parts[1]);
                     } catch (NumberFormatException ex) {
@@ -68,9 +69,7 @@ public class ResourceLoader {
                         throw ex;
                     }
                     dictionary.add(new DictionaryEntry(parts[0].toLowerCase(), standardFrequency, 0));
-                }
-
-                else if (parts.length == 3) {  // Assume format: (word, standardFrequency, userFrequency)
+                } else if (parts.length == 3) {  // Assume format: (word, standardFrequency, userFrequency)
                     try {
                         standardFrequency = Integer.parseInt(parts[1]);
                         userFrequency = Integer.parseInt(parts[2]);
@@ -80,9 +79,7 @@ public class ResourceLoader {
                         throw ex;
                     }
                     dictionary.add(new DictionaryEntry(parts[0].toLowerCase(), standardFrequency, userFrequency));
-                }
-
-                else {
+                } else {
                     FormatException ex = new FormatException();
                     System.err.println("Incorrect dictionary format detected. More than 3 elements on a line.");
                     ex.printStackTrace();
@@ -105,6 +102,31 @@ public class ResourceLoader {
             }
         });
         return dictionary;
+    }
+
+
+    /**
+     * Stores an in memory dictionary at the specified location.
+     *
+     * @param dictionary
+     * @param filePath
+     * @return
+     */
+    public static int storeDictionary(Dictionary dictionary, String filePath) throws IOException {
+
+//        try {
+//            PrintWriter writer = new PrintWriter(filePath, "UTF-8");
+//            for (DictionaryEntry dictionaryEntry : dictionary) {
+//                writer.println(dictionaryEntry.getWord() + " "
+//                        + dictionaryEntry.getStandardFrequency() + " "
+//                        + dictionaryEntry.getUserFrequency());
+//                writer.close();
+//            }
+//        } catch (IOException ex) {
+//            throw ex;
+//        }
+
+        return 1;
     }
 
 }

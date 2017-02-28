@@ -11,10 +11,15 @@ import no.ntnu.stud.avikeyb.backend.Dictionary;
  * Dictionary that uses binary search to find matches.
  *
  * @author Kristian Honningsvag.
+ * @author Tor-Martin Holen.
  */
 public class BinaryDictionary implements Dictionary, InMemoryDictionary {
 
     private List<DictionaryEntry> dictionaryEntries;
+    private List<DictionaryEntry> primarySuggestions;
+    private List<DictionaryEntry> secondarySuggestions;
+    private SortingOrder preferredOrder = SortingOrder.FREQUENCY_HIGH_TO_LOW;
+    private String textWritten = "";
 
 
     /**
@@ -57,7 +62,7 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
      * @param prefix The prefix.
      * @return All words that begin with the prefix.
      */
-    public List<String> prefixSearch(String prefix) {
+    public List<String> prefixSearchBinary(String prefix) {
 
         // Return empty list if invalid input, or if dictionary is empty.
         if (prefix == null || prefix.equalsIgnoreCase("") || dictionaryEntries.isEmpty()) {
@@ -153,17 +158,23 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
         return matchingWords;
     }
 
+
     /**
-     * Takes to characters, and returns their position relative to each other in the alphabet.
-     *
-     * @param firstCharacter
-     * @param secondCharacter
-     * @return 0 if it is the same letter. Positive if the first letter comes after the second in
-     * the alphabet. Negative if the if the first letter comes before the second in the alphabet.
+     * @param match
+     * @return
      */
-    private int findRelativeLocation(Character firstCharacter, Character secondCharacter) {
-        String alphabet = "abcdefghijklmnopqrstuvwxyz";
-        return alphabet.lastIndexOf(firstCharacter) - alphabet.lastIndexOf(secondCharacter);
+    public List<String> prefixSearchLinear(String match) {
+
+        primarySuggestions = new ArrayList<>();
+        this.textWritten = match;
+        for (DictionaryEntry currentEntry : dictionaryEntries) {
+            String currentWord = currentEntry.getWord();
+            if (currentWord.startsWith(match) && !currentWord.equals(match)) {
+                primarySuggestions.add(currentEntry);
+            }
+        }
+        ListSorter.sortList(primarySuggestions, SortingOrder.FREQUENCY_HIGH_TO_LOW);
+        return extractWords(primarySuggestions);
     }
 
     /**
@@ -190,10 +201,186 @@ public class BinaryDictionary implements Dictionary, InMemoryDictionary {
         return 1;
     }
 
-    // Override.
+
+    public List<DictionaryEntry> getDictionaryEntries() {
+        return dictionaryEntries;
+    }
+
+    /**
+     * Use with a list that contains duplicate entries to fix them.
+     * Note:dictionary.txt doesn't contain duplicates, but other lists might
+     */
+    private void fixDuplicateEntries() {
+        ListSorter.sortList(dictionaryEntries, SortingOrder.ALPHABETICALLY_A_TO_Z);
+        DictionaryEntry previousEntry = null;
+        for (int i = 0; i < dictionaryEntries.size(); i++) {
+            DictionaryEntry currentEntry = dictionaryEntries.get(i);
+            if (previousEntry != null && previousEntry.getWord().equals(currentEntry.getWord())) {
+                previousEntry.setUserFrequency(previousEntry.getUserFrequency() + currentEntry.getUserFrequency());
+                dictionaryEntries.remove(currentEntry);
+                i--;
+            } else {
+                previousEntry = currentEntry;
+            }
+        }
+
+        ListSorter.sortList(dictionaryEntries, preferredOrder);
+    }
+
+    public SortingOrder getPreferredOrder() {
+        return preferredOrder;
+    }
+
+    public void setPreferredOrder(SortingOrder preferredOrder) {
+        this.preferredOrder = preferredOrder;
+    }
+
+    /**
+     * Finds suggestions starting with or containing whats already written
+     *
+     * @param textWritten Currently written text
+     */
+    public void findSuggestions(String textWritten) {
+
+        primarySuggestions = new ArrayList<>();
+        secondarySuggestions = new ArrayList<>();
+        this.textWritten = textWritten;
+
+        for (DictionaryEntry currentEntry : dictionaryEntries) {
+            String currentWord = currentEntry.getWord();
+
+            if (currentWord.startsWith(textWritten)) {
+                primarySuggestions.add(currentEntry);
+            } else if (currentWord.contains(textWritten) && !currentWord.startsWith(textWritten)) {
+                secondarySuggestions.add(currentEntry);
+            }
+        }
+
+        ListSorter.sortList(secondarySuggestions, preferredOrder);
+    }
+
+    /**
+     * Finds suggestions starting with
+     *
+     * @param textWritten Currently written text
+     */
+    public void findPrimarySuggestions(String textWritten) {
+        primarySuggestions = new ArrayList<>();
+        this.textWritten = textWritten;
+
+        for (DictionaryEntry currentEntry : dictionaryEntries) {
+            String currentWord = currentEntry.getWord();
+            if (currentWord.startsWith(textWritten)) {
+                primarySuggestions.add(currentEntry);
+            }
+        }
+    }
+
+    public void findPrimarySuggestions(List<DictionaryEntry> listToSearch, String textWritten) {
+        primarySuggestions = new ArrayList<>();
+        this.textWritten = textWritten;
+
+        for (DictionaryEntry currentEntry : listToSearch) {
+            String currentWord = currentEntry.getWord();
+            if (currentWord.startsWith(textWritten)) {
+                primarySuggestions.add(currentEntry);
+            }
+        }
+    }
+
+    /**
+     * Returns all the suggestions starting with or containing the search
+     *
+     * @return
+     */
+    public List<DictionaryEntry> getSuggestions() {
+        List<DictionaryEntry> allSuggestions = getPrimarySuggestions();
+        allSuggestions.addAll(getSecondarySuggestions());
+        printSuggestions(allSuggestions, "All");
+        return allSuggestions;
+    }
+
+    /**
+     * Prints suggestions
+     *
+     * @param suggestions    List containing suggestions
+     * @param suggestionType Title for which type of suggestions this is
+     */
+    private void printSuggestions(List<DictionaryEntry> suggestions, String suggestionType) {
+        System.out.println(suggestionType + " suggestion for: \"" + textWritten + "\"");
+        printList(suggestions);
+    }
+
+    /**
+     * Prints all the words in the dictionary.
+     */
+    public void printDictionary() {
+        printList(dictionaryEntries);
+    }
+
+
+    /**
+     * Prints a list with the word and frequency
+     *
+     * @param list
+     */
+    public void printList(List<DictionaryEntry> list) {
+        for (DictionaryEntry entry : list) {
+            System.out.println(entry.getWord() + " - " + entry.getUserFrequency());
+        }
+    }
+
+    /**
+     * Gets which index current word is in the list that is being searched.
+     *
+     * @param list       List to search.
+     * @param targetWord Word to find.
+     * @return
+     */
+    public int findWordIndex(List<DictionaryEntry> list, String targetWord) {
+        for (int i = 0; i < list.size(); i++) {
+            String currentWord = list.get(i).getWord();
+            if (currentWord.equals(targetWord)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    public void printPrimarySuggestions() {
+
+        printSuggestions(primarySuggestions, "Primary");
+    }
+
+    public void printSecondarySuggestions() {
+
+        printSuggestions(secondarySuggestions, "Secondary");
+    }
+
+    public List<DictionaryEntry> getPrimarySuggestions() {
+
+        return primarySuggestions;
+    }
+
+    public List<DictionaryEntry> getSecondarySuggestions() {
+
+        return secondarySuggestions;
+    }
+
+    public List<String> extractWords(List<DictionaryEntry> list) {
+        ArrayList<String> suggestions = new ArrayList<>();
+        for (DictionaryEntry entry : list) {
+            suggestions.add(entry.getWord());
+        }
+        return suggestions;
+    }
+
+
+    // Overridden methods.
     @Override
     public List<String> getSuggestionsStartingWith(String match) {
-        return prefixSearch(match);
+        return prefixSearchBinary(match);
     }
 
     @Override

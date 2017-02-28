@@ -12,6 +12,7 @@ public class StandardTestsLinearDictionary extends DictionaryTester {
 
     @Override
     protected Dictionary createDictionary(List<DictionaryEntry> entries) {
-        return new LinearDictionary(entries);
+//        return new LinearDictionary(entries);
+        return null;
     }
 }
