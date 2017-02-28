@@ -109,7 +109,7 @@ public abstract class ResourceHandler {
      * @param filePath          Full file path to the location where the file should be stored.
      * @return
      */
-    public static void storeDictionaryEntries(List<DictionaryEntry> dictionaryEntries, String filePath) throws IOException {
+    public static void storeDictionaryToFile(List<DictionaryEntry> dictionaryEntries, String filePath) throws IOException {
         try {
             PrintWriter writer = new PrintWriter(filePath, "UTF-8");
             for (DictionaryEntry dictionaryEntry : dictionaryEntries) {

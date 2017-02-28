@@ -145,7 +145,7 @@ public class DictionaryHandlerTest {
 //        try {
 //            dictionaryHandler.setDictionary(ResourceHandler.loadDictionaryFromFile("./src/main/res/dictionary/dictionary.txt"));
 //            dictionaryHandler.mergeDuplicateEntries();
-//            ResourceHandler.storeDictionaryEntries(dictionaryHandler.getDictionary(), "./src/main/res/dictionary/dictionary.txt");
+//            ResourceHandler.storeDictionaryToFile(dictionaryHandler.getDictionary(), "./src/main/res/dictionary/dictionary.txt");
 //        } catch (Exception ex) {
 //            ex.printStackTrace();
 //        }

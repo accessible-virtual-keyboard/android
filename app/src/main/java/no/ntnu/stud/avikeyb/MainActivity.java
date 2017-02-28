@@ -133,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
         tabSwitcher.onTabSelected(layoutTabs.getTabAt(0));
     } // end of on create
 
+    @Override
+    protected void onPause() {
+        // TODO: Save dictionary to file.
+    }
+
     private void switchLayout(Layout layout, LayoutGUI layoutGui) {
         layoutWrapper.removeAllViews();
         layoutWrapper.addView(layoutGui.createGUI());

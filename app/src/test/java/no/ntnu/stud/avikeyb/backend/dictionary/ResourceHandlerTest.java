@@ -21,7 +21,7 @@ public class ResourceHandlerTest {
      */
     @Before
     public void setUp() {
-        dictionaryHandler = new DictionaryHandler(new DictionaryFileLoader("./src/main/res/raw/word.list").loadDictionary());
+        dictionaryHandler = new DictionaryHandler(new DictionaryFileLoader("./src/main/res/raw/test_dictionary.txt").loadDictionary());
     }
 
     /**
@@ -32,7 +32,7 @@ public class ResourceHandlerTest {
 //        expectedOutputs = Arrays.asList();
 //        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearchBinary(""));
         try {
-            ResourceHandler.storeDictionaryEntries(dictionaryHandler.getDictionary(), "/tmp/test_dictionary.txt");
+            ResourceHandler.storeDictionaryToFile(dictionaryHandler.getDictionary(), "/tmp/test_dictionary.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
