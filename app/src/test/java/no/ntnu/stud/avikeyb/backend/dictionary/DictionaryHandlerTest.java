@@ -1,8 +1,11 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
+import android.nfc.FormatException;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -131,9 +134,21 @@ public class DictionaryHandlerTest {
      */
     @Test
     public void testAddingWord() {
-        expectedOutputs = Arrays.asList("bkldiutgudzxkeudz");
-        dictionaryHandlerNoFrequency.addWordToDictionary("bkldiutgudzxkeudz", 0, 1);
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("bkldiutgudzxkeud").subList(0, 1));
+        expectedOutputs = Arrays.asList("zzzbkldiutgudzxkeudz");
+        dictionaryHandlerNoFrequency.addWordToDictionary("zzzbkldiutgudzxkeudz", 0, 1);
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("zzzbkldiutgudzxkeud").subList(0, 1));
     }
+
+//    @Test
+//    public void standardizeDictionary() {
+//        DictionaryHandler dictionaryHandler = new DictionaryHandler();
+//        try {
+//            dictionaryHandler.setDictionary(ResourceHandler.loadDictionaryFromFile("./src/main/res/dictionary/dictionary.txt"));
+//            dictionaryHandler.mergeDuplicateEntries();
+//            ResourceHandler.storeDictionaryEntries(dictionaryHandler.getDictionary(), "./src/main/res/dictionary/dictionary.txt");
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
 }

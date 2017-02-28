@@ -161,7 +161,6 @@ public class DictionaryHandler {
         return matchingWords;
     }
 
-
     /**
      * Adds a new word to the dictionary.
      *
@@ -204,8 +203,7 @@ public class DictionaryHandler {
     /**
      * Takes all duplicate entries in this dictionary and merges them into one.
      */
-    private void mergeDuplicateEntries() {
-        ListSorter.sortList(dictionary, SortingOrder.ALPHABETICALLY_A_TO_Z);
+    public void mergeDuplicateEntries() {
         DictionaryEntry previousEntry = null;
         for (int i = 0; i < dictionary.size(); i++) {
             DictionaryEntry currentEntry = dictionary.get(i);
@@ -218,7 +216,7 @@ public class DictionaryHandler {
                 previousEntry = currentEntry;
             }
         }
-        ListSorter.sortList(dictionary, preferredOrder);
+        sortDictionary();
     }
 
 
