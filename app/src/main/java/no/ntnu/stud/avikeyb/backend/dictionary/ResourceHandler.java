@@ -7,17 +7,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 /**
- * Handles loading resources.
+ * Handles loading and storing resources.
  *
  * @author Kristian Honningsvag.
  */
-public class ResourceHandler {
+public abstract class ResourceHandler {
 
     /**
      * Loads a dictionary from a text file, and returns it's contents as an array of dictionary entries.
@@ -101,27 +102,25 @@ public class ResourceHandler {
 
 
     /**
-     * Stores an in memory dictionary at the specified location.
+     * Stores a dictionary, that have been loaded into memory, at the specified location.
+     * Overwrites any existing files.
      *
-     * @param dictionary
-     * @param filePath
+     * @param dictionaryEntries The list of dictionary entries to be stored.
+     * @param filePath          Full file path to the location where the file should be stored.
      * @return
      */
-    public static int storeDictionary(Dictionary dictionary, String filePath) throws IOException {
-
-//        try {
-//            PrintWriter writer = new PrintWriter(filePath, "UTF-8");
-//            for (DictionaryEntry dictionaryEntry : dictionary) {
-//                writer.println(dictionaryEntry.getWord() + " "
-//                        + dictionaryEntry.getStandardFrequency() + " "
-//                        + dictionaryEntry.getUserFrequency());
-//                writer.close();
-//            }
-//        } catch (IOException ex) {
-//            throw ex;
-//        }
-
-        return 1;
+    public static void storeDictionaryEntries(List<DictionaryEntry> dictionaryEntries, String filePath) throws IOException {
+        try {
+            PrintWriter writer = new PrintWriter(filePath, "UTF-8");
+            for (DictionaryEntry dictionaryEntry : dictionaryEntries) {
+                writer.println(dictionaryEntry.getWord() + " "
+                        + dictionaryEntry.getStandardFrequency() + " "
+                        + dictionaryEntry.getUserFrequency());
+            }
+            writer.close();
+        } catch (IOException ex) {
+            throw ex;
+        }
     }
 
 }

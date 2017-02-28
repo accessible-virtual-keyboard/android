@@ -8,7 +8,7 @@ import java.util.List;
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
-import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
+import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionaryHandler;
 
 import static android.content.ContentValues.TAG;
 
@@ -18,10 +18,10 @@ import static android.content.ContentValues.TAG;
 
 public class MobileDictionaryLayout extends MobileLayout {
 
-    private LinearEliminationDictionary dictionary;
+    private LinearEliminationDictionaryHandler dictionary;
 
 
-    public MobileDictionaryLayout(Keyboard keyboard, LinearEliminationDictionary dictionary) {
+    public MobileDictionaryLayout(Keyboard keyboard, LinearEliminationDictionaryHandler dictionary) {
         super();
         this.keyboard = keyboard;
         this.dictionary = dictionary;

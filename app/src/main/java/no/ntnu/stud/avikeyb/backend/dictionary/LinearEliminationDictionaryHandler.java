@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
 
-public class LinearEliminationDictionary extends Dictionary {
+public class LinearEliminationDictionaryHandler extends DictionaryHandler {
     private List<DictionaryEntry> fullDictionary;
     private List<DictionaryEntry> fullDictionaryFrequencySorted;
 
@@ -18,7 +18,7 @@ public class LinearEliminationDictionary extends Dictionary {
     /**
      * Constructs a dictionary
      */
-    public LinearEliminationDictionary()  {
+    public LinearEliminationDictionaryHandler()  {
         sentenceHistory = new ArrayList<>();
     }
 
@@ -106,7 +106,7 @@ public class LinearEliminationDictionary extends Dictionary {
      * @param n the amount of suggestions needed
      */
     public void printListSuggestions(int n) {
-        printList(getSuggestionsWithFrequencies(n));
+        printDictionary(getSuggestionsWithFrequencies(n));
     }
 
     /**
@@ -200,7 +200,7 @@ public class LinearEliminationDictionary extends Dictionary {
      *
      * @param list
      */
-    public void printList(List<DictionaryEntry> list){
+    public void printDictionary(List<DictionaryEntry> list){
         for (DictionaryEntry entry : list) {
             System.out.println(entry.getWord() + " - " + entry.getUserFrequency());
         }

@@ -2,7 +2,7 @@ package no.ntnu.stud.avikeyb.backend.core;
 
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
-import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 
 /**
  * Simple single threaded implementation of the suggestion engine that runs the
@@ -10,15 +10,15 @@ import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
  */
 public class SingleThreadSuggestions extends Suggestions {
 
-    private Dictionary dictionary;
+    private DictionaryHandler dictionaryHandler;
 
-    public SingleThreadSuggestions(Keyboard keyboard, Dictionary dictionary) {
+    public SingleThreadSuggestions(Keyboard keyboard, DictionaryHandler dictionaryHandler) {
         super(keyboard);
-        this.dictionary = dictionary;
+        this.dictionaryHandler = dictionaryHandler;
     }
 
     @Override
     protected void executeQuery(String word) {
-        notifyListeners(dictionary.getSuggestionsStartingWith(word));
+        notifyListeners(dictionaryHandler.getSuggestionsStartingWith(word));
     }
 }

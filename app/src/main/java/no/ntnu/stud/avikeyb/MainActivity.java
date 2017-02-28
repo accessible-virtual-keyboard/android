@@ -18,9 +18,9 @@ import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
 import no.ntnu.stud.avikeyb.backend.core.WordUpdater;
-import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
-import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionary;
+import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionaryHandler;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
@@ -60,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
-        final Dictionary dictionary = createDictionary();
-        final LinearEliminationDictionary mobileDictionary = createMobileDictionary();
+        final DictionaryHandler dictionaryHandler = createDictionary();
+        final LinearEliminationDictionaryHandler mobileDictionary = createMobileDictionary();
 
-        Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionary);
+        Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionaryHandler);
         final ETOSLayout etosLayout = new ETOSLayout(keyboard, suggestions);
         final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard, suggestions);
 
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Update user word usage count
-        keyboard.addStateListener(new WordUpdater(dictionary));
+        keyboard.addStateListener(new WordUpdater(dictionaryHandler));
 
 
         layoutTabs.addOnTabSelectedListener(tabSwitcher);
@@ -166,13 +166,13 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return a dictionary
      */
-    private Dictionary createDictionary() {
-        Dictionary dictionary = new Dictionary();
+    private DictionaryHandler createDictionary() {
+        DictionaryHandler dictionaryHandler = new DictionaryHandler();
 
-        // Load the dictionary content in an async task. The dictionary will be empty
+        // Load the dictionaryHandler content in an async task. The dictionaryHandler will be empty
         // until the task is finished
-        loadDictionaryFromFile(dictionary, R.raw.dictionary);
-        return dictionary;
+        loadDictionaryFromFile(dictionaryHandler, R.raw.dictionary);
+        return dictionaryHandler;
 
     }
 
@@ -181,8 +181,8 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return a dictionary
      */
-    private LinearEliminationDictionary createMobileDictionary() {
-        LinearEliminationDictionary dictionary = new LinearEliminationDictionary();
+    private LinearEliminationDictionaryHandler createMobileDictionary() {
+        LinearEliminationDictionaryHandler dictionary = new LinearEliminationDictionaryHandler();
         // Load the dictionary content in an async task. The dictionary will be empty
         // until the task is loading task is finished
         loadDictionaryFromFile(dictionary, R.raw.dictionary);
@@ -190,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Fill the in memory dictionary from a file
-    private void loadDictionaryFromFile(final Dictionary dictionary, final int resourceId) {
+    // Fill the in memory dictionaryHandler from a file
+    private void loadDictionaryFromFile(final DictionaryHandler dictionaryHandler, final int resourceId) {
         new AsyncTask<Void, Void, List<DictionaryEntry>>() {
             @Override
             protected List<DictionaryEntry> doInBackground(Void... voids) {
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(List<DictionaryEntry> dictionaryEntries) {
-                dictionary.setDictionary(dictionaryEntries);
+                dictionaryHandler.setDictionary(dictionaryEntries);
             }
         }.execute();
     }

@@ -3,6 +3,8 @@ package no.ntnu.stud.avikeyb.backend.dictionary;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+
 
 /**
  * Unit tests for the resource handler.
@@ -12,24 +14,28 @@ import org.junit.Test;
 
 public class ResourceHandlerTest {
 
-    private Dictionary dictionary;
+    private DictionaryHandler dictionaryHandler;
 
     /**
      * Working directory for tests are: /AccessibleVirtualKeyboard/AViKEYB/app
      */
     @Before
     public void setUp() {
-        dictionary = new Dictionary(new DictionaryFileLoader("./src/main/res/raw/word.list").loadDictionary());
+        dictionaryHandler = new DictionaryHandler(new DictionaryFileLoader("./src/main/res/raw/word.list").loadDictionary());
     }
 
     /**
-     * Test storing a loaded dictionary.
+     * Test storing a dictionaryHandler that has been loaded into memory.
      */
     @Test
-    public void testInvalidInput() {
+    public void testStoreDictionaryEntries() {
 //        expectedOutputs = Arrays.asList();
 //        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearchBinary(""));
-//        ResourceHandler.storeDictionary(dictionary, "")
+        try {
+            ResourceHandler.storeDictionaryEntries(dictionaryHandler.getDictionary(), "/tmp/test_dictionary.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

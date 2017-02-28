@@ -15,16 +15,16 @@ import static org.junit.Assert.assertThat;
  */
 public abstract class DictionaryTester {
 
-    private Dictionary defaultDictionary;
+    private DictionaryHandler defaultDictionaryHandler;
 
 
-    protected abstract Dictionary createDictionary(List<DictionaryEntry> entries);
+    protected abstract DictionaryHandler createDictionary(List<DictionaryEntry> entries);
 
 
     @Before
     public void setUp() throws Exception {
 
-        defaultDictionary = createDictionary(Arrays.asList(
+        defaultDictionaryHandler = createDictionary(Arrays.asList(
                 de("test11", 8),
                 de("test2", 7),
                 de("test3", 6),
@@ -38,63 +38,63 @@ public abstract class DictionaryTester {
 
     @Test
     public void testEmptyDictionary() throws Exception {
-        Dictionary dictionary = createDictionary(Collections.emptyList());
-        List<String> res = dictionary.getSuggestionsStartingWith("test");
+        DictionaryHandler dictionaryHandler = createDictionary(Collections.emptyList());
+        List<String> res = dictionaryHandler.getSuggestionsStartingWith("test");
         assertThat(res, is(Collections.emptyList()));
     }
 
 
     @Test
     public void testSingleElementNoMatch() throws Exception {
-        Dictionary dictionary = createDictionary(Arrays.asList(de("test", 0)));
-        List<String> res = dictionary.getSuggestionsStartingWith("hello");
+        DictionaryHandler dictionaryHandler = createDictionary(Arrays.asList(de("test", 0)));
+        List<String> res = dictionaryHandler.getSuggestionsStartingWith("hello");
         assertThat(res, is(Collections.emptyList()));
     }
 
     /**
-     * Word longer than the word in defaultDictionary
+     * Word longer than the word in defaultDictionaryHandler
      */
     @Test
     public void testSingleElementNoMatchTooLong() throws Exception {
-        Dictionary dictionary = createDictionary(Arrays.asList(de("test", 0)));
-        List<String> res = dictionary.getSuggestionsStartingWith("testing");
+        DictionaryHandler dictionaryHandler = createDictionary(Arrays.asList(de("test", 0)));
+        List<String> res = dictionaryHandler.getSuggestionsStartingWith("testing");
         assertThat(res, is(Collections.emptyList()));
     }
 
     @Test
     public void testSingleElementWithMatch() throws Exception {
-        Dictionary dictionary = createDictionary(Arrays.asList(de("test", 0)));
-        List<String> res = dictionary.getSuggestionsStartingWith("te");
+        DictionaryHandler dictionaryHandler = createDictionary(Arrays.asList(de("test", 0)));
+        List<String> res = dictionaryHandler.getSuggestionsStartingWith("te");
         assertThat(res, is(Arrays.asList("test")));
     }
 
     @Test
     public void testDontIncludePerfectMatch() throws Exception {
-        Dictionary dictionary = createDictionary(Arrays.asList(de("test", 0)));
+        DictionaryHandler dictionaryHandler = createDictionary(Arrays.asList(de("test", 0)));
         // perfect match
-        List<String> res = dictionary.getSuggestionsStartingWith("test");
+        List<String> res = dictionaryHandler.getSuggestionsStartingWith("test");
         assertThat(res, is(Collections.emptyList()));
     }
 
     @Test
     public void testMultipleWords() throws Exception {
 
-        List<String> res = defaultDictionary.getSuggestionsStartingWith("te");
+        List<String> res = defaultDictionaryHandler.getSuggestionsStartingWith("te");
         assertThat(res, is(Arrays.asList("test11", "test2", "test3", "testing4", "testing55")));
 
-        res = defaultDictionary.getSuggestionsStartingWith("testing");
+        res = defaultDictionaryHandler.getSuggestionsStartingWith("testing");
         assertThat(res, is(Arrays.asList("testing4", "testing55")));
 
 
-        res = defaultDictionary.getSuggestionsStartingWith("testing6");
+        res = defaultDictionaryHandler.getSuggestionsStartingWith("testing6");
         assertThat(res, is(Collections.emptyList()));
 
 
         // Don't include perfect match
-        res = defaultDictionary.getSuggestionsStartingWith("test2");
+        res = defaultDictionaryHandler.getSuggestionsStartingWith("test2");
         assertThat(res, is(Collections.emptyList()));
 
-        res = defaultDictionary.getSuggestionsStartingWith("hel");
+        res = defaultDictionaryHandler.getSuggestionsStartingWith("hel");
         assertThat(res, is(Arrays.asList("hello1", "hello2", "hello3")));
     }
 
@@ -102,7 +102,7 @@ public abstract class DictionaryTester {
     @Test
     public void testMatchLastWord() throws Exception {
         // Test the word that should be the last word in the sorted dictionary
-        List<String> res = defaultDictionary.getSuggestionsStartingWith("testing5");
+        List<String> res = defaultDictionaryHandler.getSuggestionsStartingWith("testing5");
         assertThat(res, is(Arrays.asList("testing55")));
     }
 
@@ -110,14 +110,14 @@ public abstract class DictionaryTester {
     @Test
     public void testMatchFirstWord() throws Exception {
         // Test the word that should be the last word in the sorted dictionary
-        List<String> res = defaultDictionary.getSuggestionsStartingWith("test1");
+        List<String> res = defaultDictionaryHandler.getSuggestionsStartingWith("test1");
         assertThat(res, is(Arrays.asList("test11")));
     }
 
     @Test
     public void testStandardFrequencies() throws Exception {
         // User frequencies are all 0
-        Dictionary dictionary = createDictionary(Arrays.asList(
+        DictionaryHandler dictionaryHandler = createDictionary(Arrays.asList(
                 de("test1", 1),
                 de("test2", 10),
                 de("test3", 4),
@@ -127,7 +127,7 @@ public abstract class DictionaryTester {
                 de("testing7", 4)
         ));
 
-        List<String> res = dictionary.getSuggestionsStartingWith("test");
+        List<String> res = dictionaryHandler.getSuggestionsStartingWith("test");
         assertThat(res, is(Arrays.asList("test2", "testing6", "test3", "testing7", "testing4", "testing5", "test1")));
     }
 
@@ -136,7 +136,7 @@ public abstract class DictionaryTester {
     public void testUserFrequencies() throws Exception {
         // User frequency should count more than the standard frequency, but the standard frequency
         // should still be used for sorting as well
-        Dictionary dictionary = createDictionary(Arrays.asList(
+        DictionaryHandler dictionaryHandler = createDictionary(Arrays.asList(
                 de("test1", 1, 100),
                 de("test2", 10, 0),
                 de("test3", 4, 50),
@@ -146,7 +146,7 @@ public abstract class DictionaryTester {
                 de("testing7", 4)
         ));
 
-        List<String> res = dictionary.getSuggestionsStartingWith("test");
+        List<String> res = dictionaryHandler.getSuggestionsStartingWith("test");
         assertThat(res, is(Arrays.asList("test1", "test3", "test2", "testing6", "testing7", "testing4", "testing5")));
     }
 
@@ -154,7 +154,7 @@ public abstract class DictionaryTester {
     @Test
     public void testUpdateWordUsage() throws Exception {
 
-        Dictionary dictionary = createDictionary(Arrays.asList(
+        DictionaryHandler dictionaryHandler = createDictionary(Arrays.asList(
                 de("test1", 1),
                 de("test2", 10),
                 de("test3", 4),
@@ -164,38 +164,38 @@ public abstract class DictionaryTester {
                 de("testing7", 4)
         ));
 
-        List<String> res = dictionary.getSuggestionsStartingWith("test");
+        List<String> res = dictionaryHandler.getSuggestionsStartingWith("test");
 
         // Should be sorted on standard frequency
         assertThat(res, is(Arrays.asList("test2", "testing6", "test3", "testing7", "testing4", "testing5", "test1")));
 
-        dictionary.updateWordUsage("test1");
-        res = dictionary.getSuggestionsStartingWith("test");
+        dictionaryHandler.updateWordUsage("test1");
+        res = dictionaryHandler.getSuggestionsStartingWith("test");
 
         // Should be sorted on standard frequency, with test1 first because of 1 usage count
         assertThat(res, is(Arrays.asList("test1", "test2", "testing6", "test3", "testing7", "testing4", "testing5")));
 
-        dictionary.updateWordUsage("testing5");
-        res = dictionary.getSuggestionsStartingWith("test");
+        dictionaryHandler.updateWordUsage("testing5");
+        res = dictionaryHandler.getSuggestionsStartingWith("test");
 
         // testing5 should be before test1 because of higher standard frequency
         assertThat(res, is(Arrays.asList("testing5", "test1", "test2", "testing6", "test3", "testing7", "testing4")));
 
-        dictionary.updateWordUsage("testing7");
-        dictionary.updateWordUsage("testing7");
-        res = dictionary.getSuggestionsStartingWith("test");
+        dictionaryHandler.updateWordUsage("testing7");
+        dictionaryHandler.updateWordUsage("testing7");
+        res = dictionaryHandler.getSuggestionsStartingWith("test");
 
         // testing7 should the first because of highest user frequency
         assertThat(res, is(Arrays.asList("testing7", "testing5", "test1", "test2", "testing6", "test3", "testing4")));
 
-        dictionary.updateWordUsage("testing5");
-        res = dictionary.getSuggestionsStartingWith("test");
+        dictionaryHandler.updateWordUsage("testing5");
+        res = dictionaryHandler.getSuggestionsStartingWith("test");
 
         // testing7 and testing5 has equal user freqency, but testing7 has higher standard frequency
         assertThat(res, is(Arrays.asList("testing7", "testing5", "test1", "test2", "testing6", "test3", "testing4")));
 
-        dictionary.updateWordUsage("testing5");
-        res = dictionary.getSuggestionsStartingWith("test");
+        dictionaryHandler.updateWordUsage("testing5");
+        res = dictionaryHandler.getSuggestionsStartingWith("test");
 
         // testing5 has highest user frequency
         assertThat(res, is(Arrays.asList("testing5", "testing7", "test1", "test2", "testing6", "test3", "testing4")));

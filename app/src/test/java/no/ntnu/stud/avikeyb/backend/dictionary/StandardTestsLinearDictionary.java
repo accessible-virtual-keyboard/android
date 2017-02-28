@@ -9,7 +9,7 @@ import java.util.List;
 public class StandardTestsLinearDictionary extends DictionaryTester {
 
     @Override
-    protected Dictionary createDictionary(List<DictionaryEntry> entries) {
+    protected DictionaryHandler createDictionary(List<DictionaryEntry> entries) {
 //        return new LinearDictionary(entries);
         return null;
     }

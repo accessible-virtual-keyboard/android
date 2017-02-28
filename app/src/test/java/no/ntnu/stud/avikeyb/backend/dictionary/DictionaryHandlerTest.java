@@ -15,11 +15,11 @@ import static org.junit.Assert.*;
  * Created by Kristian Honningsvag.
  */
 
-public class DictionaryTest {
+public class DictionaryHandlerTest {
 
-    private Dictionary dictionaryNoFrequency;
-    private Dictionary dictionaryWithOneFrequency;
-    private Dictionary dictionaryWithTwoFrequency;
+    private DictionaryHandler dictionaryHandlerNoFrequency;
+    private DictionaryHandler dictionaryHandlerWithOneFrequency;
+    private DictionaryHandler dictionaryHandlerWithTwoFrequency;
     List<String> expectedOutputs;
 
     /**
@@ -28,9 +28,9 @@ public class DictionaryTest {
     @Before
     public void setUp() {
 //        System.out.println(getClass().getClassLoader().getResourceAsStream("raw/word.list"));
-        dictionaryNoFrequency = new Dictionary(new DictionaryFileLoader("./src/main/res/raw/word.list").loadDictionary());
-        dictionaryWithOneFrequency = new Dictionary(new DictionaryFileLoader("./src/main/res/raw/dictionary.txt").loadDictionary());
-        dictionaryWithTwoFrequency = new Dictionary(new DictionaryFileLoader("./src/main/res/raw/test_dictionary.txt").loadDictionary());
+        dictionaryHandlerNoFrequency = new DictionaryHandler(new DictionaryFileLoader("./src/main/res/raw/word.list").loadDictionary());
+        dictionaryHandlerWithOneFrequency = new DictionaryHandler(new DictionaryFileLoader("./src/main/res/raw/dictionary.txt").loadDictionary());
+        dictionaryHandlerWithTwoFrequency = new DictionaryHandler(new DictionaryFileLoader("./src/main/res/raw/test_dictionary.txt").loadDictionary());
     }
 
     /**
@@ -39,10 +39,10 @@ public class DictionaryTest {
     @Test
     public void testInvalidInput() {
         expectedOutputs = Arrays.asList();
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary(""));
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("1239461598247264023421552"));
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("./!@#$%^&*("));
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary(null));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary(""));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("1239461598247264023421552"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("./!@#$%^&*("));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary(null));
     }
 
     /**
@@ -51,13 +51,13 @@ public class DictionaryTest {
     @Test
     public void testSingleResults() {
         expectedOutputs = Arrays.asList("enormousnesses");
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("enormousness"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("enormousness"));
 
         expectedOutputs = Arrays.asList("brattishnesses");
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("brattishness"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("brattishness"));
 
         expectedOutputs = Arrays.asList("patrializations");
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("patrialization"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("patrialization"));
     }
 
 
@@ -67,13 +67,13 @@ public class DictionaryTest {
     @Test
     public void testMultipleResults() {
         expectedOutputs = Arrays.asList("isoclinal", "isoclinally", "isoclinals", "isocline", "isoclines", "isoclinic", "isoclinics");
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("isocl"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("isocl"));
 
         expectedOutputs = Arrays.asList("teniacide", "teniacides", "teniae", "teniafuge", "teniafuges", "tenias", "teniases", "teniasis");
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("tenia"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("tenia"));
 
         expectedOutputs = Arrays.asList("sarment", "sarmenta", "sarmentaceous", "sarmentose", "sarmentous", "sarments", "sarmentum");
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("sarmen"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("sarmen"));
     }
 
 
@@ -83,7 +83,7 @@ public class DictionaryTest {
     @Test
     public void testNotInDictionary() {
         expectedOutputs = Arrays.asList();
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("kkxkkxkfkkdfksdfkd"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("kkxkkxkfkkdfksdfkd"));
     }
 
 
@@ -93,7 +93,7 @@ public class DictionaryTest {
     @Test
     public void testFirstEntry() {
         expectedOutputs = Arrays.asList("aah", "aahed", "aahing", "aahs", "aal", "aalii", "aaliis", "aals", "aardvark", "aardvarks", "aardwolf", "aardwolves", "aargh", "aarrgh", "aarrghh", "aas", "aasvogel", "aasvogels");
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("aa"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("aa"));
     }
 
     /**
@@ -102,10 +102,10 @@ public class DictionaryTest {
     @Test
     public void testEndReached() {
         expectedOutputs = Arrays.asList("zyzzyva", "zyzzyvas");
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("zyz"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("zyz"));
 
         expectedOutputs = Arrays.asList();
-        assertEquals(expectedOutputs, dictionaryNoFrequency.prefixSearchBinary("zyzzyvas"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("zyzzyvas"));
     }
 
     /**
@@ -114,7 +114,7 @@ public class DictionaryTest {
     @Test
     public void testWithOneFrequencyDictionary() {
         expectedOutputs = Arrays.asList("you", "your", "you're", "yeah", "yes", "you've");
-        assertEquals(expectedOutputs, dictionaryWithOneFrequency.prefixSearchBinary("y").subList(0, 6));
+        assertEquals(expectedOutputs, dictionaryHandlerWithOneFrequency.prefixSearchBinary("y").subList(0, 6));
     }
 
     /**
@@ -123,7 +123,17 @@ public class DictionaryTest {
     @Test
     public void testWithTwoFrequencyDictionary() {
         expectedOutputs = Arrays.asList("you're", "yeah", "you", "your", "yes");
-        assertEquals(expectedOutputs, dictionaryWithTwoFrequency.prefixSearchBinary("y").subList(0, 5));
+        assertEquals(expectedOutputs, dictionaryHandlerWithTwoFrequency.prefixSearchBinary("y").subList(0, 5));
+    }
+
+    /**
+     * Test adding a word.
+     */
+    @Test
+    public void testAddingWord() {
+        expectedOutputs = Arrays.asList("bkldiutgudzxkeudz");
+        dictionaryHandlerNoFrequency.addWordToDictionary("bkldiutgudzxkeudz", 0, 1);
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("bkldiutgudzxkeud").subList(0, 1));
     }
 
 }

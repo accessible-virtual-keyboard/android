@@ -2,7 +2,7 @@ package no.ntnu.stud.avikeyb.backend.dictionary;
 
 /**
  * Represents an entry in the dictionary.
- * Help class used for Dictionary class.
+ * Help class used for DictionaryHandler class.
  *
  * @author Tor-Martin Holen on 01-Feb-17 (Originally 21-Feb-17).
  * @author Kristian Honningsvag.
@@ -33,6 +33,12 @@ public class DictionaryEntry {
         this.userFrequency = userFrequency;
     }
 
+    /**
+     * Returns the entry as a string.
+     */
+    public String getEntryAsString() {
+        return "DictionaryEntry{word='" + word + "', standardFrequency=" + standardFrequency + "', userFrequency=" + userFrequency + "}";
+    }
 
     // Getters.
     public String getWord() {
@@ -55,11 +61,6 @@ public class DictionaryEntry {
 
     public void setUserFrequency(int userFrequency) {
         this.userFrequency = userFrequency;
-    }
-
-    @Override
-    public String toString() {
-        return "DictionaryEntry{word='" + word + "', standardFrequency=" + standardFrequency + "', userFrequency=" + userFrequency + "}";
     }
 
 }
