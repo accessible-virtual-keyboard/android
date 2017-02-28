@@ -176,7 +176,7 @@ public class Symbols {
             Symbol.QUESTION_MARK,
             Symbol.EXCLAMATION_MARK,
             Symbol.SPACE,
-            Symbol.SWITCH, // TEST!!
+           // Symbol.SWITCH, // todo put this back in and make the menu work again. inga
     };
 
     private static Symbol[] _menuOptions ={
