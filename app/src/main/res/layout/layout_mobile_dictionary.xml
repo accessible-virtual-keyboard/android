@@ -398,15 +398,44 @@
                 android:weightSum="1">
 
                 <TextView
-                    android:id="@+id/sym_backspace"
+                    android:id="@+id/sym_delete_word"
                     style="?attr/buttonBarButtonStyle"
                     android:layout_width="@dimen/mobileLayoutButtonWidth"
                     android:layout_height="match_parent"
                     android:layout_margin="0dp"
                     android:layout_weight="1"
                     android:background="@color/mobileLayoutButtonBackground"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/_25sdp" />
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/sym_correct_last_input"
+                    style="?attr/buttonBarButtonStyle"
+                    android:layout_width="@dimen/mobileLayoutButtonWidth"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/mobileLayoutButtonBackground"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/sym_correct_word"
+                    style="?attr/buttonBarButtonStyle"
+                    android:layout_width="@dimen/mobileLayoutButtonWidth"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/mobileLayoutButtonBackground"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/sym_deletion_done"
+                    style="?attr/buttonBarButtonStyle"
+                    android:layout_width="@dimen/mobileLayoutButtonWidth"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/mobileLayoutButtonBackground"
+                    android:textAlignment="center" />
 
             </LinearLayout>
         </TableRow>

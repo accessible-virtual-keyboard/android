@@ -62,7 +62,7 @@ public class LinearEliminationDictionaryHandler extends DictionaryHandler {
                 }
             }
         }
-        Log.d("LinearElimination", "Original suggestions: " + reducedSuggestionList.size());
+        Log.d("LinearElimination", "Reduced suggestions: " + reducedSuggestionList.size());
         return reducedSuggestionList;
     }
 
@@ -209,6 +209,13 @@ public class LinearEliminationDictionaryHandler extends DictionaryHandler {
     public void reset(){
         sentenceHistory.clear();
         wordHistory = wordHistory.subList(0,1);
+    }
+
+    public boolean hasWordHistory(){
+        return wordHistory.size() > 1;
+    }
+    public void removeLastWordHistoryElement(){
+        wordHistory.remove(wordHistory.size()-1);
     }
 
     @Override

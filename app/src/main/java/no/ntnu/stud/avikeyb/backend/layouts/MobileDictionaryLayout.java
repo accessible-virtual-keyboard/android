@@ -10,8 +10,6 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionaryHandler;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
@@ -30,9 +28,9 @@ public class MobileDictionaryLayout extends MobileLayout {
                 Symbol.E, Symbol.T, Symbol.A, Symbol.S, Symbol.R, Symbol.H, Symbol.L, Symbol.D, Symbol.C,
                 Symbol.O, Symbol.I, Symbol.N, Symbol.U, Symbol.M, Symbol.F, Symbol.Y, Symbol.B, Symbol.V, Symbol.K,
                 Symbol.P, Symbol.G, Symbol.W, Symbol.X, Symbol.J, Symbol.Q, Symbol.Z, Symbol.SEND,
-                Symbol.DICTIONARY, Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK, Symbol.BACKSPACE};
-        stepIndices = new int[]{0, 3, 6, 9, 12, 15, 19, 22, 26, 27, 28, 32, 33};
-        setSuggestions(dictionary.getBaseSuggestion(nSuggestions));
+                Symbol.DICTIONARY, Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK, Symbol.DELETE_WORD, Symbol.CORRECT_LAST_INPUT, Symbol.CORRECT_WORD, Symbol.DELETION_DONE};
+        stepIndices = new int[]{0, 3, 6, 9, 12, 15, 19, 22, 26, 27, 28, 32, 36};
+        setBaseSuggestions();
         nextRow();
     }
 
@@ -57,42 +55,32 @@ public class MobileDictionaryLayout extends MobileLayout {
                         break;
                     case INPUT2:
                         state = State.SELECT_ROW;
-
-                        System.out.println("--------------------------------------");
                         if (markedSymbols.contains(Symbol.SEND)) {
                             keyboard.sendCurrentBuffer();
                             dictionary.reset();
-                            setSuggestions(dictionary.getBaseSuggestion(nSuggestions));
+                            setBaseSuggestions();
                         } else if (markedSymbols.contains(Symbol.DICTIONARY)) {
                             state = State.SELECT_DICTIONARY;
-                            markedWord = 0;
                             softReset();
+                            nextDictionaryRow();
                             break;
-                        } else if (markedSymbols.contains(Symbol.BACKSPACE)) {
-                            //TODO handle backspace
-                            Log.d(TAG, "Keyboard word: " + keyboard.getCurrentWord());
-
-                            deleteLastWord();
-                            getPreviousSuggestions();
-                            //dictionary.revertLastSearch();
-                            dictionary.printListSuggestions(10);
+                        } else if (markedSymbols.contains(Symbol.DELETE_WORD)) {
+                            state = State.SELECT_LETTER;
+                            nextLetter();
+                            break;
                         } else if (markedSymbols.contains(Symbol.PERIOD)) {
-                            if (!keyboard.getCurrentBuffer().isEmpty()) {
+                            if (!keyboard.getCurrentBuffer().isEmpty()) { // We don't want the user to input punctuation symbols when no words has been entered
                                 state = State.SELECT_LETTER;
                                 nextLetter();
-                            } else {
-                                reset();
                             }
                             break;
                         } else {
-                            logMarked();
                             dictionary.findValidSuggestions(getStringsFromMarkedSymbols());
-                            dictionary.printListSuggestions(nSuggestions);
                             setSuggestions(dictionary.getSuggestions(nSuggestions));
                         }
 
                         logMarked();
-
+                        //dictionary.printListSuggestions(nSuggestions);
                         reset();
                         break;
                 }
@@ -105,12 +93,29 @@ public class MobileDictionaryLayout extends MobileLayout {
                         break;
                     case INPUT2:
                         state = State.SELECT_ROW;
-                        String keyboardInput = keyboard.getCurrentBuffer().trim();
-                        Log.d(TAG, "onStep: keyboard input: " + keyboardInput);
-                        keyboard.clearCurrentBuffer();
-                        keyboard.addToCurrentBuffer(keyboardInput);
-                        selectCurrentSymbols(keyboard);
-                        keyboard.addToCurrentBuffer(" ");
+                        if (markedSymbols.contains(Symbol.DELETE_WORD)) {
+                            if (!keyboard.getCurrentBuffer().isEmpty()) {
+                                deleteLastWord();
+                                dictionary.previousWord();
+                                setBaseSuggestions();
+                            }
+                        } else if (markedSymbols.contains(Symbol.CORRECT_LAST_INPUT)) {
+                            if(dictionary.hasWordHistory()){
+                                dictionary.removeLastWordHistoryElement();
+                                getPreviousSuggestions();
+
+                            }
+                        } else if (markedSymbols.contains(Symbol.CORRECT_WORD)) {
+                            if (!keyboard.getCurrentBuffer().isEmpty()) {
+                                deleteLastWord();
+                                getPreviousSuggestions();
+                                state = State.SELECT_DICTIONARY;
+                                nextDictionaryRow();
+                                break;
+                            }
+                        } else {
+                            addPunctuationSymbol();
+                        }
 
                         reset();
                         break;
@@ -120,24 +125,13 @@ public class MobileDictionaryLayout extends MobileLayout {
             case SELECT_DICTIONARY:
                 switch (input) {
                     case INPUT1:
-                        markedWord++;
-                        if (markedWord >= suggestions.size() || markedWord >= nSuggestions) {
-                            markedWord = 0;
-                        }
+                        nextDictionaryRow();
                         break;
                     case INPUT2:
-                        String currentText = keyboard.getCurrentBuffer();
-                        String currentWord = getSuggestions().get(markedWord);
-
-                        currentWord = capitalizationCheck(currentText, currentWord);
-
-                        keyboard.addToCurrentBuffer(currentWord + " ");
-                        dictionary.nextWord();
-
+                        addWord();
                         state = State.SELECT_ROW;
-                        nextRow();
-                        markedWord = -1;
-                        //keyboard.addToCurrentBuffer(dictionary.getSuggestionsWithFrequencies(1).get(0).getWord() + " ");
+                        setSuggestions(dictionary.getBaseSuggestion(nSuggestions));
+                        reset();
                         break;
                 }
                 break;
@@ -167,7 +161,7 @@ public class MobileDictionaryLayout extends MobileLayout {
     }
 
     public void softReset() {
-        location = new int[]{-1, -1, -1};
+        location = new int[]{-1, -1, -1, -1};
         markedSymbols = new ArrayList<>();
     }
 
@@ -221,8 +215,33 @@ public class MobileDictionaryLayout extends MobileLayout {
         keyboard.addToCurrentBuffer(currentBuffer);
     }
 
+
+    private void addWord() {
+        String currentText = keyboard.getCurrentBuffer();
+        String currentWord = getSuggestions().get(location[3]);
+
+        currentWord = capitalizationCheck(currentText, currentWord);
+
+        keyboard.addToCurrentBuffer(currentWord + " ");
+        dictionary.nextWord();
+
+    }
+
     private void getPreviousSuggestions() {
         dictionary.previousWord();
         setSuggestions(dictionary.getSuggestions(nSuggestions));
     }
+
+    private void addPunctuationSymbol() {
+        String keyboardInput = keyboard.getCurrentBuffer().trim();
+        keyboard.clearCurrentBuffer();
+        keyboard.addToCurrentBuffer(keyboardInput);
+        selectCurrentSymbols(keyboard);
+        keyboard.addToCurrentBuffer(" ");
+    }
+
+    private void setBaseSuggestions() {
+        setSuggestions(dictionary.getBaseSuggestion(nSuggestions));
+    }
+
 }

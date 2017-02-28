@@ -56,6 +56,10 @@ public enum Symbol {
     NULL(null),
 
     BACKSPACE("\u232B"), //http://www.fileformat.info/info/unicode/char/2190/index.htm
+    CORRECT_LAST_INPUT("BTN"),
+    DELETE_WORD("WRD"),
+    CORRECT_WORD("CWRD"),
+    DELETION_DONE("\u2713"),
     SEND("\u2332"),
 
     SWITCH("Switch"),

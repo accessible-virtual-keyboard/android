@@ -20,8 +20,7 @@ public class MobileLayout extends StepLayout {
     protected Keyboard keyboard;
     protected State state = State.SELECT_ROW;
     protected ArrayList<Symbol> markedSymbols = new ArrayList<>();
-    protected int[] location = new int[]{-1, -1, -1};
-    protected int markedWord = -1;
+    protected int[] location = new int[]{-1, -1, -1 , -1};
     protected List<String> suggestions;
     protected int nSuggestions = 10;
 
@@ -116,7 +115,7 @@ public class MobileLayout extends StepLayout {
         markedSymbols = new ArrayList<>();
         int lowerBound = stepIndices[location[0] * 3];
         int upperBound = stepIndices[location[0] * 3 + 3];
-        Log.d("MobLayout", "Bounds, Lower: " + lowerBound + " Upper: " + upperBound);
+        //Log.d("MobLayout", "Bounds, Lower: " + lowerBound + " Upper: " + upperBound);
         for (int i = lowerBound; i < upperBound; i++) {
             addMarkedSymbol(i);
         }
@@ -148,6 +147,13 @@ public class MobileLayout extends StepLayout {
         //logLocation();
     }
 
+    protected void nextDictionaryRow(){
+        location[3]++;
+        if (location[3] >= suggestions.size() || location[3] >= nSuggestions) {
+            location[3] = 0;
+        }
+    }
+
     private int[] updateColumnBounds(int[] bounds) {
         bounds[0] = stepIndices[location[0] * 3 + location[1]];
         bounds[1] = stepIndices[location[0] * 3 + location[1] + 1];
@@ -173,7 +179,7 @@ public class MobileLayout extends StepLayout {
 
         markedSymbols = new ArrayList<>();
         int index = stepIndices[location[0] * 3 + location[1]] + location[2];
-        Log.d("MobLayout", "Index: " + index);
+        //Log.d("MobLayout", "Index: " + index);
         addMarkedSymbol(index);
         //logLocation();
     }
@@ -204,7 +210,7 @@ public class MobileLayout extends StepLayout {
     }
 
     public void reset() {
-        location = new int[]{-1, -1, -1};
+        location = new int[]{-1, -1, -1, -1};
         markedSymbols = new ArrayList<>();
         nextRow();
     }
@@ -228,7 +234,7 @@ public class MobileLayout extends StepLayout {
     }
 
     public int getMarkedWord() {
-        return markedWord;
+        return location[3];
     }
 
 
