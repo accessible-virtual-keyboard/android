@@ -10,6 +10,8 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionaryHandler;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
@@ -102,17 +104,26 @@ public class MobileDictionaryLayout extends MobileLayout {
                                 setBaseSuggestions();
                             }
                         } else if (markedSymbols.contains(Symbol.CORRECT_WORD)) {
+
+                            Log.d(TAG, "onStep: -----------------------------------------");
                             if(dictionary.hasWordHistory()){
+                                Log.d(TAG, "onStep: has history");
                                 dictionary.removeLastWordHistoryElement();
                                 if(!dictionary.hasWordHistory()){
                                     setBaseSuggestions();
                                 }else{
-                                    getPreviousSuggestions();
+                                    setCurrentSuggestions();
                                 }
-                            } else if (!keyboard.getCurrentBuffer().isEmpty()) {
+                            } else if (!(dictionary.hasWordHistory() && keyboard.getCurrentBuffer().isEmpty())) {
+                                Log.d(TAG, "onStep: has no history");
                                 deleteLastWord();
                                 dictionary.previousWord();
-                                getPreviousSuggestions();
+                                if(!dictionary.hasWordHistory() && keyboard.getCurrentBuffer().isEmpty()){
+                                    setBaseSuggestions();
+                                } else {
+                                    setCurrentSuggestions();
+                                }
+
                             }
                         }else if (markedSymbols.contains(Symbol.DELETION_DONE)){
                             state = State.SELECT_ROW;
@@ -234,8 +245,7 @@ public class MobileDictionaryLayout extends MobileLayout {
 
     }
 
-    private void getPreviousSuggestions() {
-        dictionary.previousWord();
+    private void setCurrentSuggestions() {
         setSuggestions(dictionary.getSuggestions(nSuggestions));
     }
 

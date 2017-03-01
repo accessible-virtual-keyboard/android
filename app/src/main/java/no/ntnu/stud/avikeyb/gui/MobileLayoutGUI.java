@@ -126,7 +126,7 @@ public class MobileLayoutGUI extends LayoutGUI {
                 dictionaryList.smoothScrollToPosition(0);
             }*/
             int position = layout.getMarkedWord();
-            Log.d(TAG, "updateDictionaryPart: position: " + position);
+            //Log.d(TAG, "updateDictionaryPart: position: " + position);
             dictionaryList.performItemClick(dictionaryList.getChildAt(position),
                     position,
                     dictionaryList.getItemIdAtPosition(position));

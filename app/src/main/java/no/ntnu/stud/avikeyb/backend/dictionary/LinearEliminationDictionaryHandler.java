@@ -3,6 +3,7 @@ package no.ntnu.stud.avikeyb.backend.dictionary;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -87,9 +88,16 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
      * Should be called when the user selects word from dictionary
      */
     public void nextWord() {
-        sentenceHistory.add(wordHistory);
-        wordHistory = wordHistory.subList(0,1);
-        Log.d(TAG, "nextWord: word history size: " + wordHistory.size() + ", sentence history size: " +sentenceHistory.size());
+        //Log.d(TAG, "nextWord: before: word history size: " + wordHistory.size() + ", sentence history size: " +sentenceHistory.size());
+
+        if(wordHistory.size() > 1){
+            sentenceHistory.add(new ArrayList<>(wordHistory.subList(1, wordHistory.size())));
+        }else {
+            sentenceHistory.add(new ArrayList<>());
+        }
+
+        wordHistory = new ArrayList<>(wordHistory.subList(0,1));
+        //Log.d(TAG, "nextWord: after: word history size: " + wordHistory.size() + ", sentence history size: " +sentenceHistory.size());
     }
     /**
      * Adds the previous word to word history again and removes it from the sentence history.
@@ -98,10 +106,13 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
     public void previousWord() {
         int sentenceHistoryIndex = sentenceHistory.size()-1;
         if(sentenceHistoryIndex != -1){
-            wordHistory = sentenceHistory.get(sentenceHistoryIndex);
+            //Log.d(TAG, "previousWord: before: word history size: " + wordHistory.size() + ", sentence history size: " +sentenceHistory.size());
+            wordHistory.clear();
+            wordHistory.add(fullDictionary);
+            wordHistory.addAll(sentenceHistory.get(sentenceHistoryIndex));
             sentenceHistory.remove(sentenceHistoryIndex);
         }
-        Log.d(TAG, "previousWord: word history size: " + wordHistory.size() + ", sentence history size: " +sentenceHistory.size());
+        //Log.d(TAG, "previousWord: after: word history size: " + wordHistory.size() + ", sentence history size: " +sentenceHistory.size());
     }
 
     /**
@@ -216,13 +227,13 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
     }
 
     public boolean hasWordHistory(){
-        boolean result = wordHistory.size() > 1;
-        Log.d(TAG, "hasWordHistory: boolean: " + result + " wordhistory size: " + wordHistory.size() + ", sentence history size: " + sentenceHistory.size());
+        //boolean result = wordHistory.size() > 1;
+        //Log.d(TAG, "hasWordHistory: boolean: " + result);
         return wordHistory.size() > 1;
     }
     public void removeLastWordHistoryElement(){
         wordHistory.remove(wordHistory.size()-1);
-        Log.d(TAG, "removeLastWordHistoryElement: word history size: " + wordHistory.size() + ", sentence history size: " + sentenceHistory.size());
+        //Log.d(TAG, "removeLastWordHistoryElement: word history size: " + wordHistory.size() + ", sentence history size: " + sentenceHistory.size());
     }
 
     @Override
