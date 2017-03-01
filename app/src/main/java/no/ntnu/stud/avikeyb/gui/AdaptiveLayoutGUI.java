@@ -3,6 +3,8 @@ package no.ntnu.stud.avikeyb.gui;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
+import no.ntnu.stud.avikeyb.gui.utils.GenericSuggestionAdapter;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 
 /**
@@ -22,6 +25,8 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
     private Activity activity;
     private AdaptiveLayout layout;
+    private ListView suggestionsList;
+    private ArrayAdapter<String> suggestionsAdapter;
 
     // Store a reference to all the symbol for easy access when updating the gui
     private ArrayList<View> symbolViews = new ArrayList<>();
@@ -47,7 +52,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         // the views. The id of the views are only used initially to load the views in the correct
         // order.
 
-        Symbol[] symbols = Symbols.merge(Symbols.alphabet(), Symbols.build(Symbol.SPACE, Symbol.SEND));
+        Symbol[] symbols = Symbols.merge(Symbols.alphabet(), Symbols.build(Symbol.SPACE, Symbol.SEND, Symbol.DICTIONARY));
 
         LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_adaptive);
         for (Symbol symbol : symbols) {
@@ -58,12 +63,34 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
                 symbolViews.add(view);
             }
         }
+
+        suggestionsList = (ListView) loader.getViewById(R.id.suggestionsList);
+
+        suggestionsAdapter = new GenericSuggestionAdapter(activity, suggestion -> layout.getSuggestions().contains(suggestion));
+        suggestionsList.setAdapter(suggestionsAdapter);
         return loader.getLayout();
     }
 
 
     public void updateGUI() {
 
+        if(layout.getCurrentState() == AdaptiveLayout.State.SUGGESTION_SELECTION){
+            updateSuggestions();
+        }
+        else{
+            updateLayout();
+        }
+
+
+
+        suggestionsAdapter.clear();
+        suggestionsAdapter.addAll(layout.getSuggestions());
+        suggestionsAdapter.notifyDataSetChanged();
+
+
+    }
+
+    private void updateLayout(){
         Symbol[] currentLayout = layout.getSymbols();
 
         for (int i = 0; i < symbolViews.size(); i++) {
@@ -87,5 +114,20 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
                 view.setBackgroundColor(Color.parseColor("#eeeeee")); // Default non active background color
             }
         }
+    }
+    private void updateSuggestions(){
+
+        Symbol[] currentLayout = layout.getSymbols();
+        for (int i = 0; i < symbolViews.size(); i++) {
+            TextView view = (TextView) symbolViews.get(i);
+            // Because the layout of the symbols changes all the time we have to set the view
+            // content each time we update.
+            view.setText(currentLayout[i].getContent());
+            view.setBackgroundColor(Color.parseColor("#eeeeee")); // Default non active background color
+        }
+
+
+
+
     }
 }

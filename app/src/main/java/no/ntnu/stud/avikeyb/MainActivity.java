@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionaryHandler);
         final ETOSLayout etosLayout = new ETOSLayout(keyboard, suggestions);
         final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard, suggestions);
+        final AdaptiveLayout adaptiveLayout = new AdaptiveLayout(keyboard, suggestions);
 
 
         TabLayout.OnTabSelectedListener tabSwitcher = new TabLayout.OnTabSelectedListener() {
@@ -93,8 +94,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 4: {
-                        AdaptiveLayout l = new AdaptiveLayout(keyboard);
-                        switchLayout(l, new AdaptiveLayoutGUI(MainActivity.this, keyboard, l));
+                        switchLayout(adaptiveLayout, new AdaptiveLayoutGUI(MainActivity.this, keyboard, adaptiveLayout));
                         break;
                     }
                     case 5: {

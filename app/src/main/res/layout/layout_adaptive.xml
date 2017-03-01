@@ -1,47 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:stretchColumns="*"
-    >
+    android:orientation="horizontal">
 
-    <TableRow android:layout_weight="1">
-        <TextView android:id="@+id/sym_a" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_b" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_c" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_d" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_e" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_f" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width"/>
-    </TableRow>
-    <TableRow>
-        <TextView android:id="@+id/sym_g" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_h" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_i" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_j" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_k" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_l" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-    </TableRow>
-    <TableRow>
-        <TextView android:id="@+id/sym_m" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_n" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_o" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_p" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_q" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_r" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-    </TableRow>
-    <TableRow>
-        <TextView android:id="@+id/sym_s" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_t" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_u" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_v" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_w" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_x" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-    </TableRow>
-    <TableRow android:layout_weight="1">
-        <TextView android:id="@+id/sym_y" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_z" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_space" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-        <TextView android:id="@+id/sym_send" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width"/>
-    </TableRow>
+    <TableLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        >
 
-</TableLayout>
+        <TableRow>
+            <TextView android:id="@+id/sym_a" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width" android:text="a"/>
+            <TextView android:id="@+id/sym_b" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width" android:text="b"/>
+            <TextView android:id="@+id/sym_c" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width" android:text="c"/>
+            <TextView android:id="@+id/sym_d" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width" android:text="d"/>
+            <TextView android:id="@+id/sym_e" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width" android:text="e"/>
+            <TextView android:id="@+id/sym_f" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding"  android:minWidth="@dimen/adaptive_min_width" android:text="f"/>
+        </TableRow>
+        <TableRow>
+            <TextView android:id="@+id/sym_g" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="g"/>
+            <TextView android:id="@+id/sym_h" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="h"/>
+            <TextView android:id="@+id/sym_i" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="i"/>
+            <TextView android:id="@+id/sym_j" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="j"/>
+            <TextView android:id="@+id/sym_k" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="k"/>
+            <TextView android:id="@+id/sym_l" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="l"/>
+        </TableRow>
+        <TableRow>
+            <TextView android:id="@+id/sym_m" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="m"/>
+            <TextView android:id="@+id/sym_n" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="n"/>
+            <TextView android:id="@+id/sym_o" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="o"/>
+            <TextView android:id="@+id/sym_p" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="p"/>
+            <TextView android:id="@+id/sym_q" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="q"/>
+            <TextView android:id="@+id/sym_r" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="r"/>
+        </TableRow>
+        <TableRow>
+            <TextView android:id="@+id/sym_s" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="s"/>
+            <TextView android:id="@+id/sym_t" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="t"/>
+            <TextView android:id="@+id/sym_u" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="u"/>
+            <TextView android:id="@+id/sym_v" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="v"/>
+            <TextView android:id="@+id/sym_w" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="w"/>
+            <TextView android:id="@+id/sym_x" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="x"/>
+        </TableRow>
+        <TableRow>
+            <TextView android:id="@+id/sym_y" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="y"/>
+            <TextView android:id="@+id/sym_z" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="z"/>
+            <TextView android:id="@+id/sym_space" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text=" "/>
+            <TextView android:id="@+id/sym_send" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="D"/>
+            <TextView android:id="@+id/sym_dictionary" android:layout_margin="@dimen/adaptive_cell_margin" android:gravity="center" android:padding="@dimen/adaptive_cell_padding" android:minWidth="@dimen/adaptive_min_width" android:text="D"/>
+        </TableRow>
+
+    </TableLayout>
+
+
+    <ListView
+        android:id="@+id/suggestionsList"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+
+
+</LinearLayout>

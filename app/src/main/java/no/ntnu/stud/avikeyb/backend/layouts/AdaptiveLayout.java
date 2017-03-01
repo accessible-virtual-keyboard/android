@@ -1,9 +1,12 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
+import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 
 /**
@@ -20,6 +23,7 @@ public class AdaptiveLayout extends StepLayout {
     public enum State {
         ROW_SELECTION,
         COLUMN_SELECTION,
+        SUGGESTION_SELECTION,
     }
 
     // Currently a hard coded row length
@@ -32,16 +36,25 @@ public class AdaptiveLayout extends StepLayout {
 
     private int currentRow;
     private int currentColumn;
+    private int currentSuggestion;
     private Symbol[] currentAdaptiveLayout;
     private State currentState = State.ROW_SELECTION;
+    private List<String> suggestions = new ArrayList<>();
 
 
-    public AdaptiveLayout(Keyboard keyboard) {
+    public AdaptiveLayout(Keyboard keyboard, Suggestions suggestions) {
         this.keyboard = keyboard;
         // Create the optimal layout map and reset to set the current layout based on the
         // keyboard's current output buffer.
         optimalLayoutMap = createSymbolLayoutMap();
         reset();
+
+        suggestions.addListener(suggestions1 -> {
+            this.suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(7, suggestions1.size())));
+            this.currentSuggestion = 0;
+            notifyLayoutListeners();
+        });
+
     }
 
     /**
@@ -94,6 +107,12 @@ public class AdaptiveLayout extends StepLayout {
         return ROW_LENGTH;
     }
 
+    public int getCurrentSuggestion(){
+        return currentSuggestion;
+    }
+    public List<String> getSuggestions(){
+        return suggestions;
+    }
 
     @Override
     protected void onStep(InputType input) {
@@ -104,6 +123,9 @@ public class AdaptiveLayout extends StepLayout {
                 break;
             case COLUMN_SELECTION:
                 stepInColumnSelectionMode(input);
+                break;
+            case SUGGESTION_SELECTION:
+                stepInSuggestionsMode(input);
                 break;
         }
 
@@ -136,6 +158,17 @@ public class AdaptiveLayout extends StepLayout {
                 break;
             case INPUT2:
                 selectCurrentSymbol();
+                break;
+        }
+    }
+
+    private void stepInSuggestionsMode(InputType input){
+        switch (input) {
+            case INPUT1:
+                currentSuggestion = (currentSuggestion + 1) % suggestions.size() ;
+                break;
+            case INPUT2:
+                selectCurrentSuggestion();
                 reset();
                 break;
         }
@@ -146,9 +179,18 @@ public class AdaptiveLayout extends StepLayout {
         Symbol current = currentAdaptiveLayout[currentRow * ROW_LENGTH + currentColumn];
         if (current == Symbol.SEND) {
             keyboard.sendCurrentBuffer();
+            reset();
+        } else if (current == Symbol.DICTIONARY) {
+            currentState = State.SUGGESTION_SELECTION;
         } else {
             keyboard.addToCurrentBuffer(current.getContent());
+            reset();
         }
+    }
+
+    private void selectCurrentSuggestion(){
+        String suggestion = suggestions.get(currentSuggestion);
+        keyboard.addToCurrentBuffer(suggestion + Symbol.SPACE.getContent());
     }
 
     // Reset the internal state
@@ -207,11 +249,13 @@ public class AdaptiveLayout extends StepLayout {
         for (String letter : letterToLayout.keySet()) {
 
             String stringLayout = letterToLayout.get(letter);
-            Symbol[] symbolLayout = new Symbol[stringLayout.length() + 1];
+            Symbol[] symbolLayout = new Symbol[stringLayout.length() + 2];
             for (int i = 0; i < stringLayout.length(); i++) {
                 symbolLayout[i] = stringToSymbol.get(Character.toString(stringLayout.charAt(i)));
             }
             symbolLayout[stringLayout.length()] = Symbol.SEND;
+            symbolLayout[stringLayout.length() + 1] = Symbol.DICTIONARY;
+
             symbolLayoutMap.put(letter, symbolLayout);
         }
 
