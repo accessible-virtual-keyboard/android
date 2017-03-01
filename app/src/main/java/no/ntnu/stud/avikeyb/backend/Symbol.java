@@ -70,6 +70,7 @@ public enum Symbol {
 
     SETTING("Settings"),
     SETTING_UNICODE_SYMBOL("\u2699"), //Draft
+    MENU("Menu"),
 
     DICTIONARY("Dictionary"),
     DICTIONARY_UNICODE_SYMBOL("\uD83D\uDCD6"), //Draft

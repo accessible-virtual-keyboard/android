@@ -177,6 +177,8 @@ public class Symbols {
             Symbol.EXCLAMATION_MARK,
             Symbol.SPACE,
            // Symbol.SWITCH, // todo put this back in and make the menu work again. inga
+            Symbol.DICTIONARY,
+            Symbol.MENU,
     };
 
     private static Symbol[] _menuOptions ={
