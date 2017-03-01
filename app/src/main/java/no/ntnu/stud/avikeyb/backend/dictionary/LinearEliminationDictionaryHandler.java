@@ -93,7 +93,7 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
         if(wordHistory.size() > 1){
             sentenceHistory.add(new ArrayList<>(wordHistory.subList(1, wordHistory.size())));
         }else {
-            sentenceHistory.add(new ArrayList<>());
+            sentenceHistory.add(new ArrayList<List<DictionaryEntry>>());
         }
 
         wordHistory = new ArrayList<>(wordHistory.subList(0,1));
