@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static junit.framework.Assert.assertEquals;
+
 
 /**
  * Unit tests for the resource handler.
@@ -25,17 +27,18 @@ public class ResourceHandlerTest {
     }
 
     /**
-     * Test storing a dictionaryHandler that has been loaded into memory.
+     * Test storing a dictionary that has been loaded into memory.
      */
     @Test
     public void testStoreDictionaryEntries() {
-//        expectedOutputs = Arrays.asList();
-//        assertEquals(expectedOutputs, binaryDictionaryNoFrequency.prefixSearchBinary(""));
+        boolean isStored = false;
         try {
-            ResourceHandler.storeDictionaryToFile(dictionaryHandler.getDictionary(), "/tmp/test_dictionary.txt");
+            ResourceHandler.storeDictionaryToFile(dictionaryHandler.getDictionary(), "./src/main/res/raw/test_dictionary.txt");
+            isStored = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assertEquals(true, isStored);
     }
 
 }
