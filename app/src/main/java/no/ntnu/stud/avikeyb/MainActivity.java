@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.InputInterface;
@@ -18,8 +19,8 @@ import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
 import no.ntnu.stud.avikeyb.backend.core.WordUpdater;
-import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 import no.ntnu.stud.avikeyb.backend.dictionary.InMemoryDictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionaryHandler;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
@@ -61,8 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
-        final DictionaryHandler dictionaryHandler = createDictionary();
-        final LinearEliminationDictionaryHandler mobileDictionary = createMobileDictionary();
+        final DictionaryHandler dictionaryHandler = new DictionaryHandler();
+        final LinearEliminationDictionaryHandler mobileDictionary = new LinearEliminationDictionaryHandler();
+
+        // Asynchronously load the dictionary enties from a file and set the entries to the
+        // two in memory dictionaries.
+        loadDictionaryFromFile(Arrays.asList(dictionaryHandler, mobileDictionary), R.raw.dictionary);
 
         Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionaryHandler);
         final ETOSLayout etosLayout = new ETOSLayout(keyboard, suggestions);
@@ -167,37 +172,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * Creates and loads the keyboards dictionary
-     *
-     * @return a dictionary
-     */
-    private DictionaryHandler createDictionary() {
-        DictionaryHandler dictionaryHandler = new DictionaryHandler();
-
-        // Load the dictionaryHandler content in an async task. The dictionaryHandler will be empty
-        // until the task is finished
-        loadDictionaryFromFile(dictionaryHandler, R.raw.dictionary);
-        return dictionaryHandler;
-
-    }
-
-    /**
-     * Creates and loads the keyboards dictionary
-     *
-     * @return a dictionary
-     */
-    private LinearEliminationDictionaryHandler createMobileDictionary() {
-        LinearEliminationDictionaryHandler dictionary = new LinearEliminationDictionaryHandler();
-        // Load the dictionary content in an async task. The dictionary will be empty
-        // until the task is loading task is finished
-        loadDictionaryFromFile(dictionary, R.raw.dictionary);
-        return dictionary;
-
-    }
-
     // Fill the in memory dictionaryHandler from a file
-    private void loadDictionaryFromFile(final InMemoryDictionary dictionaryHandler, final int resourceId) {
+    private void loadDictionaryFromFile(final List<InMemoryDictionary> dictionaries, final int resourceId) {
         new AsyncTask<Void, Void, List<DictionaryEntry>>() {
             @Override
             protected List<DictionaryEntry> doInBackground(Void... voids) {
@@ -206,7 +182,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(List<DictionaryEntry> dictionaryEntries) {
-                dictionaryHandler.setDictionary(dictionaryEntries);
+                for(InMemoryDictionary dict : dictionaries){
+                    dict.setDictionary(dictionaryEntries);
+                }
             }
         }.execute();
     }
