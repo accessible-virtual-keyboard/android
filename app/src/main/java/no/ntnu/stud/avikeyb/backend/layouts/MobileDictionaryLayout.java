@@ -28,8 +28,8 @@ public class MobileDictionaryLayout extends MobileLayout {
                 Symbol.E, Symbol.T, Symbol.A, Symbol.S, Symbol.R, Symbol.H, Symbol.L, Symbol.D, Symbol.C,
                 Symbol.O, Symbol.I, Symbol.N, Symbol.U, Symbol.M, Symbol.F, Symbol.Y, Symbol.B, Symbol.V, Symbol.K,
                 Symbol.P, Symbol.G, Symbol.W, Symbol.X, Symbol.J, Symbol.Q, Symbol.Z, Symbol.SEND,
-                Symbol.DICTIONARY, Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK, Symbol.DELETE_WORD, Symbol.CORRECT_LAST_INPUT, Symbol.CORRECT_WORD, Symbol.DELETION_DONE};
-        stepIndices = new int[]{0, 3, 6, 9, 12, 15, 19, 22, 26, 27, 28, 32, 36};
+                Symbol.DICTIONARY, Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK, Symbol.CORRECT_WORD, Symbol.DELETE_WORD, Symbol.DELETION_DONE};
+        stepIndices = new int[]{0, 3, 6, 9, 12, 15, 19, 22, 26, 27, 28, 32, 35};
         setBaseSuggestions();
         nextRow();
     }
@@ -65,15 +65,17 @@ public class MobileDictionaryLayout extends MobileLayout {
                             nextDictionaryRow();
                             break;
                         } else if (markedSymbols.contains(Symbol.DELETE_WORD)) {
-                            state = State.SELECT_LETTER;
-                            nextLetter();
-                            break;
+                            if (dictionary.hasWordHistory() || !keyboard.getCurrentBuffer().isEmpty()) { // We don't want the user to input punctuation symbols when no words has been entered
+                                state = State.SELECT_LETTER;
+                                nextLetter();
+                                break;
+                            }
                         } else if (markedSymbols.contains(Symbol.PERIOD)) {
                             if (!keyboard.getCurrentBuffer().isEmpty()) { // We don't want the user to input punctuation symbols when no words has been entered
                                 state = State.SELECT_LETTER;
                                 nextLetter();
+                                break;
                             }
-                            break;
                         } else {
                             dictionary.findValidSuggestions(getStringsFromMarkedSymbols());
                             setSuggestions(dictionary.getSuggestions(nSuggestions));
@@ -92,33 +94,38 @@ public class MobileDictionaryLayout extends MobileLayout {
                         nextLetter();
                         break;
                     case INPUT2:
-                        state = State.SELECT_ROW;
+
                         if (markedSymbols.contains(Symbol.DELETE_WORD)) {
                             if (!keyboard.getCurrentBuffer().isEmpty()) {
                                 deleteLastWord();
                                 dictionary.previousWord();
                                 setBaseSuggestions();
                             }
-                        } else if (markedSymbols.contains(Symbol.CORRECT_LAST_INPUT)) {
+                        } else if (markedSymbols.contains(Symbol.CORRECT_WORD)) {
                             if(dictionary.hasWordHistory()){
                                 dictionary.removeLastWordHistoryElement();
-                                getPreviousSuggestions();
-
-                            }
-                        } else if (markedSymbols.contains(Symbol.CORRECT_WORD)) {
-                            if (!keyboard.getCurrentBuffer().isEmpty()) {
+                                if(!dictionary.hasWordHistory()){
+                                    setBaseSuggestions();
+                                }else{
+                                    getPreviousSuggestions();
+                                }
+                            } else if (!keyboard.getCurrentBuffer().isEmpty()) {
                                 deleteLastWord();
+                                dictionary.previousWord();
                                 getPreviousSuggestions();
-                                state = State.SELECT_DICTIONARY;
-                                nextDictionaryRow();
-                                break;
                             }
-                        } else {
+                        }else if (markedSymbols.contains(Symbol.DELETION_DONE)){
+                            state = State.SELECT_ROW;
+                            reset();
+                            break;
+                        }
+                        else {
                             addPunctuationSymbol();
+                            state = State.SELECT_ROW;
+                            reset();
+                            break;
                         }
 
-                        reset();
-                        break;
                 }
                 break;
 
