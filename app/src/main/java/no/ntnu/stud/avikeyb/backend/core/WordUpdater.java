@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import no.ntnu.stud.avikeyb.backend.Keyboard;
+import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 
 /**
@@ -14,14 +15,14 @@ import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
  */
 public class WordUpdater implements Keyboard.KeyboardListener {
 
-    private DictionaryHandler dictionaryHandler;
+    private Dictionary dictionaryHandler;
 
     /**
      * Create a new word updater
      *
      * @param dictionaryHandler the dictionaryHandler instance that should be updated with word usage count
      */
-    public WordUpdater(DictionaryHandler dictionaryHandler) {
+    public WordUpdater(Dictionary dictionaryHandler) {
         this.dictionaryHandler = dictionaryHandler;
     }
 

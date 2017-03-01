@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Kristian Honningsvag.
  */
-public class DictionaryHandler {
+public class DictionaryHandler implements Dictionary {
 
     private List<DictionaryEntry> dictionary;
     private SortingOrder preferredOrder = SortingOrder.FREQUENCY_HIGH_TO_LOW;
@@ -220,23 +220,13 @@ public class DictionaryHandler {
     }
 
 
-    /**
-     * Returns a list of words that starts with the match string.
-     *
-     * @param match the string to match against the start of the words
-     * @return a list of suggested words
-     */
+    // Overridden functions.
+    @Override
     public List<String> getSuggestionsStartingWith(String match) {
         return prefixSearchBinary(match);
     }
 
-
-    /**
-     * Updates a words usage statistics. Should be called every time a word is used.
-     * If the word does not exist, it is added to the dictionary.
-     *
-     * @param string the word that was used.
-     */
+    @Override
     public void updateWordUsage(String string) {
         boolean wordExist = false;
         // First find the word in the dictionary and update it if it exists.

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import no.ntnu.stud.avikeyb.backend.Keyboard;
+import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 
 import static org.junit.Assert.assertEquals;
@@ -19,13 +20,13 @@ import static org.junit.Assert.assertEquals;
  */
 public class WordUpdaterTest {
 
-    private LoggingDictionaryHandler dictionary;
+    private LoggingDictionary dictionary;
     private Keyboard keyboard;
 
     @Before
     public void setUp() throws Exception {
 
-        dictionary = new LoggingDictionaryHandler();
+        dictionary = new LoggingDictionary();
         keyboard = new CoreKeyboard();
         WordUpdater wordUpdater = new WordUpdater(dictionary);
         keyboard.addStateListener(wordUpdater);
@@ -167,7 +168,7 @@ public class WordUpdaterTest {
     /**
      * Used for logging the word update count
      */
-    private static class LoggingDictionaryHandler extends DictionaryHandler {
+    private static class LoggingDictionary implements Dictionary {
 
         private Map<String, Integer> updateCount = new HashMap<>();
 
@@ -179,11 +180,12 @@ public class WordUpdaterTest {
             return updateCount.get(word);
         }
 
-
+        @Override
         public List<String> getSuggestionsStartingWith(String match) {
             return Collections.emptyList();
         }
 
+        @Override
         public void updateWordUsage(String string) {
             if (!updateCount.containsKey(string)) {
                 updateCount.put(string, 0);
