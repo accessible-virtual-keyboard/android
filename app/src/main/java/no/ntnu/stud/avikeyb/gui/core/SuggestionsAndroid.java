@@ -6,7 +6,7 @@ import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
-import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
+import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
 
 /**
  * WordHistory engine implementation that runs the query in a async task to prevent
@@ -18,11 +18,11 @@ public class SuggestionsAndroid extends Suggestions {
     // before the previous one is done
 
     private AsyncTask<String, Void, List<String>> currentTask;
-    private DictionaryHandler dictionaryHandler;
+    private Dictionary dictionary;
 
-    public SuggestionsAndroid(Keyboard keyboard, DictionaryHandler dictionaryHandler) {
+    public SuggestionsAndroid(Keyboard keyboard, Dictionary dictionary) {
         super(keyboard);
-        this.dictionaryHandler = dictionaryHandler;
+        this.dictionary = dictionary;
     }
 
 
@@ -37,7 +37,7 @@ public class SuggestionsAndroid extends Suggestions {
 
             @Override
             protected List<String> doInBackground(String... params) {
-                return dictionaryHandler.getSuggestionsStartingWith(params[0]);
+                return dictionary.getSuggestionsStartingWith(params[0]);
             }
 
             @Override
