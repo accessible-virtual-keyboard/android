@@ -49,7 +49,7 @@ public class MobileLayoutGUI extends LayoutGUI {
         LayoutLoader loader = new LayoutLoader(activity, layoutResource);
 
         dictionaryList = (ListView) loader.getViewById(R.id.listview);
-        dictionaryListAdapter = new MobileDictionaryAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<>());
+        dictionaryListAdapter = new MobileDictionaryAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
         dictionaryList.setAdapter(dictionaryListAdapter);
         dictionaryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

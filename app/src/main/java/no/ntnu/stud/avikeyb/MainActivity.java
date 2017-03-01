@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -167,23 +168,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupInputButtons(final InputInterface input) {
-        findViewById(R.id.buttonInput1).setOnClickListener(view -> {
-            input.setInputState(InputType.INPUT1, true);
-            input.setInputState(InputType.INPUT1, false);
+        findViewById(R.id.buttonInput1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                input.setInputState(InputType.INPUT1, true);
+                input.setInputState(InputType.INPUT1, false);
+            }
         });
-        findViewById(R.id.buttonInput2).setOnClickListener(view -> {
-            // Turn the input on and off for each click
-            input.setInputState(InputType.INPUT2, true);
-            input.setInputState(InputType.INPUT2, false);
+        findViewById(R.id.buttonInput2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Turn the input on and off for each click
+                input.setInputState(InputType.INPUT2, true);
+                input.setInputState(InputType.INPUT2, false);
+            }
         });
-        findViewById(R.id.buttonInput3).setOnClickListener(view -> {
-            // Turn the input on and off for each click
-            input.setInputState(InputType.INPUT3, true);
-            input.setInputState(InputType.INPUT3, false);
+        findViewById(R.id.buttonInput3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Turn the input on and off for each click
+                input.setInputState(InputType.INPUT3, true);
+                input.setInputState(InputType.INPUT3, false);
+            }
         });
-        findViewById(R.id.buttonInput4).setOnClickListener(view -> {
-            input.setInputState(InputType.INPUT4, true);
-            input.setInputState(InputType.INPUT4, false);
+        findViewById(R.id.buttonInput4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                input.setInputState(InputType.INPUT4, true);
+                input.setInputState(InputType.INPUT4, false);
+            }
         });
     }
 

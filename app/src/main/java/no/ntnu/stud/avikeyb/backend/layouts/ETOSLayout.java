@@ -49,10 +49,13 @@ public class ETOSLayout extends StepLayout {
         this.suggestionEngine = suggestions;
 
         // Listen for suggestions
-        suggestionEngine.addListener(suggestions1 -> {
-            dictionsuggestions.clear();
-            dictionsuggestions.addAll(suggestions1);
-            //notifyLayoutListeners();
+        suggestionEngine.addListener(new Suggestions.Listener() {
+            @Override
+            public void onSuggestions(List<String> suggestions1) {
+                dictionsuggestions.clear();
+                dictionsuggestions.addAll(suggestions1);
+                //notifyLayoutListeners();
+            }
         });
     }
 
