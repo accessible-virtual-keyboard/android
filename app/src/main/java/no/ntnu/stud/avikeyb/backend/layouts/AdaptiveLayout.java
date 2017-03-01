@@ -131,10 +131,10 @@ public class AdaptiveLayout extends StepLayout {
 
         switch (input) {
             case INPUT1:
+                // wrap around to the first symbol in the row when the end is reached
                 currentColumn = (currentColumn + 1) % getCurrentRowLength();
                 break;
             case INPUT2:
-                // wrap around to the first symbol in the row when the end is reached
                 selectCurrentSymbol();
                 reset();
                 break;
