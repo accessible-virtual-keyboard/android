@@ -5,6 +5,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
@@ -87,6 +89,7 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
     public void nextWord() {
         sentenceHistory.add(wordHistory);
         wordHistory = wordHistory.subList(0,1);
+        Log.d(TAG, "nextWord: word history size: " + wordHistory.size() + ", sentence history size: " +sentenceHistory.size());
     }
     /**
      * Adds the previous word to word history again and removes it from the sentence history.
@@ -98,6 +101,7 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
             wordHistory = sentenceHistory.get(sentenceHistoryIndex);
             sentenceHistory.remove(sentenceHistoryIndex);
         }
+        Log.d(TAG, "previousWord: word history size: " + wordHistory.size() + ", sentence history size: " +sentenceHistory.size());
     }
 
     /**
@@ -212,10 +216,13 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
     }
 
     public boolean hasWordHistory(){
+        boolean result = wordHistory.size() > 1;
+        Log.d(TAG, "hasWordHistory: boolean: " + result + " wordhistory size: " + wordHistory.size() + ", sentence history size: " + sentenceHistory.size());
         return wordHistory.size() > 1;
     }
     public void removeLastWordHistoryElement(){
         wordHistory.remove(wordHistory.size()-1);
+        Log.d(TAG, "removeLastWordHistoryElement: word history size: " + wordHistory.size() + ", sentence history size: " + sentenceHistory.size());
     }
 
     @Override

@@ -2,6 +2,7 @@ package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,6 +18,8 @@ import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 import no.ntnu.stud.avikeyb.gui.utils.MobileDictionaryAdapter;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by Tor-Martin Holen on 15-Feb-17.
  */
@@ -30,8 +33,8 @@ public class MobileLayoutGUI extends LayoutGUI {
     private int layoutResource;
     private ListView dictionaryList;
     private MobileDictionaryAdapter dictionaryListAdapter;
-    private int previousDictionaryListItem = -1;
     private View previousViewSelected;
+    private MobileLayout.State lastState;
 
     public MobileLayoutGUI(Activity activity, Keyboard keyboard, MobileLayout layout, int layoutResource) {
         super(keyboard, layout);
@@ -112,12 +115,18 @@ public class MobileLayoutGUI extends LayoutGUI {
     }
 
     private void updateDictionaryPart(){
+        MobileLayout.State newState = layout.getState();
 
         if(layout.getMarkedWord() == -1 && layout.getSuggestions() != null){
             dictionaryListAdapter.update(layout.getSuggestions());
             dictionaryList.smoothScrollToPosition(0);
         }else {
+            /*if( newState == MobileLayout.State.SELECT_DICTIONARY && lastState == MobileLayout.State.SELECT_LETTER ){
+                dictionaryListAdapter.update(layout.getSuggestions());
+                dictionaryList.smoothScrollToPosition(0);
+            }*/
             int position = layout.getMarkedWord();
+            Log.d(TAG, "updateDictionaryPart: position: " + position);
             dictionaryList.performItemClick(dictionaryList.getChildAt(position),
                     position,
                     dictionaryList.getItemIdAtPosition(position));
@@ -130,6 +139,8 @@ public class MobileLayoutGUI extends LayoutGUI {
                 }
             }
         }
+
+        lastState = newState;
     }
 
 }
