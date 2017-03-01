@@ -129,20 +129,14 @@ public class AdaptiveLayout extends StepLayout {
 
     private void stepInColumnSelectionMode(InputType input) {
 
-        // In column selection mode the inputs have swapped behavior. Input 2 is used to move to
-        // the next column and input 1 is used to select the current column. This is done because
-        // it saves one context switch (switch from one input to the other) when typing.
-        // This seems to work better and be more intuitive when testing with buttons
-        // on the phone. We will have to see how this works when using the eeg headset.
-
         switch (input) {
             case INPUT1:
-                selectCurrentSymbol();
-                reset();
+                currentColumn = (currentColumn + 1) % getCurrentRowLength();
                 break;
             case INPUT2:
                 // wrap around to the first symbol in the row when the end is reached
-                currentColumn = (currentColumn + 1) % getCurrentRowLength();
+                selectCurrentSymbol();
+                reset();
                 break;
         }
     }
