@@ -60,9 +60,8 @@ public class MainActivity extends AppCompatActivity {
         layoutTabs.addTab(layoutTabs.newTab().setText("Simple"));
         layoutTabs.addTab(layoutTabs.newTab().setText("ETOS"));
         layoutTabs.addTab(layoutTabs.newTab().setText("BINS"));
-        layoutTabs.addTab(layoutTabs.newTab().setText("MOB"));
         layoutTabs.addTab(layoutTabs.newTab().setText("ADAPTIVE"));
-        layoutTabs.addTab(layoutTabs.newTab().setText("MobDic"));
+        layoutTabs.addTab(layoutTabs.newTab().setText("Mobile"));
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
@@ -91,20 +90,20 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 3: {
-                        MobileLayout l = new MobileLayout(keyboard);
-                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile));
-                        break;
-                    }
-                    case 4: {
                         AdaptiveLayout l = new AdaptiveLayout(keyboard);
                         switchLayout(l, new AdaptiveLayoutGUI(MainActivity.this, keyboard, l));
                         break;
                     }
-                    case 5: {
+                    case 4: {
                         MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary);
                         switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary));
                         break;
                     }
+                    /*case 5: {
+                        MobileLayout l = new MobileLayout(keyboard);
+                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile));
+                        break;
+                    }*/
                     default: { // 0
                         SimpleExampleLayout l = new SimpleExampleLayout(keyboard);
                         switchLayout(l, new SimpleExampleLayoutGUI(MainActivity.this, keyboard, l));

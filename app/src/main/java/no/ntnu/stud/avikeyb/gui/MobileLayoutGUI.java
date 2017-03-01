@@ -14,6 +14,7 @@ import java.util.HashMap;
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
+import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 import no.ntnu.stud.avikeyb.gui.utils.MobileDictionaryAdapter;
@@ -26,7 +27,7 @@ import static android.content.ContentValues.TAG;
 
 public class MobileLayoutGUI extends LayoutGUI {
 
-    private MobileLayout layout;
+    private MobileDictionaryLayout layout;
     private Activity activity;
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private ArrayList<Symbol> previouslyMarked = new ArrayList<>();
@@ -34,9 +35,10 @@ public class MobileLayoutGUI extends LayoutGUI {
     private ListView dictionaryList;
     private MobileDictionaryAdapter dictionaryListAdapter;
     private View previousViewSelected;
-    private MobileLayout.State lastState;
+    private MobileDictionaryLayout.State lastState;
+    private LayoutLoader loader;
 
-    public MobileLayoutGUI(Activity activity, Keyboard keyboard, MobileLayout layout, int layoutResource) {
+    public MobileLayoutGUI(Activity activity, Keyboard keyboard, MobileDictionaryLayout layout, int layoutResource) {
         super(keyboard, layout);
         this.activity = activity;
         this.layout = layout;
@@ -46,7 +48,7 @@ public class MobileLayoutGUI extends LayoutGUI {
 
     @Override
     protected View buildGUI() {
-        LayoutLoader loader = new LayoutLoader(activity, layoutResource);
+        loader = new LayoutLoader(activity, layoutResource);
 
         dictionaryList = (ListView) loader.getViewById(R.id.listview);
         dictionaryListAdapter = new MobileDictionaryAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
@@ -70,12 +72,6 @@ public class MobileLayoutGUI extends LayoutGUI {
             if (symbol != null && loader.hasSymbol(symbol)) {
                 TextView guiTextTile = (TextView) loader.getViewForSymbol(symbol);
 
-/*                if (symbol.equals(Symbol.SEND)) {
-                    btn.setBackgroundResource(R.drawable.btn_send);
-                } else if (symbol.equals(Symbol.SPACE)) {
-                    btn.setBackgroundResource(R.drawable.btn_spacebar);
-                } else {*/
-
                 guiTextTile.setText(symbol.getContent());
                 guiTextTile.setTextColor(Color.BLACK);
                 guiTextTile.setBackgroundResource(R.drawable.mobile_selection_colors);
@@ -84,7 +80,6 @@ public class MobileLayoutGUI extends LayoutGUI {
                     guiTextTile.setText(Symbol.DICTIONARY_UNICODE_SYMBOL.getContent());
                 }
 
-                //}
                 symbolViewMap.put(symbol, guiTextTile);
             }
         }
@@ -115,7 +110,7 @@ public class MobileLayoutGUI extends LayoutGUI {
     }
 
     private void updateDictionaryPart(){
-        MobileLayout.State newState = layout.getState();
+        MobileDictionaryLayout.State newState = layout.getState();
 
         if(layout.getMarkedWord() == -1 && layout.getSuggestions() != null){
             dictionaryListAdapter.update(layout.getSuggestions());
