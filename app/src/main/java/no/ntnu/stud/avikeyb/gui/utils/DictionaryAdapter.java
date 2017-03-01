@@ -19,8 +19,8 @@ import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 
 public class DictionaryAdapter extends ArrayAdapter<String> {
 
-    ArrayList<String> dictionary;
-    ETOSLayout layout;
+    private ArrayList<String> dictionary;
+    private ETOSLayout layout;
 
     public DictionaryAdapter(Activity context, ArrayList<String> dictionary, ETOSLayout layout) {
         super(context, 0, dictionary);
@@ -30,18 +30,24 @@ public class DictionaryAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String suggestion = layout.getSuggestions().get(position);
+        String suggestion = null;
+        if (layout.getCurrentSuggestion().length() < layout.getDictionaryLength()) {
+            suggestion = layout.getSuggestions().get(position); //before
+        }
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.sidemenu, parent, false);
         }
         TextView dictionaryText = (TextView) convertView.findViewById(R.id.listviewtext);
-
         dictionaryText.setText(suggestion);
         dictionaryText.setPadding(2, 20, 2, 20);
 
-        if (layout.getCurrentSuggestion().equals(suggestion)) {
+
+      //  if (suggestion.equals(layout.getCurrentSuggestion())) {
+            if (layout.getCurrentSuggestion().equals(suggestion)) { //todo do not work properly
+
             dictionaryText.setBackgroundResource(R.color.purpleparty);
+
         } else {
             dictionaryText.setBackgroundResource(R.color.lightgrey);
         }

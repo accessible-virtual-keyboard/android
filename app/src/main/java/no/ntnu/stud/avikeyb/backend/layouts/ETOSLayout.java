@@ -30,8 +30,7 @@ public class ETOSLayout extends StepLayout {
     public enum State {
         SELECT_ROW,
         SELECT_COLUMN,
-        MENU_STATE,
-        DICTIONARY_STATE,
+        SELECT_MENU,
         SELECT_DICTIONARY, // test
     }
 
@@ -40,7 +39,7 @@ public class ETOSLayout extends StepLayout {
     // The current row of the cursor in the layout.
     private State state = State.SELECT_ROW;
     private Keyboard keyboard;
-    private State menuOptions = State.MENU_STATE; //State.DICTIONARY_STATE; // sidemenu is initialized to be dictionary.
+
     private List<String> dictionsuggestions = new ArrayList<>();
     private Suggestions suggestionEngine;
 
@@ -123,31 +122,14 @@ public class ETOSLayout extends StepLayout {
 
     }
 
-    /**
-     * Get the current menu state.
-     *
-     * @return menuOptions the current state.
-     */
-    public State getMenuState() {
-        return menuOptions;
-    }
-
     @Override
     protected void onStep(InputType input) {
-
-        Symbol current = symbols[currentPosition]; // test
-        String currentSuggestion = null;
-        if (dictionsuggestions.size() > 0 && currentPosition < getDictionaryLength()) {
-            // if(dictionsuggestions.size()-1 < dictionsuggestions.size()){}
-            currentSuggestion = dictionsuggestions.get(currentPosition);
-        }
-
 
         switch (state) {
             case SELECT_ROW:
                 switch (input) {
                     case INPUT1: // move
-                        currentPosition = (currentPosition + 6) % symbols.length;
+                        nextRow();
                         break;
                     case INPUT2: // selects
                         state = State.SELECT_COLUMN;
@@ -157,63 +139,60 @@ public class ETOSLayout extends StepLayout {
             case SELECT_COLUMN:
                 switch (input) {
                     case INPUT1: // move
-                        currentPosition = (currentPosition + 1) % symbols.length;
+                        nextColumn();
+                        break;
+                    case INPUT2: // selects
+                        if (getCurrentSymbol().equals(Symbol.DICTIONARY)) {
+                            state = State.SELECT_DICTIONARY;
+                        } else {
+                            selectCurrentSymbol();
+                            state = State.SELECT_ROW;
+                        }
+                        currentPosition = 0;
+                        break;
+                }
+            case SELECT_DICTIONARY: // todo make this work. it dont work.
+                switch (input) {
+                    case INPUT1: // moves
+                        if (getSuggestions().size() > 0) {
+                            currentPosition = (currentPosition + 1) % getSuggestions().size();
+                        }
                         break;
                     case INPUT2: // selects
 
-                        if (current == Symbol.SWITCH) {
-                            SwitchMenu();
-                        }
-                        // Do not work as it should. todo chooses wrong word
-                        else if (currentSuggestion == getCurrentSuggestion() && menuOptions == State.DICTIONARY_STATE) {
-                            //state = State.SELECT_DICTIONARY;
-                            selectSuggestion(currentSuggestion);
+                        selectSuggestion(getCurrentSuggestion());
+                        System.out.println("what is in the suggestions " + getCurrentSuggestion());
 
-                        } else {
-                            selectCurrentSymbol();
-                        }
                         state = State.SELECT_ROW;
                         currentPosition = 0;
                         break;
                 }
-          /*  case SELECT_DICTIONARY: // todo make this work. it fuckes up the keyboard.
+
+            case SELECT_MENU:
                 switch (input) {
-                    case INPUT1: // moves
-                        if (dictionsuggestions.size() != 0) {
-                            currentPosition = (currentPosition + 1) % dictionsuggestions.size(); // dictionarysuggestion is zero at first.
-                        } else {
-                            currentPosition = (currentPosition + 1) % symbols.length;
-                        }
+                    case INPUT1:
+
                         break;
-                    case INPUT2: // selects
-                        // velg ordbok.
-                        if (currentSuggestion == getCurrentSuggestion()) {
-                            selectSuggestion(currentSuggestion);
-                            System.out.println("what is in the suggestions " + currentSuggestion);
-                        }
-                        state = State.SELECT_ROW;
-                        currentPosition = 0;
+                    case INPUT2:
+
                         break;
-                }*/
+                }
                 break;
         }
         notifyLayoutListeners();
     }
 
-
-    public void SwitchMenu() {
-        if (menuOptions == State.MENU_STATE) {
-            menuOptions = State.DICTIONARY_STATE;
-            System.out.println("We are noe in dictionary state");
-            // vise muligheter for ordbok
-
-        } else {
-            menuOptions = State.MENU_STATE;
-            System.out.println("We are noe in menu state");
-            // vise menyen
-        }
+    public void nextRow() {
+        currentPosition = (currentPosition + 6) % symbols.length;
     }
 
+    public void nextColumn() {
+        currentPosition = (currentPosition + 1) % symbols.length;
+    }
+
+    public void nextDictionaryEntry() {
+
+    }
 
     /**
      * Adds the suggestion to the output buffer.
@@ -235,4 +214,5 @@ public class ETOSLayout extends StepLayout {
             keyboard.addToCurrentBuffer(current.getContent());
         }
     }
+
 } // en of class

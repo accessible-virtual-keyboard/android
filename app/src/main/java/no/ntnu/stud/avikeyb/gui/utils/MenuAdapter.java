@@ -20,8 +20,8 @@ import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 
 public class MenuAdapter extends ArrayAdapter<Symbol> {
 
-    ArrayList<Symbol> symbols;
-    ETOSLayout layout;
+    private ArrayList<Symbol> symbols;
+    private ETOSLayout layout;
 
     /**
      * Constructor
@@ -53,7 +53,6 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
         } else {
             listviewText.setBackgroundResource(R.color.lightgrey);
         }
-
         return convertView;
     }
 

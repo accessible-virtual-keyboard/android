@@ -61,11 +61,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
         menuAdapter = new MenuAdapter(activity, listItems, layout);
         dictionaryAdapter = new DictionaryAdapter(activity, listDictionary, layout);
 
-        //todo se over. med tanke på den ligger i bakgrunnen.
-       /* for (Symbol item : layout.getMenuOptions()) {
-            listItems.add(item);
-        }
-*/
         return (ViewGroup) loader.getLayout();
     }
 
@@ -74,19 +69,19 @@ public class ETOSLayoutGUI extends LayoutGUI {
         ListView listview = (ListView) loader.getViewById(R.id.listview);
 
         // switch between the two adapters.
-        if (layout.getMenuState().equals(ETOSLayout.State.MENU_STATE)) {
+        /*if (layout.getMenuState().equals(ETOSLayout.State.SELECT_MENU)) {
             listview.setAdapter(menuAdapter);
             menuAdapter.clear();
             for (Symbol item : layout.getMenuOptions()) {
                 listItems.add(item);
             }
             menuAdapter.notifyDataSetChanged();
-        } else {
-            listview.setAdapter(dictionaryAdapter);
-            dictionaryAdapter.clear();
-            listDictionary.addAll(layout.getSuggestions());
-            dictionaryAdapter.notifyDataSetChanged();
-        }
+        }*/  //else {
+        listview.setAdapter(dictionaryAdapter);
+        dictionaryAdapter.clear();
+        listDictionary.addAll(layout.getSuggestions());
+        dictionaryAdapter.notifyDataSetChanged();
+        // }
 
         // Highlight the selected symbol
         int current = layout.getCurrentPosition();
