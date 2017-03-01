@@ -1,4 +1,4 @@
-package no.ntnu.stud.avikeyb.gui.core;
+package no.ntnu.stud.avikeyb.backend.dictionary;
 
 import android.content.Context;
 
