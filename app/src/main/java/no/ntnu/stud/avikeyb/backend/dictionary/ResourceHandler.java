@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+
 /**
  * Handles loading and storing resources.
  *
@@ -105,14 +106,14 @@ public abstract class ResourceHandler {
      * Stores a dictionary, that have been loaded into memory, at the specified location.
      * Overwrites any existing files.
      *
-     * @param dictionaryEntries The list of dictionary entries to be stored.
-     * @param filePath          Full file path to the location where the file should be stored.
+     * @param dictionary The list of dictionary entries to be stored.
+     * @param filePath   Full file path to the location where the file should be stored.
      * @return
      */
-    public static void storeDictionaryToFile(List<DictionaryEntry> dictionaryEntries, String filePath) throws IOException {
+    public static void storeDictionaryToFile(List<DictionaryEntry> dictionary, String filePath) throws IOException {
         try {
             PrintWriter writer = new PrintWriter(filePath, "UTF-8");
-            for (DictionaryEntry dictionaryEntry : dictionaryEntries) {
+            for (DictionaryEntry dictionaryEntry : dictionary) {
                 writer.println(dictionaryEntry.getWord() + " "
                         + dictionaryEntry.getStandardFrequency() + " "
                         + dictionaryEntry.getUserFrequency());

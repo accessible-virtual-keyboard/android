@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,6 +25,7 @@ import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 import no.ntnu.stud.avikeyb.backend.dictionary.InMemoryDictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionaryHandler;
+import no.ntnu.stud.avikeyb.backend.dictionary.ResourceHandler;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
@@ -41,6 +44,7 @@ import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
+    private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
-        final DictionaryHandler dictionaryHandler = new DictionaryHandler();
         final LinearEliminationDictionaryHandler mobileDictionary = new LinearEliminationDictionaryHandler();
 
         // Asynchronously load the dictionary enties from a file and set the entries to the
@@ -139,10 +142,23 @@ public class MainActivity extends AppCompatActivity {
         tabSwitcher.onTabSelected(layoutTabs.getTabAt(0));
     } // end of on create
 
-//    @Override
-//    protected void onPause() {
-//        // TODO: Save dictionary to file.
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Set save location.
+        String folderPath = this.getFilesDir().getPath();
+        String fileName = "dictionary.txt";
+        String filePath = folderPath + "/" + fileName;
+//        System.out.println(filePath);
+
+        // Store the dictionary to file.
+        try {
+            ResourceHandler.storeDictionaryToFile(dictionaryHandler.getDictionary(), filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void switchLayout(Layout layout, LayoutGUI layoutGui) {
         layoutWrapper.removeAllViews();
