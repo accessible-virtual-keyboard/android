@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
 
-public class LinearEliminationDictionaryHandler extends DictionaryHandler {
+public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
     private List<DictionaryEntry> fullDictionary;
     private List<DictionaryEntry> fullDictionaryFrequencySorted;
 
@@ -226,4 +226,11 @@ public class LinearEliminationDictionaryHandler extends DictionaryHandler {
         ListSorter.sortList(fullDictionaryFrequencySorted, SortingOrder.FREQUENCY_HIGH_TO_LOW);
 
     }
+
+    @Override
+    public List<DictionaryEntry> getDictionary() {
+        //  TODO: Is this returning the right object?
+        return fullDictionary;
+    }
+
 }

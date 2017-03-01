@@ -20,6 +20,7 @@ import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
 import no.ntnu.stud.avikeyb.backend.core.WordUpdater;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
+import no.ntnu.stud.avikeyb.backend.dictionary.InMemoryDictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionaryHandler;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Fill the in memory dictionaryHandler from a file
-    private void loadDictionaryFromFile(final DictionaryHandler dictionaryHandler, final int resourceId) {
+    private void loadDictionaryFromFile(final InMemoryDictionary dictionaryHandler, final int resourceId) {
         new AsyncTask<Void, Void, List<DictionaryEntry>>() {
             @Override
             protected List<DictionaryEntry> doInBackground(Void... voids) {

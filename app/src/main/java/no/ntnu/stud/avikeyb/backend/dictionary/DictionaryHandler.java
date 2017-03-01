@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Kristian Honningsvag.
  */
-public class DictionaryHandler implements Dictionary {
+public class DictionaryHandler implements Dictionary, InMemoryDictionary {
 
     private List<DictionaryEntry> dictionary;
     private SortingOrder preferredOrder = SortingOrder.FREQUENCY_HIGH_TO_LOW;
@@ -30,16 +30,6 @@ public class DictionaryHandler implements Dictionary {
      * @param dictionary
      */
     public DictionaryHandler(List<DictionaryEntry> dictionary) {
-        this.dictionary = dictionary;
-        sortDictionary();
-    }
-
-    /**
-     * Sets a dictionary to the dictionary handler.
-     *
-     * @param dictionary Dictionary to be inserted.
-     */
-    public void setDictionary(List<DictionaryEntry> dictionary) {
         this.dictionary = dictionary;
         sortDictionary();
     }
@@ -183,14 +173,6 @@ public class DictionaryHandler implements Dictionary {
         return 1;
     }
 
-
-    /**
-     * Returns the list of dictionary entries.
-     */
-    public List<DictionaryEntry> getDictionary() {
-        return dictionary;
-    }
-
     /**
      * Prints the entire dictionary.
      */
@@ -240,6 +222,17 @@ public class DictionaryHandler implements Dictionary {
             // Word does not exist in dictionary. Add it.
             addWordToDictionary(string, 0, 1);
         }
+    }
+
+    @Override
+    public void setDictionary(List<DictionaryEntry> dictionary) {
+        this.dictionary = dictionary;
+        sortDictionary();
+    }
+
+    @Override
+    public List<DictionaryEntry> getDictionary() {
+        return dictionary;
     }
 
 }

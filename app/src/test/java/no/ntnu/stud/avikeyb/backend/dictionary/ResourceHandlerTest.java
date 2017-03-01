@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class ResourceHandlerTest {
 
-    private DictionaryHandler dictionaryHandler;
+    private InMemoryDictionary dictionaryHandler;
 
     /**
      * Working directory for tests are: /AccessibleVirtualKeyboard/AViKEYB/app

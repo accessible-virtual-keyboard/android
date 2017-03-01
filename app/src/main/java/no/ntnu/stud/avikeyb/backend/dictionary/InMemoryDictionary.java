@@ -14,4 +14,11 @@ public interface InMemoryDictionary {
      */
     public void setDictionary(List<DictionaryEntry> dictionary);
 
+    /**
+     * Should return the list of dictionary entries.
+     *
+     * @return List of dictionary entries.
+     */
+    public List<DictionaryEntry> getDictionary();
+
 }
