@@ -154,13 +154,11 @@ public class ETOSLayout extends StepLayout {
             case SELECT_DICTIONARY: // todo make this work. it dont work.
                 switch (input) {
                     case INPUT1: // moves
-                        if (getSuggestions().size() > 0) {
-                            currentPosition = (currentPosition + 1) % getSuggestions().size();
-                        }
+                        nextDictionaryEntry();
                         break;
                     case INPUT2: // selects
 
-                        selectSuggestion(getCurrentSuggestion());
+                        selectSuggestion(getCurrentSuggestion()); //todo
                         System.out.println("what is in the suggestions " + getCurrentSuggestion());
 
                         state = State.SELECT_ROW;
@@ -182,16 +180,27 @@ public class ETOSLayout extends StepLayout {
         notifyLayoutListeners();
     }
 
+    /**
+     * Moving cursor to the next row
+     */
     public void nextRow() {
         currentPosition = (currentPosition + 6) % symbols.length;
     }
 
+    /**
+     *  Moving cursor to the next column.
+     */
     public void nextColumn() {
         currentPosition = (currentPosition + 1) % symbols.length;
     }
 
+    /**
+     * If the suggestion is not null, then move the curosr to the next entry.
+     */
     public void nextDictionaryEntry() {
-
+        if (getSuggestions().size() > 0) {
+            currentPosition = (currentPosition + 1) % getSuggestions().size();
+        }
     }
 
     /**
