@@ -13,18 +13,16 @@ import java.util.List;
 public class DictionaryHandler implements Dictionary, InMemoryDictionary {
 
     private List<DictionaryEntry> dictionary;
-    private SortingOrder preferredOrder = SortingOrder.FREQUENCY_HIGH_TO_LOW;
-
 
     /**
-     * Constructs a dictionary with no entries.
+     * Constructs a dictionary handler with an empty dictionary.
      */
     public DictionaryHandler() {
         this(new ArrayList<DictionaryEntry>());
     }
 
     /**
-     * Constructs the dictionary.
+     * Constructs the dictionary handler.
      * Automatically sorts the dictionary alphabetically.
      *
      * @param dictionary
@@ -37,7 +35,7 @@ public class DictionaryHandler implements Dictionary, InMemoryDictionary {
     /**
      * Sorts the dictionary in an alphabetically order.
      */
-    private void sortDictionary() {
+    public void sortDictionary() {
         Collections.sort(dictionary, new Comparator<DictionaryEntry>() {
             @Override
             public int compare(DictionaryEntry o1, DictionaryEntry o2) {
@@ -55,7 +53,7 @@ public class DictionaryHandler implements Dictionary, InMemoryDictionary {
      * @param prefix The prefix.
      * @return All words that begin with the prefix.
      */
-    public List<String> prefixSearchBinary(String prefix) {
+    private List<String> prefixSearchBinary(String prefix) {
 
         // Return empty list if invalid input, or if dictionary is empty.
         if (prefix == null || prefix.equalsIgnoreCase("") || dictionary.isEmpty()) {
@@ -200,7 +198,6 @@ public class DictionaryHandler implements Dictionary, InMemoryDictionary {
         }
         sortDictionary();
     }
-
 
     // Overridden functions.
     @Override

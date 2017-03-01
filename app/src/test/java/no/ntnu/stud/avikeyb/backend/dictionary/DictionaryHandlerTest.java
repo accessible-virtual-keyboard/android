@@ -42,10 +42,10 @@ public class DictionaryHandlerTest {
     @Test
     public void testInvalidInput() {
         expectedOutputs = Arrays.asList();
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary(""));
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("1239461598247264023421552"));
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("./!@#$%^&*("));
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary(null));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith(""));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("1239461598247264023421552"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("./!@#$%^&*("));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith(null));
     }
 
     /**
@@ -54,13 +54,13 @@ public class DictionaryHandlerTest {
     @Test
     public void testSingleResults() {
         expectedOutputs = Arrays.asList("enormousnesses");
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("enormousness"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("enormousness"));
 
         expectedOutputs = Arrays.asList("brattishnesses");
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("brattishness"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("brattishness"));
 
         expectedOutputs = Arrays.asList("patrializations");
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("patrialization"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("patrialization"));
     }
 
 
@@ -70,13 +70,13 @@ public class DictionaryHandlerTest {
     @Test
     public void testMultipleResults() {
         expectedOutputs = Arrays.asList("isoclinal", "isoclinally", "isoclinals", "isocline", "isoclines", "isoclinic", "isoclinics");
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("isocl"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("isocl"));
 
         expectedOutputs = Arrays.asList("teniacide", "teniacides", "teniae", "teniafuge", "teniafuges", "tenias", "teniases", "teniasis");
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("tenia"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("tenia"));
 
         expectedOutputs = Arrays.asList("sarment", "sarmenta", "sarmentaceous", "sarmentose", "sarmentous", "sarments", "sarmentum");
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("sarmen"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("sarmen"));
     }
 
 
@@ -86,7 +86,7 @@ public class DictionaryHandlerTest {
     @Test
     public void testNotInDictionary() {
         expectedOutputs = Arrays.asList();
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("kkxkkxkfkkdfksdfkd"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("kkxkkxkfkkdfksdfkd"));
     }
 
 
@@ -96,7 +96,7 @@ public class DictionaryHandlerTest {
     @Test
     public void testFirstEntry() {
         expectedOutputs = Arrays.asList("aah", "aahed", "aahing", "aahs", "aal", "aalii", "aaliis", "aals", "aardvark", "aardvarks", "aardwolf", "aardwolves", "aargh", "aarrgh", "aarrghh", "aas", "aasvogel", "aasvogels");
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("aa"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("aa"));
     }
 
     /**
@@ -105,10 +105,10 @@ public class DictionaryHandlerTest {
     @Test
     public void testEndReached() {
         expectedOutputs = Arrays.asList("zyzzyva", "zyzzyvas");
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("zyz"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("zyz"));
 
         expectedOutputs = Arrays.asList();
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("zyzzyvas"));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("zyzzyvas"));
     }
 
     /**
@@ -117,7 +117,7 @@ public class DictionaryHandlerTest {
     @Test
     public void testWithOneFrequencyDictionary() {
         expectedOutputs = Arrays.asList("you", "your", "you're", "yeah", "yes", "you've");
-        assertEquals(expectedOutputs, dictionaryHandlerWithOneFrequency.prefixSearchBinary("y").subList(0, 6));
+        assertEquals(expectedOutputs, dictionaryHandlerWithOneFrequency.getSuggestionsStartingWith("y").subList(0, 6));
     }
 
     /**
@@ -126,7 +126,7 @@ public class DictionaryHandlerTest {
     @Test
     public void testWithTwoFrequencyDictionary() {
         expectedOutputs = Arrays.asList("you're", "yeah", "you", "your", "yes");
-        assertEquals(expectedOutputs, dictionaryHandlerWithTwoFrequency.prefixSearchBinary("y").subList(0, 5));
+        assertEquals(expectedOutputs, dictionaryHandlerWithTwoFrequency.getSuggestionsStartingWith("y").subList(0, 5));
     }
 
     /**
@@ -136,7 +136,7 @@ public class DictionaryHandlerTest {
     public void testAddingWord() {
         expectedOutputs = Arrays.asList("zzzbkldiutgudzxkeudz");
         dictionaryHandlerNoFrequency.addWordToDictionary("zzzbkldiutgudzxkeudz", 0, 1);
-        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.prefixSearchBinary("zzzbkldiutgudzxkeud").subList(0, 1));
+        assertEquals(expectedOutputs, dictionaryHandlerNoFrequency.getSuggestionsStartingWith("zzzbkldiutgudzxkeud").subList(0, 1));
     }
 
 //    @Test
