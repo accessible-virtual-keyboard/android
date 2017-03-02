@@ -56,8 +56,8 @@ public enum Symbol {
     NULL(null),
 
     BACKSPACE("\u232B"), //http://www.fileformat.info/info/unicode/char/2190/index.htm
-    CORRECT_WORD("CWRD"),
-    DELETE_WORD("DWRD"),
+    CORRECT_WORD("Fix Word"),
+    DELETE_WORD("Delete Word"),
     DELETION_DONE("\u2713"),
     SEND("\u2332"),
 
@@ -76,6 +76,7 @@ public enum Symbol {
     DICTIONARY_TOGGLE("Toggle Dictionary"),
     DICTIONARY_TOGGLE_ON("\uD83D\uDCD6 \u2611"),
     DICTIONARY_TOGGLE_OFF("\uD83D\uDCD6 \u2610"),
+    DICTIONARY_ADD_WORD("Add New Word"),
 
     OPTION1("Option 1"),
     OPTION2("Option 2"),

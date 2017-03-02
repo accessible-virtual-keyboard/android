@@ -30,7 +30,6 @@ import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
-import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.SimpleExampleLayout;
 import no.ntnu.stud.avikeyb.gui.AdaptiveLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
@@ -41,7 +40,7 @@ import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
 import no.ntnu.stud.avikeyb.backend.dictionary.AndroidResourceLoader;
 import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private ViewGroup layoutWrapper;
     private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
@@ -96,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case 4: {
                         MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary);
-                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary));
+                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary, R.layout.layout_mobile));
                         break;
                     }
                     /*case 5: {
@@ -160,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchLayout(Layout layout, LayoutGUI layoutGui) {
-        layoutWrapper.removeAllViews();
-        layoutWrapper.addView(layoutGui.createGUI());
+        layoutGui.setLayoutContainer(layoutWrapper);
+        layoutGui.onLayoutActivated();
         setupInputButtons(layout);
     }
 

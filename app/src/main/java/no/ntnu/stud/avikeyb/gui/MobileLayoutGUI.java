@@ -31,24 +31,33 @@ public class MobileLayoutGUI extends LayoutGUI {
     private Activity activity;
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private ArrayList<Symbol> previouslyMarked = new ArrayList<>();
-    private int layoutResource;
+    private int layoutResource1;
+    private int layoutResource2;
     private ListView dictionaryList;
     private MobileDictionaryAdapter dictionaryListAdapter;
     private View previousViewSelected;
     private MobileDictionaryLayout.State lastState;
     private LayoutLoader loader;
+    private MobileDictionaryLayout.DictionaryState previousLayoutState;
 
-    public MobileLayoutGUI(Activity activity, Keyboard keyboard, MobileDictionaryLayout layout, int layoutResource) {
+    public MobileLayoutGUI(Activity activity, Keyboard keyboard, MobileDictionaryLayout layout, int layoutResource1, int layoutResource2) {
         super(keyboard, layout);
         this.activity = activity;
         this.layout = layout;
-        this.layoutResource = layoutResource;
+        this.layoutResource1 = layoutResource1;
+        this.layoutResource2 = layoutResource2;
     }
 
 
     @Override
     protected View buildGUI() {
-        loader = new LayoutLoader(activity, layoutResource);
+        //TODO return right layout resource
+        if (layout.getDictionaryState() == MobileDictionaryLayout.DictionaryState.DICTIONARY_ON){
+            loader = new LayoutLoader(activity, layoutResource1);
+        } else if (layout.getDictionaryState() == MobileDictionaryLayout.DictionaryState.DICTIONARY_OFF){
+            loader = new LayoutLoader(activity, layoutResource2);
+        }
+
 
         dictionaryList = (ListView) loader.getViewById(R.id.listview);
         dictionaryListAdapter = new MobileDictionaryAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
@@ -89,7 +98,17 @@ public class MobileLayoutGUI extends LayoutGUI {
     }
 
     @Override
+    public void onLayoutActivated() {
+        layoutContainer.removeAllViews();
+        layoutContainer.addView(buildGUI());
+    }
+
+    @Override
     protected void updateGUI() {
+        if(layout.getDictionaryState() != previousLayoutState){
+            onLayoutActivated();
+        }
+        previousLayoutState = layout.getDictionaryState();
         updateKeyboardPart();
         updateDictionaryPart();
     }
