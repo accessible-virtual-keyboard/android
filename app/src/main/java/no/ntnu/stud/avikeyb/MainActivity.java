@@ -56,11 +56,11 @@ public class MainActivity extends AppCompatActivity{
         final TabLayout layoutTabs = (TabLayout) findViewById(R.id.layoutTabs);
         layoutTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        layoutTabs.addTab(layoutTabs.newTab().setText("Simple"));
+//        layoutTabs.addTab(layoutTabs.newTab().setText("Simple"));
         layoutTabs.addTab(layoutTabs.newTab().setText("ETOS"));
-        layoutTabs.addTab(layoutTabs.newTab().setText("BINS"));
-        layoutTabs.addTab(layoutTabs.newTab().setText("ADAPTIVE"));
+        layoutTabs.addTab(layoutTabs.newTab().setText("Adaptive"));
         layoutTabs.addTab(layoutTabs.newTab().setText("Mobile"));
+        layoutTabs.addTab(layoutTabs.newTab().setText("Binary"));
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
@@ -80,32 +80,21 @@ public class MainActivity extends AppCompatActivity{
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 1: {
-
-                        switchLayout(etosLayout, new ETOSLayoutGUI(MainActivity.this, keyboard, etosLayout));
-                        break;
-                    }
-                    case 2: {
-                        switchLayout(binLayout, new BinarySearchLayoutGUI(MainActivity.this, keyboard, binLayout));
-                        break;
-                    }
-                    case 3: {
                         AdaptiveLayout l = new AdaptiveLayout(keyboard);
                         switchLayout(l, new AdaptiveLayoutGUI(MainActivity.this, keyboard, l));
                         break;
                     }
-                    case 4: {
+                    case 2: {
                         MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary);
                         switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary, R.layout.layout_mobile));
                         break;
                     }
-                    /*case 5: {
-                        MobileLayout l = new MobileLayout(keyboard);
-                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile));
+                    case 3: {
+                        switchLayout(binLayout, new BinarySearchLayoutGUI(MainActivity.this, keyboard, binLayout));
                         break;
-                    }*/
+                    }
                     default: { // 0
-                        SimpleExampleLayout l = new SimpleExampleLayout(keyboard);
-                        switchLayout(l, new SimpleExampleLayoutGUI(MainActivity.this, keyboard, l));
+                        switchLayout(etosLayout, new ETOSLayoutGUI(MainActivity.this, keyboard, etosLayout));
                         break;
                     }
                 }
@@ -208,7 +197,7 @@ public class MainActivity extends AppCompatActivity{
 
             @Override
             protected void onPostExecute(List<DictionaryEntry> dictionaryEntries) {
-                for(InMemoryDictionary dict : dictionaries){
+                for (InMemoryDictionary dict : dictionaries) {
                     dict.setDictionary(dictionaryEntries);
                 }
             }
@@ -222,4 +211,5 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(MainActivity.this, output, Toast.LENGTH_SHORT).show();
         }
     }
+
 }

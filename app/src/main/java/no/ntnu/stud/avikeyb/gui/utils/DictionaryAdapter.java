@@ -30,10 +30,12 @@ public class DictionaryAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        String suggestion = null;
-        if (layout.getCurrentSuggestion().length() < layout.getDictionaryLength()) {
-            suggestion = layout.getSuggestions().get(position); //before
-        }
+        String suggestion;
+        // if (layout.getCurrentSuggestion().length() < layout.getDictionaryLength()) {
+        //     //  suggestion = layout.getSuggestions().get(position); //before
+
+        suggestion = getItem(position);
+        //}
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.sidemenu, parent, false);
@@ -42,9 +44,7 @@ public class DictionaryAdapter extends ArrayAdapter<String> {
         dictionaryText.setText(suggestion);
         dictionaryText.setPadding(2, 20, 2, 20);
 
-
-      //  if (suggestion.equals(layout.getCurrentSuggestion())) {
-            if (layout.getCurrentSuggestion().equals(suggestion)) { //todo do not work properly
+        if (layout.suggestionIsAcvtive(suggestion) && layout.getCurrentSuggestion().equals(suggestion)) {
 
             dictionaryText.setBackgroundResource(R.color.purpleparty);
 
