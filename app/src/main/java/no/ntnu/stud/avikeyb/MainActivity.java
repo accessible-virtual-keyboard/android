@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity{
 
 
         // Update user word usage count
-        keyboard.addStateListener(new WordUpdater(dictionaryHandler));
+        keyboard.addOutputDevice(new WordUpdater(dictionaryHandler));
 
 
         layoutTabs.addOnTabSelectedListener(tabSwitcher);

@@ -3,17 +3,14 @@ package no.ntnu.stud.avikeyb.backend.core;
 import java.util.HashSet;
 import java.util.Set;
 
-import no.ntnu.stud.avikeyb.backend.Keyboard;
+import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
-import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 
 /**
- * Listener for the keyboard that will log all words typed on the keyboard and pass them on to
+ * Output device for the keyboard that will log all words sent by the keyboard and pass them on to
  * the dictionaryHandler to update the usage count for the typed words.
- * <p>
- * Words will only be counted after each send operation on the keyboard
  */
-public class WordUpdater implements Keyboard.KeyboardListener {
+public class WordUpdater implements OutputDevice {
 
     private Dictionary dictionaryHandler;
 
@@ -27,19 +24,12 @@ public class WordUpdater implements Keyboard.KeyboardListener {
     }
 
     @Override
-    public void onOutputBufferChange(String oldBuffer, String newBuffer) {
-
-        if (newBuffer.isEmpty()) { // The send button has been pressed
-
-            // Get all the words that was in the buffer before the send operation
-            Set<String> words = getWordsInBuffer(oldBuffer);
-
-            for (String word : words) {
-                dictionaryHandler.updateWordUsage(word);
-            }
+    public void sendOutput(String output) {
+        Set<String> words = getWordsInBuffer(output);
+        for (String word : words) {
+            dictionaryHandler.updateWordUsage(word);
         }
     }
-
 
     // Extracts all words from the string. Special characters will be removed from the words.
     private Set<String> getWordsInBuffer(String buffer) {
@@ -59,5 +49,6 @@ public class WordUpdater implements Keyboard.KeyboardListener {
     private String stripWord(String word) {
         return word.replaceAll("[^\\w]", "");
     }
+
 
 }
