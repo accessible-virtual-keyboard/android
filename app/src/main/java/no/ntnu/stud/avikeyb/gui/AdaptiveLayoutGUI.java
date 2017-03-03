@@ -66,7 +66,12 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
         suggestionsList = (ListView) loader.getViewById(R.id.suggestionsList);
 
-        suggestionsAdapter = new GenericSuggestionAdapter(activity, suggestion -> layout.getSuggestions().contains(suggestion));
+        suggestionsAdapter = new GenericSuggestionAdapter(activity, new GenericSuggestionAdapter.SuggestionStateInfo() {
+            @Override
+            public boolean isActive(String suggestion) {
+                return layout.getSuggestions().contains(suggestion);
+            }
+        });
         suggestionsList.setAdapter(suggestionsAdapter);
         return loader.getLayout();
     }

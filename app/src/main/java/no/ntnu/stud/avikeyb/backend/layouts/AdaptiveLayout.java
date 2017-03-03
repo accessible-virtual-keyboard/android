@@ -49,10 +49,13 @@ public class AdaptiveLayout extends StepLayout {
         optimalLayoutMap = createSymbolLayoutMap();
         reset();
 
-        suggestions.addListener(suggestions1 -> {
-            this.suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(7, suggestions1.size())));
-            this.currentSuggestion = 0;
-            notifyLayoutListeners();
+        suggestions.addListener(new Suggestions.Listener() {
+            @Override
+            public void onSuggestions(List<String> suggestions1) {
+                AdaptiveLayout.this.suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(7, suggestions1.size())));
+                AdaptiveLayout.this.currentSuggestion = 0;
+                AdaptiveLayout.this.notifyLayoutListeners();
+            }
         });
 
     }
