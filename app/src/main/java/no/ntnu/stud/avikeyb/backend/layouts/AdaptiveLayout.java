@@ -184,7 +184,9 @@ public class AdaptiveLayout extends StepLayout {
             keyboard.sendCurrentBuffer();
             reset();
         } else if (current == Symbol.DICTIONARY) {
-            currentState = State.SUGGESTION_SELECTION;
+            if(!suggestions.isEmpty()) {
+                currentState = State.SUGGESTION_SELECTION;
+            }
         } else {
             keyboard.addToCurrentBuffer(current.getContent());
             reset();
