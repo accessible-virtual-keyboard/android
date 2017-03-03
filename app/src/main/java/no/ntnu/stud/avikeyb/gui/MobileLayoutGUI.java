@@ -46,6 +46,7 @@ public class MobileLayoutGUI extends LayoutGUI {
         this.layout = layout;
         this.layoutResource1 = layoutResource1;
         this.layoutResource2 = layoutResource2;
+        layout.logMarked();
     }
 
 
@@ -107,10 +108,19 @@ public class MobileLayoutGUI extends LayoutGUI {
     protected void updateGUI() {
         if(layout.getDictionaryState() != previousLayoutState){
             onLayoutActivated();
+            layout.logMarked();
         }
         previousLayoutState = layout.getDictionaryState();
         updateKeyboardPart();
         updateDictionaryPart();
+    }
+
+    /**
+     * Used to update the gui so the default marked elements are marked properly
+     *
+     */
+    public void firstUpdate(){
+        updateGUI();
     }
 
     private void updateKeyboardPart(){

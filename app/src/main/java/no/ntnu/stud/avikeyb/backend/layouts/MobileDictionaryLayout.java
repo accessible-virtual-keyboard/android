@@ -13,6 +13,8 @@ import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionaryHandle
 import static android.content.ContentValues.TAG;
 
 /**
+ * Handles mobile layout logic.
+ *
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
 
@@ -118,30 +120,6 @@ public class MobileDictionaryLayout extends StepLayout {
                 break;
         }
 
-/*
-            symbols = new Symbol[]{
-                    Symbol.E, Symbol.T, Symbol.A,
-                    Symbol.S, Symbol.R, Symbol.H,
-                    Symbol.L, Symbol.D, Symbol.C,
-
-                    Symbol.O, Symbol.I, Symbol.N,
-                    Symbol.U, Symbol.M, Symbol.F,
-                    Symbol.Y, Symbol.B, Symbol.V, Symbol.K,
-
-                    Symbol.P, Symbol.G, Symbol.W,
-                    Symbol.X, Symbol.J, Symbol.Q, Symbol.Z,
-                    Symbol.SEND,
-
-                    Symbol.DICTIONARY,
-                    Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK,
-                    Symbol.CORRECT_WORD, Symbol.DELETE_WORD, Symbol.DELETION_DONE};
-            stepIndices = new int[]{
-                    0, 3, 6, 9,
-                    12, 15, 19,
-                    22, 26, 27,
-                    28, 32, 35};
-*/
-
     }
 
     @Override
@@ -153,8 +131,7 @@ public class MobileDictionaryLayout extends StepLayout {
                         nextRow();
                         break;
                     case INPUT2: //Select
-                        state = State.SELECT_COLUMN;
-                        nextColumn();
+                        changeStateColumnSelection();
                         break;
                 }
                 break;
@@ -169,41 +146,37 @@ public class MobileDictionaryLayout extends StepLayout {
                             keyboard.sendCurrentBuffer();
                             dictionary.reset();
                             setBaseSuggestions();
+                            reset();
+                            break;
                         } else if (markedSymbols.contains(Symbol.DICTIONARY)) {
-                            state = State.SELECT_DICTIONARY;
-                            softReset();
-                            nextDictionaryRow();
+                            changeStateDictionarySelection();
                             break;
                         } else if (markedSymbols.contains(Symbol.DELETE_WORD)) {
                             if (dictionary.hasWordHistory() || !keyboard.getCurrentBuffer().isEmpty()) { // We don't want the user to input punctuation symbols when no words has been entered
-                                state = State.SELECT_LETTER;
-                                nextLetter();
+                                changeStateLetterSelection();
                                 break;
                             }
                         } else if (markedSymbols.contains(Symbol.PERIOD)) {
                             if (!keyboard.getCurrentBuffer().isEmpty()) { // We don't want the user to input punctuation symbols when no words has been entered
-                                state = State.SELECT_LETTER;
-                                nextLetter();
+                                changeStateLetterSelection();
                                 break;
                             }
-                        } else if (markedSymbols.contains(Symbol.DICTIONARY_TOGGLE)){
-                            if(dictionaryState == DictionaryState.DICTIONARY_ON){
-                                dictionaryState = DictionaryState.DICTIONARY_OFF;
-                            } else if (dictionaryState == DictionaryState.DICTIONARY_OFF){
-                                dictionaryState = DictionaryState.DICTIONARY_ON;
-                            }
-                            updateLayoutStructure();
-                        }
-
-                        else {
+                        } else if (markedSymbols.contains(Symbol.DICTIONARY_TOGGLE)) {
+                            changeStateLetterSelection();
+                            break;
+                        } else if (dictionaryState == DictionaryState.DICTIONARY_ON) {
                             dictionary.findValidSuggestions(getStringsFromMarkedSymbols());
                             setSuggestions(dictionary.getSuggestions(nSuggestions));
+                            //TODO add marked symbols to the list at the left in the layout as a history feature
+                            reset();
+                            break;
+                        } else if (dictionaryState == DictionaryState.DICTIONARY_OFF) {
+                            changeStateLetterSelection();
+                            //TODO suggestion logic when dictionary is off
+                            break;
                         }
 
-                        logMarked();
-                        //dictionary.printListSuggestions(nSuggestions);
-                        reset();
-                        break;
+                        //logMarked();
                 }
                 break;
 
@@ -221,7 +194,7 @@ public class MobileDictionaryLayout extends StepLayout {
                                 setBaseSuggestions();
                             }
                         } else if (markedSymbols.contains(Symbol.CORRECT_WORD)) {
-
+                            //TODO add logic to handle proper word correction regardless of the dictionary state
                             Log.d(TAG, "onStep: -----------------------------------------");
                             if (dictionary.hasWordHistory()) {
                                 Log.d(TAG, "onStep: has history");
@@ -246,10 +219,31 @@ public class MobileDictionaryLayout extends StepLayout {
                             state = State.SELECT_ROW;
                             reset();
                             break;
-                        } else {
-                            addPunctuationSymbol();
-                            state = State.SELECT_ROW;
-                            reset();
+                        } else if (markedSymbols.contains(Symbol.DICTIONARY_TOGGLE)) {
+                            if (dictionaryState == DictionaryState.DICTIONARY_ON) {
+                                dictionaryState = DictionaryState.DICTIONARY_OFF;
+                            } else if (dictionaryState == DictionaryState.DICTIONARY_OFF) {
+                                dictionaryState = DictionaryState.DICTIONARY_ON;
+                            }
+                            updateLayoutStructure();
+                            changeStateRowSelection();
+                            break;
+                        } else if (markedSymbols.contains(Symbol.DICTIONARY_ADD_WORD)){
+                            //TODO implement add word to dictionary functionality
+                            changeStateRowSelection();
+                            break;
+                        } else if(markedSymbols.contains(Symbol.SPACE)){
+                            //TODO make space start new word history
+                        }
+                        else {
+                            if(dictionaryState == DictionaryState.DICTIONARY_OFF){
+                                //TODO add possible suggestions to word history
+                            }
+                            else if(dictionaryState == DictionaryState.DICTIONARY_ON){
+                                addPunctuationSymbol();
+                                changeStateRowSelection();
+                            }
+
                             break;
                         }
 
@@ -263,8 +257,8 @@ public class MobileDictionaryLayout extends StepLayout {
                         break;
                     case INPUT2:
                         addWord();
-                        state = State.SELECT_ROW;
                         setSuggestions(dictionary.getBaseSuggestion(nSuggestions));
+                        state = State.SELECT_ROW;
                         reset();
                         break;
                 }
@@ -273,6 +267,27 @@ public class MobileDictionaryLayout extends StepLayout {
 
         notifyLayoutListeners();
 
+    }
+
+    private void changeStateRowSelection() {
+        state = State.SELECT_ROW;
+        reset();
+    }
+
+    private void changeStateColumnSelection() {
+        state = State.SELECT_COLUMN;
+        nextColumn();
+    }
+
+    private void changeStateLetterSelection() {
+        state = State.SELECT_LETTER;
+        nextLetter();
+    }
+
+    private void changeStateDictionarySelection(){
+        state = State.SELECT_DICTIONARY;
+        softReset();
+        nextDictionaryRow();
     }
 
     public DictionaryState getDictionaryState() {
@@ -298,7 +313,7 @@ public class MobileDictionaryLayout extends StepLayout {
         return stringList;
     }
 
-    private void logMarked() {
+    public void logMarked() {
         String result = "";
         for (Symbol sym : markedSymbols) {
             result += sym.getContent() + " ";
@@ -314,8 +329,8 @@ public class MobileDictionaryLayout extends StepLayout {
     /**
      * Capitalizes a word if it starts with an lowercase letter [a-z], returns original word if not.
      *
-     * @param currentWord
-     * @return
+     * @param currentWord The word that should be capitalized;
+     * @return string with word capitalized, if it starts with a letter.
      */
     private String capitalizeWord(String currentWord) {
         String capitalizedLetter = currentWord.substring(0, 1).toUpperCase();
@@ -392,7 +407,7 @@ public class MobileDictionaryLayout extends StepLayout {
     /**
      * Handles positional logic for rows
      */
-    protected void nextRow() {
+    private void nextRow() {
         location[0]++;
 
         if (location[0] >= 4) {
@@ -413,7 +428,7 @@ public class MobileDictionaryLayout extends StepLayout {
     /**
      * Handles positional logic for columns
      */
-    protected void nextColumn() {
+    private void nextColumn() {
         location[1]++;
         markedSymbols = new ArrayList<>();
 
@@ -435,7 +450,7 @@ public class MobileDictionaryLayout extends StepLayout {
         //logLocation();
     }
 
-    protected void nextDictionaryRow() {
+    private void nextDictionaryRow() {
         location[3]++;
         if (location[3] >= suggestions.size() || location[3] >= nSuggestions) {
             location[3] = 0;
@@ -452,7 +467,7 @@ public class MobileDictionaryLayout extends StepLayout {
     /**
      * Handles positional logic for selecting letters
      */
-    protected void nextLetter() {
+    private void nextLetter() {
         location[2]++;
 
         int lowerBound = stepIndices[location[0] * 3 + location[1]];
@@ -479,7 +494,7 @@ public class MobileDictionaryLayout extends StepLayout {
     /**
      * Sends the current symbol, only usable in state SELECT_LETTER
      */
-    protected void selectCurrentSymbols(Keyboard keyboard) {
+    private void selectCurrentSymbols(Keyboard keyboard) {
         Symbol symbol = markedSymbols.get(0); // will only contain one symbol in SELECT_LETTER state.
 
         if (symbol == Symbol.SEND) {
