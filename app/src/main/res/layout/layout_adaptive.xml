@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:weightSum="4">
 
     <TableLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:stretchColumns="*"
+        android:layout_weight="3"
         >
 
         <TableRow>
@@ -54,13 +56,13 @@
     </TableLayout>
 
 
-    <ListView
-        android:id="@+id/suggestionsList"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent">
+    <view class="no.ntnu.stud.avikeyb.gui.utils.GenericSuggestions$View"
+          android:id="@+id/suggestionsList"
+          android:layout_weight="1"
+          android:layout_width="0dp"
+          android:layout_height="match_parent">
+    </view>
 
-    </ListView>
 
 
 

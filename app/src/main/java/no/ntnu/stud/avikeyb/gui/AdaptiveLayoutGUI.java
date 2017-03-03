@@ -3,8 +3,6 @@ package no.ntnu.stud.avikeyb.gui;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
-import no.ntnu.stud.avikeyb.gui.utils.GenericSuggestionAdapter;
+import no.ntnu.stud.avikeyb.gui.utils.GenericSuggestions;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 
 /**
@@ -25,8 +23,8 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
     private Activity activity;
     private AdaptiveLayout layout;
-    private ListView suggestionsList;
-    private ArrayAdapter<String> suggestionsAdapter;
+    private GenericSuggestions.View suggestionsList;
+    private GenericSuggestions.Adapter suggestionsAdapter;
 
     // Store a reference to all the symbol for easy access when updating the gui
     private ArrayList<View> symbolViews = new ArrayList<>();
@@ -64,15 +62,24 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
             }
         }
 
-        suggestionsList = (ListView) loader.getViewById(R.id.suggestionsList);
+        suggestionsList = (GenericSuggestions.View) loader.getViewById(R.id.suggestionsList);
 
-        suggestionsAdapter = new GenericSuggestionAdapter(activity, new GenericSuggestionAdapter.SuggestionStateInfo() {
+        suggestionsAdapter = new GenericSuggestions.Adapter(new GenericSuggestions.SuggestionsState(){
             @Override
             public boolean isActive(String suggestion) {
-                return layout.getSuggestions().contains(suggestion);
+                return checkIfSuggestionIsActive(suggestion);
+            }
+            @Override
+            public String getSuggestion(int position) {
+                return layout.getSuggestions().get(position);
+            }
+            @Override
+            public int suggestionCount() {
+                return layout.getSuggestions().size();
             }
         });
         suggestionsList.setAdapter(suggestionsAdapter);
+
         return loader.getLayout();
     }
 
@@ -86,13 +93,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
             updateLayout();
         }
 
-
-
-        suggestionsAdapter.clear();
-        suggestionsAdapter.addAll(layout.getSuggestions());
         suggestionsAdapter.notifyDataSetChanged();
-
-
     }
 
     private void updateLayout(){
@@ -130,9 +131,11 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
             view.setText(currentLayout[i].getContent());
             view.setBackgroundColor(Color.parseColor("#eeeeee")); // Default non active background color
         }
+    }
 
 
-
-
+    private boolean checkIfSuggestionIsActive(String suggestion){
+        return layout.getCurrentState() == AdaptiveLayout.State.SUGGESTION_SELECTION
+                && layout.getSuggestions().get(layout.getCurrentSuggestion()).equals(suggestion);
     }
 }
