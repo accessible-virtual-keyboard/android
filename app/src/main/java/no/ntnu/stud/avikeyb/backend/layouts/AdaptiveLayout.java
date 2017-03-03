@@ -194,12 +194,14 @@ public class AdaptiveLayout extends StepLayout {
     private void selectCurrentSuggestion(){
         String suggestion = suggestions.get(currentSuggestion);
         keyboard.addToCurrentBuffer(suggestion + Symbol.SPACE.getContent());
+        reset();
     }
 
     // Reset the internal state
     private void reset() {
         currentColumn = 0;
         currentRow = 0;
+        currentSuggestion = 0;
         currentState = State.ROW_SELECTION;
         currentAdaptiveLayout = getNextOptimalLayout(getLastTypedLetter());
     }
