@@ -3,8 +3,13 @@ package no.ntnu.stud.avikeyb.backend.layouts;
 
 import org.junit.Test;
 
+import java.util.Collections;
+import java.util.List;
+
 import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Layout;
+import no.ntnu.stud.avikeyb.backend.core.SingleThreadSuggestions;
+import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
 
 /**
  * Created by pitmairen on 17/02/2017.
@@ -13,7 +18,17 @@ public class AdaptiveLayoutTest extends LayoutTestBase {
 
     @Override
     protected Layout createLayout() {
-        return new AdaptiveLayout(keyboard);
+        return new AdaptiveLayout(keyboard,new SingleThreadSuggestions(keyboard, new Dictionary() {
+            @Override
+            public List<String> getSuggestionsStartingWith(String match) {
+                return Collections.emptyList();
+            }
+
+            @Override
+            public void updateWordUsage(String string) {
+
+            }
+        }));
     }
 
     @Test
@@ -107,10 +122,10 @@ public class AdaptiveLayoutTest extends LayoutTestBase {
     }
 
     private void nextColumn() {
-        stepInput(InputType.INPUT2);
+        stepInput(InputType.INPUT1);
     }
 
     private void selectColumn() {
-        stepInput(InputType.INPUT1);
+        stepInput(InputType.INPUT2);
     }
 }
