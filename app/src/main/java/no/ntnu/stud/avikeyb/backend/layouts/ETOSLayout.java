@@ -1,6 +1,8 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +12,8 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -21,8 +25,8 @@ public class ETOSLayout extends StepLayout {
             Symbols.build(Symbol.SEND),
             Symbols.etos(),
             Symbols.numbers(),
-            Symbols.commonPunctuations(),
-            Symbols.menuOptions()// test
+            Symbols.commonPunctuations()
+            //Symbols.menuOptions()// test
     );
 
     private static Symbol[] menu = Symbols.menuOptions();
@@ -36,6 +40,9 @@ public class ETOSLayout extends StepLayout {
 
     // The current position of the cursor in the layout
     private int currentPosition = 0;
+
+    // the current position of the cursor in the dictionary
+    private int currentDictionaryPosition = -1;
     // The current row of the cursor in the layout.
     private State state = State.SELECT_ROW;
     private Keyboard keyboard;
@@ -49,10 +56,13 @@ public class ETOSLayout extends StepLayout {
         this.suggestionEngine = suggestions;
 
         // Listen for suggestions
-        suggestionEngine.addListener(suggestions1 -> {
-            dictionsuggestions.clear();
-            dictionsuggestions.addAll(suggestions1);
-            //notifyLayoutListeners();
+        suggestionEngine.addListener(new Suggestions.Listener() {
+            @Override
+            public void onSuggestions(List<String> suggestions1) {
+                dictionsuggestions.clear();
+                dictionsuggestions.addAll(suggestions1);
+                //notifyLayoutListeners();
+            }
         });
     }
 
@@ -66,12 +76,16 @@ public class ETOSLayout extends StepLayout {
      * @return return the current suggestion from its position.
      */
     public String getCurrentSuggestion() {
-        if (currentPosition < dictionsuggestions.size()) {
-            return dictionsuggestions.get(currentPosition);
+        if (currentDictionaryPosition < dictionsuggestions.size()) {
+            return dictionsuggestions.get(currentDictionaryPosition);
         }
         return "";
     }
 
+
+    public boolean suggestionIsAcvtive(String suggestion) {
+        return dictionsuggestions.contains(suggestion);
+    }
 
     /**
      * Returns the current active position in the layout
@@ -97,9 +111,20 @@ public class ETOSLayout extends StepLayout {
         return currentPosition;
     }
 
+    public int getCurrentDictionaryPosition() {
+        return currentDictionaryPosition;
+    }
+
+    public Symbol getCurrentMenu() {
+        return menu[currentPosition];
+    }
 
     public Symbol getCurrentSymbol() {
+        // if (symbols[currentPosition] < symbols.length)
         return symbols[currentPosition];
+        //
+        // }
+
     }
 
     /**
@@ -142,44 +167,57 @@ public class ETOSLayout extends StepLayout {
                         nextColumn();
                         break;
                     case INPUT2: // selects
+
                         if (getCurrentSymbol().equals(Symbol.DICTIONARY)) {
+                            System.out.println("I should not be here");
                             state = State.SELECT_DICTIONARY;
+                            System.out.println("The state is " + state);
+                        } else if (getCurrentSymbol().equals(Symbol.MENU)) {
+                            state = State.SELECT_MENU;
                         } else {
                             selectCurrentSymbol();
                             state = State.SELECT_ROW;
+                            currentPosition = 0;
                         }
-                        currentPosition = 0;
+
+                        //currentPosition = 0;
                         break;
                 }
-            case SELECT_DICTIONARY: // todo make this work. it don'
-                // t work.
+                break;
+
+            case SELECT_DICTIONARY: // todo make this work. it do not  work.
                 switch (input) {
                     case INPUT1: // moves
                         nextDictionaryEntry();
+                        System.out.println("Am I in select dictionary input 1?");
+                        System.out.println("Pos " + currentDictionaryPosition);
                         break;
                     case INPUT2: // selects
 
-                        if (getCurrentSuggestion() == null) {
+                        if (getCurrentSuggestion() != null) {
                             selectSuggestion(getCurrentSuggestion()); //todo
                         }
-                        System.out.println("what is in the suggestions " + getCurrentSuggestion());
-
+                        System.out.println("Am I in select dictionary input 2?");
                         state = State.SELECT_ROW;
+                        currentDictionaryPosition = -1;
                         currentPosition = 0;
                         break;
                 }
+                break;
 
             case SELECT_MENU:
                 switch (input) {
                     case INPUT1:
-
+                        nextColumn();
                         break;
                     case INPUT2:
 
+                        getCurrentMenu();
                         break;
                 }
                 break;
         }
+        Log.d(TAG, "onStep: currentPosition: " + currentPosition);
         notifyLayoutListeners();
     }
 
@@ -187,14 +225,21 @@ public class ETOSLayout extends StepLayout {
      * Moving cursor to the next row
      */
     public void nextRow() {
-        currentPosition = (currentPosition + 6) % symbols.length;
+        currentPosition = (currentPosition + 6);
+        if (currentPosition > symbols.length) {
+            currentPosition = 0;
+        }
     }
 
     /**
      * Moving cursor to the next column.
      */
     public void nextColumn() {
-        currentPosition = (currentPosition + 1) % symbols.length;
+
+        currentPosition = (currentPosition + 1);
+        if (currentPosition % 6 == 0) {
+            currentPosition -= 6;
+        }
     }
 
     /**
@@ -202,7 +247,7 @@ public class ETOSLayout extends StepLayout {
      */
     public void nextDictionaryEntry() {
         if (getSuggestions().size() > 0) {
-            currentPosition = (currentPosition + 1) % getSuggestions().size();
+            currentDictionaryPosition = (currentDictionaryPosition + 1) % getSuggestions().size();
         }
     }
 

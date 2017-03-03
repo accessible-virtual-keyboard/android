@@ -23,14 +23,34 @@ public abstract class ListSorter {
 
         if (order != SortingOrder.CURRENT_ORDER) {
             if (order == SortingOrder.ALPHABETICALLY_A_TO_Z) {
-                comparator.add((o1, o2) -> o1.getWord().compareTo(o2.getWord()));
+                comparator.add(new Comparator<DictionaryEntry>() {
+                    @Override
+                    public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                        return o1.getWord().compareTo(o2.getWord());
+                    }
+                });
             }
             if (order == SortingOrder.ALPHABETICALLY_Z_TO_A) {
-                comparator.add((o1, o2) -> o2.getWord().compareTo(o1.getWord()));
+                comparator.add(new Comparator<DictionaryEntry>() {
+                    @Override
+                    public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                        return o2.getWord().compareTo(o1.getWord());
+                    }
+                });
             }
             if (order == SortingOrder.FREQUENCY_HIGH_TO_LOW) {
-                comparator.add((o1, o2) -> Integer.compare(o2.getUserFrequency(), o1.getUserFrequency()));
-                comparator.add((o1, o2) -> Integer.compare(o2.getStandardFrequency(), o1.getStandardFrequency()));
+                comparator.add(new Comparator<DictionaryEntry>() {
+                    @Override
+                    public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                        return Integer.compare(o2.getUserFrequency(), o1.getUserFrequency());
+                    }
+                });
+                comparator.add(new Comparator<DictionaryEntry>() {
+                    @Override
+                    public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                        return Integer.compare(o2.getStandardFrequency(), o1.getStandardFrequency());
+                    }
+                });
 
                         /*ComparisonChain.start()
                         .compare(o2.getUserFrequency(),o1.getUserFrequency())
@@ -38,8 +58,18 @@ public abstract class ListSorter {
                         .compare(o1.getWord(),o2.getWord()).result();*/
             }
             if (order == SortingOrder.FREQUENCY_LOW_TO_HIGH) {
-                comparator.add((o1, o2) -> Integer.compare(o1.getUserFrequency(), o2.getUserFrequency()));
-                comparator.add((o1, o2) -> Integer.compare(o1.getStandardFrequency(), o1.getStandardFrequency()));
+                comparator.add(new Comparator<DictionaryEntry>() {
+                    @Override
+                    public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                        return Integer.compare(o1.getUserFrequency(), o2.getUserFrequency());
+                    }
+                });
+                comparator.add(new Comparator<DictionaryEntry>() {
+                    @Override
+                    public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                        return Integer.compare(o1.getStandardFrequency(), o1.getStandardFrequency());
+                    }
+                });
                         /*ComparisonChain.start()
                         .compare(o1.getUserFrequency(),o2.getUserFrequency())
                         .compare(o1.getStandardFrequency(),o2.getStandardFrequency())

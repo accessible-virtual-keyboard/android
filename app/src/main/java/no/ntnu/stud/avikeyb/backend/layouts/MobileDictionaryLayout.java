@@ -10,28 +10,138 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionaryHandler;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
 
-public class MobileDictionaryLayout extends MobileLayout {
+public class MobileDictionaryLayout extends StepLayout {
+
+/*    public interface MobileLayoutSwap {
+        public void onStart();
+
+        public void onDictionaryOn();
+
+        public void onDictionaryOff();
+    }*/
+
+    private int[] stepIndices;
+    private Symbol[] symbols;
+    private Keyboard keyboard;
+
+    private State state = State.SELECT_ROW;
+    private DictionaryState dictionaryState = DictionaryState.DICTIONARY_ON;
+
+    private ArrayList<Symbol> markedSymbols = new ArrayList<>();
+    private int[] location = new int[]{-1, -1, -1, -1};
+    private List<String> suggestions;
+    private int nSuggestions = 10;
 
     private LinearEliminationDictionaryHandler dictionary;
 
 
+    public enum State {
+        SELECT_ROW,
+        SELECT_COLUMN,
+        SELECT_LETTER,
+        SELECT_DICTIONARY
+    }
+
+    public enum DictionaryState {
+        DICTIONARY_ON,
+        DICTIONARY_OFF
+    }
+
+
     public MobileDictionaryLayout(Keyboard keyboard, LinearEliminationDictionaryHandler dictionary) {
-        super();
+        suggestions = new ArrayList<>();
         this.keyboard = keyboard;
         this.dictionary = dictionary;
 
-        symbols = new Symbol[]{
-                Symbol.E, Symbol.T, Symbol.A, Symbol.S, Symbol.R, Symbol.H, Symbol.L, Symbol.D, Symbol.C,
-                Symbol.O, Symbol.I, Symbol.N, Symbol.U, Symbol.M, Symbol.F, Symbol.Y, Symbol.B, Symbol.V, Symbol.K,
-                Symbol.P, Symbol.G, Symbol.W, Symbol.X, Symbol.J, Symbol.Q, Symbol.Z, Symbol.SEND,
-                Symbol.DICTIONARY, Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK, Symbol.CORRECT_WORD, Symbol.DELETE_WORD, Symbol.DELETION_DONE};
-        stepIndices = new int[]{0, 3, 6, 9, 12, 15, 19, 22, 26, 27, 28, 32, 35};
+        updateLayoutStructure();
+        /*MobileLayoutSwap.onStart();*/
         setBaseSuggestions();
         nextRow();
+    }
+
+    private void updateLayoutStructure() {
+        switch (dictionaryState) {
+            case DICTIONARY_ON:
+                symbols = new Symbol[]{
+                        Symbol.E, Symbol.T, Symbol.A,
+                        Symbol.O, Symbol.I, Symbol.N,
+                        Symbol.CORRECT_WORD, Symbol.DELETE_WORD, Symbol.DELETION_DONE,
+
+                        Symbol.S, Symbol.R, Symbol.H,
+                        Symbol.L, Symbol.D, Symbol.C, Symbol.U,
+                        Symbol.W, Symbol.Y, Symbol.B, Symbol.V,
+
+                        Symbol.M, Symbol.F, Symbol.P, Symbol.G,
+                        Symbol.K, Symbol.X, Symbol.J, Symbol.Q, Symbol.Z,
+                        Symbol.DICTIONARY_ADD_WORD, Symbol.DICTIONARY_TOGGLE,
+
+                        Symbol.DICTIONARY,
+                        Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK,
+                        Symbol.SEND};
+
+                stepIndices = new int[]{
+                        0, 3, 6, 9,
+                        12, 16, 20,
+                        24, 29, 31,
+                        32, 36, 37};
+
+                break;
+            case DICTIONARY_OFF:
+                symbols = new Symbol[]{
+                        Symbol.E, Symbol.T, Symbol.I, Symbol.SPACE,
+                        Symbol.A, Symbol.N, Symbol.L,
+                        Symbol.CORRECT_WORD, Symbol.DELETE_WORD, Symbol.DELETION_DONE,
+
+                        Symbol.O, Symbol.S, Symbol.D,
+                        Symbol.R, Symbol.C, Symbol.P, Symbol.B,
+                        Symbol.M, Symbol.W, Symbol.K, Symbol.J,
+
+                        Symbol.H, Symbol.U, Symbol.G, Symbol.V,
+                        Symbol.F, Symbol.Y, Symbol.X, Symbol.Q, Symbol.Z,
+                        Symbol.DICTIONARY_ADD_WORD, Symbol.DICTIONARY_TOGGLE,
+
+                        Symbol.DICTIONARY,
+                        Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK,
+                        Symbol.SEND};
+
+                stepIndices = new int[]{
+                        0, 4, 7, 10,
+                        13, 17, 21,
+                        25, 30, 32,
+                        33, 37, 38};
+                break;
+        }
+
+/*
+            symbols = new Symbol[]{
+                    Symbol.E, Symbol.T, Symbol.A,
+                    Symbol.S, Symbol.R, Symbol.H,
+                    Symbol.L, Symbol.D, Symbol.C,
+
+                    Symbol.O, Symbol.I, Symbol.N,
+                    Symbol.U, Symbol.M, Symbol.F,
+                    Symbol.Y, Symbol.B, Symbol.V, Symbol.K,
+
+                    Symbol.P, Symbol.G, Symbol.W,
+                    Symbol.X, Symbol.J, Symbol.Q, Symbol.Z,
+                    Symbol.SEND,
+
+                    Symbol.DICTIONARY,
+                    Symbol.PERIOD, Symbol.COMMA, Symbol.QUESTION_MARK, Symbol.EXCLAMATION_MARK,
+                    Symbol.CORRECT_WORD, Symbol.DELETE_WORD, Symbol.DELETION_DONE};
+            stepIndices = new int[]{
+                    0, 3, 6, 9,
+                    12, 15, 19,
+                    22, 26, 27,
+                    28, 32, 35};
+*/
+
     }
 
     @Override
@@ -76,7 +186,16 @@ public class MobileDictionaryLayout extends MobileLayout {
                                 nextLetter();
                                 break;
                             }
-                        } else {
+                        } else if (markedSymbols.contains(Symbol.DICTIONARY_TOGGLE)){
+                            if(dictionaryState == DictionaryState.DICTIONARY_ON){
+                                dictionaryState = DictionaryState.DICTIONARY_OFF;
+                            } else if (dictionaryState == DictionaryState.DICTIONARY_OFF){
+                                dictionaryState = DictionaryState.DICTIONARY_ON;
+                            }
+                            updateLayoutStructure();
+                        }
+
+                        else {
                             dictionary.findValidSuggestions(getStringsFromMarkedSymbols());
                             setSuggestions(dictionary.getSuggestions(nSuggestions));
                         }
@@ -102,24 +221,32 @@ public class MobileDictionaryLayout extends MobileLayout {
                                 setBaseSuggestions();
                             }
                         } else if (markedSymbols.contains(Symbol.CORRECT_WORD)) {
-                            if(dictionary.hasWordHistory()){
+
+                            Log.d(TAG, "onStep: -----------------------------------------");
+                            if (dictionary.hasWordHistory()) {
+                                Log.d(TAG, "onStep: has history");
                                 dictionary.removeLastWordHistoryElement();
-                                if(!dictionary.hasWordHistory()){
+                                if (!dictionary.hasWordHistory()) {
                                     setBaseSuggestions();
-                                }else{
-                                    getPreviousSuggestions();
+                                } else {
+                                    setCurrentSuggestions();
                                 }
-                            } else if (!keyboard.getCurrentBuffer().isEmpty()) {
+                            } else if (!(dictionary.hasWordHistory() && keyboard.getCurrentBuffer().isEmpty())) {
+                                Log.d(TAG, "onStep: has no history");
                                 deleteLastWord();
                                 dictionary.previousWord();
-                                getPreviousSuggestions();
+                                if (!dictionary.hasWordHistory() && keyboard.getCurrentBuffer().isEmpty()) {
+                                    setBaseSuggestions();
+                                } else {
+                                    setCurrentSuggestions();
+                                }
+
                             }
-                        }else if (markedSymbols.contains(Symbol.DELETION_DONE)){
+                        } else if (markedSymbols.contains(Symbol.DELETION_DONE)) {
                             state = State.SELECT_ROW;
                             reset();
                             break;
-                        }
-                        else {
+                        } else {
                             addPunctuationSymbol();
                             state = State.SELECT_ROW;
                             reset();
@@ -146,6 +273,18 @@ public class MobileDictionaryLayout extends MobileLayout {
 
         notifyLayoutListeners();
 
+    }
+
+    public DictionaryState getDictionaryState() {
+        return dictionaryState;
+    }
+
+    private void updateLayoutSymbols(DictionaryState state) {
+        if (state == DictionaryState.DICTIONARY_ON) {
+            //TODO update symbols and step indices accordingly
+        } else if (state == DictionaryState.DICTIONARY_OFF) {
+            //TODO update symbols and step indices accordingly
+        }
     }
 
     /**
@@ -234,8 +373,7 @@ public class MobileDictionaryLayout extends MobileLayout {
 
     }
 
-    private void getPreviousSuggestions() {
-        dictionary.previousWord();
+    private void setCurrentSuggestions() {
         setSuggestions(dictionary.getSuggestions(nSuggestions));
     }
 
@@ -249,6 +387,155 @@ public class MobileDictionaryLayout extends MobileLayout {
 
     private void setBaseSuggestions() {
         setSuggestions(dictionary.getBaseSuggestion(nSuggestions));
+    }
+
+    /**
+     * Handles positional logic for rows
+     */
+    protected void nextRow() {
+        location[0]++;
+
+        if (location[0] >= 4) {
+            location[0] = 0;
+        }
+
+
+        markedSymbols = new ArrayList<>();
+        int lowerBound = stepIndices[location[0] * 3];
+        int upperBound = stepIndices[location[0] * 3 + 3];
+        //Log.d("MobLayout", "Bounds, Lower: " + lowerBound + " Upper: " + upperBound);
+        for (int i = lowerBound; i < upperBound; i++) {
+            addMarkedSymbol(i);
+        }
+        //logLocation();
+    }
+
+    /**
+     * Handles positional logic for columns
+     */
+    protected void nextColumn() {
+        location[1]++;
+        markedSymbols = new ArrayList<>();
+
+        int[] bounds = new int[]{0, 0};
+        if (stepIndices.length == location[0] * 3 + location[1] + 1) {
+            location[1] = 0;
+            bounds = updateColumnBounds(bounds);
+        } else {
+            bounds = updateColumnBounds(bounds);
+        }
+
+        if (bounds[0] == bounds[1] || location[1] >= 3) {
+            location[1] = 0;
+            bounds = updateColumnBounds(bounds);
+        }
+        for (int i = bounds[0]; i < bounds[1]; i++) {
+            addMarkedSymbol(i);
+        }
+        //logLocation();
+    }
+
+    protected void nextDictionaryRow() {
+        location[3]++;
+        if (location[3] >= suggestions.size() || location[3] >= nSuggestions) {
+            location[3] = 0;
+        }
+    }
+
+    private int[] updateColumnBounds(int[] bounds) {
+        bounds[0] = stepIndices[location[0] * 3 + location[1]];
+        bounds[1] = stepIndices[location[0] * 3 + location[1] + 1];
+        return bounds;
+    }
+
+
+    /**
+     * Handles positional logic for selecting letters
+     */
+    protected void nextLetter() {
+        location[2]++;
+
+        int lowerBound = stepIndices[location[0] * 3 + location[1]];
+        int upperBound = stepIndices[location[0] * 3 + location[1] + 1];
+        int symbolsInGroup = upperBound - lowerBound;
+
+        //Log.d("MobLayout", "Symbols in group: " + symbolsInGroup);
+        //Log.d("MobLayout", "Bounds, Lower: " + lowerBound + " Upper: " + upperBound);
+        if (location[2] >= symbolsInGroup) {
+            location[2] = 0;
+        }
+
+        markedSymbols = new ArrayList<>();
+        int index = stepIndices[location[0] * 3 + location[1]] + location[2];
+        //Log.d("MobLayout", "Index: " + index);
+        addMarkedSymbol(index);
+        //logLocation();
+    }
+
+    public ArrayList<Symbol> getMarkedSymbols() {
+        return markedSymbols;
+    }
+
+    /**
+     * Sends the current symbol, only usable in state SELECT_LETTER
+     */
+    protected void selectCurrentSymbols(Keyboard keyboard) {
+        Symbol symbol = markedSymbols.get(0); // will only contain one symbol in SELECT_LETTER state.
+
+        if (symbol == Symbol.SEND) {
+            keyboard.sendCurrentBuffer();
+        } else {
+            keyboard.addToCurrentBuffer(symbol.getContent());
+        }
+    }
+
+    private void addMarkedSymbol(int index) {
+        try {
+            markedSymbols.add(symbols[index]);
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void reset() {
+        location = new int[]{-1, -1, -1, -1};
+        markedSymbols = new ArrayList<>();
+        nextRow();
+    }
+
+    public Symbol[] getSymbols() {
+        return symbols;
+    }
+
+    private void logLocation() {
+        Log.d("MobLayout", "Position: " + location[0] + ", " + location[1] + ", " + location[2]);
+        String markedSymbolsText = "";
+        for (Symbol s : markedSymbols) {
+            markedSymbolsText += s.getContent() + " ";
+        }
+        Log.d("MobLayout", markedSymbolsText);
+    }
+
+
+    public void setSuggestions(List<String> suggestions) {
+        this.suggestions = suggestions;
+    }
+
+    public int getMarkedWord() {
+        return location[3];
+    }
+
+
+    public List<String> getSuggestions() {
+        return suggestions;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public int getMaxPossibleSuggestions() {
+        return nSuggestions;
     }
 
 }

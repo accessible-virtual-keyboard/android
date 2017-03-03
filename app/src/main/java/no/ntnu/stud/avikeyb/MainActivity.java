@@ -4,10 +4,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,11 +25,11 @@ import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 import no.ntnu.stud.avikeyb.backend.dictionary.InMemoryDictionary;
 import no.ntnu.stud.avikeyb.backend.dictionary.LinearEliminationDictionaryHandler;
+import no.ntnu.stud.avikeyb.backend.dictionary.ResourceHandler;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
-import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.SimpleExampleLayout;
 import no.ntnu.stud.avikeyb.gui.AdaptiveLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
@@ -35,12 +37,13 @@ import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
-import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
+import no.ntnu.stud.avikeyb.backend.dictionary.AndroidResourceLoader;
 import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     private ViewGroup layoutWrapper;
+    private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,16 +56,14 @@ public class MainActivity extends AppCompatActivity {
         final TabLayout layoutTabs = (TabLayout) findViewById(R.id.layoutTabs);
         layoutTabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        layoutTabs.addTab(layoutTabs.newTab().setText("Simple"));
+//        layoutTabs.addTab(layoutTabs.newTab().setText("Simple"));
         layoutTabs.addTab(layoutTabs.newTab().setText("ETOS"));
-        layoutTabs.addTab(layoutTabs.newTab().setText("BINS"));
-        layoutTabs.addTab(layoutTabs.newTab().setText("MOB"));
-        layoutTabs.addTab(layoutTabs.newTab().setText("ADAPTIVE"));
-        layoutTabs.addTab(layoutTabs.newTab().setText("MobDic"));
+        layoutTabs.addTab(layoutTabs.newTab().setText("Adaptive"));
+        layoutTabs.addTab(layoutTabs.newTab().setText("Mobile"));
+        layoutTabs.addTab(layoutTabs.newTab().setText("Binary"));
 
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
-        final DictionaryHandler dictionaryHandler = new DictionaryHandler();
         final LinearEliminationDictionaryHandler mobileDictionary = new LinearEliminationDictionaryHandler();
 
         // Asynchronously load the dictionary enties from a file and set the entries to the
@@ -80,31 +81,21 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 1: {
-
-                        switchLayout(etosLayout, new ETOSLayoutGUI(MainActivity.this, keyboard, etosLayout));
+                        AdaptiveLayout l = new AdaptiveLayout(keyboard);
+                        switchLayout(l, new AdaptiveLayoutGUI(MainActivity.this, keyboard, l));
                         break;
                     }
                     case 2: {
-                        switchLayout(binLayout, new BinarySearchLayoutGUI(MainActivity.this, keyboard, binLayout));
+                        MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary);
+                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary, R.layout.layout_mobile));
                         break;
                     }
                     case 3: {
-                        MobileLayout l = new MobileLayout(keyboard);
-                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile));
-                        break;
-                    }
-                    case 4: {
-                        switchLayout(adaptiveLayout, new AdaptiveLayoutGUI(MainActivity.this, keyboard, adaptiveLayout));
-                        break;
-                    }
-                    case 5: {
-                        MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary);
-                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary));
+                        switchLayout(binLayout, new BinarySearchLayoutGUI(MainActivity.this, keyboard, binLayout));
                         break;
                     }
                     default: { // 0
-                        SimpleExampleLayout l = new SimpleExampleLayout(keyboard);
-                        switchLayout(l, new SimpleExampleLayoutGUI(MainActivity.this, keyboard, l));
+                        switchLayout(etosLayout, new ETOSLayoutGUI(MainActivity.this, keyboard, etosLayout));
                         break;
                     }
                 }
@@ -139,35 +130,60 @@ public class MainActivity extends AppCompatActivity {
         tabSwitcher.onTabSelected(layoutTabs.getTabAt(0));
     } // end of on create
 
-//    @Override
-//    protected void onPause() {
-//        // TODO: Save dictionary to file.
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Set save location.
+        String folderPath = this.getFilesDir().getPath();
+        String fileName = "dictionary.txt";
+        String filePath = folderPath + "/" + fileName;
+//        System.out.println(filePath);
+
+        // Store the dictionary to file.
+        try {
+            ResourceHandler.storeDictionaryToFile(dictionaryHandler.getDictionary(), filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void switchLayout(Layout layout, LayoutGUI layoutGui) {
-        layoutWrapper.removeAllViews();
-        layoutWrapper.addView(layoutGui.createGUI());
+        layoutGui.setLayoutContainer(layoutWrapper);
+        layoutGui.onLayoutActivated();
         setupInputButtons(layout);
     }
 
     private void setupInputButtons(final InputInterface input) {
-        findViewById(R.id.buttonInput1).setOnClickListener(view -> {
-            input.setInputState(InputType.INPUT1, true);
-            input.setInputState(InputType.INPUT1, false);
+        findViewById(R.id.buttonInput1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                input.setInputState(InputType.INPUT1, true);
+                input.setInputState(InputType.INPUT1, false);
+            }
         });
-        findViewById(R.id.buttonInput2).setOnClickListener(view -> {
-            // Turn the input on and off for each click
-            input.setInputState(InputType.INPUT2, true);
-            input.setInputState(InputType.INPUT2, false);
+        findViewById(R.id.buttonInput2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Turn the input on and off for each click
+                input.setInputState(InputType.INPUT2, true);
+                input.setInputState(InputType.INPUT2, false);
+            }
         });
-        findViewById(R.id.buttonInput3).setOnClickListener(view -> {
-            // Turn the input on and off for each click
-            input.setInputState(InputType.INPUT3, true);
-            input.setInputState(InputType.INPUT3, false);
+        findViewById(R.id.buttonInput3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Turn the input on and off for each click
+                input.setInputState(InputType.INPUT3, true);
+                input.setInputState(InputType.INPUT3, false);
+            }
         });
-        findViewById(R.id.buttonInput4).setOnClickListener(view -> {
-            input.setInputState(InputType.INPUT4, true);
-            input.setInputState(InputType.INPUT4, false);
+        findViewById(R.id.buttonInput4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                input.setInputState(InputType.INPUT4, true);
+                input.setInputState(InputType.INPUT4, false);
+            }
         });
     }
 
@@ -182,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(List<DictionaryEntry> dictionaryEntries) {
-                for(InMemoryDictionary dict : dictionaries){
+                for (InMemoryDictionary dict : dictionaries) {
                     dict.setDictionary(dictionaryEntries);
                 }
             }
@@ -196,4 +212,5 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, output, Toast.LENGTH_SHORT).show();
         }
     }
+
 }

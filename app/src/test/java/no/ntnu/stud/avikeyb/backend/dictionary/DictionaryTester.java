@@ -38,9 +38,9 @@ public abstract class DictionaryTester {
 
     @Test
     public void testEmptyDictionary() throws Exception {
-        Dictionary dictionary = createDictionary(Collections.emptyList());
+        Dictionary dictionary = createDictionary(Collections.<DictionaryEntry>emptyList());
         List<String> res = dictionary.getSuggestionsStartingWith("test");
-        assertThat(res, is(Collections.emptyList()));
+        assertThat(res, is(Collections.<String>emptyList()));
     }
 
 
@@ -48,7 +48,7 @@ public abstract class DictionaryTester {
     public void testSingleElementNoMatch() throws Exception {
         Dictionary dictionary = createDictionary(Arrays.asList(de("test", 0)));
         List<String> res = dictionary.getSuggestionsStartingWith("hello");
-        assertThat(res, is(Collections.emptyList()));
+        assertThat(res, is(Collections.<String>emptyList()));
     }
 
     /**
@@ -58,7 +58,7 @@ public abstract class DictionaryTester {
     public void testSingleElementNoMatchTooLong() throws Exception {
         Dictionary dictionary = createDictionary(Arrays.asList(de("test", 0)));
         List<String> res = dictionary.getSuggestionsStartingWith("testing");
-        assertThat(res, is(Collections.emptyList()));
+        assertThat(res, is(Collections.<String>emptyList()));
     }
 
     @Test
@@ -73,7 +73,7 @@ public abstract class DictionaryTester {
         Dictionary dictionary = createDictionary(Arrays.asList(de("test", 0)));
         // perfect match
         List<String> res = dictionary.getSuggestionsStartingWith("test");
-        assertThat(res, is(Collections.emptyList()));
+        assertThat(res, is(Collections.<String>emptyList()));
     }
 
     @Test
@@ -87,12 +87,12 @@ public abstract class DictionaryTester {
 
 
         res = defaultDictionary.getSuggestionsStartingWith("testing6");
-        assertThat(res, is(Collections.emptyList()));
+        assertThat(res, is(Collections.<String>emptyList()));
 
 
         // Don't include perfect match
         res = defaultDictionary.getSuggestionsStartingWith("test2");
-        assertThat(res, is(Collections.emptyList()));
+        assertThat(res, is(Collections.<String>emptyList()));
 
         res = defaultDictionary.getSuggestionsStartingWith("hel");
         assertThat(res, is(Arrays.asList("hello1", "hello2", "hello3")));

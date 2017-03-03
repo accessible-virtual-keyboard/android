@@ -157,7 +157,7 @@ public class BinarySearchTreeDefinition {
      * @return a tree node
      */
     private static Node d(List<Symbol> symbols, List<String> suggestions, Node left, Node right) {
-        List<Object> items = new ArrayList<>(symbols);
+        List<Object> items = new ArrayList<Object>(symbols);
         items.addAll(suggestions);
         return new Node(items, left, right);
     }
@@ -172,7 +172,7 @@ public class BinarySearchTreeDefinition {
      * @return a tree node
      */
     private static Node n(List<Symbol> symbols, Node left, Node right) {
-        return new Node(new ArrayList<>(symbols), left, right);
+        return new Node(new ArrayList<Object>(symbols), left, right);
     }
 
     /**
@@ -183,9 +183,9 @@ public class BinarySearchTreeDefinition {
      * @return a node containing the left and right leaf nodes
      */
     private static Node l(Symbol left, Symbol right) {
-        return new Node(Arrays.asList(left, right),
-                new Node(Collections.singletonList(left), empty, empty),
-                new Node(Collections.singletonList(right), empty, empty));
+        return new Node(Arrays.<Object>asList(left, right),
+                new Node(Collections.<Object>singletonList(left), empty, empty),
+                new Node(Collections.<Object>singletonList(right), empty, empty));
     }
 
     /**
@@ -204,7 +204,7 @@ public class BinarySearchTreeDefinition {
         if (suggestions.isEmpty()) {
             return empty;
         } else if (suggestions.size() == 1) {
-            return new Node(Collections.singletonList(suggestions.get(0)), empty, empty);
+            return new Node(Collections.<Object>singletonList(suggestions.get(0)), empty, empty);
         } else {
             int mid = suggestions.size() / 2;
             return new SuggestionsNode(suggestions,
@@ -330,7 +330,7 @@ public class BinarySearchTreeDefinition {
     public static class SuggestionsNode extends Node {
 
         public SuggestionsNode(List<String> suggestions, Node left, Node right) {
-            super(new ArrayList<>(suggestions), left, right);
+            super(new ArrayList<Object>(suggestions), left, right);
         }
     }
 }

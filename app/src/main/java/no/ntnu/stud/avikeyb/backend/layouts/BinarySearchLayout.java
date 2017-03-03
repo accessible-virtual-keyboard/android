@@ -183,13 +183,16 @@ public class BinarySearchLayout extends StepLayout {
     // Listen for suggestions and add new suggestions to the layout
     private void listenForSuggestions() {
 
-        suggestionsEngine.addListener(suggestions1 -> {
-            // Take only the 7 first suggestions. A new list is needed to copy the items because
-            // the sub list will keep a reference to the underlying list an keep it from
-            // getting garbage collected.
-            suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(7, suggestions1.size())));
-            reset();
-            notifyLayoutListeners();
+        suggestionsEngine.addListener(new Suggestions.Listener() {
+            @Override
+            public void onSuggestions(List<String> suggestions1) {
+                // Take only the 7 first suggestions. A new list is needed to copy the items because
+                // the sub list will keep a reference to the underlying list an keep it from
+                // getting garbage collected.
+                suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(7, suggestions1.size())));
+                BinarySearchLayout.this.reset();
+                BinarySearchLayout.this.notifyLayoutListeners();
+            }
         });
 
     }
