@@ -30,13 +30,11 @@ import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
-import no.ntnu.stud.avikeyb.backend.layouts.SimpleExampleLayout;
 import no.ntnu.stud.avikeyb.gui.AdaptiveLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
-import no.ntnu.stud.avikeyb.gui.SimpleExampleLayoutGUI;
 import no.ntnu.stud.avikeyb.backend.dictionary.AndroidResourceLoader;
 import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 
@@ -86,7 +84,9 @@ public class MainActivity extends AppCompatActivity{
                     }
                     case 2: {
                         MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary);
-                        switchLayout(l, new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary, R.layout.layout_mobile));
+                        MobileLayoutGUI mobileGUI = new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary, R.layout.layout_mobile);
+                        switchLayout(l, mobileGUI);
+                        mobileGUI.firstUpdate(); // We need to update gui right after it has been set to mark first mobile layout row.
                         break;
                     }
                     case 3: {
