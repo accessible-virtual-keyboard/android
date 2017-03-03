@@ -52,7 +52,7 @@ public class AdaptiveLayout extends StepLayout {
         suggestions.addListener(new Suggestions.Listener() {
             @Override
             public void onSuggestions(List<String> suggestions1) {
-                AdaptiveLayout.this.suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(7, suggestions1.size())));
+                AdaptiveLayout.this.suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(6, suggestions1.size())));
                 AdaptiveLayout.this.currentSuggestion = 0;
                 AdaptiveLayout.this.notifyLayoutListeners();
             }
