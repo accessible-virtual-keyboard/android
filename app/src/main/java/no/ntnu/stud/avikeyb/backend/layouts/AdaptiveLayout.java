@@ -54,6 +54,9 @@ public class AdaptiveLayout extends StepLayout {
             public void onSuggestions(List<String> suggestions1) {
                 AdaptiveLayout.this.suggestions = new ArrayList<>(suggestions1.subList(0, Math.min(6, suggestions1.size())));
                 AdaptiveLayout.this.currentSuggestion = 0;
+                if(currentState == State.SUGGESTION_SELECTION){
+                    reset(); // If the suggestions change while we are in suggestions mode we have to reset to prevent crashes.
+                }
                 AdaptiveLayout.this.notifyLayoutListeners();
             }
         });
