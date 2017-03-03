@@ -81,8 +81,7 @@ public class MainActivity extends AppCompatActivity{
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 1: {
-                        AdaptiveLayout l = new AdaptiveLayout(keyboard);
-                        switchLayout(l, new AdaptiveLayoutGUI(MainActivity.this, keyboard, l));
+                        switchLayout(adaptiveLayout, new AdaptiveLayoutGUI(MainActivity.this, keyboard, adaptiveLayout));
                         break;
                     }
                     case 2: {
