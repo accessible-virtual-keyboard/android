@@ -11,7 +11,6 @@ import java.util.Map;
 
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.dictionary.Dictionary;
-import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,7 +28,7 @@ public class WordUpdaterTest {
         dictionary = new LoggingDictionary();
         keyboard = new CoreKeyboard();
         WordUpdater wordUpdater = new WordUpdater(dictionary);
-        keyboard.addStateListener(wordUpdater);
+        keyboard.addOutputDevice(wordUpdater);
     }
 
     @Test
