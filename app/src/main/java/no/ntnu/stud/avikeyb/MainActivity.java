@@ -1,11 +1,15 @@
 package no.ntnu.stud.avikeyb;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,7 +42,7 @@ import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.backend.dictionary.AndroidResourceLoader;
 import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
     private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
@@ -109,12 +113,22 @@ public class MainActivity extends AppCompatActivity{
             }
         };
 
+        final EditText bufferText = ((EditText) MainActivity.this.findViewById(R.id.currentBuffer));
+        bufferText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Prevent soft keyboard from appearing
+                InputMethodManager methodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                methodManager.hideSoftInputFromWindow(bufferText.getWindowToken(), 0);
+            }
+        });
 
         // Update the buffer view
         keyboard.addStateListener(new Keyboard.KeyboardListener() {
             @Override
             public void onOutputBufferChange(String oldBuffer, String newBuffer) {
-                ((TextView) MainActivity.this.findViewById(R.id.currentBuffer)).setText(newBuffer);
+                bufferText.setText(newBuffer);
+                bufferText.setSelection(bufferText.getText().length());
             }
         });
 

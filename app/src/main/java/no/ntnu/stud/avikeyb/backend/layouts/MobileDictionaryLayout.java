@@ -16,7 +16,7 @@ import static android.content.ContentValues.TAG;
 
 /**
  * Handles mobile layout logic.
- *
+ * <p>
  * Created by Tor-Martin Holen on 21-Feb-17.
  */
 
@@ -230,25 +230,29 @@ public class MobileDictionaryLayout extends StepLayout {
                             updateLayoutStructure();
                             changeStateRowSelection();
                             break;
-                        } else if (markedSymbols.contains(Symbol.DICTIONARY_ADD_WORD)){
+                        } else if (markedSymbols.contains(Symbol.DICTIONARY_ADD_WORD)) {
                             //TODO implement add word to dictionary functionality
                             changeStateRowSelection();
                             break;
-                        } else if(markedSymbols.contains(Symbol.SPACE)){
+
+                        } else if (markedSymbols.contains(Symbol.SPACE) || markedSymbols.contains(Symbol.PERIOD) || markedSymbols.contains(Symbol.COMMA) || markedSymbols.contains(Symbol.EXCLAMATION_MARK) || markedSymbols.contains(Symbol.QUESTION_MARK)) {
                             //TODO make space start new word history
-                        }
-                        else {
-                            if(dictionaryState == DictionaryState.DICTIONARY_OFF){
+                            dictionary.nextWord();
+                            setBaseSuggestions();
+                            writeSymbol();
+                            changeStateRowSelection();
+                            break;
+                        } else {
+                            if (dictionaryState == DictionaryState.DICTIONARY_OFF) {
                                 //TODO add possible suggestions to word history
                                 String marked = getMarkedSymbols().get(0).getContent();
                                 dictionary.findValidSuggestions(Collections.singletonList(marked));
                                 setCurrentSuggestions();
+                                selectCurrentSymbols();
+                            } else if (dictionaryState == DictionaryState.DICTIONARY_ON) {
+                                writeSymbol(); //Will never trigger
                             }
-                            else if(dictionaryState == DictionaryState.DICTIONARY_ON){
 
-                            }
-
-                            writeSymbol();
                             changeStateRowSelection();
                             break;
                         }
@@ -262,7 +266,13 @@ public class MobileDictionaryLayout extends StepLayout {
                         nextDictionaryRow();
                         break;
                     case INPUT2:
-                        addWord();
+                        //TODO check if dictionary state is on or off
+                        if (dictionaryState == DictionaryState.DICTIONARY_ON) {
+                            addWord();
+                        } else if (dictionaryState == DictionaryState.DICTIONARY_OFF) {
+                            addWordWithNoDictionary();
+                        }
+
                         setSuggestions(dictionary.getBaseSuggestion(nSuggestions));
                         state = State.SELECT_ROW;
                         reset();
@@ -290,7 +300,7 @@ public class MobileDictionaryLayout extends StepLayout {
         nextLetter();
     }
 
-    private void changeStateDictionarySelection(){
+    private void changeStateDictionarySelection() {
         state = State.SELECT_DICTIONARY;
         softReset();
         nextDictionaryRow();
@@ -394,6 +404,12 @@ public class MobileDictionaryLayout extends StepLayout {
 
     }
 
+    private void addWordWithNoDictionary() {
+        //TODO finish method
+        deleteLastWord();
+        addWord();
+    }
+
     private void setCurrentSuggestions() {
         setSuggestions(dictionary.getSuggestions(nSuggestions));
     }
@@ -402,8 +418,10 @@ public class MobileDictionaryLayout extends StepLayout {
         String keyboardInput = keyboard.getCurrentBuffer().trim();
         keyboard.clearCurrentBuffer();
         keyboard.addToCurrentBuffer(keyboardInput);
-        selectCurrentSymbols(keyboard);
-        keyboard.addToCurrentBuffer(" ");
+        selectCurrentSymbols();
+        if(!markedSymbols.get(0).getContent().equals(" ")){
+            keyboard.addToCurrentBuffer(" ");
+        }
     }
 
     private void setBaseSuggestions() {
@@ -500,13 +518,15 @@ public class MobileDictionaryLayout extends StepLayout {
     /**
      * Sends the current symbol, only usable in state SELECT_LETTER
      */
-    private void selectCurrentSymbols(Keyboard keyboard) {
+    private void selectCurrentSymbols() {
         Symbol symbol = markedSymbols.get(0); // will only contain one symbol in SELECT_LETTER state.
 
         if (symbol == Symbol.SEND) {
             keyboard.sendCurrentBuffer();
         } else {
-            keyboard.addToCurrentBuffer(symbol.getContent());
+            String text = symbol.getContent();
+            text = capitalizationCheck(keyboard.getCurrentBuffer(),text);
+            keyboard.addToCurrentBuffer(text);
         }
     }
 

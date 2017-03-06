@@ -10,25 +10,32 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:activity="no.ntnu.stud.avikeyb.MainActivity">
 
-    <TextView
-        android:id="@+id/currentBuffer"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_marginBottom="4dp"
-        android:textSize="18sp" />
-
     <android.support.design.widget.TabLayout
         android:id="@+id/layoutTabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/currentBuffer"
+        android:layout_alignParentTop="true"
         android:layout_marginBottom="2dp">
     </android.support.design.widget.TabLayout>
+
+    <EditText
+        android:inputType="none"
+        android:imeOptions="actionNone"
+        android:id="@+id/currentBuffer"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_marginBottom="2dp"
+        android:paddingLeft="2dp"
+        android:layout_below="@+id/layoutTabs"
+        android:textSize="18sp"
+        android:textCursorDrawable="@null"
+        android:background="@color/background"/>
+        <!-- TODO change BG color above? -->
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layoutTabs"
+        android:layout_below="@+id/currentBuffer"
         >
 
         <RelativeLayout
