@@ -21,7 +21,6 @@ import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
-import no.ntnu.stud.avikeyb.gui.utils.DictionaryAdapter;
 import no.ntnu.stud.avikeyb.gui.utils.MenuAdapter;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 import no.ntnu.stud.avikeyb.gui.utils.MobileDictionaryAdapter;
