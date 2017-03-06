@@ -87,7 +87,7 @@ public class ETOSLayout extends StepLayout {
 
         return symbols.length;
     }
-    
+
 
     /**
      * Returns the current active position in the layout
@@ -155,11 +155,8 @@ public class ETOSLayout extends StepLayout {
                         nextColumn();
                         break;
                     case INPUT2: // selects
-
                         if (getCurrentSymbol().equals(Symbol.DICTIONARY)) {
-                            System.out.println("I should not be here");
                             state = State.SELECT_DICTIONARY;
-                            System.out.println("The state is " + state);
                         } else if (getCurrentSymbol().equals(Symbol.MENU)) {
                             state = State.SELECT_MENU;
                         } else {
@@ -175,15 +172,12 @@ public class ETOSLayout extends StepLayout {
                 switch (input) {
                     case INPUT1: // moves
                         nextDictionaryEntry();
-                        System.out.println("Am I in select dictionary input 1?");
-                        System.out.println("Pos " + currentDictionaryPosition);
                         break;
                     case INPUT2: // selects
 
                         if (getCurrentSuggestion() != null) {
                             selectSuggestion(getCurrentSuggestion()); //todo
                         }
-                        System.out.println("Am I in select dictionary input 2?");
                         state = State.SELECT_ROW;
                         currentDictionaryPosition = -1;
                         currentPosition = 0;

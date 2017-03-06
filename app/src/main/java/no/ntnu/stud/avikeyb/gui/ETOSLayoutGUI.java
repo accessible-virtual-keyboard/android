@@ -48,7 +48,8 @@ public class ETOSLayoutGUI extends LayoutGUI {
             if (symbol != null && loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
                 view.setText(symbol.getContent());
-                view.setTextColor(Color.BLACK);
+              // view.setTextColor(getResources().getColor(R.color.whiteish));
+               // view.setTextColor(Color.BLACK); // change this!!
                 symbolViewMap.put(symbol, view);
             }
         }
