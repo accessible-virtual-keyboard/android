@@ -208,7 +208,13 @@ public class MobileDictionaryLayout extends StepLayout {
                                 }
                             } else if (!(dictionary.hasWordHistory() && keyboard.getCurrentBuffer().isEmpty())) {
                                 Log.d(TAG, "onStep: has no history");
-                                deleteLastWord();
+                                if (dictionaryState == DictionaryState.DICTIONARY_ON) {
+                                    deleteLastWord();
+                                } else if (dictionaryState == DictionaryState.DICTIONARY_OFF) {
+                                    removeLastLetter();
+                                }
+
+
                                 dictionary.previousWord();
                                 if (!dictionary.hasWordHistory() && keyboard.getCurrentBuffer().isEmpty()) {
                                     setBaseSuggestions();
@@ -227,6 +233,8 @@ public class MobileDictionaryLayout extends StepLayout {
                             } else if (dictionaryState == DictionaryState.DICTIONARY_OFF) {
                                 dictionaryState = DictionaryState.DICTIONARY_ON;
                             }
+                            dictionary.clearWordHistory();
+                            setBaseSuggestions();
                             updateLayoutStructure();
                             changeStateRowSelection();
                             break;
@@ -310,14 +318,6 @@ public class MobileDictionaryLayout extends StepLayout {
         return dictionaryState;
     }
 
-    private void updateLayoutSymbols(DictionaryState state) {
-        if (state == DictionaryState.DICTIONARY_ON) {
-            //TODO update symbols and step indices accordingly
-        } else if (state == DictionaryState.DICTIONARY_OFF) {
-            //TODO update symbols and step indices accordingly
-        }
-    }
-
     /**
      * @return list of strings
      */
@@ -379,6 +379,16 @@ public class MobileDictionaryLayout extends StepLayout {
     }
 
 
+    private void removeLastLetter() {
+        String currentBuffer = keyboard.getCurrentBuffer();
+        int endIndex = currentBuffer.length() - 1;
+        if (endIndex >= 0) {
+            currentBuffer = currentBuffer.substring(0, endIndex);
+            keyboard.clearCurrentBuffer();
+            keyboard.addToCurrentBuffer(currentBuffer);
+        }
+    }
+
     private void deleteLastWord() {
         String currentBuffer = keyboard.getCurrentBuffer();
         int secondLastSpace = currentBuffer.trim().lastIndexOf(" ");
@@ -405,7 +415,6 @@ public class MobileDictionaryLayout extends StepLayout {
     }
 
     private void addWordWithNoDictionary() {
-        //TODO finish method
         deleteLastWord();
         addWord();
     }
@@ -419,7 +428,7 @@ public class MobileDictionaryLayout extends StepLayout {
         keyboard.clearCurrentBuffer();
         keyboard.addToCurrentBuffer(keyboardInput);
         selectCurrentSymbols();
-        if(!markedSymbols.get(0).getContent().equals(" ")){
+        if (!markedSymbols.get(0).getContent().equals(" ")) {
             keyboard.addToCurrentBuffer(" ");
         }
     }
@@ -525,7 +534,7 @@ public class MobileDictionaryLayout extends StepLayout {
             keyboard.sendCurrentBuffer();
         } else {
             String text = symbol.getContent();
-            text = capitalizationCheck(keyboard.getCurrentBuffer(),text);
+            text = capitalizationCheck(keyboard.getCurrentBuffer(), text);
             keyboard.addToCurrentBuffer(text);
         }
     }

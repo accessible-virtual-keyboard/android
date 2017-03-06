@@ -51,6 +51,11 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
         }
     }
 
+    public void clearWordHistory(){
+        wordHistory = new ArrayList<>();
+        wordHistory.add(fullDictionary);
+    }
+
     private List<DictionaryEntry> reduceValidSuggestions(List<String> lettersToFindAtIndex, List<DictionaryEntry> searchList){
         List<DictionaryEntry> reducedSuggestionList = new ArrayList<>();
         int searchIndex = findSearchIndex();
