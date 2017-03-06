@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="black">#040505</color>
-    <color name="lightgrey">#B2B5BA</color>
-    <color name="purpleparty">#B076E2</color>
+    <color name="background_button">#B2B5BA</color>
+    <color name="marked_button">#B076E2</color>
 
     <color name="mobileLayoutButtonSelectedBackground">#DDDDC0</color>
     <color name="mobileLayoutButtonBackground">#B3ACB6</color>
@@ -23,4 +23,13 @@
     <color name="generic_active_bg">#F5B821</color>
     <color name="generic_inactive_bg">#eeeeee</color>
     <color name="generic_inactive_fg">#cccccc</color>
+
+
+    <!-- Test colors -->
+    <color name="whiteish">#FFFEFE</color>
+    <color name="light_brown">#C4B4AB</color>
+    <color name="litle_darker_brown">#826E62</color>
+    <color name="chocolate_brown">#593A28</color>
+    <color name="dark_choloate_brown">#491B00</color>
+
 </resources>

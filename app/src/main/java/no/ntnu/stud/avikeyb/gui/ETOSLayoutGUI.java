@@ -111,9 +111,9 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
             if (symbol != null && symbolViewMap.containsKey(symbol)) {
                 if (current == index) {
-                    symbolViewMap.get(symbol).setBackgroundResource(R.color.purpleparty);
+                    symbolViewMap.get(symbol).setBackgroundResource(R.color.marked_button);
                 } else {
-                    symbolViewMap.get(symbol).setBackgroundResource(R.color.lightgrey);
+                    symbolViewMap.get(symbol).setBackgroundResource(R.color.background_button);
                 }
             }
             index++;

@@ -49,9 +49,9 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
         listviewText.setPadding(2, 20, 2, 20);
 
         if (symbol == layout.getCurrentSymbol()) {
-            listviewText.setBackgroundResource(R.color.purpleparty);
+            listviewText.setBackgroundResource(R.color.marked_button);
         } else {
-            listviewText.setBackgroundResource(R.color.lightgrey);
+            listviewText.setBackgroundResource(R.color.background_button);
         }
         return convertView;
     }
