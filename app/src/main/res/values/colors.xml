@@ -25,7 +25,7 @@
     <color name="generic_inactive_fg">#cccccc</color>
 
 
-    <!-- Test colors -->
+    <!-- Test colors --> <!--http://paletton.com/#uid=10m0u0k80gk0cN944oyhKb8Mu9d -->
     <color name="whiteish">#FFFEFE</color>
     <color name="light_brown">#C4B4AB</color>
     <color name="litle_darker_brown">#826E62</color>
