@@ -1,21 +1,15 @@
 package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
@@ -80,7 +74,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
             }
         });
-        //dictionaryList.setEnabled(false);
+        dictionaryList.setEnabled(false);
 
 
         return (ViewGroup) loader.getLayout();
@@ -97,9 +91,9 @@ public class ETOSLayoutGUI extends LayoutGUI {
             }
             menuAdapter.notifyDataSetChanged();
         }*/  //else {
-        if(layout.getCurrentDictionaryPosition() == -1 && layout.getSuggestions() != null){
+        if (layout.getCurrentDictionaryPosition() == -1 && layout.getSuggestions() != null) {
             dictionaryAdapter.update(layout.getSuggestions());
-        }else{
+        } else {
             int position = layout.getCurrentDictionaryPosition();
             dictionaryList.performItemClick(dictionaryList.getChildAt(position),
                     position,
