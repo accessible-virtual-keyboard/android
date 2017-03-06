@@ -37,6 +37,7 @@ public class TextAdapter extends ArrayAdapter<String> {
         // Lookup view for data population.
         TextView description = (TextView) convertView.findViewById(R.id.text_item);
         description.setBackgroundResource(R.drawable.text_selection_colors);
+        description.setTextColor(getContext().getResources().getColor(R.color.whiteish));
         description.setText(suggestionText);
 
         return super.getView(position, convertView, parent);

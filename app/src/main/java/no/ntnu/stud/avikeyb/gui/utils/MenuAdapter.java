@@ -47,11 +47,14 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
         TextView listviewText = (TextView) convertView.findViewById(R.id.listviewtext);
         listviewText.setText(symbol.getContent());
         listviewText.setPadding(2, 20, 2, 20);
+        //listviewText.setTextColor(R.color.chocolate_brown);
+        listviewText.setTextColor(
+                getContext().getResources().getColor(R.color.litle_darker_brown));
 
         if (symbol == layout.getCurrentSymbol()) {
-            listviewText.setBackgroundResource(R.color.marked_button);
+            listviewText.setBackgroundResource(R.color.chocolate_brown);
         } else {
-            listviewText.setBackgroundResource(R.color.background_button);
+            listviewText.setBackgroundResource(R.color.light_brown);
         }
         return convertView;
     }
