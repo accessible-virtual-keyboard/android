@@ -79,7 +79,8 @@ public class MobileLayoutGUI extends LayoutGUI {
                 TextView guiTextTile = (TextView) loader.getViewForSymbol(symbol);
 
                 guiTextTile.setText(symbol.getContent());
-                guiTextTile.setTextColor(Color.parseColor("#FFFEFE")); // Color.BLACK
+               // guiTextTile.setTextColor(Color.parseColor("#FFFEFE")); // Color.BLACK
+                guiTextTile.setTextColor(Color.BLACK);
                 guiTextTile.setBackgroundResource(R.drawable.text_selection_colors);
 
                 if(symbol.equals(Symbol.DICTIONARY)){

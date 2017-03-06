@@ -38,7 +38,7 @@ public class GenericSuggestions {
          * Returns the background resource to use for the suggestions view items
          */
         public int backgroundResource() {
-            return R.drawable.generic_selection_colors;
+            return R.drawable.text_selection_colors;
         }
 
         /**

@@ -1,6 +1,7 @@
 package no.ntnu.stud.avikeyb.gui.utils;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +45,13 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
         TextView listviewText = (TextView) convertView.findViewById(R.id.listviewtext);
         listviewText.setText(symbol.getContent());
         listviewText.setPadding(2, 20, 2, 20);
-        listviewText.setTextColor(
-                getContext().getResources().getColor(R.color.litle_darker_brown));
+        listviewText.setTextColor(Color.BLACK);
 
+        // todo fix with text_selection_colors
         if (symbol == layout.getCurrentSymbol()) {
-            listviewText.setBackgroundResource(R.color.chocolate_brown);
+            listviewText.setBackgroundResource(R.color.selected);
         } else {
-            listviewText.setBackgroundResource(R.color.light_brown);
+            listviewText.setBackgroundResource(R.color.background);
         }
         return convertView;
     }

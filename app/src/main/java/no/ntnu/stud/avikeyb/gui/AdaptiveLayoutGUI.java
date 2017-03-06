@@ -64,15 +64,17 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
         suggestionsList = (GenericSuggestions.View) loader.getViewById(R.id.suggestionsList);
 
-        suggestionsAdapter = new GenericSuggestions.Adapter(new GenericSuggestions.SuggestionsState(){
+        suggestionsAdapter = new GenericSuggestions.Adapter(new GenericSuggestions.SuggestionsState() {
             @Override
             public boolean isActive(String suggestion) {
                 return checkIfSuggestionIsActive(suggestion);
             }
+
             @Override
             public String getSuggestion(int position) {
                 return layout.getSuggestions().get(position);
             }
+
             @Override
             public int suggestionCount() {
                 return layout.getSuggestions().size();
@@ -86,17 +88,16 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
     public void updateGUI() {
 
-        if(layout.getCurrentState() == AdaptiveLayout.State.SUGGESTION_SELECTION){
+        if (layout.getCurrentState() == AdaptiveLayout.State.SUGGESTION_SELECTION) {
             updateSuggestions();
-        }
-        else{
+        } else {
             updateLayout();
         }
 
         suggestionsAdapter.notifyDataSetChanged();
     }
 
-    private void updateLayout(){
+    private void updateLayout() {
         Symbol[] currentLayout = layout.getSymbols();
 
         for (int i = 0; i < symbolViews.size(); i++) {
@@ -110,18 +111,21 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
             int row = i / layout.getRowSize();
 
             if (layout.getCurrentRow() == row) {
-                view.setBackgroundColor(Color.parseColor("#F5B821")); // Current row background color
-
+                //  view.setBackgroundColor(Color.parseColor("#F5B821")); // Current row background color
+                view.setBackgroundResource(R.color.selected);
                 if (layout.getCurrentState() == AdaptiveLayout.State.COLUMN_SELECTION && layout.getCurrentColumn() == column) {
-                    view.setBackgroundColor(Color.parseColor("#46A8CD")); // Current column background color
+                    // view.setBackgroundColor(Color.parseColor("#46A8CD")); // Current column background color
+                    view.setBackgroundResource(R.color.rowselected);
                 }
 
             } else {
-                view.setBackgroundColor(Color.parseColor("#eeeeee")); // Default non active background color
+                //  view.setBackgroundColor(Color.parseColor("#eeeeee")); // Default non active background color
+                view.setBackgroundResource(R.color.background);
             }
         }
     }
-    private void updateSuggestions(){
+
+    private void updateSuggestions() {
 
         Symbol[] currentLayout = layout.getSymbols();
         for (int i = 0; i < symbolViews.size(); i++) {
@@ -129,12 +133,13 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
             // Because the layout of the symbols changes all the time we have to set the view
             // content each time we update.
             view.setText(currentLayout[i].getContent());
-            view.setBackgroundColor(Color.parseColor("#eeeeee")); // Default non active background color
+            //view.setBackgroundColor(Color.parseColor("#eeeeee")); // Default non active background color
+            view.setBackgroundResource(R.color.background);
         }
     }
 
 
-    private boolean checkIfSuggestionIsActive(String suggestion){
+    private boolean checkIfSuggestionIsActive(String suggestion) {
         return layout.getCurrentState() == AdaptiveLayout.State.SUGGESTION_SELECTION
                 && layout.getSuggestions().get(layout.getCurrentSuggestion()).equals(suggestion);
     }
