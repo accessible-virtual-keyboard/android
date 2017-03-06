@@ -1,15 +1,12 @@
 package no.ntnu.stud.avikeyb.gui.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
@@ -47,7 +44,6 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
         TextView listviewText = (TextView) convertView.findViewById(R.id.listviewtext);
         listviewText.setText(symbol.getContent());
         listviewText.setPadding(2, 20, 2, 20);
-        //listviewText.setTextColor(R.color.chocolate_brown);
         listviewText.setTextColor(
                 getContext().getResources().getColor(R.color.litle_darker_brown));
 

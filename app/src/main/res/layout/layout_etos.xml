@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:stretchColumns="*">
-            <!--  android:layout_weight="1" -->
 
     <TableRow >
         <TextView android:layout_weight="1" android:id="@+id/sym_send" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
@@ -80,7 +79,7 @@
         <TextView android:layout_weight="1" android:id="@+id/sym_space" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
     </TableRow>
 
-    <TableRow > <!--Will may be used. -->
+    <TableRow >
         <TextView android:layout_weight="1" android:id="@+id/sym_dictionary" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
         <TextView android:layout_weight="1" android:id="@+id/sym_menu" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>
         <TextView android:layout_weight="1" android:id="@+id/t3" android:layout_margin="@dimen/etos_cell_margin" android:gravity="center" android:padding="@dimen/etos_cell_padding" android:minWidth="@dimen/etos_min_width"/>

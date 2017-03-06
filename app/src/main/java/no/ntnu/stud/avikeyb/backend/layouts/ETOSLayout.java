@@ -1,10 +1,7 @@
 package no.ntnu.stud.avikeyb.backend.layouts;
 
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
@@ -12,8 +9,6 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -26,7 +21,6 @@ public class ETOSLayout extends StepLayout {
             Symbols.etos(),
             Symbols.numbers(),
             Symbols.commonPunctuations()
-            //Symbols.menuOptions()// test
     );
 
     private static Symbol[] menu = Symbols.menuOptions();
@@ -35,7 +29,7 @@ public class ETOSLayout extends StepLayout {
         SELECT_ROW,
         SELECT_COLUMN,
         SELECT_MENU,
-        SELECT_DICTIONARY, // test
+        SELECT_DICTIONARY,
     }
 
     // The current position of the cursor in the layout
@@ -48,6 +42,7 @@ public class ETOSLayout extends StepLayout {
     private Keyboard keyboard;
 
     private List<String> dictionsuggestions = new ArrayList<>();
+
     private Suggestions suggestionEngine;
 
 
@@ -83,10 +78,6 @@ public class ETOSLayout extends StepLayout {
     }
 
 
-    public boolean suggestionIsAcvtive(String suggestion) {
-        return dictionsuggestions.contains(suggestion);
-    }
-
     /**
      * Returns the current active position in the layout
      *
@@ -96,10 +87,7 @@ public class ETOSLayout extends StepLayout {
 
         return symbols.length;
     }
-
-    public int getDictionaryLength() {
-        return dictionsuggestions.size();
-    }
+    
 
     /**
      * Returns the current active position in the layout
@@ -179,8 +167,6 @@ public class ETOSLayout extends StepLayout {
                             state = State.SELECT_ROW;
                             currentPosition = 0;
                         }
-
-                        //currentPosition = 0;
                         break;
                 }
                 break;
@@ -217,7 +203,6 @@ public class ETOSLayout extends StepLayout {
                 }
                 break;
         }
-        Log.d(TAG, "onStep: currentPosition: " + currentPosition);
         notifyLayoutListeners();
     }
 
