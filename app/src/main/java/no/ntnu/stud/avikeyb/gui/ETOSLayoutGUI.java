@@ -17,7 +17,7 @@ import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 import no.ntnu.stud.avikeyb.gui.utils.MenuAdapter;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
-import no.ntnu.stud.avikeyb.gui.utils.MobileDictionaryAdapter;
+import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -33,7 +33,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private ListView dictionaryList;
 
     private MenuAdapter menuAdapter;
-    private MobileDictionaryAdapter dictionaryAdapter;
+    private TextAdapter dictionaryAdapter;
     private View previousViewSelected;
     private LayoutLoader loader;
 
@@ -58,7 +58,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
         dictionaryList = (ListView) loader.getViewById(R.id.listview);
 
         menuAdapter = new MenuAdapter(activity, listItems, layout);
-        dictionaryAdapter = new MobileDictionaryAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
+        dictionaryAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
 
         dictionaryList.setAdapter(dictionaryAdapter);
         dictionaryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

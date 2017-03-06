@@ -3,6 +3,8 @@ package no.ntnu.stud.avikeyb.backend.layouts;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import no.ntnu.stud.avikeyb.backend.InputType;
@@ -238,12 +240,16 @@ public class MobileDictionaryLayout extends StepLayout {
                         else {
                             if(dictionaryState == DictionaryState.DICTIONARY_OFF){
                                 //TODO add possible suggestions to word history
+                                String marked = getMarkedSymbols().get(0).getContent();
+                                dictionary.findValidSuggestions(Collections.singletonList(marked));
+                                setCurrentSuggestions();
                             }
                             else if(dictionaryState == DictionaryState.DICTIONARY_ON){
-                                addPunctuationSymbol();
-                                changeStateRowSelection();
+
                             }
 
+                            writeSymbol();
+                            changeStateRowSelection();
                             break;
                         }
 
@@ -392,7 +398,7 @@ public class MobileDictionaryLayout extends StepLayout {
         setSuggestions(dictionary.getSuggestions(nSuggestions));
     }
 
-    private void addPunctuationSymbol() {
+    private void writeSymbol() {
         String keyboardInput = keyboard.getCurrentBuffer().trim();
         keyboard.clearCurrentBuffer();
         keyboard.addToCurrentBuffer(keyboardInput);

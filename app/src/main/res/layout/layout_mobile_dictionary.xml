@@ -103,7 +103,7 @@
                     android:layout_width="@dimen/mobileLayoutButtonWidth"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="@dimen/_8sdp"
+                    android:textSize="@dimen/_6sdp"
                     android:background="@color/mobileLayoutButtonBackground" />
 
                 <TextView
@@ -112,7 +112,7 @@
                     android:layout_width="@dimen/mobileLayoutButtonWidth"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:textSize="@dimen/_8sdp"
+                    android:textSize="@dimen/_6sdp"
                     android:background="@color/mobileLayoutButtonBackground" />
 
                 <TextView
@@ -354,7 +354,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@color/mobileLayoutButtonBackground"
-                    android:textSize="@dimen/_8sdp" />
+                    android:textSize="@dimen/_6sdp" />
 
                 <TextView
                     android:id="@+id/sym_dictionary_toggle"
@@ -363,7 +363,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@color/mobileLayoutButtonBackground"
-                    android:textSize="@dimen/_8sdp" />
+                    android:textSize="@dimen/_6sdp" />
             </LinearLayout>
         </TableRow>
 

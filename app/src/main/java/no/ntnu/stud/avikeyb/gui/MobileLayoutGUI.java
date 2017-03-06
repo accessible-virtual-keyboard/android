@@ -2,7 +2,6 @@ package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -15,11 +14,8 @@ import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
-import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
-import no.ntnu.stud.avikeyb.gui.utils.MobileDictionaryAdapter;
-
-import static android.content.ContentValues.TAG;
+import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
 /**
  * Created by Tor-Martin Holen on 15-Feb-17.
@@ -34,7 +30,7 @@ public class MobileLayoutGUI extends LayoutGUI {
     private int layoutResource1;
     private int layoutResource2;
     private ListView dictionaryList;
-    private MobileDictionaryAdapter dictionaryListAdapter;
+    private TextAdapter dictionaryListAdapter;
     private View previousViewSelected;
     private MobileDictionaryLayout.State lastState;
     private LayoutLoader loader;
@@ -61,7 +57,7 @@ public class MobileLayoutGUI extends LayoutGUI {
 
 
         dictionaryList = (ListView) loader.getViewById(R.id.listview);
-        dictionaryListAdapter = new MobileDictionaryAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
+        dictionaryListAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
         dictionaryList.setAdapter(dictionaryListAdapter);
         dictionaryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -84,7 +80,7 @@ public class MobileLayoutGUI extends LayoutGUI {
 
                 guiTextTile.setText(symbol.getContent());
                 guiTextTile.setTextColor(Color.BLACK);
-                guiTextTile.setBackgroundResource(R.drawable.mobile_selection_colors);
+                guiTextTile.setBackgroundResource(R.drawable.text_selection_colors);
 
                 if(symbol.equals(Symbol.DICTIONARY)){
                     guiTextTile.setText(Symbol.DICTIONARY_UNICODE_SYMBOL.getContent());

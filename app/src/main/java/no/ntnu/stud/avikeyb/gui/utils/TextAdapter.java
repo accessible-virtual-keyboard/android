@@ -16,10 +16,10 @@ import no.ntnu.stud.avikeyb.R;
  * Created by Tor-Martin Holen on 27-Feb-17.
  */
 
-public class MobileDictionaryAdapter extends ArrayAdapter<String> {
+public class TextAdapter extends ArrayAdapter<String> {
     private int previous;
 
-    public MobileDictionaryAdapter(Context context, int resource, List<String> objects) {
+    public TextAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
     }
 
@@ -31,12 +31,12 @@ public class MobileDictionaryAdapter extends ArrayAdapter<String> {
 
         // Check if an existing view is being reused, otherwise inflate the view.
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.mobile_list_item, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.text_list_item, parent, false);
         }
 
         // Lookup view for data population.
-        TextView description = (TextView) convertView.findViewById(R.id.mobile_list_item);
-        description.setBackgroundResource(R.drawable.mobile_selection_colors);
+        TextView description = (TextView) convertView.findViewById(R.id.text_item);
+        description.setBackgroundResource(R.drawable.text_selection_colors);
         description.setText(suggestionText);
 
         return super.getView(position, convertView, parent);
