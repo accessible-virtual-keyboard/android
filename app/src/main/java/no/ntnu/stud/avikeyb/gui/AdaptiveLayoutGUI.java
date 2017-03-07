@@ -57,7 +57,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
             if (loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
                 view.setText(symbol.getContent());
-                view.setTextColor(Color.parseColor("#484848")); // Default text color
+                view.setTextColor(Color.BLACK);//parseColor("#484848")); // Default text color
                 symbolViews.add(view);
             }
         }
