@@ -78,9 +78,10 @@ public class Symbols {
     /**
      * Testing
      * Returns the symbols represention menu options
+     *
      * @return a list of the options
      */
-    public static Symbol[] menuOptions(){
+    public static Symbol[] menuOptions() {
 
         return _menuOptions;
     }
@@ -176,12 +177,11 @@ public class Symbols {
             Symbol.QUESTION_MARK,
             Symbol.EXCLAMATION_MARK,
             Symbol.SPACE,
-           // Symbol.SWITCH, // todo put this back in and make the menu work again. inga
             Symbol.DICTIONARY,
             Symbol.MENU,
     };
 
-    private static Symbol[] _menuOptions ={
+    private static Symbol[] _menuOptions = {
             Symbol.SETTING,
             Symbol.PROFILE,
             Symbol.DICTIONARY,

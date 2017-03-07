@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
@@ -48,9 +50,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
             if (symbol != null && loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
                 view.setText(symbol.getContent());
-              // view.setTextColor(getResources().getColor(R.color.whiteish));
-              // view.setTextColor(Color.parseColor("#FFFEFE")); // change this!!
-               view.setTextColor(Color.BLACK);
+                view.setTextColor(Color.BLACK);
                 symbolViewMap.put(symbol, view);
             }
         }
