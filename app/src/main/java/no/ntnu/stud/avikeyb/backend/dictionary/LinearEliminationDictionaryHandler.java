@@ -1,5 +1,6 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
+import android.support.test.espresso.core.deps.guava.base.Joiner;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -16,8 +17,9 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
     private List<DictionaryEntry> fullDictionary;
     private List<DictionaryEntry> fullDictionaryFrequencySorted;
 
-    private List<List<List<DictionaryEntry>>> sentenceHistory; //Stores all the word histories until the sentence is sent.
-    private List<List<DictionaryEntry>> wordHistory; //List of suggestions given at different word lengths.
+    private List<List<SearchEntry>> sentenceHistory; //Stores all the word histories until the sentence is sent.
+    private List<SearchEntry> wordHistory; //List of suggestions given at different word lengths.
+
     /**
      * Constructs a dictionary
      */
@@ -39,7 +41,8 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
         if(reducedSuggestionList.isEmpty()){
             nextWord();
         }else{
-            wordHistory.add(reducedSuggestionList);
+            SearchEntry entry = new SearchEntry(reducedSuggestionList, lettersToFindAtIndex);
+            wordHistory.add(entry);
         }
 
     }
@@ -47,13 +50,15 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
     private void isWordHistoryInitialized(){
         if(wordHistory == null){
             wordHistory = new ArrayList<>();
-            wordHistory.add(fullDictionary);
+            SearchEntry entry = new SearchEntry(fullDictionary, new ArrayList<String>(0));
+            wordHistory.add(entry);
         }
     }
 
     public void clearWordHistory(){
         wordHistory = new ArrayList<>();
-        wordHistory.add(fullDictionary);
+        SearchEntry entry = new SearchEntry(fullDictionary, new ArrayList<String>(0));
+        wordHistory.add(entry);
     }
 
     private List<DictionaryEntry> reduceValidSuggestions(List<String> lettersToFindAtIndex, List<DictionaryEntry> searchList){
@@ -83,7 +88,7 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
         /*if(wordHistory.size() == 0){
             return fullDictionary;
         }else{*/
-            return wordHistory.get(wordHistory.size()-1);
+            return wordHistory.get(wordHistory.size()-1).getSearchResult();
         //}
 
     }
@@ -98,7 +103,7 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
         if(wordHistory.size() > 1){
             sentenceHistory.add(new ArrayList<>(wordHistory.subList(1, wordHistory.size())));
         }else {
-            sentenceHistory.add(new ArrayList<List<DictionaryEntry>>());
+            sentenceHistory.add(new ArrayList<SearchEntry>());
         }
 
         wordHistory = new ArrayList<>(wordHistory.subList(0,1));
@@ -113,7 +118,7 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
         if(sentenceHistoryIndex != -1){
             //Log.d(TAG, "previousWord: before: word history size: " + wordHistory.size() + ", sentence history size: " +sentenceHistory.size());
             wordHistory.clear();
-            wordHistory.add(fullDictionary);
+            wordHistory.add(new SearchEntry(fullDictionary, new ArrayList<String>()));
             wordHistory.addAll(sentenceHistory.get(sentenceHistoryIndex));
             sentenceHistory.remove(sentenceHistoryIndex);
         }
@@ -256,4 +261,32 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
         return fullDictionary;
     }
 
+    public List<String> getHistory() {
+        List<String> result = new ArrayList<>();
+        for (SearchEntry entry: wordHistory) {
+            List<String> search = entry.getSearch();
+            Joiner joiner = Joiner.on(", ");
+            result.add(joiner.join(search));
+        }
+        result.remove(0);
+        return result;
+    }
+
+    private class SearchEntry{
+        List<DictionaryEntry> searchResult;
+        List<String> search;
+
+        public SearchEntry(List<DictionaryEntry> searchResult, List<String> search){
+            this.searchResult = searchResult;
+            this.search = search;
+        }
+
+        public List<DictionaryEntry> getSearchResult() {
+            return searchResult;
+        }
+
+        public List<String> getSearch() {
+            return search;
+        }
+    }
 }

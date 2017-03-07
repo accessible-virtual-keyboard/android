@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
     private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
-    private EditText bufferText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        bufferText = ((EditText) MainActivity.this.findViewById(R.id.currentBuffer));
+         final EditText bufferText = ((EditText) MainActivity.this.findViewById(R.id.currentBuffer));
 
         bufferText.setOnTouchListener(new View.OnTouchListener() {
             @Override

@@ -29,9 +29,14 @@ public class MobileLayoutGUI extends LayoutGUI {
     private ArrayList<Symbol> previouslyMarked = new ArrayList<>();
     private int layoutResource1;
     private int layoutResource2;
+
     private ListView dictionaryList;
     private TextAdapter dictionaryListAdapter;
-    private View previousViewSelected;
+    private View lastDictionaryItemSelected;
+
+    private ListView historyList;
+    private TextAdapter historyListAdapter;
+
     private MobileDictionaryLayout.State lastState;
     private LayoutLoader loader;
     private MobileDictionaryLayout.DictionaryState previousLayoutState;
@@ -62,17 +67,22 @@ public class MobileLayoutGUI extends LayoutGUI {
         dictionaryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                if (previousViewSelected != null) {
-                    previousViewSelected.setSelected(false);
+                if (lastDictionaryItemSelected != null) {
+                    lastDictionaryItemSelected.setSelected(false);
                 }
                 if (view != null) {
                     view.setSelected(true);
-                    previousViewSelected = view;
+                    lastDictionaryItemSelected = view;
                 }
 
             }
         });
         dictionaryList.setEnabled(false);
+
+        historyList = (ListView) loader.getViewById(R.id.historylist);
+        historyListAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
+        historyList.setAdapter(historyListAdapter);
+        historyList.setEnabled(false);
 
         for (Symbol symbol : layout.getSymbols()) {
             if (symbol != null && loader.hasSymbol(symbol)) {
@@ -133,7 +143,10 @@ public class MobileLayoutGUI extends LayoutGUI {
     private void updateDictionaryPart() {
         MobileDictionaryLayout.State newState = layout.getState();
 
+
+
         if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {
+            historyListAdapter.update(layout.getHistory());
             dictionaryListAdapter.update(layout.getSuggestions());
             dictionaryList.smoothScrollToPosition(0);
         } else {
@@ -155,6 +168,8 @@ public class MobileLayoutGUI extends LayoutGUI {
                 }
             }
         }
+
+
 
         lastState = newState;
     }

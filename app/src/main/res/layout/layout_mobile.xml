@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:weightSum="6">
+    android:weightSum="12">
 
     <ListView
-        android:id="@+id/buttons_pressed"
+        android:id="@+id/historylist"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -18,7 +18,7 @@
     <TableLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:layout_weight="9"
         android:stretchColumns="*">
 
         <TableRow
@@ -104,32 +104,7 @@
                 android:background="@color/mobileLayoutButtonGroupBackground"
                 android:padding="@dimen/mobileLayoutButtonGroupPadding"
                 android:weightSum="3">
-
-                <TextView
-                    android:id="@+id/sym_correct_word"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/_8sdp"
-                    android:background="@color/mobileLayoutButtonBackground" />
-
-                <TextView
-                    android:id="@+id/sym_delete_word"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/_8sdp"
-                    android:background="@color/mobileLayoutButtonBackground" />
-
-                <TextView
-                    android:id="@+id/sym_deletion_done"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                <include layout="@layout/layout_mobile_deletion_utilities" />
             </LinearLayout>
         </TableRow>
 
@@ -355,110 +330,11 @@
                 android:padding="@dimen/mobileLayoutButtonGroupPadding"
                 android:weightSum="2">
 
-                <TextView
-                    android:id="@+id/sym_dictionary_add_word"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground"
-                    android:textSize="@dimen/_8sdp" />
-
-                <TextView
-                    android:id="@+id/sym_dictionary_toggle"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground"
-                    android:textSize="@dimen/_8sdp" />
+                <include layout="@layout/layout_mobile_dictionary_utilities" />
             </LinearLayout>
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="4">
-
-            <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
-                android:weightSum="1">
-
-                <TextView
-                    android:id="@+id/sym_dictionary"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground"
-                    android:textSize="@dimen/_25sdp" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
-                android:weightSum="4">
-
-                <TextView
-                    android:id="@+id/sym_period"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
-
-                <TextView
-                    android:id="@+id/sym_comma"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
-
-                <TextView
-                    android:id="@+id/sym_question_mark"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
-
-                <TextView
-                    android:id="@+id/sym_exclamation_mark"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
-                android:weightSum="1">
-
-                <TextView
-                    android:id="@+id/sym_send"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="0dp"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground"
-                    android:textAlignment="center" />
-
-            </LinearLayout>
-        </TableRow>
+        <include layout="@layout/layout_mobile_bottom_row" />
     </TableLayout>
 
     <ListView
@@ -466,7 +342,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:background="@color/mobileLayoutButtonGroupBackground"
         android:choiceMode="singleChoice" />
 
