@@ -56,9 +56,15 @@ public class DictionaryHandler implements Dictionary, InMemoryDictionary {
     private List<String> prefixSearchBinary(String prefix) {
 
         // Return empty list if invalid input, or if dictionary is empty.
-        if (prefix == null || prefix.equalsIgnoreCase("") || dictionary.isEmpty()) {
+        if (prefix == null || dictionary.isEmpty()) {
             return new ArrayList<String>();
         }
+
+        // Return all words sorted by use frequency when the search string is empty
+        if(prefix.isEmpty()){
+            return sortAndExtractSuggestions(new ArrayList<>(dictionary));
+        }
+
 
         ArrayList<String> matchingWords = new ArrayList<>();
         ArrayList<DictionaryEntry> matchingDictionaryEntries = new ArrayList<>();
@@ -127,26 +133,7 @@ public class DictionaryHandler implements Dictionary, InMemoryDictionary {
             }
         }
 
-        // Sort list by the words standard frequency of occurrence.
-        Collections.sort(matchingDictionaryEntries, new Comparator<DictionaryEntry>() {
-            @Override
-            public int compare(DictionaryEntry o1, DictionaryEntry o2) {
-                return o2.getStandardFrequency() - o1.getStandardFrequency();
-            }
-        });
-        // Sort list by the words user frequency of occurrence.
-        Collections.sort(matchingDictionaryEntries, new Comparator<DictionaryEntry>() {
-            @Override
-            public int compare(DictionaryEntry o1, DictionaryEntry o2) {
-                return o2.getUserFrequency() - o1.getUserFrequency();
-            }
-        });
-
-        // Get only the words.
-        for (DictionaryEntry dictionaryEntry : matchingDictionaryEntries) {
-            matchingWords.add(dictionaryEntry.getWord());
-        }
-        return matchingWords;
+        return sortAndExtractSuggestions(matchingDictionaryEntries);
     }
 
     /**
@@ -232,4 +219,28 @@ public class DictionaryHandler implements Dictionary, InMemoryDictionary {
         return dictionary;
     }
 
+
+    private List<String> sortAndExtractSuggestions(List<DictionaryEntry> entries){
+        // Sort list by the words standard frequency of occurrence.
+        Collections.sort(entries, new Comparator<DictionaryEntry>() {
+            @Override
+            public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                return o2.getStandardFrequency() - o1.getStandardFrequency();
+            }
+        });
+        // Sort list by the words user frequency of occurrence.
+        Collections.sort(entries, new Comparator<DictionaryEntry>() {
+            @Override
+            public int compare(DictionaryEntry o1, DictionaryEntry o2) {
+                return o2.getUserFrequency() - o1.getUserFrequency();
+            }
+        });
+
+        List<String> suggestions = new ArrayList<>();
+        // Get only the words.
+        for (DictionaryEntry dictionaryEntry : entries) {
+            suggestions.add(dictionaryEntry.getWord());
+        }
+        return suggestions;
+    }
 }

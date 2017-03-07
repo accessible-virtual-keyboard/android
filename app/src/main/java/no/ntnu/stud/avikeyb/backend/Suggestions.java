@@ -88,15 +88,7 @@ public abstract class Suggestions {
         keyboard.addStateListener(new Keyboard.KeyboardListener() {
             @Override
             public void onOutputBufferChange(String oldBuffer, String newBuffer) {
-
-                String currentWord = keyboard.getCurrentWord();
-                if (!currentWord.isEmpty()) {
-                    executeQuery(currentWord);
-                }else{
-                    // Notify with an empty list when there current word is empty
-                    notifyListeners(new ArrayList<String>());
-                }
-
+                executeQuery(keyboard.getCurrentWord());
             }
         });
     }
