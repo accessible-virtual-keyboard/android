@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
     private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
-
+    private EditText bufferText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,13 +114,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        final EditText bufferText = ((EditText) MainActivity.this.findViewById(R.id.currentBuffer));
-        bufferText.setOnClickListener(new View.OnClickListener() {
+        bufferText = ((EditText) MainActivity.this.findViewById(R.id.currentBuffer));
+
+        bufferText.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                //Prevent soft keyboard from appearing
+            public boolean onTouch(View view, MotionEvent motionEvent) {
                 InputMethodManager methodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 methodManager.hideSoftInputFromWindow(bufferText.getWindowToken(), 0);
+                return true;
             }
         });
 
