@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewGroup layoutWrapper;
     private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
     private EditText bufferText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                         switchLayout(binLayout, new BinarySearchLayoutGUI(MainActivity.this, keyboard, binLayout));
                         break;
                     }
-                    default: { // 0
+                    default: {
                         switchLayout(etosLayout, new ETOSLayoutGUI(MainActivity.this, keyboard, etosLayout));
                         break;
                     }
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         bufferText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                InputMethodManager methodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 methodManager.hideSoftInputFromWindow(bufferText.getWindowToken(), 0);
                 return true;
             }
