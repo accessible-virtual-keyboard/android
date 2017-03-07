@@ -198,6 +198,7 @@ public class AdaptiveLayout extends StepLayout {
 
     private void selectCurrentSuggestion(){
         String suggestion = suggestions.get(currentSuggestion);
+        suggestion = suggestion.substring(keyboard.getCurrentWord().length());
         keyboard.addToCurrentBuffer(suggestion + Symbol.SPACE.getContent());
         reset();
     }
