@@ -29,9 +29,14 @@ public class MobileLayoutGUI extends LayoutGUI {
     private ArrayList<Symbol> previouslyMarked = new ArrayList<>();
     private int layoutResource1;
     private int layoutResource2;
+
     private ListView dictionaryList;
     private TextAdapter dictionaryListAdapter;
-    private View previousViewSelected;
+    private View lastDictionaryItemSelected;
+
+    private ListView historyList;
+    private TextAdapter historyListAdapter;
+
     private MobileDictionaryLayout.State lastState;
     private LayoutLoader loader;
     private MobileDictionaryLayout.DictionaryState previousLayoutState;
@@ -49,9 +54,9 @@ public class MobileLayoutGUI extends LayoutGUI {
     @Override
     protected View buildGUI() {
         //TODO return right layout resource
-        if (layout.getDictionaryState() == MobileDictionaryLayout.DictionaryState.DICTIONARY_ON){
+        if (layout.getDictionaryState() == MobileDictionaryLayout.DictionaryState.DICTIONARY_ON) {
             loader = new LayoutLoader(activity, layoutResource1);
-        } else if (layout.getDictionaryState() == MobileDictionaryLayout.DictionaryState.DICTIONARY_OFF){
+        } else if (layout.getDictionaryState() == MobileDictionaryLayout.DictionaryState.DICTIONARY_OFF) {
             loader = new LayoutLoader(activity, layoutResource2);
         }
 
@@ -61,38 +66,39 @@ public class MobileLayoutGUI extends LayoutGUI {
         dictionaryList.setAdapter(dictionaryListAdapter);
         dictionaryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,long arg3) {
-                if(previousViewSelected != null){
-                    previousViewSelected.setSelected(false);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                if (lastDictionaryItemSelected != null) {
+                    lastDictionaryItemSelected.setSelected(false);
                 }
-                if(view != null){
+                if (view != null) {
                     view.setSelected(true);
-                    previousViewSelected = view;
+                    lastDictionaryItemSelected = view;
                 }
 
             }
         });
         dictionaryList.setEnabled(false);
 
+        historyList = (ListView) loader.getViewById(R.id.historylist);
+        historyListAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
+        historyList.setAdapter(historyListAdapter);
+        historyList.setEnabled(false);
+
         for (Symbol symbol : layout.getSymbols()) {
             if (symbol != null && loader.hasSymbol(symbol)) {
                 TextView guiTextTile = (TextView) loader.getViewForSymbol(symbol);
 
                 guiTextTile.setText(symbol.getContent());
-               // guiTextTile.setTextColor(Color.parseColor("#FFFEFE")); // Color.BLACK
                 guiTextTile.setTextColor(Color.BLACK);
                 guiTextTile.setBackgroundResource(R.drawable.text_selection_colors);
 
-                if(symbol.equals(Symbol.DICTIONARY)){
+                if (symbol.equals(Symbol.DICTIONARY)) {
                     guiTextTile.setText(Symbol.DICTIONARY_UNICODE_SYMBOL.getContent());
                 }
-
                 symbolViewMap.put(symbol, guiTextTile);
             }
         }
-
         return loader.getLayout();
-
     }
 
     @Override
@@ -103,7 +109,7 @@ public class MobileLayoutGUI extends LayoutGUI {
 
     @Override
     protected void updateGUI() {
-        if(layout.getDictionaryState() != previousLayoutState){
+        if (layout.getDictionaryState() != previousLayoutState) {
             onLayoutActivated();
             layout.logMarked();
         }
@@ -114,13 +120,12 @@ public class MobileLayoutGUI extends LayoutGUI {
 
     /**
      * Used to update the gui so the default marked elements are marked properly
-     *
      */
-    public void firstUpdate(){
+    public void firstUpdate() {
         updateGUI();
     }
 
-    private void updateKeyboardPart(){
+    private void updateKeyboardPart() {
         ArrayList<Symbol> newlyMarked = new ArrayList<>(layout.getMarkedSymbols());
         for (Symbol symbol : previouslyMarked) {
             if (symbol != null && symbolViewMap.containsKey(symbol)) {
@@ -135,13 +140,16 @@ public class MobileLayoutGUI extends LayoutGUI {
         previouslyMarked = newlyMarked;
     }
 
-    private void updateDictionaryPart(){
+    private void updateDictionaryPart() {
         MobileDictionaryLayout.State newState = layout.getState();
 
-        if(layout.getMarkedWord() == -1 && layout.getSuggestions() != null){
+
+
+        if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {
+            historyListAdapter.update(layout.getHistory());
             dictionaryListAdapter.update(layout.getSuggestions());
             dictionaryList.smoothScrollToPosition(0);
-        }else {
+        } else {
             /*if( newState == MobileLayout.State.SELECT_DICTIONARY && lastState == MobileLayout.State.SELECT_LETTER ){
                 dictionaryListAdapter.update(layout.getSuggestions());
                 dictionaryList.smoothScrollToPosition(0);
@@ -151,15 +159,17 @@ public class MobileLayoutGUI extends LayoutGUI {
             dictionaryList.performItemClick(dictionaryList.getChildAt(position),
                     position,
                     dictionaryList.getItemIdAtPosition(position));
-            if(layout.getSuggestions() != null){
-                int numberOfSuggestions = layout.getSuggestions().size() <= layout.getMaxPossibleSuggestions() ? layout.getSuggestions().size(): layout.getMaxPossibleSuggestions();
-                if(position >= numberOfSuggestions/2){
+            if (layout.getSuggestions() != null) {
+                int numberOfSuggestions = layout.getSuggestions().size() <= layout.getMaxPossibleSuggestions() ? layout.getSuggestions().size() : layout.getMaxPossibleSuggestions();
+                if (position >= numberOfSuggestions / 2) {
                     dictionaryList.smoothScrollToPosition(numberOfSuggestions);
-                }else{
+                } else {
                     dictionaryList.smoothScrollToPosition(0);
                 }
             }
         }
+
+
 
         lastState = newState;
     }

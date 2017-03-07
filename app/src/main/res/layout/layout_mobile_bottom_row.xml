@@ -1,0 +1,83 @@
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="4">
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/mobileLayoutButtonGroupBackground"
+        android:padding="@dimen/mobileLayoutButtonGroupPadding"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/sym_dictionary"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/mobileLayoutButtonBackground" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/mobileLayoutButtonGroupBackground"
+        android:padding="@dimen/mobileLayoutButtonGroupPadding"
+        android:weightSum="4">
+
+        <TextView
+            android:id="@+id/sym_period"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="@dimen/mobileLayoutButtonWidth"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/mobileLayoutButtonBackground" />
+
+        <TextView
+            android:id="@+id/sym_comma"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="@dimen/mobileLayoutButtonWidth"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/mobileLayoutButtonBackground" />
+
+        <TextView
+            android:id="@+id/sym_question_mark"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="@dimen/mobileLayoutButtonWidth"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/mobileLayoutButtonBackground" />
+
+        <TextView
+            android:id="@+id/sym_exclamation_mark"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="@dimen/mobileLayoutButtonWidth"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/mobileLayoutButtonBackground" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/mobileLayoutButtonGroupBackground"
+        android:padding="@dimen/mobileLayoutButtonGroupPadding"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/sym_send"
+            style="?attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:background="@color/mobileLayoutButtonBackground"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+</TableRow>

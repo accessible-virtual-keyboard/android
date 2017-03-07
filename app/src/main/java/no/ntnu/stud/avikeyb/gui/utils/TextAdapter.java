@@ -38,14 +38,15 @@ public class TextAdapter extends ArrayAdapter<String> {
         // Lookup view for data population.
         TextView description = (TextView) convertView.findViewById(R.id.text_item);
         description.setBackgroundResource(R.drawable.text_selection_colors);
-       description.setTextColor(Color.BLACK);
-        // description.setTextColor(getContext().getResources().getColor(R.color.whiteish));
+        description.setTextColor(Color.BLACK);
+        
         description.setText(suggestionText);
+
 
         return super.getView(position, convertView, parent);
     }
 
-    public void update(List<String> updatedList){
+    public void update(List<String> updatedList) {
         clear();
         addAll(updatedList);
         notifyDataSetChanged();

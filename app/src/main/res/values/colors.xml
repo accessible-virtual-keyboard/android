@@ -4,9 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="black">#040505</color>
-    <color name="background_button">#B2B5BA</color>
-    <color name="marked_button">#B076E2</color>
 
+    <!-- todo kan disse fjernes?-->
     <color name="mobileLayoutButtonSelectedBackground">#DDDDC0</color>
     <color name="mobileLayoutButtonBackground">#B3ACB6</color>
     <color name="mobileLayoutButtonGroupBackground">#8D8194</color>
@@ -16,9 +15,6 @@
     <color name="binsearch_active_fg">#484848</color>
     <color name="binsearch_active_left_bg">#46A8CD</color>
     <color name="binsearch_active_right_bg">#F5B821</color>
-    <color name="binsearch_inactive_bg">#eeeeee</color>
-
-    <color name="binsearch_inactive_fg">#cccccc</color>
 
     <color name="generic_active_fg">#484848</color>
     <color name="generic_active_bg">#F5B821</color>
@@ -26,11 +22,12 @@
     <color name="generic_inactive_fg">#cccccc</color>
 
 
-    <!-- Test colors --> <!--http://paletton.com/#uid=10m0u0k80gk0cN944oyhKb8Mu9d -->
-    <color name="rowselected">#ADA6B0</color> <!--For adaptive -->
-    <color name="background">#DDDDC0</color>
-    <color name="selected">#73637D</color>
+    <!--  Used for ETOS, adaptive and mobile --> <!--http://paletton.com/#uid=10m0u0k80gk0cN944oyhKb8Mu9d && http://paletton.com/#uid=21T0u0k4drK0tOm1+ye73nraDjy-->
+    <color name="rowselected">#73637D</color> <!--For adaptive -->
+    <color name="background">#DCDBDE</color> <!--DDDDC0,ADA6B0 -->
+    <color name="selected">#ADA6B0</color>
+    <color name="notselected">#FFFFEF</color> <!-- -->
 
-
-
+    <color name="binsearch_inactive_bg">#30eeeeee</color> <!-- for binary not active felt -->
+    <color name="binsearch_inactive_fg">#cccccc</color> <!--for binary not active felt-->
 </resources>

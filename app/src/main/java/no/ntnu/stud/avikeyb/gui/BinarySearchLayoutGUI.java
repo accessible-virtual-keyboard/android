@@ -71,13 +71,13 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
             if (layout.symbolIsActive(it.getKey())) {
 
                 if (it.getValue() instanceof TextView) {
-                    ((TextView) it.getValue()).setTextColor(ContextCompat.getColor(activity, R.color.binsearch_active_fg));
+                    ((TextView) it.getValue()).setTextColor(ContextCompat.getColor(activity, R.color.black));
                 }
 
                 if (layout.symbolIsActiveLeft(it.getKey()))
-                    it.getValue().setBackgroundColor(ContextCompat.getColor(activity, (R.color.binsearch_active_left_bg)));
+                    it.getValue().setBackgroundColor(ContextCompat.getColor(activity, (R.color.selected)));
                 else
-                    it.getValue().setBackgroundColor(ContextCompat.getColor(activity, R.color.binsearch_active_right_bg));
+                    it.getValue().setBackgroundColor(ContextCompat.getColor(activity, R.color.background));
             } else {
                 it.getValue().setBackgroundColor(ContextCompat.getColor(activity, R.color.binsearch_inactive_bg));
                 if (it.getValue() instanceof TextView) {
@@ -91,7 +91,6 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
     // Recycler view adapter
     private class SuggestionsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.binsearch_suggestion_item, parent, false);
@@ -104,11 +103,11 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
             String suggestion = layout.getSuggestions().get(position);
 
             if (layout.suggestionIsActive(suggestion)) {
-                holder.item.setTextColor(ContextCompat.getColor(activity, R.color.binsearch_active_fg));
+                holder.item.setTextColor(ContextCompat.getColor(activity, R.color.black));
                 if (layout.suggestionIsLeft(suggestion)) {
-                    holder.item.setBackgroundColor(ContextCompat.getColor(activity, R.color.binsearch_active_left_bg));
+                    holder.item.setBackgroundColor(ContextCompat.getColor(activity, R.color.selected));
                 } else {
-                    holder.item.setBackgroundColor(ContextCompat.getColor(activity, R.color.binsearch_active_right_bg));
+                    holder.item.setBackgroundColor(ContextCompat.getColor(activity, R.color.background));
                 }
             } else {
                 holder.item.setBackgroundColor(ContextCompat.getColor(activity, R.color.binsearch_inactive_bg));

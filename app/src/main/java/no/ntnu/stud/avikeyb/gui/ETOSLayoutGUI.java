@@ -2,13 +2,16 @@ package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
@@ -35,6 +38,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private View previousViewSelected;
     private LayoutLoader loader;
 
+
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
         super(keyboard, layout);
         this.layout = layout;
@@ -48,15 +52,13 @@ public class ETOSLayoutGUI extends LayoutGUI {
             if (symbol != null && loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
                 view.setText(symbol.getContent());
-              // view.setTextColor(getResources().getColor(R.color.whiteish));
-              // view.setTextColor(Color.parseColor("#FFFEFE")); // change this!!
-               view.setTextColor(Color.BLACK);
+                view.setTextColor(Color.BLACK);
                 symbolViewMap.put(symbol, view);
             }
         }
 
         dictionaryList = (ListView) loader.getViewById(R.id.listview);
-
+        //   dictionaryList.setEmptyView(loader.getViewById(R.id.empty)); // do not work
         menuAdapter = new MenuAdapter(activity, listItems, layout);
         dictionaryAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
 
@@ -76,21 +78,39 @@ public class ETOSLayoutGUI extends LayoutGUI {
         });
         dictionaryList.setEnabled(false);
 
+        // set the listview to show the text "nothing to show"
+        TextView empty = new TextView(activity);
+        empty.setText("Nothing to show");
+        ((ViewGroup) dictionaryList.getParent()).addView(empty);
+        dictionaryList.setEmptyView(empty);
+
 
         return (ViewGroup) loader.getLayout();
     }
 
+    public void firstUpdate() {
+        updateGUI();
+    }
+
     public void updateGUI() {
 
-        // switch between the two adapters.
-        /*if (layout.getMenuState().equals(ETOSLayout.State.SELECT_MENU)) {
+        // TextView empty = new TextView(activity);
+        //empty.setText("");
+
+        //((ViewGroup) dictionaryList.getParent()).addView(empty);
+        //dictionaryList.setEmptyView(empty);
+
+
+        /*if (layout.getState().equals(ETOSLayout.State.SELECT_MENU)) {
             listview.setAdapter(menuAdapter);
             menuAdapter.clear();
             for (Symbol item : layout.getMenuOptions()) {
                 listItems.add(item);
             }
             menuAdapter.notifyDataSetChanged();
-        }*/  //else {
+        }*/  //else { }
+
+
         if (layout.getCurrentDictionaryPosition() == -1 && layout.getSuggestions() != null) {
             dictionaryAdapter.update(layout.getSuggestions());
         } else {
@@ -100,8 +120,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
                     dictionaryList.getItemIdAtPosition(position));
         }
 
-
-        // }
 
         // Highlight the selected symbol
         int current = layout.getCurrentPosition();
@@ -119,6 +137,11 @@ public class ETOSLayoutGUI extends LayoutGUI {
             }
             index++;
         }
+    }
+
+
+    public void setEmptyView(View emptyView) {
+        dictionaryList.setEmptyView(emptyView);
     }
 
 }// end of class

@@ -547,6 +547,10 @@ public class MobileDictionaryLayout extends StepLayout {
         }
     }
 
+    public List<String> getHistory(){
+        return dictionary.getHistory();
+    }
+
     public void reset() {
         location = new int[]{-1, -1, -1, -1};
         markedSymbols = new ArrayList<>();
