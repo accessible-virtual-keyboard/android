@@ -6,8 +6,15 @@
     android:orientation="horizontal"
     android:weightSum="4">
 
+    <LinearLayout
+        android:id="@+id/firstLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
     <TableLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:stretchColumns="*"
         android:layout_weight="3"
@@ -55,13 +62,13 @@
 
     </TableLayout>
 
-
-    <view class="no.ntnu.stud.avikeyb.gui.utils.GenericSuggestions$View"
+</LinearLayout>
+    <!--<view class="no.ntnu.stud.avikeyb.gui.utils.GenericSuggestions$View"
           android:id="@+id/suggestionsList"
           android:layout_weight="1"
           android:layout_width="0dp"
           android:layout_height="match_parent">
-    </view>
-
+    </view> -->
+    <include layout="@layout/listview" />
 
 </LinearLayout>

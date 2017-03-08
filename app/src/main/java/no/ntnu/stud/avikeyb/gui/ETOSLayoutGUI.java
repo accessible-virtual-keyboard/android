@@ -58,7 +58,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
         }
 
         dictionaryList = (ListView) loader.getViewById(R.id.listview);
-        //   dictionaryList.setEmptyView(loader.getViewById(R.id.empty)); // do not work
         menuAdapter = new MenuAdapter(activity, listItems, layout);
         dictionaryAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
 
@@ -78,7 +77,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
         });
         dictionaryList.setEnabled(false);
 
-        // set the listview to show the text "nothing to show". // todo show the dictionary with the most used words
+        // set the listview to show the text "nothing to show".
         TextView empty = new TextView(activity);
         empty.setText("Nothing to show");
         ((ViewGroup) dictionaryList.getParent()).addView(empty);
@@ -88,12 +87,11 @@ public class ETOSLayoutGUI extends LayoutGUI {
         return (ViewGroup) loader.getLayout();
     }
 
-    public void firstUpdate() {
-        updateGUI();
-    }
 
     public void updateGUI() {
 
+        // todo fix dictionary field with color
+        //todo fix the menu.
         /*if (layout.getState().equals(ETOSLayout.State.SELECT_MENU)) {
             listview.setAdapter(menuAdapter);
             menuAdapter.clear();
@@ -130,11 +128,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
             }
             index++;
         }
-    }
-
-
-    public void setEmptyView(View emptyView) {
-        dictionaryList.setEmptyView(emptyView);
     }
 
 }// end of class

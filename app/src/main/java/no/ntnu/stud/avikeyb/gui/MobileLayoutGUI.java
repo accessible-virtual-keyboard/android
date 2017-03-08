@@ -144,7 +144,6 @@ public class MobileLayoutGUI extends LayoutGUI {
         MobileDictionaryLayout.State newState = layout.getState();
 
 
-
         if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {
             historyListAdapter.update(layout.getHistory());
             dictionaryListAdapter.update(layout.getSuggestions());

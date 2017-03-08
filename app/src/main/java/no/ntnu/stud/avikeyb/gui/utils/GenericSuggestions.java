@@ -119,4 +119,5 @@ public class GenericSuggestions {
             this.item = view;
         }
     }
+
 }
