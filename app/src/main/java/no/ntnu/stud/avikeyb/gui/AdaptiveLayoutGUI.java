@@ -94,11 +94,12 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
 
         // set the listview to show the text "nothing to show".
-       /* TextView empty = new TextView(activity);
+        TextView empty = new TextView(activity);
         empty.setText("Nothing to show");
         ((ViewGroup) dictionaryList.getParent()).addView(empty);
         dictionaryList.setEmptyView(empty);
-        */
+
+        
 
         return loader.getLayout();
     }
