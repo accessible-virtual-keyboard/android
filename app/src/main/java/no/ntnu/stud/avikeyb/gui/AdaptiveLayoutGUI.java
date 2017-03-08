@@ -105,7 +105,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
 
     public void updateGUI() {
-        
+
         if (layout.getCurrentState() == AdaptiveLayout.State.SUGGESTION_SELECTION) {
             updateSuggestions();
         } else {

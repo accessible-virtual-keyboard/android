@@ -6,6 +6,7 @@
     android:orientation="horizontal"
     android:weightSum="4">
 
+    <!--id is never used -->
     <LinearLayout
         android:id="@+id/firstLayout"
         android:layout_width="match_parent"
