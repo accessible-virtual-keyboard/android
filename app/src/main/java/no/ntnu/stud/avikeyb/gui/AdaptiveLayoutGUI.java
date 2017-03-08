@@ -105,12 +105,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
 
     public void updateGUI() {
-
-        // Test. Is the tempsug we are going to add to the dictionarylist.
-        List<String> tempSug = layout.getSuggestions();
-        System.out.println("The tempSug is " + tempSug);
-
-
+        
         if (layout.getCurrentState() == AdaptiveLayout.State.SUGGESTION_SELECTION) {
             updateSuggestions();
         } else {
