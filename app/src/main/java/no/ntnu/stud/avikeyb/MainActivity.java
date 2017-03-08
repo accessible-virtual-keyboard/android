@@ -8,10 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -40,7 +38,7 @@ import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
-import no.ntnu.stud.avikeyb.backend.dictionary.AndroidResourceLoader;
+import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
 import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 
 public class MainActivity extends AppCompatActivity {
