@@ -1,13 +1,9 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
-import android.support.test.espresso.core.deps.guava.base.Joiner;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Tor-Martin Holen on 21-Feb-17.
@@ -265,8 +261,16 @@ public class LinearEliminationDictionaryHandler implements InMemoryDictionary {
         List<String> result = new ArrayList<>();
         for (SearchEntry entry: wordHistory) {
             List<String> search = entry.getSearch();
-            Joiner joiner = Joiner.on(", ");
-            result.add(joiner.join(search));
+            String innerResult = "";
+            for (int i = 0; i < search.size(); i++) {
+                String subRes = search.get(i);
+                if(i != search.size()-1){
+                    innerResult += subRes + ", ";
+                }else {
+                    innerResult += subRes;
+                }
+            }
+            result.add(innerResult);
         }
         result.remove(0);
         return result;

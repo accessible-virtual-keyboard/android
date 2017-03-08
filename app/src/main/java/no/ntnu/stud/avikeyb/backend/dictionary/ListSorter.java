@@ -1,7 +1,5 @@
 package no.ntnu.stud.avikeyb.backend.dictionary;
 
-import android.support.test.espresso.core.deps.guava.collect.ComparisonChain;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
