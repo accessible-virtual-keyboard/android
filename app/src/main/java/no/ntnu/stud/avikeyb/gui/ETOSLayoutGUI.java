@@ -72,7 +72,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
                     view.setSelected(true);
                     previousViewSelected = view;
                 }
-
             }
         });
         dictionaryList.setEnabled(false);
@@ -82,7 +81,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
         empty.setText("Nothing to show");
         ((ViewGroup) dictionaryList.getParent()).addView(empty);
         dictionaryList.setEmptyView(empty);
-
 
         return (ViewGroup) loader.getLayout();
     }

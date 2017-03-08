@@ -100,10 +100,8 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         dictionaryList.setEmptyView(empty);
 
 
-
         return loader.getLayout();
     }
-
 
     public void updateGUI() {
 
@@ -112,14 +110,12 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         } else {
             updateLayout();
         }
-
         dictionaryAdapter.notifyDataSetChanged();
     }
 
     private void updateLayout() {
 
-        //todo test
-        if (layout.getCurrentSuggestion() == 0 && layout.getSuggestions() != null) { // -1
+        if (layout.getCurrentSuggestion() == 0 && layout.getSuggestions() != null) { // -1 on etos and mobile. -1 does not show the dictionary
             dictionaryAdapter.update(layout.getSuggestions());
         } else {
             int position = layout.getCurrentSuggestion();
@@ -127,7 +123,6 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
                     position,
                     dictionaryList.getItemIdAtPosition(position));
         }
-        ////
 
         Symbol[] currentLayout = layout.getSymbols();
 
@@ -143,27 +138,32 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
             view.setBackgroundResource(R.drawable.text_selection_colors);
 
             if (layout.getCurrentRow() == row) {
+                //      view.setBackgroundResource(R.color.selected);
                 view.setSelected(true);
                 if (layout.getCurrentState() == AdaptiveLayout.State.COLUMN_SELECTION && layout.getCurrentColumn() == column) {
                     view.setBackgroundResource(R.color.rowselected);
                 }
-
             } else {
                 // Default non active background color
+                //view.setBackgroundResource(R.color.background);
                 view.setSelected(false);
             }
         }
     }
 
-    private void updateSuggestions() {
+    private void updateSuggestions() { // todo fix cursor in dictionary.
 
         Symbol[] currentLayout = layout.getSymbols();
         for (int i = 0; i < symbolViews.size(); i++) {
+
             TextView view = (TextView) symbolViews.get(i);
+            view.setBackgroundResource(R.drawable.text_selection_colors); // todo does this need to stand here?
             // Because the layout of the symbols changes all the time we have to set the view
             // content each time we update.
             view.setText(currentLayout[i].getContent());
-            view.setSelected(false);
+
+             view.setSelected(false); // was false
+            //  view.setBackgroundResource(R.color.background);
 
         }
     }
@@ -175,10 +175,9 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
     }
 }
 
-/*
-
-Was in buildGUI
- // old
+        /*
+        Was in buildGUI
+        // old
         suggestionsList = (GenericSuggestions.View) loader.getViewById(R.id.suggestionsList);
 
         suggestionsAdapter = new GenericSuggestions.Adapter(new GenericSuggestions.SuggestionsState() {
@@ -198,7 +197,7 @@ Was in buildGUI
             }
         });
         suggestionsList.setAdapter(suggestionsAdapter);
-        */
+         */
 
 
 
