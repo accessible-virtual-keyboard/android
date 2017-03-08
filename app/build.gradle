@@ -27,6 +27,10 @@ android {
     }
 }
 
+repositories {
+    mavenLocal()
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -38,4 +42,5 @@ dependencies {
     compile 'com.intuit.sdp:sdp-android:1.0.4'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
+    compile 'no.ntnu.stud.avikeyb:backend:1.0-SNAPSHOT'
 }
