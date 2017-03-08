@@ -99,7 +99,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         ((ViewGroup) dictionaryList.getParent()).addView(empty);
         dictionaryList.setEmptyView(empty);
 
-        
+
 
         return loader.getLayout();
     }
