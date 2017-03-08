@@ -47,7 +47,6 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
         listviewText.setPadding(2, 20, 2, 20);
         listviewText.setTextColor(Color.BLACK);
 
-        // todo fix with text_selection_colors
         if (symbol == layout.getCurrentSymbol()) {
             listviewText.setBackgroundResource(R.color.selected);
         } else {

@@ -42,7 +42,6 @@ public class TextAdapter extends ArrayAdapter<String> {
         
         description.setText(suggestionText);
 
-
         return super.getView(position, convertView, parent);
     }
 

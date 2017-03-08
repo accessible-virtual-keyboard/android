@@ -78,7 +78,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
         });
         dictionaryList.setEnabled(false);
 
-        // set the listview to show the text "nothing to show"
+        // set the listview to show the text "nothing to show". // todo show the dictionary with the most used words
         TextView empty = new TextView(activity);
         empty.setText("Nothing to show");
         ((ViewGroup) dictionaryList.getParent()).addView(empty);
@@ -93,13 +93,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
     }
 
     public void updateGUI() {
-
-        // TextView empty = new TextView(activity);
-        //empty.setText("");
-
-        //((ViewGroup) dictionaryList.getParent()).addView(empty);
-        //dictionaryList.setEmptyView(empty);
-
 
         /*if (layout.getState().equals(ETOSLayout.State.SELECT_MENU)) {
             listview.setAdapter(menuAdapter);

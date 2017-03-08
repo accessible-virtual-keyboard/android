@@ -47,13 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
     private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
+    private Keyboard keyboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Keyboard keyboard = new CoreKeyboard();
+        keyboard = new CoreKeyboard();
         keyboard.addOutputDevice(new ToastOutput());
 
         final TabLayout layoutTabs = (TabLayout) findViewById(R.id.layoutTabs);
@@ -69,14 +70,15 @@ public class MainActivity extends AppCompatActivity {
 
         final LinearEliminationDictionaryHandler mobileDictionary = new LinearEliminationDictionaryHandler();
 
-        // Asynchronously load the dictionary enties from a file and set the entries to the
-        // two in memory dictionaries.
-        loadDictionaryFromFile(Arrays.asList(dictionaryHandler, mobileDictionary), R.raw.dictionary);
 
-        Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionaryHandler);
+        final Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionaryHandler);
         final ETOSLayout etosLayout = new ETOSLayout(keyboard, suggestions);
         final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard, suggestions);
         final AdaptiveLayout adaptiveLayout = new AdaptiveLayout(keyboard, suggestions);
+
+        // Asynchronously load the dictionary enties from a file and set the entries to the
+        // two in memory dictionaries.
+        loadDictionaryFromFile(Arrays.asList(dictionaryHandler, mobileDictionary), R.raw.dictionary);
 
 
         TabLayout.OnTabSelectedListener tabSwitcher = new TabLayout.OnTabSelectedListener() {
@@ -216,6 +218,11 @@ public class MainActivity extends AppCompatActivity {
                 for (InMemoryDictionary dict : dictionaries) {
                     dict.setDictionary(dictionaryEntries);
                 }
+
+                // This is a hack to trigger an initial search in the dictionary for an empty
+                // string. This is used to show suggestions of the most used words before the
+                // user starts typing
+                keyboard.clearCurrentBuffer();
             }
         }.execute();
     }

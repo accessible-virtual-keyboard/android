@@ -101,6 +101,7 @@ public class GenericSuggestions {
             setup();
         }
 
+
         private void setup() {
             setLayoutManager(new LinearLayoutManager(getContext()));
             setItemAnimator(new DefaultItemAnimator());
