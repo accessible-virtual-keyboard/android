@@ -49,7 +49,11 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
         for (Symbol symbol : layout.getSymbols()) {
             if (loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
-                view.setText(symbol.getContent());
+                if(symbol == Symbol.DELETE_WORD){
+                    view.setText("\u226A");
+                }else{
+                    view.setText(symbol.getContent());
+                }
                 view.setTypeface(null, Typeface.BOLD);
                 symbolViewMap.put(symbol, view);
             }

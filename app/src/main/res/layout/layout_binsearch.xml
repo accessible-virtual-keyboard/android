@@ -89,6 +89,8 @@
         <TableRow android:layout_weight="1" android:gravity="start">
             <TextView android:id="@+id/sym_period" android:text="." style="@style/BinarySearchSymbolView"/>
             <TextView android:id="@+id/sym_comma" android:text="," style="@style/BinarySearchSymbolView"/>
+            <TextView android:id="@+id/sym_backspace" android:text="D1" style="@style/BinarySearchSymbolView"/>
+            <TextView android:id="@+id/sym_delete_word" android:text="D2" style="@style/BinarySearchSymbolView"/>
         </TableRow>
         <TableRow android:layout_weight="1" android:gravity="start">
             <TextView android:text="" style="@style/BinarySearchSymbolView"/>
