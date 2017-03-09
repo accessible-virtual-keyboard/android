@@ -3,6 +3,7 @@ package no.ntnu.stud.avikeyb.gui;
 import android.app.Activity;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +22,8 @@ import no.ntnu.stud.avikeyb.gui.utils.GenericSuggestions;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by ingalill on 10/02/2017.
  */
@@ -29,9 +32,6 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
     private Activity activity;
     private AdaptiveLayout layout;
-    private GenericSuggestions.View suggestionsList;
-    private GenericSuggestions.Adapter suggestionsAdapter;
-
     private TextAdapter dictionaryAdapter;
     private ListView dictionaryList;
     private View previousViewSelected;
@@ -67,8 +67,9 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         for (Symbol symbol : symbols) {
             if (loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
+
                 view.setText(symbol.getContent());
-                view.setTextColor(Color.BLACK); // Default text color
+                view.setTextColor(Color.BLACK);
                 symbolViews.add(view);
             }
         }
@@ -92,7 +93,6 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         });
         dictionaryList.setEnabled(false);
 
-
         // set the listview to show the text "nothing to show".
         TextView empty = new TextView(activity);
         empty.setText("Nothing to show");
@@ -110,18 +110,12 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         } else {
             updateLayout();
         }
-        dictionaryAdapter.notifyDataSetChanged();
     }
 
     private void updateLayout() {
 
-        if (layout.getCurrentSuggestion() == 0 && layout.getSuggestions() != null) { // -1 on etos and mobile. -1 does not show the dictionary
+        if (layout.getCurrentSuggestion() == -1 && layout.getSuggestions() != null) { // -1 on etos and mobile. -1 does not show the dictionary
             dictionaryAdapter.update(layout.getSuggestions());
-        } else {
-            int position = layout.getCurrentSuggestion();
-            dictionaryList.performItemClick(dictionaryList.getChildAt(position),
-                    position,
-                    dictionaryList.getItemIdAtPosition(position));
         }
 
         Symbol[] currentLayout = layout.getSymbols();
@@ -138,76 +132,48 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
             view.setBackgroundResource(R.drawable.text_selection_colors);
 
             if (layout.getCurrentRow() == row) {
-                //      view.setBackgroundResource(R.color.selected);
                 view.setSelected(true);
                 if (layout.getCurrentState() == AdaptiveLayout.State.COLUMN_SELECTION && layout.getCurrentColumn() == column) {
                     view.setBackgroundResource(R.color.rowselected);
                 }
             } else {
-                // Default non active background color
-                //view.setBackgroundResource(R.color.background);
-                view.setSelected(false);
+                view.setSelected(false); // Default non active background color
             }
         }
     }
 
-    private void updateSuggestions() { // todo fix cursor in dictionary.
+    private void updateSuggestions() {
 
         Symbol[] currentLayout = layout.getSymbols();
         for (int i = 0; i < symbolViews.size(); i++) {
 
             TextView view = (TextView) symbolViews.get(i);
-            view.setBackgroundResource(R.drawable.text_selection_colors); // todo does this need to stand here?
             // Because the layout of the symbols changes all the time we have to set the view
             // content each time we update.
             view.setText(currentLayout[i].getContent());
 
             view.setSelected(false);
+        }
 
-            List<String> temp = layout.getSuggestions();
-            for (String suggestion : temp) {
-                if (checkIfSuggestionIsActive(suggestion)) {
-                    view.setSelected(checkIfSuggestionIsActive(suggestion)); // skal sette view til riktig farge, men gjør det ikke.. todo
-                    System.out.println("Is the suggestion active? " + checkIfSuggestionIsActive(suggestion));
-                }
-            }
-            // view.setSelected(false); // was false
-            //  view.setBackgroundResource(R.color.background);
+        if (layout.getSuggestions() != null) {
+            int position = layout.getCurrentSuggestion();
 
+            dictionaryList.performItemClick(dictionaryList.getChildAt(position),
+                    position,
+                    dictionaryList.getItemIdAtPosition(position));
         }
 
     }
 
 
+    //todo is this method necessary?
     private boolean checkIfSuggestionIsActive(String suggestion) {
         return layout.getCurrentState() == AdaptiveLayout.State.SUGGESTION_SELECTION
                 && layout.getSuggestions().get(layout.getCurrentSuggestion()).equals(suggestion);
     }
 }
 
-        /*
-        Was in buildGUI
-        // old
-        suggestionsList = (GenericSuggestions.View) loader.getViewById(R.id.suggestionsList);
 
-        suggestionsAdapter = new GenericSuggestions.Adapter(new GenericSuggestions.SuggestionsState() {
-            @Override
-            public boolean isActive(String suggestion) {
-                return checkIfSuggestionIsActive(suggestion);
-            }
-
-            @Override
-            public String getSuggestion(int position) {
-                return layout.getSuggestions().get(position);
-            }
-
-            @Override
-            public int suggestionCount() {
-                return layout.getSuggestions().size();
-            }
-        });
-        suggestionsList.setAdapter(suggestionsAdapter);
-         */
 
 
 

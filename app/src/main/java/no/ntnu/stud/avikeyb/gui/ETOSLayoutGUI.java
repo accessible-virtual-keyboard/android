@@ -103,10 +103,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
         if (layout.getCurrentDictionaryPosition() == -1 && layout.getSuggestions() != null) {
             dictionaryAdapter.update(layout.getSuggestions());
-        }/* else if (layout.getCurrentMenuPosition() == -1 && layout.getCurrentMenu() != null) {
-            menuAdapter.update(layout.getCurrentMenu());
-
-        } */ else {
+        } else {
             int position = layout.getCurrentDictionaryPosition();
             dictionaryList.performItemClick(dictionaryList.getChildAt(position),
                     position,
