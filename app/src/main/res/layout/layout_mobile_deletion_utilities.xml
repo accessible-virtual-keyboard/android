@@ -1,9 +1,11 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
         android:id="@+id/sym_correct_word"
+        style="@style/mobileTextViewWordContent" />
 
     <TextView
         android:id="@+id/sym_delete_word"
+        style="@style/mobileTextViewWordContent" />
 
     <TextView
         android:id="@+id/sym_deletion_done"
