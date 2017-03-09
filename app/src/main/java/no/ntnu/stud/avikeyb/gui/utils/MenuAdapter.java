@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+import java.util.List;
+
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
@@ -39,20 +42,29 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
         Symbol symbol = getItem(position);
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.sidemenu, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.text_list_item, parent, false);
         }
 
-        TextView listviewText = (TextView) convertView.findViewById(R.id.listviewtext);
+        TextView listviewText = (TextView) convertView.findViewById(R.id.text_item);
         listviewText.setText(symbol.getContent());
         listviewText.setPadding(2, 20, 2, 20);
         listviewText.setTextColor(Color.BLACK);
 
-        if (symbol == layout.getCurrentSymbol()) {
+        listviewText.setBackgroundResource(R.drawable.text_selection_colors);
+         /*  if (symbol == layout.getCurrentSymbol()) {
             listviewText.setBackgroundResource(R.color.selected);
         } else {
             listviewText.setBackgroundResource(R.color.background);
-        }
+        }*/
+
         return convertView;
+    }
+
+    //  todo
+    public void update(Symbol updatedList) { // was List<Symbol>
+        clear();
+        addAll(updatedList);
+        notifyDataSetChanged();
     }
 
 }

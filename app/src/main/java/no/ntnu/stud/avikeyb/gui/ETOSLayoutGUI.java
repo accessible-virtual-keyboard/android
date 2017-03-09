@@ -88,21 +88,25 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
     public void updateGUI() {
 
-        // todo fix dictionary field with color
-        //todo fix the menu.
-        /*if (layout.getState().equals(ETOSLayout.State.SELECT_MENU)) {
-            listview.setAdapter(menuAdapter);
+        //todo fix the menu. this makes the cursor disaper on dictionary
+       /* if (layout.getState().equals(ETOSLayout.State.SELECT_MENU)) {
+            dictionaryList.setAdapter(menuAdapter);
             menuAdapter.clear();
             for (Symbol item : layout.getMenuOptions()) {
                 listItems.add(item);
             }
             menuAdapter.notifyDataSetChanged();
-        }*/  //else { }
+        } else {
+            dictionaryList.setAdapter(dictionaryAdapter);
+        } */
 
 
         if (layout.getCurrentDictionaryPosition() == -1 && layout.getSuggestions() != null) {
             dictionaryAdapter.update(layout.getSuggestions());
-        } else {
+        }/* else if (layout.getCurrentMenuPosition() == -1 && layout.getCurrentMenu() != null) {
+            menuAdapter.update(layout.getCurrentMenu());
+
+        } */ else {
             int position = layout.getCurrentDictionaryPosition();
             dictionaryList.performItemClick(dictionaryList.getChildAt(position),
                     position,
