@@ -29,4 +29,12 @@
         <item name="android:layout_weight">1</item>
     </style>
 
+    <style name="BinarySearchSymbolView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_margin">@dimen/binsearch_cell_margin</item>
+        <item name="android:padding">@dimen/binsearch_cell_padding</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

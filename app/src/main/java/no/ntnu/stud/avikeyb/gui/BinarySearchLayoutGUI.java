@@ -29,6 +29,8 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
     private Activity activity;
     private HashMap<Symbol, View> symbolViewMap;
     private SuggestionsAdapter suggestionsAdapter;
+    private RecyclerView suggestionsList;
+    private int suggestionsListHeightCache = 0; // Used to calculate the height of the suggestion list items
 
 
     public BinarySearchLayoutGUI(Activity activity, Keyboard keyboard, BinarySearchLayout layout) {
@@ -53,10 +55,23 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
             }
         }
 
-        RecyclerView suggestionsList = (RecyclerView) loader.getViewById(R.id.suggestionsList);
+        suggestionsList = (RecyclerView) loader.getViewById(R.id.suggestionsList);
         suggestionsList.setLayoutManager(new LinearLayoutManager(activity));
         suggestionsList.setItemAnimator(new DefaultItemAnimator());
         suggestionsList.setAdapter(suggestionsAdapter);
+
+        // FIXME: If possible
+        // Ugly hack to calculate the height of the items in the suggestions list to
+        // make them match the height of the symbols in the table rows. The runnable is used
+        // to get the height of the suggestions view after it has been added to the view and
+        // the height has been measured.
+        suggestionsList.post(new Runnable() {
+            @Override
+            public void run() {
+                updateSuggestionViewHeightCache();
+                suggestionsAdapter.notifyDataSetChanged();
+            }
+        });
 
         return (ViewGroup) loader.getLayout();
     }
@@ -88,6 +103,22 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
     }
 
 
+    private void updateSuggestionViewHeightCache(){
+        int height = suggestionsList.getHeight();
+        if(height != 0){
+            suggestionsListHeightCache = height;
+        }
+    }
+
+    // Make the suggestions item have the same height as the other symbols
+    private void calculateAndSetSuggestionItemHeight(View view){
+        updateSuggestionViewHeightCache();
+        if(suggestionsListHeightCache != 0){
+            view.getLayoutParams().height = (int) Math.floor(suggestionsListHeightCache / 7.0) - 6; // hardcoded calculation
+        }
+    }
+
+
     // Recycler view adapter
     private class SuggestionsAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -95,6 +126,7 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.binsearch_suggestion_item, parent, false);
             ViewHolder myViewHolder = new ViewHolder((TextView) view.findViewById(android.R.id.text1));
+            calculateAndSetSuggestionItemHeight(view);
             return myViewHolder;
         }
 
@@ -114,6 +146,7 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
                 holder.item.setTextColor(ContextCompat.getColor(activity, R.color.binsearch_inactive_fg));
             }
             holder.item.setText(suggestion);
+            calculateAndSetSuggestionItemHeight(holder.item);
         }
 
         @Override
