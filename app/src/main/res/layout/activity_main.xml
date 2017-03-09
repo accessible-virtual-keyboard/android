@@ -27,15 +27,12 @@
     <!-- TODO change BG color above? -->
 
     <ScrollView
+        android:id="@+id/layoutWrapper"
         android:layout_width="match_parent"
+        android:fillViewport="true"
         android:layout_height="0dp"
         android:layout_weight="11">
 
-        <LinearLayout
-            android:id="@+id/layoutWrapper"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
 
     </ScrollView>
 
