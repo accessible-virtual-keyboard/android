@@ -12,9 +12,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:layout_marginTop="2.5dp"
+        android:choiceMode="singleChoice"
         android:divider="#ffffff"
-        android:dividerHeight="2dp"
-        android:choiceMode="singleChoice" />
-
-
+        android:dividerHeight="2dp" />
 </LinearLayout>

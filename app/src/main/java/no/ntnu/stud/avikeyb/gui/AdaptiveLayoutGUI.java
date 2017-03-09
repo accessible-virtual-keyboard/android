@@ -162,10 +162,20 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
             // content each time we update.
             view.setText(currentLayout[i].getContent());
 
-             view.setSelected(false); // was false
+            view.setSelected(false);
+
+            List<String> temp = layout.getSuggestions();
+            for (String suggestion : temp) {
+                if (checkIfSuggestionIsActive(suggestion)) {
+                    view.setSelected(checkIfSuggestionIsActive(suggestion)); // skal sette view til riktig farge, men gjør det ikke.. todo
+                    System.out.println("Is the suggestion active? " + checkIfSuggestionIsActive(suggestion));
+                }
+            }
+            // view.setSelected(false); // was false
             //  view.setBackgroundResource(R.color.background);
 
         }
+
     }
 
 
