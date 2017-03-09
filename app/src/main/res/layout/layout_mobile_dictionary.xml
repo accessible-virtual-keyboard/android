@@ -11,17 +11,18 @@
         android:id="@+id/historylist"
         android:layout_alignParentStart="true"
         android:layout_gravity="start"
+        android:padding="@dimen/mobileLayoutTopMargin"
         android:background="@color/mobileLayoutButtonGroupBackground"
         android:choiceMode="singleChoice"
         app:layout_heightPercent="100%"
-        app:layout_widthPercent="15%" />
+        app:layout_widthPercent="@dimen/mobileHistoryListWidth" />
 
     <TableLayout
         android:id="@+id/mobileTableLayout"
         android:layout_toRightOf="@id/historylist"
         android:stretchColumns="*"
         app:layout_heightPercent="100%"
-        app:layout_widthPercent="70%">
+        app:layout_widthPercent="@dimen/mobileTableWidth">
 
         <TableRow style="@style/mobileRowStyle">
             <LinearLayout
@@ -33,15 +34,15 @@
 
                 <TextView
                     android:id="@+id/sym_e"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_t"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_a"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
             <LinearLayout
@@ -53,15 +54,15 @@
 
                 <TextView
                     android:id="@+id/sym_o"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_i"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_n"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
             <LinearLayout
@@ -89,15 +90,15 @@
 
                 <TextView
                     android:id="@+id/sym_s"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_r"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_h"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
 
@@ -110,19 +111,19 @@
 
                 <TextView
                     android:id="@+id/sym_l"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_d"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_c"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_u"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
             <LinearLayout
@@ -134,19 +135,19 @@
 
                 <TextView
                     android:id="@+id/sym_w"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_y"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_b"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_v"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
         </TableRow>
@@ -163,19 +164,19 @@
 
                 <TextView
                     android:id="@+id/sym_m"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_f"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_p"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_g"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
             <LinearLayout
@@ -187,23 +188,23 @@
 
                 <TextView
                     android:id="@+id/sym_k"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_x"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_j"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_q"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_z"
-                    style="@style/mobileTextView" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
             </LinearLayout>
 
@@ -230,11 +231,10 @@
         android:id="@+id/listview"
         android:layout_gravity="end"
         android:layout_toEndOf="@+id/mobileTableLayout"
-
-        android:layout_weight="2"
         android:background="@color/mobileLayoutButtonGroupBackground"
         android:choiceMode="singleChoice"
+        android:padding="@dimen/mobileLayoutTopMargin"
         app:layout_heightPercent="100%"
-        app:layout_widthPercent="15%" />
+        app:layout_widthPercent="@dimen/mobileDictionaryListWidth" />
 
 </android.support.percent.PercentRelativeLayout>

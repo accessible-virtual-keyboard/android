@@ -1,7 +1,8 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines (16dp, not 8dp). -->
+    <dimen name="activity_horizontal_margin">8dp</dimen>
+    <dimen name="activity_vertical_margin">8dp</dimen>
+
     <dimen name="binsearch_cell_margin">1dp</dimen>
     <dimen name="binsearch_cell_padding">4dp</dimen>
     <dimen name="binsearch_suggestion_margin">1dp</dimen>
@@ -35,11 +36,16 @@
 
     <item name="mobileRowHeight" type="dimen" format="fraction" >25%</item>
 
-    <item name="mobileHistoryListWidth" type="dimen" format="fraction">15%</item>
-    <item name="mobileTableWidth" type="dimen" format="fraction">70%</item>
-    <item name="mobileDictionaryListWidth" type="dimen" format="fraction">15%</item>
+    <item name="mobileHistoryListWidth" type="dimen" format="fraction">10%</item>
 
-    <item name="mobileTableWidthNoHistory" type="dimen" format="fraction">85%</item>
-    <item name="mobileDictionaryListWidthNoHistory" type="dimen" format="fraction">15%</item>
+    <item name="mobileTableWidth" type="dimen" format="fraction">65%</item>
+    <item name="mobileDictionaryListWidth" type="dimen" format="fraction">25%</item>
 
+    <item name="mobileTableWidthNoHistory" type="dimen" format="fraction">75%</item>
+    <item name="mobileDictionaryListWidthNoHistory" type="dimen" format="fraction">25%</item>
+
+
+    <item name="etosRowHeight" type="dimen" format="fraction">14.286%</item>
+    <item name="etosTableWidth" type="dimen" format="fraction">75%</item>
+    <item name="etosDictionaryListWidth" type="dimen" format="fraction">25%</item>
 </resources>

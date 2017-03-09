@@ -9,7 +9,7 @@
 
         <TextView
             android:id="@+id/sym_dictionary"
-            style="@style/mobileTextView" />
+            style="@style/DefaultTextViewLetterStyle" />
 
     </LinearLayout>
 
@@ -23,18 +23,18 @@
 
         <TextView
             android:id="@+id/sym_period"
-            style="@style/mobileTextView" />
+            style="@style/DefaultTextViewLetterStyle" />
 
         <TextView
             android:id="@+id/sym_comma"
-            style="@style/mobileTextView" />
+            style="@style/DefaultTextViewLetterStyle" />
 
         <TextView
             android:id="@+id/sym_question_mark"
-            style="@style/mobileTextView" />
+            style="@style/DefaultTextViewLetterStyle" />
         <TextView
             android:id="@+id/sym_exclamation_mark"
-            style="@style/mobileTextView" />
+            style="@style/DefaultTextViewLetterStyle" />
 
     </LinearLayout>
 
@@ -47,7 +47,7 @@
 
         <TextView
             android:id="@+id/sym_send"
-            style="@style/mobileTextView" />
+            style="@style/DefaultTextViewLetterStyle" />
 
     </LinearLayout>
 

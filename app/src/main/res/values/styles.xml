@@ -8,9 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="mobileTextView">
+    <style name="DefaultTextViewLetterStyle">
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">@dimen/mobileLayoutButtonWidth</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:textSize">@dimen/_18sdp</item>
         <item name="android:background">@color/mobileLayoutButtonBackground</item>
@@ -19,7 +19,7 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="mobileTextViewWordContent" parent="mobileTextView">
+    <style name="DefaultTextViewWordStyle" parent="DefaultTextViewLetterStyle">
         <item name="android:textSize">@dimen/_6sdp</item>
     </style>
 
@@ -27,6 +27,20 @@
         <item name="layout_heightPercent">@dimen/mobileRowHeight</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="EtosRowStyle">
+        <item name="layout_heightPercent">@dimen/etosRowHeight</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="EtosTextViewLetterStyle" parent="DefaultTextViewLetterStyle">
+        <item name="android:layout_margin">@dimen/etos_cell_margin</item>
+    </style>
+
+    <style name="EtosTextViewWordStyle" parent="DefaultTextViewWordStyle">
+        <item name="android:layout_margin">@dimen/etos_cell_margin</item>
     </style>
 
     <style name="BinarySearchSymbolView">

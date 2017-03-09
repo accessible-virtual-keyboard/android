@@ -2,9 +2,9 @@
 
     <TextView
         android:id="@+id/sym_dictionary_add_word"
-        style="@style/mobileTextViewWordContent" />
+        style="@style/DefaultTextViewWordStyle" />
 
     <TextView
         android:id="@+id/sym_dictionary_toggle"
-        style="@style/mobileTextViewWordContent" />
+        style="@style/DefaultTextViewWordStyle" />
 </merge>
