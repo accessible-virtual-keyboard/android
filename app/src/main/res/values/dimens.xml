@@ -27,5 +27,19 @@
     <dimen name="mobileLayoutButtonHeight">50dp</dimen>
     <dimen name="mobileLayoutButtonWidth">50dp</dimen>
 
+    <dimen name="mobileLayoutTopMargin">3dp</dimen>
+    <dimen name="mobileLayoutBottomMargin">3dp</dimen>
+    <dimen name="mobileLayoutEndMargin">3dp</dimen>
+    <dimen name="mobileLayoutStartMargin">3dp</dimen>
+
+
+    <item name="mobileRowHeight" type="dimen" format="fraction" >25%</item>
+
+    <item name="mobileHistoryListWidth" type="dimen" format="fraction">15%</item>
+    <item name="mobileTableWidth" type="dimen" format="fraction">70%</item>
+    <item name="mobileDictionaryListWidth" type="dimen" format="fraction">15%</item>
+
+    <item name="mobileTableWidthNoHistory" type="dimen" format="fraction">85%</item>
+    <item name="mobileDictionaryListWidthNoHistory" type="dimen" format="fraction">15%</item>
+
 </resources>
-<!-- <dimen name="_10sdp">10dp</dimen>-->

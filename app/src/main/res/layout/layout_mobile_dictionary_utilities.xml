@@ -2,18 +2,7 @@
 
     <TextView
         android:id="@+id/sym_dictionary_add_word"
-        style="?attr/buttonBarButtonStyle"
-        android:layout_width="@dimen/mobileLayoutButtonWidth"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-
-        android:background="@color/mobileLayoutButtonBackground" />
 
     <TextView
         android:id="@+id/sym_dictionary_toggle"
-        style="?attr/buttonBarButtonStyle"
-        android:layout_width="@dimen/mobileLayoutButtonWidth"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@color/mobileLayoutButtonBackground" />
 </merge>
