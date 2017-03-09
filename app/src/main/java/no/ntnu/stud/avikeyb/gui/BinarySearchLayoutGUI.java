@@ -49,11 +49,7 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
         for (Symbol symbol : layout.getSymbols()) {
             if (loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
-                if(symbol == Symbol.DELETE_WORD){
-                    view.setText("\u226A");
-                }else{
-                    view.setText(symbol.getContent());
-                }
+                view.setText(getSymbolContent(symbol));
                 view.setTypeface(null, Typeface.BOLD);
                 symbolViewMap.put(symbol, view);
             }
@@ -104,6 +100,13 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
                 }
             }
         }
+    }
+
+    private String getSymbolContent(Symbol symbol){
+        if(symbolContentOverrides.containsKey(symbol)){
+            return symbolContentOverrides.get(symbol);
+        }
+        return symbol.getContent();
     }
 
 
@@ -180,5 +183,11 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
             view.setTypeface(null, Typeface.BOLD);
             this.item = view;
         }
+    }
+
+    private static Map<Symbol, String> symbolContentOverrides = new HashMap<>();
+    static {
+        symbolContentOverrides.put(Symbol.SPACE, "\u2423");
+        symbolContentOverrides.put(Symbol.DELETE_WORD, "\u226A");
     }
 }
