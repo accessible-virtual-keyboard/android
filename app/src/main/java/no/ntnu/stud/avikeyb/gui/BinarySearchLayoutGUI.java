@@ -31,7 +31,7 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
     private SuggestionsAdapter suggestionsAdapter;
     private RecyclerView suggestionsList;
     private int suggestionsListHeightCache = 0; // Used to calculate the height of the suggestion list items
-
+    private TextView emptySuggestionsView;
 
     public BinarySearchLayoutGUI(Activity activity, Keyboard keyboard, BinarySearchLayout layout) {
         super(keyboard, layout);
@@ -55,6 +55,7 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
             }
         }
 
+        emptySuggestionsView = (TextView) loader.getViewById(R.id.emptySuggestions);
         suggestionsList = (RecyclerView) loader.getViewById(R.id.suggestionsList);
         suggestionsList.setLayoutManager(new LinearLayoutManager(activity));
         suggestionsList.setItemAnimator(new DefaultItemAnimator());
@@ -62,16 +63,8 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
 
         // FIXME: If possible
         // Ugly hack to calculate the height of the items in the suggestions list to
-        // make them match the height of the symbols in the table rows. The runnable is used
-        // to get the height of the suggestions view after it has been added to the view and
-        // the height has been measured.
-        suggestionsList.post(new Runnable() {
-            @Override
-            public void run() {
-                updateSuggestionViewHeightCache();
-                suggestionsAdapter.notifyDataSetChanged();
-            }
-        });
+        // make them match the height of the symbols in the table rows.
+        calculateSuggestionsHeightWhenVisible();
 
         return (ViewGroup) loader.getLayout();
     }
@@ -79,7 +72,14 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
     @Override
     public void updateGUI() {
 
-        suggestionsAdapter.notifyDataSetChanged();
+        if(layout.getSuggestions().isEmpty()){
+            emptySuggestionsView.setVisibility(View.VISIBLE);
+            suggestionsList.setVisibility(View.GONE);
+        }else{
+            emptySuggestionsView.setVisibility(View.GONE);
+            suggestionsList.setVisibility(View.VISIBLE);
+            calculateSuggestionsHeightWhenVisible();
+        }
 
         for (Map.Entry<Symbol, View> it : symbolViewMap.entrySet()) {
 
@@ -102,6 +102,18 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
         }
     }
 
+
+    private void calculateSuggestionsHeightWhenVisible(){
+        // The runnable is used to get the height of the suggestions view after it has been added
+        // to the view and the height has been measured by the system.
+        suggestionsList.post(new Runnable() {
+            @Override
+            public void run() {
+                updateSuggestionViewHeightCache();
+                suggestionsAdapter.notifyDataSetChanged();  // Notify that the item height have changed
+            }
+        });
+    }
 
     private void updateSuggestionViewHeightCache(){
         int height = suggestionsList.getHeight();
