@@ -37,6 +37,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private TextAdapter dictionaryAdapter;
     private View previousViewSelected;
     private LayoutLoader loader;
+    private TextView emptySuggestionsView;
 
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
@@ -76,11 +77,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
         });
         dictionaryList.setEnabled(false);
 
-        // set the listview to show the text "nothing to show".
-        TextView empty = new TextView(activity);
-        empty.setText("Nothing to show");
-        ((ViewGroup) dictionaryList.getParent()).addView(empty);
-        dictionaryList.setEmptyView(empty);
+        emptySuggestionsView = (TextView) loader.getViewById(R.id.emptySuggestions);
 
         return (ViewGroup) loader.getLayout();
     }
@@ -110,6 +107,13 @@ public class ETOSLayoutGUI extends LayoutGUI {
                     dictionaryList.getItemIdAtPosition(position));
         }
 
+        if(layout.getSuggestions().isEmpty()){
+            emptySuggestionsView.setVisibility(View.VISIBLE);
+            dictionaryList.setVisibility(View.GONE);
+        }else{
+            emptySuggestionsView.setVisibility(View.GONE);
+            dictionaryList.setVisibility(View.VISIBLE);
+        }
 
         // Highlight the selected symbol
         int current = layout.getCurrentPosition();

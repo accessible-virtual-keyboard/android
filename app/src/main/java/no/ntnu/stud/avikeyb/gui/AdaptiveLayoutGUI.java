@@ -35,6 +35,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
     private TextAdapter dictionaryAdapter;
     private ListView dictionaryList;
     private View previousViewSelected;
+    private TextView emptySuggestionsView;
 
 
     // Store a reference to all the symbol for easy access when updating the gui
@@ -93,12 +94,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         });
         dictionaryList.setEnabled(false);
 
-        // set the listview to show the text "nothing to show".
-        TextView empty = new TextView(activity);
-        empty.setText("Nothing to show");
-        ((ViewGroup) dictionaryList.getParent()).addView(empty);
-        dictionaryList.setEmptyView(empty);
-
+        emptySuggestionsView = (TextView) loader.getViewById(R.id.emptySuggestions);
 
         return loader.getLayout();
     }
@@ -116,6 +112,15 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
         if (layout.getCurrentSuggestion() == -1 && layout.getSuggestions() != null) { // -1 on etos and mobile. -1 does not show the dictionary
             dictionaryAdapter.update(layout.getSuggestions());
+        }
+
+
+        if(layout.getSuggestions().isEmpty()){
+            emptySuggestionsView.setVisibility(View.VISIBLE);
+            dictionaryList.setVisibility(View.GONE);
+        }else{
+            emptySuggestionsView.setVisibility(View.GONE);
+            dictionaryList.setVisibility(View.VISIBLE);
         }
 
         Symbol[] currentLayout = layout.getSymbols();
