@@ -211,19 +211,19 @@
 
             <TextView
                 android:id="@+id/t3"
-                style="@style/RegularTextViewLetterStyle" />
+                style="@style/SemiTransparentTextView" />
 
             <TextView
                 android:id="@+id/t4"
-                style="@style/RegularTextViewLetterStyle" />
+                style="@style/SemiTransparentTextView" />
 
             <TextView
                 android:id="@+id/t5"
-                style="@style/RegularTextViewLetterStyle" />
+                style="@style/SemiTransparentTextView" />
 
             <TextView
                 android:id="@+id/t6"
-                style="@style/RegularTextViewLetterStyle" />
+                style="@style/SemiTransparentTextView" />
         </TableRow>
     </TableLayout>
 

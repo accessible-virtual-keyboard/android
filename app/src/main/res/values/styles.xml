@@ -31,6 +31,10 @@
         <item name="android:layout_margin">@dimen/default_tile_padding</item>
     </style>
 
+    <style name="SemiTransparentTextView" parent="RegularTextViewLetterStyle">
+        <item name="android:alpha">0.3</item>
+    </style>
+
     <style name="NoSuggestionTextViewStyle" parent="DefaultTextViewWordStyle">
         <item name="layout_widthPercent">@dimen/defaultDictionaryListWidth</item>
         <item name="android:text">No suggestions</item>
