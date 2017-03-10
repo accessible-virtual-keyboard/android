@@ -1,233 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center"
-    tools:context=".MainActivity">
+    >
 
-    <!--id is never used -->
     <TableLayout
         android:id="@+id/etosTable"
-        style="@style/EtosTableStyle">
+        style="@style/RegularTableStyle">
 
         <TableRow style="@style/EtosRowStyle">
 
             <TextView
                 android:id="@+id/sym_send"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_e"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_t"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_o"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_s"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_l"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
         </TableRow>
 
         <TableRow style="@style/EtosRowStyle">
 
             <TextView
                 android:id="@+id/sym_a"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_i"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_h"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_c"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_f"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_g"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
         </TableRow>
 
         <TableRow style="@style/EtosRowStyle">
 
             <TextView
                 android:id="@+id/sym_n"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_r"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_u"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_y"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_v"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_k"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
         </TableRow>
 
         <TableRow style="@style/EtosRowStyle">
 
             <TextView
                 android:id="@+id/sym_d"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_m"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_p"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_j"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_q"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_z"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
         </TableRow>
 
         <TableRow style="@style/EtosRowStyle">
 
             <TextView
                 android:id="@+id/sym_w"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_b"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_x"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_num_0"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_num_1"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_num_2"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
         </TableRow>
 
         <TableRow style="@style/EtosRowStyle">
 
             <TextView
                 android:id="@+id/sym_num_3"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_num_4"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_num_5"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_num_6"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_num_7"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_num_8"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
         </TableRow>
 
         <TableRow style="@style/EtosRowStyle">
 
             <TextView
                 android:id="@+id/sym_num_9"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_period"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_comma"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_question_mark"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_exclamation_mark"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_space"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
         </TableRow>
 
         <TableRow style="@style/EtosRowStyle">
 
             <TextView
                 android:id="@+id/sym_dictionary"
-                style="@style/EtosTextViewWordStyle" />
+                style="@style/RegularTextViewWordStyle" />
 
             <TextView
                 android:id="@+id/sym_menu"
-                style="@style/EtosTextViewWordStyle" />
+                style="@style/RegularTextViewWordStyle" />
 
             <TextView
                 android:id="@+id/t3"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/t4"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/t5"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/t6"
-                style="@style/EtosTextViewLetterStyle" />
+                style="@style/RegularTextViewLetterStyle" />
         </TableRow>
     </TableLayout>
 
