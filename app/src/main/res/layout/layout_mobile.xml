@@ -1,349 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:orientation="horizontal"
-    android:weightSum="12">
+    android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/historylist"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:layout_weight="1"
-        android:background="@color/mobileLayoutButtonGroupBackground"
-        android:choiceMode="singleChoice" />
-
+        style="@style/MobileHistoryList" />
+    
     <TableLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="9"
-        android:stretchColumns="*">
+        android:id="@+id/mobileTableLayout"
+        style="@style/MobileTableStyle">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="4">
+        <TableRow style="@style/MobileRowStyle">
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="4">
 
                 <TextView
                     android:id="@+id/sym_e"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_t"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_i"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_space"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle"/>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="3">
 
                 <TextView
                     android:id="@+id/sym_a"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_n"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_l"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="3">
+
                 <include layout="@layout/layout_mobile_deletion_utilities" />
             </LinearLayout>
         </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="4">
+        <TableRow style="@style/MobileRowStyle">
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="3">
 
                 <TextView
                     android:id="@+id/sym_o"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_s"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_d"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="4">
 
                 <TextView
                     android:id="@+id/sym_r"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_c"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_p"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_b"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="4">
 
                 <TextView
                     android:id="@+id/sym_m"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_w"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_k"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_j"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="4">
+        <TableRow style="@style/MobileRowStyle">
 
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="4">
 
                 <TextView
                     android:id="@+id/sym_h"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_u"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_g"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_v"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="5">
 
                 <TextView
                     android:id="@+id/sym_f"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_y"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
-
+                    style="@style/DefaultTextViewLetterStyle" />
                 <TextView
                     android:id="@+id/sym_x"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
                 <TextView
                     android:id="@+id/sym_q"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
-
+                    style="@style/DefaultTextViewLetterStyle" />
                 <TextView
                     android:id="@+id/sym_z"
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="@dimen/mobileLayoutButtonWidth"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/mobileLayoutButtonBackground" />
+                    style="@style/DefaultTextViewLetterStyle" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="2">
 
                 <include layout="@layout/layout_mobile_dictionary_utilities" />
             </LinearLayout>
         </TableRow>
 
-        <include layout="@layout/layout_mobile_bottom_row" />
+        <TableRow style="@style/MobileRowStyle">
+            <include layout="@layout/layout_mobile_bottom_row" />
+        </TableRow>
     </TableLayout>
 
     <ListView
         android:id="@+id/listview"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:layout_weight="2"
-        android:background="@color/mobileLayoutButtonGroupBackground"
-        android:choiceMode="singleChoice" />
+        android:layout_toEndOf="@+id/mobileTableLayout"
+        style="@style/DictionaryListStyle" />
 
-</LinearLayout>
+</android.support.percent.PercentRelativeLayout>

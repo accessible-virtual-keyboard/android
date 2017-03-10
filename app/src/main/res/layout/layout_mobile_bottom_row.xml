@@ -1,10 +1,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@color/mobileLayoutButtonGroupBackground"
-        android:padding="@dimen/mobileLayoutButtonGroupPadding"
+        style="@style/MobileGroupStyle"
         android:weightSum="1">
 
         <TextView
@@ -15,10 +12,7 @@
 
 
     <LinearLayout
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@color/mobileLayoutButtonGroupBackground"
-        android:padding="@dimen/mobileLayoutButtonGroupPadding"
+        style="@style/MobileGroupStyle"
         android:weightSum="4">
 
         <TextView
@@ -39,10 +33,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@color/mobileLayoutButtonGroupBackground"
-        android:padding="@dimen/mobileLayoutButtonGroupPadding"
+        style="@style/MobileGroupStyle"
         android:weightSum="1">
 
         <TextView

@@ -27,6 +27,7 @@
     <color name="background">#DCDBDE</color> <!--DDDDC0,ADA6B0 -->
     <color name="selected">#ADA6B0</color>
     <color name="notselected">#FFFFEF</color> <!-- -->
+    <color name="default_background_color">#8D8194</color>
 
     <color name="binsearch_inactive_bg">#30eeeeee</color> <!-- for binary not active felt -->
     <color name="binsearch_inactive_fg">#cccccc</color> <!--for binary not active felt-->

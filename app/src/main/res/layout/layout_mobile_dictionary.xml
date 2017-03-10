@@ -3,33 +3,18 @@
 <android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:orientation="horizontal">
+    android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/historylist"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="start"
-        android:padding="@dimen/mobileLayoutTopMargin"
-        android:background="@color/mobileLayoutButtonGroupBackground"
-        android:choiceMode="singleChoice"
-        app:layout_heightPercent="100%"
-        app:layout_widthPercent="@dimen/mobileHistoryListWidth" />
-
+        style="@style/MobileHistoryList" />
     <TableLayout
         android:id="@+id/mobileTableLayout"
-        android:layout_toRightOf="@id/historylist"
-        android:stretchColumns="*"
-        app:layout_heightPercent="100%"
-        app:layout_widthPercent="@dimen/mobileTableWidth">
+        style="@style/MobileTableStyle">
 
-        <TableRow style="@style/mobileRowStyle">
+        <TableRow style="@style/MobileRowStyle">
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="3">
 
                 <TextView
@@ -46,10 +31,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="3">
 
                 <TextView
@@ -66,10 +48,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="3">
 
                 <include layout="@layout/layout_mobile_deletion_utilities" />
@@ -79,13 +58,10 @@
 
         </TableRow>
 
-        <TableRow style="@style/mobileRowStyle">
+        <TableRow style="@style/MobileRowStyle">
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="3">
 
                 <TextView
@@ -103,10 +79,7 @@
 
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="4">
 
                 <TextView
@@ -127,10 +100,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="4">
 
                 <TextView
@@ -152,14 +122,11 @@
 
         </TableRow>
 
-        <TableRow style="@style/mobileRowStyle">
+        <TableRow style="@style/MobileRowStyle">
 
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="4">
 
                 <TextView
@@ -180,10 +147,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="5">
 
                 <TextView
@@ -209,10 +173,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/mobileLayoutButtonGroupBackground"
-                android:padding="@dimen/mobileLayoutButtonGroupPadding"
+                style="@style/MobileGroupStyle"
                 android:weightSum="2">
 
                 <include layout="@layout/layout_mobile_dictionary_utilities" />
@@ -220,7 +181,7 @@
 
         </TableRow>
 
-        <TableRow style="@style/mobileRowStyle">
+        <TableRow style="@style/MobileRowStyle">
 
             <include layout="@layout/layout_mobile_bottom_row"/>
 
@@ -229,12 +190,7 @@
 
     <ListView
         android:id="@+id/listview"
-        android:layout_gravity="end"
         android:layout_toEndOf="@+id/mobileTableLayout"
-        android:background="@color/mobileLayoutButtonGroupBackground"
-        android:choiceMode="singleChoice"
-        android:padding="@dimen/mobileLayoutTopMargin"
-        app:layout_heightPercent="100%"
-        app:layout_widthPercent="@dimen/mobileDictionaryListWidth" />
+        style="@style/DictionaryListStyle"/>
 
 </android.support.percent.PercentRelativeLayout>
