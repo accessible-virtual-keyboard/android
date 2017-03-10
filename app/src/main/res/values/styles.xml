@@ -8,15 +8,20 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DefaultTextViewLetterStyle">
+    <style name="DefaultTextFormat">
+        <item name="android:textSize">@dimen/_18sdp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="DefaultTextViewLetterStyle" parent="DefaultTextFormat">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:textSize">@dimen/_18sdp</item>
         <item name="android:background">@color/mobileLayoutButtonBackground</item>
         <item name="android:gravity">center</item>
-        <item name="android:textAlignment">center</item>
-        <item name="android:textAllCaps">true</item>
+
     </style>
 
     <style name="DefaultTextViewWordStyle" parent="DefaultTextViewLetterStyle">
@@ -117,7 +122,7 @@
         <item name="layout_heightPercent">@dimen/adaptiveRowHeight</item>
     </style>
 
-    <style name="BinarySearchSymbolView">
+    <style name="BinarySearchSymbolView" parent="DefaultTextFormat">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_margin">@dimen/binsearch_cell_margin</item>

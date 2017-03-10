@@ -1,11 +1,14 @@
 package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +53,6 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
             if (loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
                 view.setText(getSymbolContent(symbol));
-                view.setTypeface(null, Typeface.BOLD);
                 symbolViewMap.put(symbol, view);
             }
         }
@@ -144,7 +146,7 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.binsearch_suggestion_item, parent, false);
-            ViewHolder myViewHolder = new ViewHolder((TextView) view.findViewById(android.R.id.text1));
+            ViewHolder myViewHolder = new ViewHolder(activity.getBaseContext(), (TextView) view.findViewById(android.R.id.text1));
             calculateAndSetSuggestionItemHeight(view);
             return myViewHolder;
         }
@@ -178,9 +180,15 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
     private static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView item;
 
-        public ViewHolder(TextView view) {
+        public ViewHolder(Context context, TextView view) {
             super(view);
-            view.setTypeface(null, Typeface.BOLD);
+            if (Build.VERSION.SDK_INT < 23) {
+                view.setTextAppearance(context,R.style.DefaultTextFormat);
+            } else {
+                view.setTextAppearance(R.style.DefaultTextFormat);
+            }
+            view.setAllCaps(false);
+
             this.item = view;
         }
     }
