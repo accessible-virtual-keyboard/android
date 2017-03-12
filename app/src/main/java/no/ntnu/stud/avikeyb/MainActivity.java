@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,6 +33,7 @@ import no.ntnu.stud.avikeyb.backend.dictionary.ResourceHandler;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
+import no.ntnu.stud.avikeyb.backend.layouts.LayoutWithSuggestions;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
 import no.ntnu.stud.avikeyb.gui.AdaptiveLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private Layout currentLayout;
     private LayoutGUI currentLayoutGUI;
     private Layout.LayoutListener currentLayoutListener;
+    private List<String> cachedSuggestions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
         final LinearEliminationDictionaryHandler mobileDictionary = new LinearEliminationDictionaryHandler();
 
-
-        final Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionaryHandler);
-        final ETOSLayout etosLayout = new ETOSLayout(keyboard, suggestions);
-        final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard, suggestions);
-        final AdaptiveLayout adaptiveLayout = new AdaptiveLayout(keyboard, suggestions);
+        final ETOSLayout etosLayout = new ETOSLayout(keyboard);
+        final BinarySearchLayout binLayout = new BinarySearchLayout(keyboard);
+        final AdaptiveLayout adaptiveLayout = new AdaptiveLayout(keyboard);
 
         // Asynchronously load the dictionary enties from a file and set the entries to the
         // two in memory dictionaries.
@@ -143,6 +144,22 @@ public class MainActivity extends AppCompatActivity {
         keyboard.addOutputDevice(new WordUpdater(dictionaryHandler));
 
 
+        final Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionaryHandler);
+
+        suggestions.addListener(new Suggestions.Listener() {
+            @Override
+            public void onSuggestions(List<String> suggestionsList) {
+
+                cachedSuggestions = suggestionsList.subList(0, Math.min(20, suggestionsList.size()));
+
+                if(currentLayout != null && currentLayout instanceof LayoutWithSuggestions){
+                    ((LayoutWithSuggestions) currentLayout).setSuggestions(cachedSuggestions);
+                }
+
+            }
+        });
+
+
         layoutTabs.addOnTabSelectedListener(tabSwitcher);
 
         // Trigger the creation of the layout in the first tab
@@ -170,6 +187,11 @@ public class MainActivity extends AppCompatActivity {
     private void switchLayout(Layout layout, LayoutGUI layoutGui) {
         layoutGui.setLayoutContainer(layoutWrapper);
         layoutGui.onLayoutActivated();
+
+        if(layout instanceof LayoutWithSuggestions){
+            ((LayoutWithSuggestions) layout).setSuggestions(cachedSuggestions);
+        }
+
         layoutGui.updateGUI();
         setupInputButtons(layout);
         setupLayoutListener(layout, layoutGui);
