@@ -101,11 +101,6 @@ public class MobileLayoutGUI extends LayoutGUI {
         return loader.getLayout();
     }
 
-    @Override
-    public void onLayoutActivated() {
-        layoutContainer.removeAllViews();
-        layoutContainer.addView(buildGUI());
-    }
 
     @Override
     public void updateGUI() {

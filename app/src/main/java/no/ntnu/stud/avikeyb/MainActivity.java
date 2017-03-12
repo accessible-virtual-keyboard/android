@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
     private void switchLayout(Layout layout, LayoutGUI layoutGui) {
         layoutGui.setLayoutContainer(layoutWrapper);
         layoutGui.onLayoutActivated();
+        layoutGui.updateGUI();
         setupInputButtons(layout);
         setupLayoutListener(layout, layoutGui);
     }

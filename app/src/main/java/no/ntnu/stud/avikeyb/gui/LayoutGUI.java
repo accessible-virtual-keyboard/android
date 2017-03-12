@@ -37,7 +37,6 @@ public abstract class LayoutGUI {
     public void onLayoutActivated(){
         layoutContainer.removeAllViews();
         layoutContainer.addView(buildGUI());
-        updateGUI();
     }
 
     /**
