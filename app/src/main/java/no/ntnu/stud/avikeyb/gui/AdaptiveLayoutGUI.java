@@ -41,8 +41,8 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
     // Store a reference to all the symbol for easy access when updating the gui
     private ArrayList<View> symbolViews = new ArrayList<>();
 
-    public AdaptiveLayoutGUI(Activity activity, Keyboard keyboard, AdaptiveLayout layout) {
-        super(keyboard);
+    public AdaptiveLayoutGUI(Activity activity, AdaptiveLayout layout) {
+        super();
 
         this.layout = layout;
         this.activity = activity;

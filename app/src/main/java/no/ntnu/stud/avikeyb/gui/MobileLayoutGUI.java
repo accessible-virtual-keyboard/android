@@ -41,8 +41,8 @@ public class MobileLayoutGUI extends LayoutGUI {
     private LayoutLoader loader;
     private MobileDictionaryLayout.DictionaryState previousLayoutState;
 
-    public MobileLayoutGUI(Activity activity, Keyboard keyboard, MobileDictionaryLayout layout, int layoutResource1, int layoutResource2) {
-        super(keyboard);
+    public MobileLayoutGUI(Activity activity, MobileDictionaryLayout layout, int layoutResource1, int layoutResource2) {
+        super();
         this.activity = activity;
         this.layout = layout;
         this.layoutResource1 = layoutResource1;

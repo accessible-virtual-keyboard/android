@@ -36,8 +36,8 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
     private int suggestionsListHeightCache = 0; // Used to calculate the height of the suggestion list items
     private TextView emptySuggestionsView;
 
-    public BinarySearchLayoutGUI(Activity activity, Keyboard keyboard, BinarySearchLayout layout) {
-        super(keyboard);
+    public BinarySearchLayoutGUI(Activity activity, BinarySearchLayout layout) {
+        super();
 
         this.activity = activity;
         this.layout = layout;

@@ -40,8 +40,8 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private TextView emptySuggestionsView;
 
 
-    public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
-        super(keyboard);
+    public ETOSLayoutGUI(Activity activity, ETOSLayout layout) {
+        super();
         this.layout = layout;
         this.activity = activity;
         loader = new LayoutLoader(activity, R.layout.layout_etos);

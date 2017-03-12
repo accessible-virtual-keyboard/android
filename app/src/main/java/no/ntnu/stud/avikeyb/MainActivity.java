@@ -88,22 +88,22 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 1: {
-                        switchLayout(adaptiveLayout, new AdaptiveLayoutGUI(MainActivity.this, keyboard, adaptiveLayout));
+                        switchLayout(adaptiveLayout, new AdaptiveLayoutGUI(MainActivity.this, adaptiveLayout));
                         break;
                     }
                     case 2: {
                         MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary);
-                        MobileLayoutGUI mobileGUI = new MobileLayoutGUI(MainActivity.this, keyboard, l, R.layout.layout_mobile_dictionary, R.layout.layout_mobile);
+                        MobileLayoutGUI mobileGUI = new MobileLayoutGUI(MainActivity.this, l, R.layout.layout_mobile_dictionary, R.layout.layout_mobile);
                         switchLayout(l, mobileGUI);
                         mobileGUI.firstUpdate(); // We need to update gui right after it has been set to mark first mobile layout row.
                         break;
                     }
                     case 3: {
-                        switchLayout(binLayout, new BinarySearchLayoutGUI(MainActivity.this, keyboard, binLayout));
+                        switchLayout(binLayout, new BinarySearchLayoutGUI(MainActivity.this, binLayout));
                         break;
                     }
                     default: {
-                        switchLayout(etosLayout, new ETOSLayoutGUI(MainActivity.this, keyboard, etosLayout));
+                        switchLayout(etosLayout, new ETOSLayoutGUI(MainActivity.this, etosLayout));
                         break;
                     }
                 }

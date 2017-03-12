@@ -26,8 +26,8 @@ public class SimpleExampleLayoutGUI extends LayoutGUI {
     private SimpleExampleLayout layout;
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
 
-    public SimpleExampleLayoutGUI(Activity activity, Keyboard keyboard, SimpleExampleLayout layout) {
-        super(keyboard);
+    public SimpleExampleLayoutGUI(Activity activity, SimpleExampleLayout layout) {
+        super();
 
         this.layout = layout;
         this.activity = activity;

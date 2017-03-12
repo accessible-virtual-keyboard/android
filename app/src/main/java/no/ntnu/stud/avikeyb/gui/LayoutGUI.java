@@ -10,19 +10,13 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
  */
 public abstract class LayoutGUI {
 
-    private Keyboard keyboard;
     protected ViewGroup layoutContainer;
 
-    public LayoutGUI(Keyboard keyboard) {
-        this.keyboard = keyboard;
+    public LayoutGUI() {
     }
 
     public void setLayoutContainer(ViewGroup layoutContainer){
         this.layoutContainer = layoutContainer;
-    }
-
-    protected Keyboard getKeyboard() {
-        return keyboard;
     }
 
 
