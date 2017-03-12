@@ -42,7 +42,7 @@ public class MobileLayoutGUI extends LayoutGUI {
     private MobileDictionaryLayout.DictionaryState previousLayoutState;
 
     public MobileLayoutGUI(Activity activity, Keyboard keyboard, MobileDictionaryLayout layout, int layoutResource1, int layoutResource2) {
-        super(keyboard, layout);
+        super(keyboard);
         this.activity = activity;
         this.layout = layout;
         this.layoutResource1 = layoutResource1;
@@ -108,7 +108,7 @@ public class MobileLayoutGUI extends LayoutGUI {
     }
 
     @Override
-    protected void updateGUI() {
+    public void updateGUI() {
         if (layout.getDictionaryState() != previousLayoutState) {
             onLayoutActivated();
             layout.logMarked();

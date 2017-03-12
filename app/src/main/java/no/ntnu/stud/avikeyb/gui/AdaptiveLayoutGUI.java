@@ -42,7 +42,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
     private ArrayList<View> symbolViews = new ArrayList<>();
 
     public AdaptiveLayoutGUI(Activity activity, Keyboard keyboard, AdaptiveLayout layout) {
-        super(keyboard, layout);
+        super(keyboard);
 
         this.layout = layout;
         this.activity = activity;

@@ -41,7 +41,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
 
     public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
-        super(keyboard, layout);
+        super(keyboard);
         this.layout = layout;
         this.activity = activity;
         loader = new LayoutLoader(activity, R.layout.layout_etos);

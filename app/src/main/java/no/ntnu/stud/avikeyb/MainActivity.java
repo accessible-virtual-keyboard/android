@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
     private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
     private Keyboard keyboard;
 
+    private Layout currentLayout;
+    private LayoutGUI currentLayoutGUI;
+    private Layout.LayoutListener currentLayoutListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,6 +171,26 @@ public class MainActivity extends AppCompatActivity {
         layoutGui.setLayoutContainer(layoutWrapper);
         layoutGui.onLayoutActivated();
         setupInputButtons(layout);
+        setupLayoutListener(layout, layoutGui);
+    }
+
+    private void setupLayoutListener(Layout layout, LayoutGUI layoutGui){
+
+        if(currentLayout != null){
+            // Remove the old listener when the layout changes to prevent memory leaks
+            currentLayout.removeLayoutListener(currentLayoutListener);
+        }
+
+        // Update the gui when the layouts changes.
+        currentLayoutListener = new Layout.LayoutListener() {
+            @Override
+            public void onLayoutChanged() {
+                currentLayoutGUI.updateGUI();
+            }
+        };
+        currentLayout = layout;
+        currentLayoutGUI = layoutGui;
+        currentLayout.addLayoutListener(currentLayoutListener);
     }
 
     private void setupInputButtons(final InputInterface input) {

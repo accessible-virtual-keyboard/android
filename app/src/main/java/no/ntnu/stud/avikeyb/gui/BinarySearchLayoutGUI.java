@@ -37,7 +37,7 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
     private TextView emptySuggestionsView;
 
     public BinarySearchLayoutGUI(Activity activity, Keyboard keyboard, BinarySearchLayout layout) {
-        super(keyboard, layout);
+        super(keyboard);
 
         this.activity = activity;
         this.layout = layout;
