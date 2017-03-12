@@ -20,8 +20,8 @@ public class SuggestionsAndroid extends Suggestions {
     private AsyncTask<String, Void, List<String>> currentTask;
     private Dictionary dictionary;
 
-    public SuggestionsAndroid(Keyboard keyboard, Dictionary dictionary) {
-        super(keyboard);
+    public SuggestionsAndroid(Dictionary dictionary) {
+        super();
         this.dictionary = dictionary;
     }
 

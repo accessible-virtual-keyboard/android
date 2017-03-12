@@ -130,21 +130,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Update the buffer view
-        keyboard.addStateListener(new Keyboard.KeyboardListener() {
-            @Override
-            public void onOutputBufferChange(String oldBuffer, String newBuffer) {
-                bufferText.setText(newBuffer);
-                bufferText.setSelection(bufferText.getText().length());
-            }
-        });
 
-
-        // Update user word usage count
-        keyboard.addOutputDevice(new WordUpdater(dictionaryHandler));
-
-
-        final Suggestions suggestions = new SuggestionsAndroid(keyboard, dictionaryHandler);
+        final Suggestions suggestions = new SuggestionsAndroid(dictionaryHandler);
 
         suggestions.addListener(new Suggestions.Listener() {
             @Override
@@ -158,6 +145,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+        // Update the buffer view
+        keyboard.addStateListener(new Keyboard.KeyboardListener() {
+            @Override
+            public void onOutputBufferChange(String oldBuffer, String newBuffer) {
+                bufferText.setText(newBuffer);
+                bufferText.setSelection(bufferText.getText().length());
+                suggestions.findSuggestionsStartingWith(keyboard.getCurrentWord());
+            }
+        });
+
+
+        // Update user word usage count
+        keyboard.addOutputDevice(new WordUpdater(dictionaryHandler));
+
+
 
 
         layoutTabs.addOnTabSelectedListener(tabSwitcher);
