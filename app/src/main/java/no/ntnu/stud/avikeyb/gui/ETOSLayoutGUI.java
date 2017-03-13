@@ -117,38 +117,27 @@ public class ETOSLayoutGUI extends LayoutGUI {
                 }
             }
         }
-    }
+
+    } // end of updategui
 
 }// end of class
 
 
-// skal inn i buildGUI
- /*if (layout.getCurrentState().equals(ETOSLayout.State.SELECT_MENU)) {
-            dictionaryList.setAdapter(menuAdapter);
+/*
+      if (layout.getCurrentState().equals(ETOSLayout.State.SELECT_MENU)) {
             menuAdapter.clear();
             for (Symbol item : layout.getMenuOptions()) {
                 listItems.add(item);
             }
-            // menuAdapter.notifyDataSetChanged();
-        } else {
-            dictionaryList.setAdapter(dictionaryAdapter);
-            // dictionaryAdapter.notifyDataSetChanged();
-        }*/
-
-// skal inn i update gui
-
-//todo fix the menu. this makes the cursor disaper on dictionary
-   /*     if (layout.getCurrentState().equals(ETOSLayout.State.SELECT_MENU)) {
             dictionaryList.setAdapter(menuAdapter);
-            menuAdapter.clear();
-            for (Symbol item : layout.getMenuOptions()) {
-                listItems.add(item);
-            }
-            // menuAdapter.notifyDataSetChanged();
+
+//            menuAdapter.notifyDataSetChanged();
+//            dictionaryAdapter.notifyDataSetChanged();
         } else {
             dictionaryList.setAdapter(dictionaryAdapter);
-            // dictionaryAdapter.notifyDataSetChanged();
-        }*/
+
+        }
+ */
 
 // todo
         /*if (layout.getCurrentMenuPosition() == -1 && layout.getMenuOptions() != null) {

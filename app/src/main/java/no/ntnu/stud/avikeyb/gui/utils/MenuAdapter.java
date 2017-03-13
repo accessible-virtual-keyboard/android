@@ -9,11 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Symbol;
-import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 
 /**
  * Created by ingalill on 21/02/2017.
@@ -22,7 +20,7 @@ import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 public class MenuAdapter extends ArrayAdapter<Symbol> {
 
     private ArrayList<Symbol> symbols;
-    private ETOSLayout layout;
+
 
     /**
      * Constructor
@@ -30,10 +28,10 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
      * @param context
      * @param symbols
      */
-    public MenuAdapter(Activity context,int resource, ArrayList<Symbol> symbols){ //, ETOSLayout layout) {
+    public MenuAdapter(Activity context, int resource, ArrayList<Symbol> symbols) {
         super(context, resource, symbols);
         this.symbols = symbols;
-      //  this.layout = layout;
+
     }
 
     @Override
@@ -49,19 +47,12 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
         listviewText.setText(symbol.getContent());
         listviewText.setPadding(2, 20, 2, 20);
         listviewText.setTextColor(Color.BLACK);
-
         listviewText.setBackgroundResource(R.drawable.text_selection_colors);
-         /*  if (symbol == layout.getCurrentSymbol()) {
-            listviewText.setBackgroundResource(R.color.selected);
-        } else {
-            listviewText.setBackgroundResource(R.color.background);
-        }*/
 
         return convertView;
     }
 
-    //  todo
-    public void update(Symbol[] updatedList) { // was List<Symbol>
+    public void update(Symbol[] updatedList) {
         clear();
         addAll(updatedList);
         notifyDataSetChanged();
