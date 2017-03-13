@@ -82,7 +82,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
     }
 
 
-    public void updateGUI() { //todo cursor disapers
+    public void updateGUI() {
 
         if (layout.getCurrentDictionaryPosition() == -1 && layout.getSuggestions() != null) {
             dictionaryAdapter.update(layout.getSuggestions());
@@ -105,21 +105,18 @@ public class ETOSLayoutGUI extends LayoutGUI {
         for (Symbol symbol : layout.getSymbols()) {
             for (int i = 0; i < symbolViewMap.size(); i++) {
 
-                int column = i % layout.getRowSize();
-                int row = i / layout.getRowSize();
                 symbolViewMap.get(symbol).setBackgroundResource(R.drawable.text_selection_colors);
 
                 if (symbol != null && symbolViewMap.containsKey(symbol)) {
 
-                    if (symbol.equals(layout.getCurrentSymbol())) { // layout.getCurrentColumn() == column && layout.getCurrentRow() == row &&
+                    if (symbol.equals(layout.getCurrentSymbol())) {
                         symbolViewMap.get(symbol).setSelected(true);
                     } else {
                         symbolViewMap.get(symbol).setSelected(false);
                     }
-                } // if loop
-
-            } // for loop
-        } // for loop
+                }
+            }
+        }
     }
 
 }// end of class
