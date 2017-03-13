@@ -30,10 +30,10 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
      * @param context
      * @param symbols
      */
-    public MenuAdapter(Activity context, ArrayList<Symbol> symbols, ETOSLayout layout) {
-        super(context, 0, symbols);
+    public MenuAdapter(Activity context,int resource, ArrayList<Symbol> symbols){ //, ETOSLayout layout) {
+        super(context, resource, symbols);
         this.symbols = symbols;
-        this.layout = layout;
+      //  this.layout = layout;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class MenuAdapter extends ArrayAdapter<Symbol> {
     }
 
     //  todo
-    public void update(Symbol updatedList) { // was List<Symbol>
+    public void update(Symbol[] updatedList) { // was List<Symbol>
         clear();
         addAll(updatedList);
         notifyDataSetChanged();

@@ -2,7 +2,6 @@ package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import no.ntnu.stud.avikeyb.R;
-import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 import no.ntnu.stud.avikeyb.gui.utils.MenuAdapter;
@@ -59,8 +57,9 @@ public class ETOSLayoutGUI extends LayoutGUI {
         }
 
         dictionaryList = (ListView) loader.getViewById(R.id.listview);
-        menuAdapter = new MenuAdapter(activity, listItems, layout);
+        menuAdapter = new MenuAdapter(activity, R.id.listview, listItems);
         dictionaryAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
+
 
         dictionaryList.setAdapter(dictionaryAdapter);
         dictionaryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -83,20 +82,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
     }
 
 
-    public void updateGUI() {
-
-        //todo fix the menu. this makes the cursor disaper on dictionary
-       /* if (layout.getState().equals(ETOSLayout.State.SELECT_MENU)) {
-            dictionaryList.setAdapter(menuAdapter);
-            menuAdapter.clear();
-            for (Symbol item : layout.getMenuOptions()) {
-                listItems.add(item);
-            }
-            menuAdapter.notifyDataSetChanged();
-        } else {
-            dictionaryList.setAdapter(dictionaryAdapter);
-        } */
-
+    public void updateGUI() { //todo cursor disapers
 
         if (layout.getCurrentDictionaryPosition() == -1 && layout.getSuggestions() != null) {
             dictionaryAdapter.update(layout.getSuggestions());
@@ -107,30 +93,72 @@ public class ETOSLayoutGUI extends LayoutGUI {
                     dictionaryList.getItemIdAtPosition(position));
         }
 
-        if(layout.getSuggestions().isEmpty()){
+        if (layout.getSuggestions().isEmpty()) {
             emptySuggestionsView.setVisibility(View.VISIBLE);
             dictionaryList.setVisibility(View.GONE);
-        }else{
+        } else {
             emptySuggestionsView.setVisibility(View.GONE);
             dictionaryList.setVisibility(View.VISIBLE);
         }
 
         // Highlight the selected symbol
-        int current = layout.getCurrentPosition();
-        int index = 0;
-
         for (Symbol symbol : layout.getSymbols()) {
+            for (int i = 0; i < symbolViewMap.size(); i++) {
 
-            if (symbol != null && symbolViewMap.containsKey(symbol)) {
+                int column = i % layout.getRowSize();
+                int row = i / layout.getRowSize();
                 symbolViewMap.get(symbol).setBackgroundResource(R.drawable.text_selection_colors);
-                if (current == index) {
-                    symbolViewMap.get(symbol).setSelected(true);
-                } else {
-                    symbolViewMap.get(symbol).setSelected(false);
-                }
-            }
-            index++;
-        }
+
+                if (symbol != null && symbolViewMap.containsKey(symbol)) {
+
+                    if (symbol.equals(layout.getCurrentSymbol())) { // layout.getCurrentColumn() == column && layout.getCurrentRow() == row &&
+                        symbolViewMap.get(symbol).setSelected(true);
+                    } else {
+                        symbolViewMap.get(symbol).setSelected(false);
+                    }
+                } // if loop
+
+            } // for loop
+        } // for loop
     }
 
 }// end of class
+
+
+// skal inn i buildGUI
+ /*if (layout.getCurrentState().equals(ETOSLayout.State.SELECT_MENU)) {
+            dictionaryList.setAdapter(menuAdapter);
+            menuAdapter.clear();
+            for (Symbol item : layout.getMenuOptions()) {
+                listItems.add(item);
+            }
+            // menuAdapter.notifyDataSetChanged();
+        } else {
+            dictionaryList.setAdapter(dictionaryAdapter);
+            // dictionaryAdapter.notifyDataSetChanged();
+        }*/
+
+// skal inn i update gui
+
+//todo fix the menu. this makes the cursor disaper on dictionary
+   /*     if (layout.getCurrentState().equals(ETOSLayout.State.SELECT_MENU)) {
+            dictionaryList.setAdapter(menuAdapter);
+            menuAdapter.clear();
+            for (Symbol item : layout.getMenuOptions()) {
+                listItems.add(item);
+            }
+            // menuAdapter.notifyDataSetChanged();
+        } else {
+            dictionaryList.setAdapter(dictionaryAdapter);
+            // dictionaryAdapter.notifyDataSetChanged();
+        }*/
+
+// todo
+        /*if (layout.getCurrentMenuPosition() == -1 && layout.getMenuOptions() != null) {
+            menuAdapter.update(layout.getMenuOptions());
+        } else {
+            int pos = layout.getCurrentMenuPosition();
+            dictionaryList.performItemClick(dictionaryList.getChildAt(pos),
+                    pos,
+                    dictionaryList.getItemIdAtPosition(pos));
+        } */

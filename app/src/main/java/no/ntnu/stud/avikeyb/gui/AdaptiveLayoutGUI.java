@@ -2,27 +2,21 @@ package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
 import android.graphics.Color;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import no.ntnu.stud.avikeyb.R;
-import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
-import no.ntnu.stud.avikeyb.gui.utils.GenericSuggestions;
+
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -94,7 +88,9 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         });
         dictionaryList.setEnabled(false);
 
+
         emptySuggestionsView = (TextView) loader.getViewById(R.id.emptySuggestions);
+
 
         return loader.getLayout();
     }
@@ -110,15 +106,15 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
     private void updateLayout() {
 
-        if (layout.getCurrentSuggestion() == -1 && layout.getSuggestions() != null) { // -1 on etos and mobile. -1 does not show the dictionary
+        if (layout.getCurrentSuggestion() == -1 && layout.getSuggestions() != null) {
             dictionaryAdapter.update(layout.getSuggestions());
         }
 
 
-        if(layout.getSuggestions().isEmpty()){
+        if (layout.getSuggestions().isEmpty()) {
             emptySuggestionsView.setVisibility(View.VISIBLE);
             dictionaryList.setVisibility(View.GONE);
-        }else{
+        } else {
             emptySuggestionsView.setVisibility(View.GONE);
             dictionaryList.setVisibility(View.VISIBLE);
         }
