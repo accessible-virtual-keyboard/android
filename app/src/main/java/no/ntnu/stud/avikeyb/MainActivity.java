@@ -3,6 +3,7 @@ package no.ntnu.stud.avikeyb;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -42,6 +43,7 @@ import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
 import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
+import no.ntnu.stud.avikeyb.inputdevices.WebSocketInput;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -170,9 +172,27 @@ public class MainActivity extends AppCompatActivity {
         tabSwitcher.onTabSelected(layoutTabs.getTabAt(0));
     } // end of on create
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        WebSocketInput.getInstance().start();
+        WebSocketInput.getInstance().setInputInterface(new Handler(), new InputInterface() {
+            @Override
+            public void setInputState(InputType inputType, boolean b) {
+                if(currentLayout != null){
+                    currentLayout.setInputState(inputType, b);
+                }
+            }
+        });
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
+
+        WebSocketInput.getInstance().setInputInterface(new Handler(), null);
+        WebSocketInput.getInstance().stop(); // The client will have to reconnect when the activity resumes
 
         // Set save location.
         String folderPath = this.getFilesDir().getPath();
