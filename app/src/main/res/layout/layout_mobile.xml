@@ -171,12 +171,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/MobileGroupStyle"
-                android:weightSum="2">
-
-                <include layout="@layout/layout_mobile_dictionary_utilities" />
-            </LinearLayout>
+            <include layout="@layout/layout_mobile_dictionary_utilities" />
         </TableRow>
 
         <TableRow style="@style/MobileRowStyle">

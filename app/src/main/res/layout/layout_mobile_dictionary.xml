@@ -8,11 +8,13 @@
     <ListView
         android:id="@+id/historylist"
         style="@style/MobileHistoryList" />
+
     <TableLayout
         android:id="@+id/mobileTableLayout"
         style="@style/MobileTableStyle">
 
         <TableRow style="@style/MobileRowStyle">
+
             <LinearLayout
                 style="@style/MobileGroupStyle"
                 android:weightSum="3">
@@ -172,25 +174,21 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/MobileGroupStyle"
-                android:weightSum="2">
+            <include layout="@layout/layout_mobile_dictionary_utilities" />
 
-                <include layout="@layout/layout_mobile_dictionary_utilities" />
-            </LinearLayout>
 
         </TableRow>
 
         <TableRow style="@style/MobileRowStyle">
 
-            <include layout="@layout/layout_mobile_bottom_row"/>
+            <include layout="@layout/layout_mobile_bottom_row" />
 
         </TableRow>
     </TableLayout>
 
     <ListView
         android:id="@+id/listview"
-        android:layout_toEndOf="@+id/mobileTableLayout"
-        style="@style/DictionaryListStyle"/>
+        style="@style/DictionaryListStyle"
+        android:layout_toEndOf="@+id/mobileTableLayout" />
 
 </android.support.percent.PercentRelativeLayout>

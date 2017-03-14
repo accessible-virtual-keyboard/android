@@ -39,7 +39,7 @@ public class MobileLayoutGUI extends LayoutGUI {
 
     private MobileDictionaryLayout.State lastState;
     private LayoutLoader loader;
-    private MobileDictionaryLayout.DictionaryState previousLayoutState;
+    private MobileDictionaryLayout.Mode previousLayoutState;
 
     public MobileLayoutGUI(Activity activity, MobileDictionaryLayout layout, int layoutResource1, int layoutResource2) {
         super();
@@ -54,9 +54,9 @@ public class MobileLayoutGUI extends LayoutGUI {
     @Override
     protected View buildGUI() {
         //TODO return right layout resource
-        if (layout.getDictionaryState() == MobileDictionaryLayout.DictionaryState.DICTIONARY_ON) {
+        if (layout.getMode() == MobileDictionaryLayout.Mode.DICTIONARY_ON) {
             loader = new LayoutLoader(activity, layoutResource1);
-        } else if (layout.getDictionaryState() == MobileDictionaryLayout.DictionaryState.DICTIONARY_OFF) {
+        } else if (layout.getMode() == MobileDictionaryLayout.Mode.DICTIONARY_OFF) {
             loader = new LayoutLoader(activity, layoutResource2);
         }
 
@@ -104,11 +104,11 @@ public class MobileLayoutGUI extends LayoutGUI {
 
     @Override
     public void updateGUI() {
-        if (layout.getDictionaryState() != previousLayoutState) {
+        if (layout.getMode() != previousLayoutState) {
             onLayoutActivated();
             layout.logMarked();
         }
-        previousLayoutState = layout.getDictionaryState();
+        previousLayoutState = layout.getMode();
         updateKeyboardPart();
         updateDictionaryPart();
     }
