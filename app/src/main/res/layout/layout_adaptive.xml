@@ -134,12 +134,17 @@
                     android:text="w" />
 
                 <TextView
-                    android:id="@+id/sym_x"
+                    android:id="@+id/sym_question_mark"
                     style="@style/RegularTextViewLetterStyle"
-                    android:text="x" />
+                    android:text="\?" />
             </TableRow>
 
             <TableRow style="@style/AdaptiveRowStyle">
+
+                <TextView
+                    android:id="@+id/sym_x"
+                    style="@style/RegularTextViewLetterStyle"
+                    android:text="x" />
 
                 <TextView
                     android:id="@+id/sym_y"
@@ -157,19 +162,51 @@
                     android:text=" " />
 
                 <TextView
-                    android:id="@+id/sym_send"
+                    android:id="@+id/sym_comma"
                     style="@style/RegularTextViewLetterStyle"
-                    android:text="D" />
+                    android:text="," />
+                <TextView
+                    android:id="@+id/sym_exclamation_mark"
+                    style="@style/RegularTextViewLetterStyle"
+                    android:text="!" />
+            </TableRow>
+
+            <TableRow style="@style/AdaptiveRowStyle">
 
                 <TextView
                     android:id="@+id/sym_dictionary"
                     style="@style/RegularTextViewWordStyle"
-                    android:text="D" />
+                    android:text="Dict" />
+
                 <TextView
-                    style="@style/SemiTransparentTextView"/>
+                    android:id="@+id/sym_correct_word"
+                    style="@style/RegularTextViewWordStyle"
+                    android:text="Cor" />
+
+                <TextView
+                    android:id="@+id/sym_delete_word"
+                    style="@style/RegularTextViewWordStyle"
+                    android:text="Del" />
+
+                <TextView
+                    android:id="@+id/sym_period"
+                    style="@style/RegularTextViewLetterStyle"
+                    android:text="." />
+
+                <TextView
+                    android:id="@+id/sym_special_characters"
+                    style="@style/RegularTextViewWordStyle"
+                    android:text="Spec" />
+                <TextView
+                    android:id="@+id/sym_send"
+                    style="@style/RegularTextViewLetterStyle"
+                    android:text="Snd" />
             </TableRow>
 
         </TableLayout>
+
+
+
 
     <!--<view class="no.ntnu.stud.avikeyb.gui.utils.GenericSuggestions$View"
           android:id="@+id/suggestionsList"
