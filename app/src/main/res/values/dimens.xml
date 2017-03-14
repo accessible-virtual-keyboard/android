@@ -51,7 +51,7 @@
     <dimen name="paddingCorrection">2dp</dimen>
 
     <item name="adaptiveRowHeight" type="dimen" format="fraction">20%</item>
-    <item name="etosRowHeight" type="dimen" format="fraction">14.286%</item>
+    <item name="etosRowHeight" type="dimen" format="fraction">20%</item>
 
     <item name="defaultTableWidth" type="dimen" format="fraction">75%</item>
     <item name="defaultDictionaryListWidth" type="dimen" format="fraction">25%</item>

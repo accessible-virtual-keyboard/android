@@ -13,12 +13,31 @@
         <TableRow style="@style/EtosRowStyle">
 
             <TextView
-                android:id="@+id/sym_send"
+                android:id="@+id/sym_space"
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
                 android:id="@+id/sym_e"
                 style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_a"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_n"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_l"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_f"
+                style="@style/RegularTextViewLetterStyle" />
+        </TableRow>
+
+        <TableRow style="@style/EtosRowStyle">
 
             <TextView
                 android:id="@+id/sym_t"
@@ -33,72 +52,7 @@
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
-                android:id="@+id/sym_l"
-                style="@style/RegularTextViewLetterStyle" />
-        </TableRow>
-
-        <TableRow style="@style/EtosRowStyle">
-
-            <TextView
-                android:id="@+id/sym_a"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_i"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_h"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_c"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_f"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_g"
-                style="@style/RegularTextViewLetterStyle" />
-        </TableRow>
-
-        <TableRow style="@style/EtosRowStyle">
-
-            <TextView
-                android:id="@+id/sym_n"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_r"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_u"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_y"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_v"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_k"
-                style="@style/RegularTextViewLetterStyle" />
-        </TableRow>
-
-        <TableRow style="@style/EtosRowStyle">
-
-            <TextView
                 android:id="@+id/sym_d"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_m"
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
@@ -106,7 +60,53 @@
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
+                android:id="@+id/sym_b"
+                style="@style/RegularTextViewLetterStyle" />
+        </TableRow>
+
+        <TableRow style="@style/EtosRowStyle">
+
+            <TextView
+                android:id="@+id/sym_i"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_r"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_c"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_g"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_v"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
                 android:id="@+id/sym_j"
+                style="@style/RegularTextViewLetterStyle" />
+        </TableRow>
+
+        <TableRow style="@style/EtosRowStyle">
+
+            <TextView
+                android:id="@+id/sym_h"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_u"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_w"
+                style="@style/RegularTextViewLetterStyle" />
+
+            <TextView
+                android:id="@+id/sym_k"
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
@@ -114,18 +114,18 @@
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
-                android:id="@+id/sym_z"
+                android:id="@+id/sym_question_mark"
                 style="@style/RegularTextViewLetterStyle" />
         </TableRow>
 
         <TableRow style="@style/EtosRowStyle">
 
             <TextView
-                android:id="@+id/sym_w"
+                android:id="@+id/sym_m"
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
-                android:id="@+id/sym_b"
+                android:id="@+id/sym_y"
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
@@ -133,53 +133,7 @@
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
-                android:id="@+id/sym_num_0"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_num_1"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_num_2"
-                style="@style/RegularTextViewLetterStyle" />
-        </TableRow>
-
-        <TableRow style="@style/EtosRowStyle">
-
-            <TextView
-                android:id="@+id/sym_num_3"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_num_4"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_num_5"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_num_6"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_num_7"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_num_8"
-                style="@style/RegularTextViewLetterStyle" />
-        </TableRow>
-
-        <TableRow style="@style/EtosRowStyle">
-
-            <TextView
-                android:id="@+id/sym_num_9"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_period"
+                android:id="@+id/sym_z"
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
@@ -187,15 +141,7 @@
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
-                android:id="@+id/sym_question_mark"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
                 android:id="@+id/sym_exclamation_mark"
-                style="@style/RegularTextViewLetterStyle" />
-
-            <TextView
-                android:id="@+id/sym_space"
                 style="@style/RegularTextViewLetterStyle" />
         </TableRow>
 
@@ -206,24 +152,24 @@
                 style="@style/RegularTextViewWordStyle" />
 
             <TextView
-                android:id="@+id/sym_menu"
+                android:id="@+id/sym_correct_word"
                 style="@style/RegularTextViewWordStyle" />
 
             <TextView
-                android:id="@+id/t3"
-                style="@style/SemiTransparentTextView" />
+                android:id="@+id/sym_delete_word"
+                style="@style/RegularTextViewWordStyle" />
 
             <TextView
-                android:id="@+id/t4"
-                style="@style/SemiTransparentTextView" />
+                android:id="@+id/sym_period"
+                style="@style/RegularTextViewLetterStyle" />
 
             <TextView
-                android:id="@+id/t5"
-                style="@style/SemiTransparentTextView" />
+                android:id="@+id/sym_special_characters"
+                style="@style/RegularTextViewWordStyle" />
 
             <TextView
-                android:id="@+id/t6"
-                style="@style/SemiTransparentTextView" />
+                android:id="@+id/sym_send"
+                style="@style/RegularTextViewLetterStyle" />
         </TableRow>
     </TableLayout>
 
@@ -237,3 +183,227 @@
         style="@style/NoSuggestionTextViewStyle"/>
 
 </android.support.percent.PercentRelativeLayout>
+
+
+
+<!--
+<TableLayout
+android:id="@+id/etosTable"
+style="@style/RegularTableStyle">
+
+<TableRow style="@style/EtosRowStyle">
+
+    <TextView
+        android:id="@+id/sym_space"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_e"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_t"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_o"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_s"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_l"
+        style="@style/RegularTextViewLetterStyle" />
+</TableRow>
+
+<TableRow style="@style/EtosRowStyle">
+
+    <TextView
+        android:id="@+id/sym_a"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_i"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_h"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_c"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_f"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_g"
+        style="@style/RegularTextViewLetterStyle" />
+</TableRow>
+
+<TableRow style="@style/EtosRowStyle">
+
+    <TextView
+        android:id="@+id/sym_n"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_r"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_u"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_y"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_v"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_k"
+        style="@style/RegularTextViewLetterStyle" />
+</TableRow>
+
+<TableRow style="@style/EtosRowStyle">
+
+    <TextView
+        android:id="@+id/sym_d"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_m"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_p"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_j"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_q"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_z"
+        style="@style/RegularTextViewLetterStyle" />
+</TableRow>
+
+<TableRow style="@style/EtosRowStyle">
+
+    <TextView
+        android:id="@+id/sym_w"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_b"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_x"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_num_0"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_num_1"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_num_2"
+        style="@style/RegularTextViewLetterStyle" />
+</TableRow>
+
+<TableRow style="@style/EtosRowStyle">
+
+    <TextView
+        android:id="@+id/sym_num_3"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_num_4"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_num_5"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_num_6"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_num_7"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_num_8"
+        style="@style/RegularTextViewLetterStyle" />
+</TableRow>
+
+<TableRow style="@style/EtosRowStyle">
+
+    <TextView
+        android:id="@+id/sym_num_9"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_period"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_comma"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_question_mark"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_exclamation_mark"
+        style="@style/RegularTextViewLetterStyle" />
+
+    <TextView
+        android:id="@+id/sym_send"
+        style="@style/RegularTextViewLetterStyle" />
+</TableRow>
+
+<TableRow style="@style/EtosRowStyle">
+
+    <TextView
+        android:id="@+id/sym_dictionary"
+        style="@style/RegularTextViewWordStyle" />
+
+    <TextView
+        android:id="@+id/sym_menu"
+        style="@style/RegularTextViewWordStyle" />
+
+    <TextView
+        android:id="@+id/t3"
+        style="@style/SemiTransparentTextView" />
+
+    <TextView
+        android:id="@+id/t4"
+        style="@style/SemiTransparentTextView" />
+
+    <TextView
+        android:id="@+id/t5"
+        style="@style/SemiTransparentTextView" />
+
+    <TextView
+        android:id="@+id/t6"
+        style="@style/SemiTransparentTextView" />
+</TableRow>
+</TableLayout>-->
