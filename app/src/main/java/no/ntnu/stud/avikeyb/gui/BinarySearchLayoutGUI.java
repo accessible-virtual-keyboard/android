@@ -196,6 +196,6 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
     private static Map<Symbol, String> symbolContentOverrides = new HashMap<>();
     static {
         symbolContentOverrides.put(Symbol.SPACE, "\u2423");
-        symbolContentOverrides.put(Symbol.DELETE_WORD, "\u226A");
+        //symbolContentOverrides.put(Symbol.DELETE_WORD, "\u226A");
     }
 }
