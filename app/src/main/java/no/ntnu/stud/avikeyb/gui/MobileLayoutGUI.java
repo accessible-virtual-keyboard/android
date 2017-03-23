@@ -34,10 +34,8 @@ public class MobileLayoutGUI extends LayoutGUI {
     private TextAdapter dictionaryListAdapter;
     private View lastDictionaryItemSelected;
 
-    private ListView historyList;
     private TextAdapter historyListAdapter;
 
-    private MobileDictionaryLayout.State lastState;
     private LayoutLoader loader;
     private MobileDictionaryLayout.Mode previousLayoutState;
 
@@ -79,7 +77,7 @@ public class MobileLayoutGUI extends LayoutGUI {
         });
         dictionaryList.setEnabled(false);
 
-        historyList = (ListView) loader.getViewById(R.id.historylist);
+        ListView historyList = (ListView) loader.getViewById(R.id.historylist);
         historyListAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
         historyList.setAdapter(historyListAdapter);
         historyList.setEnabled(false);
@@ -123,12 +121,12 @@ public class MobileLayoutGUI extends LayoutGUI {
     private void updateKeyboardPart() {
         ArrayList<Symbol> newlyMarked = new ArrayList<>(layout.getMarkedSymbols());
         for (Symbol symbol : previouslyMarked) {
-            if (symbol != null && symbolViewMap.containsKey(symbol)) {
+            if (symbolViewMap.containsKey(symbol)) {
                 symbolViewMap.get(symbol).setSelected(false);
             }
         }
         for (Symbol symbol : newlyMarked) {
-            if (symbol != null && symbolViewMap.containsKey(symbol)) {
+            if (symbolViewMap.containsKey(symbol)) {
                 symbolViewMap.get(symbol).setSelected(true);
             }
         }
@@ -136,9 +134,6 @@ public class MobileLayoutGUI extends LayoutGUI {
     }
 
     private void updateDictionaryPart() {
-        MobileDictionaryLayout.State newState = layout.getState();
-
-
         if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {
             historyListAdapter.update(layout.getHistory());
             dictionaryListAdapter.update(layout.getSuggestions());
@@ -162,10 +157,6 @@ public class MobileLayoutGUI extends LayoutGUI {
                 }
             }
         }
-
-
-
-        lastState = newState;
     }
 
 }
