@@ -13,7 +13,7 @@ import java.util.HashMap;
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
-import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
+import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
@@ -23,7 +23,7 @@ import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
 public class MobileLayoutGUI extends LayoutGUI {
 
-    private MobileDictionaryLayout layout;
+    private MobileLayout layout;
     private Activity activity;
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private ArrayList<Symbol> previouslyMarked = new ArrayList<>();
@@ -37,9 +37,9 @@ public class MobileLayoutGUI extends LayoutGUI {
     private TextAdapter historyListAdapter;
 
     private LayoutLoader loader;
-    private MobileDictionaryLayout.Mode previousLayoutState;
+    private MobileLayout.Mode previousLayoutState;
 
-    public MobileLayoutGUI(Activity activity, MobileDictionaryLayout layout, int layoutResource1, int layoutResource2) {
+    public MobileLayoutGUI(Activity activity, MobileLayout layout, int layoutResource1, int layoutResource2) {
         super();
         this.activity = activity;
         this.layout = layout;
@@ -52,9 +52,9 @@ public class MobileLayoutGUI extends LayoutGUI {
     @Override
     protected View buildGUI() {
         //TODO return right layout resource
-        if (layout.getMode() == MobileDictionaryLayout.Mode.DICTIONARY_ON) {
+        if (layout.getMode() == MobileLayout.Mode.TILE_SELECTION_MODE) {
             loader = new LayoutLoader(activity, layoutResource1);
-        } else if (layout.getMode() == MobileDictionaryLayout.Mode.DICTIONARY_OFF) {
+        } else if (layout.getMode() == MobileLayout.Mode.LETTER_SELECTION_MODE) {
             loader = new LayoutLoader(activity, layoutResource2);
         }
 
