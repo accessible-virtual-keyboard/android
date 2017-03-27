@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +28,9 @@ import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
 import no.ntnu.stud.avikeyb.backend.Suggestions;
+import no.ntnu.stud.avikeyb.backend.core.BackendLogger;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
+import no.ntnu.stud.avikeyb.backend.core.Logger;
 import no.ntnu.stud.avikeyb.backend.core.WordUpdater;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
@@ -58,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BackendLogger.setLogger(new Logger() {
+            @Override
+            public void log(String s) {
+                Log.d("BackendLogInfo", s);
+            }
+        });
 
         keyboard = new CoreKeyboard();
         keyboard.addOutputDevice(new ToastOutput());
@@ -156,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
                 suggestions.findSuggestionsStartingWith(keyboard.getCurrentWord());
             }
         });
-
 
         // Update user word usage count
         keyboard.addOutputDevice(new WordUpdater(dictionaryHandler));
