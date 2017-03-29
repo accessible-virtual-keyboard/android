@@ -232,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
         layoutGui.updateGUI();
         setupInputButtons(layout);
+        setupInputHeadset(layout);
         setupLayoutListener(layout, layoutGui);
     }
 
@@ -339,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        headsetInput.connect("student_group57", "pralina2017PRALINA", "per"); // Hard coded user profile used for testing
+        headsetInput.connect("student_group57", "pralina2017PRALINA", "ingalill"); // Hard coded user profile used for testing
     }
 
 }
