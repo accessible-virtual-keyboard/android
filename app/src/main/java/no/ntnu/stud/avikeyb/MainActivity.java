@@ -1,6 +1,8 @@
 package no.ntnu.stud.avikeyb;
 
 import android.content.Context;
+import android.net.DhcpInfo;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,10 +12,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +54,8 @@ import no.ntnu.stud.avikeyb.gui.core.AsyncSuggestions;
 import no.ntnu.stud.avikeyb.inputdevices.EmotivEpocDriverAndroid;
 import no.ntnu.stud.avikeyb.inputdevices.emotivepoc.PermissionsHelper;
 
+import static android.R.attr.data;
+
 public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
@@ -61,7 +70,8 @@ public class MainActivity extends AppCompatActivity {
     private LayoutGUI currentLayoutGUI;
     private Layout.LayoutListener currentLayoutListener;
     private List<String> cachedSuggestions = new ArrayList<>();
-
+    private boolean isBroadcasting = false;
+    private Button broadcastButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,7 +195,20 @@ public class MainActivity extends AppCompatActivity {
 
         // Trigger the creation of the layout in the first tab
         tabSwitcher.onTabSelected(layoutTabs.getTabAt(0));
+
+        broadcastButton = (Button)findViewById(R.id.buttonBroadcast);
+
+        broadcastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startBroadCasting();
+            }
+        });
+
     } // end of on create
+
+
+
 
     @Override
     protected void onPause() {
@@ -300,6 +323,91 @@ public class MainActivity extends AppCompatActivity {
         public void sendOutput(String output) {
             Toast.makeText(MainActivity.this, output, Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+
+
+    private InetAddress getBroadcastAddress() throws IOException {
+        WifiManager wifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        DhcpInfo dhcp = wifi.getDhcpInfo();
+
+        int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
+        byte[] quads = new byte[4];
+        for (int k = 0; k < 4; k++)
+            quads[k] = (byte) (broadcast >> (k * 8));
+        return InetAddress.getByAddress(quads);
+    }
+
+
+    private void startBroadCasting(){
+        if(isBroadcasting){
+            return;
+        }
+        isBroadcasting = true;
+        broadcastButton.setEnabled(false);
+        broadcastIp();
+    }
+
+    private void stopBroadcasting(){
+        isBroadcasting = false;
+        broadcastButton.setEnabled(true);
+    }
+
+    private void broadcastIp() {
+
+        final InetAddress addr;
+        try {
+            addr = getBroadcastAddress();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d("BROADCAST", "Failed to get broadcast address");
+            synchronized (MainActivity.this){
+                stopBroadcasting();
+            }
+            return;
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DatagramSocket socket = null;
+                try {
+                    socket = new DatagramSocket();
+                    socket.setBroadcast(true);
+                    Log.d("BROADCAST", "Starting to broadcast");
+
+                    // Broadcast for approximately 30 seconds
+                    for(int i=0; i < 30; i++){
+                        String data = "AVIKEYB";
+                        DatagramPacket packet = new DatagramPacket(data.getBytes(), data.length(), addr, 9988);
+                        try {
+                            socket.send(packet);
+                            Log.d("BROADCAST", "Sent broadcast message " + i);
+                        } catch (IOException e) {
+                            Log.d("BROADCAST", "Failed to send broadcast");
+                        }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            break;
+                        }
+                    }
+                    Log.d("BROADCAST", "Finished braodcasting");
+                } catch (SocketException e) {
+                    e.printStackTrace();
+                    Log.d("BROADCAST", "Failed to start broadcasting");
+                }
+                finally {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            stopBroadcasting();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
 
