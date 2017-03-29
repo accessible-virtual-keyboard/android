@@ -107,14 +107,14 @@ public class MainActivity extends AppCompatActivity {
         loadDictionaryFromFile(Arrays.asList(dictionaryHandler, mobileDictionary), R.raw.dictionary);
 
 
-        headsetInput = new EmotivEpocDriverAndroid(this);
+/*        headsetInput = new EmotivEpocDriverAndroid(this);
 
         // The requesting of permissions are somewhat buggy. The app probably has to be
         // reloaded after the required permissions have been granted.
         headsetPermissions = new PermissionsHelper(this);
         if (!headsetPermissions.hasRequirements()) {
             headsetPermissions.requestRequirements();
-        }
+        }*/
 
 
         TabLayout.OnTabSelectedListener tabSwitcher = new TabLayout.OnTabSelectedListener() {
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        headsetInput.disconnect();
+        /*headsetInput.disconnect();*/
 
 
         // Set save location.
@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
         layoutGui.updateGUI();
         setupInputButtons(layout);
-        setupInputHeadset(layout);
+        /*setupInputHeadset(layout);*/
         setupLayoutListener(layout, layoutGui);
     }
 
@@ -324,8 +324,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // The below is needed for the headset connection
-
+/*    // The below is needed for the headset connection
+    // TODO fix exceptions caused when headset isn't connected
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
@@ -341,6 +341,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         headsetInput.connect("student_group57", "pralina2017PRALINA", "ingalill"); // Hard coded user profile used for testing
-    }
+    }*/
 
 }

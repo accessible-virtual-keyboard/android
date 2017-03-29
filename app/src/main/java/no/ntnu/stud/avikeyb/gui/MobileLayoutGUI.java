@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +40,8 @@ public class MobileLayoutGUI extends LayoutGUI {
     private LayoutLoader loader;
     private MobileLayout.Mode previousLayoutState;
 
-    public MobileLayoutGUI(Activity activity, MobileLayout layout, int layoutResource1, int layoutResource2) {
+
+    public MobileLayoutGUI(final Activity activity, final MobileLayout layout, int layoutResource1, int layoutResource2) {
         super();
         this.activity = activity;
         this.layout = layout;
