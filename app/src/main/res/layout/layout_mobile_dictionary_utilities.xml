@@ -1,0 +1,12 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        style="@style/MobileGroupStyle"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/sym_mode_toggle"
+            style="@style/DefaultTextViewWordStyle" />
+
+    </LinearLayout>
+</merge>

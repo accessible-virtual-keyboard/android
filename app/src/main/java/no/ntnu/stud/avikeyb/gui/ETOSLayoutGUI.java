@@ -1,25 +1,22 @@
 package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import no.ntnu.stud.avikeyb.R;
-import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
+import no.ntnu.stud.avikeyb.gui.utils.MenuAdapter;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
+import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
 /**
  * Created by ingalill on 10/02/2017.
@@ -28,24 +25,28 @@ import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 public class ETOSLayoutGUI extends LayoutGUI {
 
     private Activity activity;
-    private List<View> symbolsView;
     private ETOSLayout layout;
-    private Resources res; // do not work
-    private TableRow tableRow;
+
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
+    private ArrayList<Symbol> listItems = new ArrayList<>();
+    private ListView dictionaryList;
+
+    private MenuAdapter menuAdapter;
+    private TextAdapter dictionaryAdapter;
+    private View previousViewSelected;
+    private LayoutLoader loader;
+    private TextView emptySuggestionsView;
 
 
-    public ETOSLayoutGUI(Activity activity, Keyboard keyboard, ETOSLayout layout) {
-        super(keyboard, layout);
-
+    public ETOSLayoutGUI(Activity activity, ETOSLayout layout) {
+        super();
         this.layout = layout;
         this.activity = activity;
-        symbolsView = new ArrayList<>();
-
+        loader = new LayoutLoader(activity, R.layout.layout_etos);
     }
 
+    // runs only one time.
     public ViewGroup buildGUI() {
-        LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_etos);
         for (Symbol symbol : layout.getSymbols()) {
             if (symbol != null && loader.hasSymbol(symbol)) {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
@@ -55,72 +56,95 @@ public class ETOSLayoutGUI extends LayoutGUI {
             }
         }
 
+        dictionaryList = (ListView) loader.getViewById(R.id.listview);
+        menuAdapter = new MenuAdapter(activity, R.id.listview, listItems);
+        dictionaryAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
+
+
+        dictionaryList.setAdapter(dictionaryAdapter);
+        dictionaryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                if (previousViewSelected != null) {
+                    previousViewSelected.setSelected(false);
+                }
+                if (view != null) {
+                    view.setSelected(true);
+                    previousViewSelected = view;
+                }
+            }
+        });
+        dictionaryList.setEnabled(false);
+
+        emptySuggestionsView = (TextView) loader.getViewById(R.id.emptySuggestions);
+
         return (ViewGroup) loader.getLayout();
     }
 
+
     public void updateGUI() {
 
+        if (layout.getCurrentDictionaryPosition() == -1 && layout.getSuggestions() != null) {
+            dictionaryAdapter.update(layout.getSuggestions());
+        } else {
+            int position = layout.getCurrentDictionaryPosition();
+            dictionaryList.performItemClick(dictionaryList.getChildAt(position),
+                    position,
+                    dictionaryList.getItemIdAtPosition(position));
+        }
+
+        if (layout.getSuggestions().isEmpty()) {
+            emptySuggestionsView.setVisibility(View.VISIBLE);
+            dictionaryList.setVisibility(View.GONE);
+        } else {
+            emptySuggestionsView.setVisibility(View.GONE);
+            dictionaryList.setVisibility(View.VISIBLE);
+        }
+
         // Highlight the selected symbol
-        int current = layout.getCurrentPosition();
-        int index = 0;
-
         for (Symbol symbol : layout.getSymbols()) {
+            for (int i = 0; i < symbolViewMap.size(); i++) {
 
-            if (symbol != null && symbolViewMap.containsKey(symbol)) {
-                if (current == index) {
-                    symbolViewMap.get(symbol).setBackgroundColor(Color.YELLOW);
-                } else {
-                    symbolViewMap.get(symbol).setBackgroundResource(R.color.lightgrey);
+                symbolViewMap.get(symbol).setBackgroundResource(R.drawable.text_selection_colors);
+
+                if (symbol != null && symbolViewMap.containsKey(symbol)) {
+
+                    if (symbol.equals(layout.getCurrentSymbol())) {
+                        symbolViewMap.get(symbol).setSelected(true);
+                    } else {
+                        symbolViewMap.get(symbol).setSelected(false);
+                    }
                 }
             }
-            index++;
         }
-    }
+
+    } // end of updategui
+
+}// end of class
 
 
-    // Build the GUI programmatically.
-    public View buildGUI6() {
-        //  int paddingSize = (int) res.getDimension(R.dimen._10sdp);
-
-        LinearLayout root = new LinearLayout(activity);
-        root.setOrientation(LinearLayout.HORIZONTAL);
-        root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        root.setId(View.generateViewId());
-
-        LinearLayout nestedLayout = new LinearLayout(activity);
-        nestedLayout.setOrientation(LinearLayout.VERTICAL);
-        nestedLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        nestedLayout.setId(View.generateViewId());
-
-        TableLayout tableLayout = new TableLayout(activity);
-        tableLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        tableLayout.setWeightSum(4); // Should it be 6?
-        tableLayout.setStretchAllColumns(true);
-
-
-        for (int i = 0; i < layout.getSymbolCount(); ) {
-
-            tableRow = new TableRow(activity);
-            tableRow.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT)); //, 0.35f));
-            tableRow.setClickable(true);
-            for (int j = 0; i < layout.getSymbolCount() && j <= 6; i++, j++) {
-
-                TextView view = new TextView(activity);
-
-                view.setText(layout.getSymbolAt(i).getContent());
-                view.setPadding(20, 20, 20, 20); // replace with paddingSize
-                //view.setBackgroundResource(R.color.lightgrey);
-                view.setTextColor(Color.BLACK);
-                view.setGravity(Gravity.CENTER);
-                symbolsView.add(view);
-                tableRow.addView(view); // Add the views to the tablerow.
+/*
+      if (layout.getCurrentState().equals(ETOSLayout.State.SELECT_MENU)) {
+            menuAdapter.clear();
+            for (Symbol item : layout.getMenuOptions()) {
+                listItems.add(item);
             }
-            tableLayout.addView(tableRow, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, 0, 1f));
-        }
-        nestedLayout.addView(tableLayout);
-        root.addView(nestedLayout); // add the nested linear layout to the root linear layout.
+            dictionaryList.setAdapter(menuAdapter);
 
-        return root;
-    }
-} // end of class
+//            menuAdapter.notifyDataSetChanged();
+//            dictionaryAdapter.notifyDataSetChanged();
+        } else {
+            dictionaryList.setAdapter(dictionaryAdapter);
+
+        }
+ */
+
+// todo
+        /*if (layout.getCurrentMenuPosition() == -1 && layout.getMenuOptions() != null) {
+            menuAdapter.update(layout.getMenuOptions());
+        } else {
+            int pos = layout.getCurrentMenuPosition();
+            dictionaryList.performItemClick(dictionaryList.getChildAt(pos),
+                    pos,
+                    dictionaryList.getItemIdAtPosition(pos));
+        } */

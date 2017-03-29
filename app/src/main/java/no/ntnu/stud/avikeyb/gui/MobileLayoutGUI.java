@@ -1,20 +1,21 @@
 package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
-import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
+import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
+import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
 /**
  * Created by Tor-Martin Holen on 15-Feb-17.
@@ -24,81 +25,138 @@ public class MobileLayoutGUI extends LayoutGUI {
 
     private MobileLayout layout;
     private Activity activity;
-    private HashMap<Symbol, View> symbolViewMap;
+    private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
+    private ArrayList<Symbol> previouslyMarked = new ArrayList<>();
+    private int layoutResource1;
+    private int layoutResource2;
 
-    public MobileLayoutGUI(Activity activity, Keyboard keyboard, Layout layout) {
-        super(keyboard, layout);
+    private ListView dictionaryList;
+    private TextAdapter dictionaryListAdapter;
+    private View lastDictionaryItemSelected;
+
+    private TextAdapter historyListAdapter;
+
+    private LayoutLoader loader;
+    private MobileLayout.Mode previousLayoutState;
+
+    public MobileLayoutGUI(Activity activity, MobileLayout layout, int layoutResource1, int layoutResource2) {
+        super();
         this.activity = activity;
-        this.layout = (MobileLayout) layout;
+        this.layout = layout;
+        this.layoutResource1 = layoutResource1;
+        this.layoutResource2 = layoutResource2;
+        layout.logMarked();
     }
+
 
     @Override
     protected View buildGUI() {
-        TableLayout tableLayout = new TableLayout(activity);
-        tableLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        tableLayout.setStretchAllColumns(true);
+        //TODO return right layout resource
+        if (layout.getMode() == MobileLayout.Mode.TILE_SELECTION_MODE) {
+            loader = new LayoutLoader(activity, layoutResource1);
+        } else if (layout.getMode() == MobileLayout.Mode.LETTER_SELECTION_MODE) {
+            loader = new LayoutLoader(activity, layoutResource2);
+        }
 
-        int rows = layout.getLayoutSymbols().length;
-        for (int i = 0; i < rows; i++) {
-            int columns = layout.getLayoutSymbols()[i].length;
 
-            TableRow row = new TableRow(activity);
-            row.setWeightSum(3);
-            row.setBackgroundResource(R.color.mobileLayoutRowBackground);
-            tableLayout.addView(row);
-            TableLayout.LayoutParams  rowParams = (TableLayout.LayoutParams) row.getLayoutParams();
-            rowParams.setMargins(10,10,10,10);
-            row.setLayoutParams(rowParams);
+        dictionaryList = (ListView) loader.getViewById(R.id.listview);
+        dictionaryListAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
+        dictionaryList.setAdapter(dictionaryListAdapter);
+        dictionaryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+                if (lastDictionaryItemSelected != null) {
+                    lastDictionaryItemSelected.setSelected(false);
+                }
+                if (view != null) {
+                    view.setSelected(true);
+                    lastDictionaryItemSelected = view;
+                }
 
-            for (int j = 0; j < 3; j++) {
+            }
+        });
+        dictionaryList.setEnabled(false);
 
-                LinearLayout mobileContainer = new LinearLayout(activity);
-                row.addView(mobileContainer);
-                mobileContainer.setWeightSum(3);
-                LinearLayout.LayoutParams mobContParams = (LinearLayout.LayoutParams) mobileContainer.getLayoutParams();
-                mobContParams.weight = 1;
-                mobContParams.setMargins(15,10,15,10);
-                mobileContainer.setBackgroundResource(R.color.mobileLayoutButtonGroupBackground);
+        ListView historyList = (ListView) loader.getViewById(R.id.historylist);
+        historyListAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
+        historyList.setAdapter(historyListAdapter);
+        historyList.setEnabled(false);
 
-                if(j < columns){
-                    int symbols = layout.getLayoutSymbols()[i][j].length;
+        for (Symbol symbol : layout.getSymbols()) {
+            if (symbol != null && loader.hasSymbol(symbol)) {
+                TextView guiTextTile = (TextView) loader.getViewForSymbol(symbol);
 
-                    for (int k = 0; k < 3; k++) {
-                        final Button textButton = new Button(activity);
-                        mobileContainer.addView(textButton);
+                guiTextTile.setText(symbol.getContent());
+                guiTextTile.setTextColor(Color.BLACK);
+                guiTextTile.setBackgroundResource(R.drawable.text_selection_colors);
 
-                        //Must be done after adding btn to container
-                        LinearLayout.LayoutParams btnParams = (LinearLayout.LayoutParams) textButton.getLayoutParams();
-                        btnParams.weight = 1;
-                        btnParams.width = 0;
-                        btnParams.height = 110;
-                        btnParams.setMargins(15, 10, 15, 10); // llp.setMargins(left, top, right, bottom);
-                        textButton.setLayoutParams(btnParams);
-                        textButton.setPadding(0,0,0,1);
-                        if(k < symbols){
-                            String text = layout.getLayoutSymbols()[i][j][k].getContent();
-                            if (text.toLowerCase().equals("send")){
-                                textButton.setBackgroundResource(R.drawable.btn_send);
-                            }else if(text.equals(" ")){
-                                textButton.setBackgroundResource(R.drawable.btn_spacebar);
-                            }
-                            else{
-                                textButton.setText(text);
-                                textButton.setBackgroundResource(R.color.mobileLayoutButtonBackground);
-                            }
-                        }else{
-                            textButton.setBackgroundResource(R.color.mobileLayoutUnusedButtonBackground);
-                        }
-                    }
+                if (symbol.equals(Symbol.DICTIONARY)) {
+                    guiTextTile.setText(Symbol.DICTIONARY_UNICODE_SYMBOL.getContent());
+                }
+                symbolViewMap.put(symbol, guiTextTile);
+            }
+        }
+        return loader.getLayout();
+    }
+
+
+    @Override
+    public void updateGUI() {
+        if (layout.getMode() != previousLayoutState) {
+            onLayoutActivated();
+            layout.logMarked();
+        }
+        previousLayoutState = layout.getMode();
+        updateKeyboardPart();
+        updateDictionaryPart();
+    }
+
+    /**
+     * Used to update the gui so the default marked elements are marked properly
+     */
+    public void firstUpdate() {
+        updateGUI();
+    }
+
+    private void updateKeyboardPart() {
+        ArrayList<Symbol> newlyMarked = new ArrayList<>(layout.getMarkedSymbols());
+        for (Symbol symbol : previouslyMarked) {
+            if (symbolViewMap.containsKey(symbol)) {
+                symbolViewMap.get(symbol).setSelected(false);
+            }
+        }
+        for (Symbol symbol : newlyMarked) {
+            if (symbolViewMap.containsKey(symbol)) {
+                symbolViewMap.get(symbol).setSelected(true);
+            }
+        }
+        previouslyMarked = newlyMarked;
+    }
+
+    private void updateDictionaryPart() {
+        if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {
+            historyListAdapter.update(layout.getHistory());
+            dictionaryListAdapter.update(layout.getSuggestions());
+            dictionaryList.smoothScrollToPosition(0);
+        } else {
+            /*if( newState == MobileLayout.State.SELECT_DICTIONARY && lastState == MobileLayout.State.SELECT_LETTER ){
+                dictionaryListAdapter.update(layout.getSuggestions());
+                dictionaryList.smoothScrollToPosition(0);
+            }*/
+            int position = layout.getMarkedWord();
+            //Log.d(TAG, "updateDictionaryPart: position: " + position);
+            dictionaryList.performItemClick(dictionaryList.getChildAt(position),
+                    position,
+                    dictionaryList.getItemIdAtPosition(position));
+            if (layout.getSuggestions() != null) {
+                int numberOfSuggestions = layout.getSuggestions().size() <= layout.getMaxPossibleSuggestions() ? layout.getSuggestions().size() : layout.getMaxPossibleSuggestions();
+                if (position >= numberOfSuggestions / 2) {
+                    dictionaryList.smoothScrollToPosition(numberOfSuggestions);
+                } else {
+                    dictionaryList.smoothScrollToPosition(0);
                 }
             }
         }
-
-        return tableLayout;
     }
 
-    @Override
-    protected void updateGUI() {
-
-    }
 }
