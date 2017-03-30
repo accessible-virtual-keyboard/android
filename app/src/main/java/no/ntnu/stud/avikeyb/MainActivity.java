@@ -1,9 +1,7 @@
 package no.ntnu.stud.avikeyb;
 
-import android.content.Intent;
 import android.content.Context;
 import android.os.AsyncTask;
-
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -16,10 +14,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +23,6 @@ import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
-import no.ntnu.stud.avikeyb.backend.Suggestions;
 import no.ntnu.stud.avikeyb.backend.core.BackendLogger;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
 import no.ntnu.stud.avikeyb.backend.core.Logger;
@@ -49,10 +42,10 @@ import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
+import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
+import no.ntnu.stud.avikeyb.gui.core.AsyncSuggestions;
 import no.ntnu.stud.avikeyb.inputdevices.EmotivEpocDriverAndroid;
 import no.ntnu.stud.avikeyb.inputdevices.emotivepoc.PermissionsHelper;
-import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
-import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -164,21 +157,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        final Suggestions suggestions = new SuggestionsAndroid(dictionaryHandler);
-
-        suggestions.addListener(new Suggestions.Listener() {
-            @Override
-            public void onSuggestions(List<String> suggestionsList) {
-
-                cachedSuggestions = suggestionsList.subList(0, Math.min(20, suggestionsList.size()));
-
-                if(currentLayout != null && currentLayout instanceof LayoutWithSuggestions){
-                    ((LayoutWithSuggestions) currentLayout).setSuggestions(cachedSuggestions);
-                }
-
-            }
-        });
-
+        final AsyncSuggestions suggestions = new AsyncSuggestions(dictionaryHandler);
 
         // Update the buffer view
         keyboard.addStateListener(new Keyboard.KeyboardListener() {
@@ -186,14 +165,20 @@ public class MainActivity extends AppCompatActivity {
             public void onOutputBufferChange(String oldBuffer, String newBuffer) {
                 bufferText.setText(newBuffer);
                 bufferText.setSelection(bufferText.getText().length());
-                suggestions.findSuggestionsStartingWith(keyboard.getCurrentWord());
+                suggestions.findSuggestionsFor(keyboard.getCurrentWord(), new AsyncSuggestions.ResultCallback() {
+                    @Override
+                    public void onResult(List<String> suggestions) {
+                        cachedSuggestions = suggestions.subList(0, Math.min(20, suggestions.size()));
+                        if(currentLayout != null && currentLayout instanceof LayoutWithSuggestions){
+                            ((LayoutWithSuggestions) currentLayout).setSuggestions(cachedSuggestions);
+                        }
+                    }
+                });
             }
         });
 
         // Update user word usage count
         keyboard.addOutputDevice(new WordUpdater(dictionaryHandler));
-
-
 
 
         layoutTabs.addOnTabSelectedListener(tabSwitcher);
