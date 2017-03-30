@@ -206,6 +206,11 @@ public class MainActivity extends AppCompatActivity {
 
         broadcastButton = (Button)findViewById(R.id.buttonBroadcast);
 
+        // If the phone is rotated or something else causes the activity to be recreated
+        // while broadcasting the button will be reactivated and the user is able to
+        // start two broadcast threads. Running two broadcasts at the same time shouldn't case any
+        // problems (except for a temporary memory leak) so at the moment nothing is done to prevent
+        // this.
         broadcastButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
