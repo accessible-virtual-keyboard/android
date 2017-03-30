@@ -123,8 +123,7 @@ public class WebSocketInput {
                     @Override
                     public void run() {
                         synchronized (WebSocketInput.this) {
-                            inputInterface.setInputState(input, true);
-                            inputInterface.setInputState(input, false);
+                            inputInterface.sendInputSignal(input);
                         }
                     }
                 });
