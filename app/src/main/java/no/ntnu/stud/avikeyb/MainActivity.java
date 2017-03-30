@@ -44,7 +44,7 @@ import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
-import no.ntnu.stud.avikeyb.inputdevices.WebSocketInput;
+import no.ntnu.stud.avikeyb.inputdevices.WebSocketInterface;
 import no.ntnu.stud.avikeyb.gui.core.AsyncSuggestions;
 import no.ntnu.stud.avikeyb.inputdevices.EmotivEpocDriverAndroid;
 import no.ntnu.stud.avikeyb.inputdevices.emotivepoc.PermissionsHelper;
@@ -182,6 +182,12 @@ public class MainActivity extends AppCompatActivity {
         // Update user word usage count
         keyboard.addOutputDevice(new WordUpdater(dictionaryHandler));
 
+        keyboard.addOutputDevice(new OutputDevice() {
+            @Override
+            public void sendOutput(String output) {
+                WebSocketInterface.getInstance().sendOutput(output);
+            }
+        });
 
         layoutTabs.addOnTabSelectedListener(tabSwitcher);
 
@@ -193,8 +199,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        WebSocketInput.getInstance().start();
-        WebSocketInput.getInstance().setInputInterface(new Handler(), new InputInterface() {
+        WebSocketInterface.getInstance().start();
+        WebSocketInterface.getInstance().setInputInterface(new Handler(), new InputInterface() {
             @Override
             public void sendInputSignal(InputType inputType) {
                 if(currentLayout != null){
@@ -210,8 +216,8 @@ public class MainActivity extends AppCompatActivity {
         /*headsetInput.disconnect();*/
 
 
-        WebSocketInput.getInstance().setInputInterface(new Handler(), null);
-        WebSocketInput.getInstance().stop(); // The client will have to reconnect when the activity resumes
+        WebSocketInterface.getInstance().setInputInterface(new Handler(), null);
+        WebSocketInterface.getInstance().stop(); // The client will have to reconnect when the activity resumes
 
         // Set save location.
         String folderPath = this.getFilesDir().getPath();
