@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Symbol;
@@ -56,7 +57,15 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         // the views. The id of the views are only used initially to load the views in the correct
         // order.
 
-        Symbol[] symbols = Symbols.merge(Symbols.alphabet(), Symbols.build(Symbol.SPACE, Symbol.SEND, Symbol.DICTIONARY));
+        Symbol[] alphabetStart = Arrays.copyOfRange(Symbols.alphabet(), 0, 23);
+        Symbol[] alphabetEnd = Arrays.copyOfRange(Symbols.alphabet(), 23, Symbols.alphabet().length);
+        Symbol[] utilitySymbols = Symbols.build(
+                Symbol.SPACE, Symbol.COMMA, Symbol.EXCLAMATION_MARK, Symbol.DICTIONARY,
+                Symbol.CORRECT_WORD, Symbol.DELETE_WORD, Symbol.PERIOD,
+                Symbol.SPECIAL_CHARACTERS, Symbol.SEND);
+
+
+        Symbol[] symbols = Symbols.merge(alphabetStart, Symbols.build(Symbol.QUESTION_MARK), alphabetEnd, utilitySymbols);
 
         LayoutLoader loader = new LayoutLoader(activity, R.layout.layout_adaptive);
         for (Symbol symbol : symbols) {
@@ -102,7 +111,39 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         } else {
             updateLayout();
         }
+/*
+
+            currentLayoutAsString();
+*/
+
     }
+/*
+
+    public String[] currentLayoutAsString(){
+        String[] resultLayout = {"","","","","",""};
+        int index = 0;
+        int additions = 0;
+        for (Symbol sym:layout.getSymbols()) {
+            if(additions < 6){
+                additions++;
+                try{
+                    resultLayout[index] += sym.getContent() + " ";
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }else {
+                additions = 0;
+                index++;
+                try{
+                    resultLayout[index] += sym.getContent() + " ";
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        return resultLayout;
+    }
+*/
 
     private void updateLayout() {
 

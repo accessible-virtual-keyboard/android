@@ -83,17 +83,17 @@
         <TableRow android:layout_weight="1" android:gravity="center">
             <TextView android:id="@+id/sym_num_8" android:text="8" style="@style/BinarySearchSymbolView"/>
             <TextView android:id="@+id/sym_num_9" android:text="9" style="@style/BinarySearchSymbolView"/>
-            <TextView android:id="@+id/sym_question_mark" android:text="\?" style="@style/BinarySearchSymbolView"/>
-            <TextView android:id="@+id/sym_exclamation_mark" android:text="!" style="@style/BinarySearchSymbolView"/>
-        </TableRow>
-        <TableRow android:layout_weight="1" android:gravity="start">
             <TextView android:id="@+id/sym_period" android:text="." style="@style/BinarySearchSymbolView"/>
             <TextView android:id="@+id/sym_comma" android:text="," style="@style/BinarySearchSymbolView"/>
-            <TextView android:id="@+id/sym_backspace" android:text="D1" style="@style/BinarySearchSymbolView"/>
-            <TextView android:id="@+id/sym_delete_word" android:text="D2" style="@style/BinarySearchSymbolView"/>
         </TableRow>
         <TableRow android:layout_weight="1" android:gravity="start">
-            <TextView android:text="" style="@style/BinarySearchSymbolView"/>
+            <TextView android:id="@+id/sym_question_mark" android:text="\?" style="@style/BinarySearchSymbolView"/>
+            <TextView android:id="@+id/sym_exclamation_mark" android:text="!" style="@style/BinarySearchSymbolView"/>
+            <TextView android:id="@+id/sym_clear_buffer" android:text="Clear" style="@style/BinarySearchSymbolView" android:layout_span="2" android:textSize="@dimen/_8sdp"/>
+        </TableRow>
+        <TableRow android:layout_weight="1" android:gravity="start">
+            <TextView android:id="@+id/sym_backspace" android:text="D1" style="@style/BinarySearchSymbolView" android:layout_span="2"/>
+            <TextView android:id="@+id/sym_delete_word" android:text="D2" style="@style/BinarySearchSymbolView" android:layout_span="2" android:textSize="@dimen/_8sdp" />
         </TableRow>
         <TableRow android:layout_weight="1" android:gravity="start">
             <TextView android:text="" style="@style/BinarySearchSymbolView"/>

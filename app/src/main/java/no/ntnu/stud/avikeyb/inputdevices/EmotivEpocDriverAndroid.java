@@ -117,12 +117,8 @@ public class EmotivEpocDriverAndroid {
 
                     Log.d(LOG_LABEL, "Action detected " + action);
 
-                    if (currentAction != EpocEngine.Action.NEUTRAL) {
-                        inputInterface.setInputState(actionToInput.get(currentAction), false);
-                    }
-
                     if (action != EpocEngine.Action.NEUTRAL) {
-                        inputInterface.setInputState(actionToInput.get(action), true);
+                        inputInterface.sendInputSignal(actionToInput.get(action));
                         Log.d(LOG_LABEL, "Sending input signal " + actionToInput.get(action));
                     }
 

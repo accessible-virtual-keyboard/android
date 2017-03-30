@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,9 @@ import no.ntnu.stud.avikeyb.backend.InputType;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Layout;
 import no.ntnu.stud.avikeyb.backend.OutputDevice;
-import no.ntnu.stud.avikeyb.backend.Suggestions;
+import no.ntnu.stud.avikeyb.backend.core.BackendLogger;
 import no.ntnu.stud.avikeyb.backend.core.CoreKeyboard;
+import no.ntnu.stud.avikeyb.backend.core.Logger;
 import no.ntnu.stud.avikeyb.backend.core.WordUpdater;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
 import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryHandler;
@@ -35,19 +37,25 @@ import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.BinarySearchLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
 import no.ntnu.stud.avikeyb.backend.layouts.LayoutWithSuggestions;
-import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
+import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.gui.AdaptiveLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
-import no.ntnu.stud.avikeyb.gui.core.SuggestionsAndroid;
 import no.ntnu.stud.avikeyb.inputdevices.WebSocketInput;
+import no.ntnu.stud.avikeyb.gui.core.AsyncSuggestions;
+import no.ntnu.stud.avikeyb.inputdevices.EmotivEpocDriverAndroid;
+import no.ntnu.stud.avikeyb.inputdevices.emotivepoc.PermissionsHelper;
 
 public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
+
+    private EmotivEpocDriverAndroid headsetInput;
+    private PermissionsHelper headsetPermissions;
+
     private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
     private Keyboard keyboard;
 
@@ -56,10 +64,18 @@ public class MainActivity extends AppCompatActivity {
     private Layout.LayoutListener currentLayoutListener;
     private List<String> cachedSuggestions = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BackendLogger.setLogger(new Logger() {
+            @Override
+            public void log(String s) {
+                Log.d("BackendLogInfo", s);
+            }
+        });
 
         keyboard = new CoreKeyboard();
         keyboard.addOutputDevice(new ToastOutput());
@@ -86,6 +102,16 @@ public class MainActivity extends AppCompatActivity {
         loadDictionaryFromFile(Arrays.asList(dictionaryHandler, mobileDictionary), R.raw.dictionary);
 
 
+/*        headsetInput = new EmotivEpocDriverAndroid(this);
+
+        // The requesting of permissions are somewhat buggy. The app probably has to be
+        // reloaded after the required permissions have been granted.
+        headsetPermissions = new PermissionsHelper(this);
+        if (!headsetPermissions.hasRequirements()) {
+            headsetPermissions.requestRequirements();
+        }*/
+
+
         TabLayout.OnTabSelectedListener tabSwitcher = new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -95,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case 2: {
-                        MobileDictionaryLayout l = new MobileDictionaryLayout(keyboard, mobileDictionary);
+                        MobileLayout l = new MobileLayout(keyboard, mobileDictionary);
                         MobileLayoutGUI mobileGUI = new MobileLayoutGUI(MainActivity.this, l, R.layout.layout_mobile_dictionary, R.layout.layout_mobile);
                         switchLayout(l, mobileGUI);
                         mobileGUI.firstUpdate(); // We need to update gui right after it has been set to mark first mobile layout row.
@@ -133,21 +159,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        final Suggestions suggestions = new SuggestionsAndroid(dictionaryHandler);
-
-        suggestions.addListener(new Suggestions.Listener() {
-            @Override
-            public void onSuggestions(List<String> suggestionsList) {
-
-                cachedSuggestions = suggestionsList.subList(0, Math.min(20, suggestionsList.size()));
-
-                if(currentLayout != null && currentLayout instanceof LayoutWithSuggestions){
-                    ((LayoutWithSuggestions) currentLayout).setSuggestions(cachedSuggestions);
-                }
-
-            }
-        });
-
+        final AsyncSuggestions suggestions = new AsyncSuggestions(dictionaryHandler);
 
         // Update the buffer view
         keyboard.addStateListener(new Keyboard.KeyboardListener() {
@@ -155,15 +167,20 @@ public class MainActivity extends AppCompatActivity {
             public void onOutputBufferChange(String oldBuffer, String newBuffer) {
                 bufferText.setText(newBuffer);
                 bufferText.setSelection(bufferText.getText().length());
-                suggestions.findSuggestionsStartingWith(keyboard.getCurrentWord());
+                suggestions.findSuggestionsFor(keyboard.getCurrentWord(), new AsyncSuggestions.ResultCallback() {
+                    @Override
+                    public void onResult(List<String> suggestions) {
+                        cachedSuggestions = suggestions.subList(0, Math.min(20, suggestions.size()));
+                        if(currentLayout != null && currentLayout instanceof LayoutWithSuggestions){
+                            ((LayoutWithSuggestions) currentLayout).setSuggestions(cachedSuggestions);
+                        }
+                    }
+                });
             }
         });
 
-
         // Update user word usage count
         keyboard.addOutputDevice(new WordUpdater(dictionaryHandler));
-
-
 
 
         layoutTabs.addOnTabSelectedListener(tabSwitcher);
@@ -179,9 +196,9 @@ public class MainActivity extends AppCompatActivity {
         WebSocketInput.getInstance().start();
         WebSocketInput.getInstance().setInputInterface(new Handler(), new InputInterface() {
             @Override
-            public void setInputState(InputType inputType, boolean b) {
+            public void sendInputSignal(InputType inputType) {
                 if(currentLayout != null){
-                    currentLayout.setInputState(inputType, b);
+                    currentLayout.sendInputSignal(inputType);
                 }
             }
         });
@@ -190,6 +207,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        /*headsetInput.disconnect();*/
+
 
         WebSocketInput.getInstance().setInputInterface(new Handler(), null);
         WebSocketInput.getInstance().stop(); // The client will have to reconnect when the activity resumes
@@ -218,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
 
         layoutGui.updateGUI();
         setupInputButtons(layout);
+        /*setupInputHeadset(layout);*/
         setupLayoutListener(layout, layoutGui);
     }
 
@@ -244,35 +264,33 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.buttonInput1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input.setInputState(InputType.INPUT1, true);
-                input.setInputState(InputType.INPUT1, false);
+                input.sendInputSignal(InputType.INPUT1);
             }
         });
         findViewById(R.id.buttonInput2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Turn the input on and off for each click
-                input.setInputState(InputType.INPUT2, true);
-                input.setInputState(InputType.INPUT2, false);
+                input.sendInputSignal(InputType.INPUT2);
             }
         });
         findViewById(R.id.buttonInput3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Turn the input on and off for each click
-                input.setInputState(InputType.INPUT3, true);
-                input.setInputState(InputType.INPUT3, false);
+                input.sendInputSignal(InputType.INPUT3);
             }
         });
         findViewById(R.id.buttonInput4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input.setInputState(InputType.INPUT4, true);
-                input.setInputState(InputType.INPUT4, false);
+                input.sendInputSignal(InputType.INPUT4);
             }
         });
     }
 
+    // Register the input interface with the headset input driver
+    private void setupInputHeadset(InputInterface input) {
+        headsetInput.setInputInterface(input);
+    }
 
     // Fill the in memory dictionaryHandler from a file
     private void loadDictionaryFromFile(final List<InMemoryDictionary> dictionaries, final int resourceId) {
@@ -303,5 +321,25 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, output, Toast.LENGTH_SHORT).show();
         }
     }
+
+
+/*    // The below is needed for the headset connection
+    // TODO fix exceptions caused when headset isn't connected
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        headsetPermissions.handlePermimssionResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        headsetPermissions.handleActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        headsetInput.connect("student_group57", "pralina2017PRALINA", "ingalill"); // Hard coded user profile used for testing
+    }*/
 
 }

@@ -2,10 +2,12 @@ package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +15,7 @@ import java.util.HashMap;
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
 import no.ntnu.stud.avikeyb.backend.Symbol;
-import no.ntnu.stud.avikeyb.backend.layouts.MobileDictionaryLayout;
+import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
@@ -23,7 +25,7 @@ import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
 public class MobileLayoutGUI extends LayoutGUI {
 
-    private MobileDictionaryLayout layout;
+    private MobileLayout layout;
     private Activity activity;
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private ArrayList<Symbol> previouslyMarked = new ArrayList<>();
@@ -34,14 +36,13 @@ public class MobileLayoutGUI extends LayoutGUI {
     private TextAdapter dictionaryListAdapter;
     private View lastDictionaryItemSelected;
 
-    private ListView historyList;
     private TextAdapter historyListAdapter;
 
-    private MobileDictionaryLayout.State lastState;
     private LayoutLoader loader;
-    private MobileDictionaryLayout.DictionaryState previousLayoutState;
+    private MobileLayout.Mode previousLayoutState;
 
-    public MobileLayoutGUI(Activity activity, MobileDictionaryLayout layout, int layoutResource1, int layoutResource2) {
+
+    public MobileLayoutGUI(final Activity activity, final MobileLayout layout, int layoutResource1, int layoutResource2) {
         super();
         this.activity = activity;
         this.layout = layout;
@@ -54,9 +55,9 @@ public class MobileLayoutGUI extends LayoutGUI {
     @Override
     protected View buildGUI() {
         //TODO return right layout resource
-        if (layout.getDictionaryState() == MobileDictionaryLayout.DictionaryState.DICTIONARY_ON) {
+        if (layout.getMode() == MobileLayout.Mode.TILE_SELECTION_MODE) {
             loader = new LayoutLoader(activity, layoutResource1);
-        } else if (layout.getDictionaryState() == MobileDictionaryLayout.DictionaryState.DICTIONARY_OFF) {
+        } else if (layout.getMode() == MobileLayout.Mode.LETTER_SELECTION_MODE) {
             loader = new LayoutLoader(activity, layoutResource2);
         }
 
@@ -79,7 +80,7 @@ public class MobileLayoutGUI extends LayoutGUI {
         });
         dictionaryList.setEnabled(false);
 
-        historyList = (ListView) loader.getViewById(R.id.historylist);
+        ListView historyList = (ListView) loader.getViewById(R.id.historylist);
         historyListAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
         historyList.setAdapter(historyListAdapter);
         historyList.setEnabled(false);
@@ -104,11 +105,11 @@ public class MobileLayoutGUI extends LayoutGUI {
 
     @Override
     public void updateGUI() {
-        if (layout.getDictionaryState() != previousLayoutState) {
+        if (layout.getMode() != previousLayoutState) {
             onLayoutActivated();
             layout.logMarked();
         }
-        previousLayoutState = layout.getDictionaryState();
+        previousLayoutState = layout.getMode();
         updateKeyboardPart();
         updateDictionaryPart();
     }
@@ -123,12 +124,12 @@ public class MobileLayoutGUI extends LayoutGUI {
     private void updateKeyboardPart() {
         ArrayList<Symbol> newlyMarked = new ArrayList<>(layout.getMarkedSymbols());
         for (Symbol symbol : previouslyMarked) {
-            if (symbol != null && symbolViewMap.containsKey(symbol)) {
+            if (symbolViewMap.containsKey(symbol)) {
                 symbolViewMap.get(symbol).setSelected(false);
             }
         }
         for (Symbol symbol : newlyMarked) {
-            if (symbol != null && symbolViewMap.containsKey(symbol)) {
+            if (symbolViewMap.containsKey(symbol)) {
                 symbolViewMap.get(symbol).setSelected(true);
             }
         }
@@ -136,12 +137,10 @@ public class MobileLayoutGUI extends LayoutGUI {
     }
 
     private void updateDictionaryPart() {
-        MobileDictionaryLayout.State newState = layout.getState();
-
-
         if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {
             historyListAdapter.update(layout.getHistory());
             dictionaryListAdapter.update(layout.getSuggestions());
+            Log.d("MobileLayout", "Size: " + layout.getSuggestions().size());
             dictionaryList.smoothScrollToPosition(0);
         } else {
             /*if( newState == MobileLayout.State.SELECT_DICTIONARY && lastState == MobileLayout.State.SELECT_LETTER ){
@@ -162,10 +161,6 @@ public class MobileLayoutGUI extends LayoutGUI {
                 }
             }
         }
-
-
-
-        lastState = newState;
     }
 
 }
