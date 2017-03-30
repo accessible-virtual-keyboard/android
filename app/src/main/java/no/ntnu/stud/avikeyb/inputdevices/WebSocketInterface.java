@@ -25,7 +25,7 @@ import no.ntnu.stud.avikeyb.backend.InputType;
  */
 public class WebSocketInterface {
 
-    private final static int INTERFACE_TCP_PORT = 43879;
+    public final static int INTERFACE_TCP_PORT = 43879;
 
     private static WebSocketInterface instance;
     private static boolean serverStarted = false;

@@ -408,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
                     // Broadcast for approximately 30 seconds
                     for(int i=0; i < 30; i++){
                         String data = "AVIKEYB";
-                        DatagramPacket packet = new DatagramPacket(data.getBytes(), data.length(), addr, 9988);
+                        DatagramPacket packet = new DatagramPacket(data.getBytes(), data.length(), addr, WebSocketInterface.INTERFACE_TCP_PORT);
                         try {
                             socket.send(packet);
                             Log.d("BROADCAST", "Sent broadcast message " + i);
