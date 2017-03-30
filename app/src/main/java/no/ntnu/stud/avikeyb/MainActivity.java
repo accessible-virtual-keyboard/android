@@ -259,31 +259,25 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.buttonInput1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input.setInputState(InputType.INPUT1, true);
-                input.setInputState(InputType.INPUT1, false);
+                input.sendInputSignal(InputType.INPUT1);
             }
         });
         findViewById(R.id.buttonInput2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Turn the input on and off for each click
-                input.setInputState(InputType.INPUT2, true);
-                input.setInputState(InputType.INPUT2, false);
+                input.sendInputSignal(InputType.INPUT2);
             }
         });
         findViewById(R.id.buttonInput3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Turn the input on and off for each click
-                input.setInputState(InputType.INPUT3, true);
-                input.setInputState(InputType.INPUT3, false);
+                input.sendInputSignal(InputType.INPUT3);
             }
         });
         findViewById(R.id.buttonInput4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input.setInputState(InputType.INPUT4, true);
-                input.setInputState(InputType.INPUT4, false);
+                input.sendInputSignal(InputType.INPUT4);
             }
         });
     }
