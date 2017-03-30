@@ -2,6 +2,7 @@ package no.ntnu.stud.avikeyb.gui;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -139,6 +140,7 @@ public class MobileLayoutGUI extends LayoutGUI {
         if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {
             historyListAdapter.update(layout.getHistory());
             dictionaryListAdapter.update(layout.getSuggestions());
+            Log.d("MobileLayout", "Size: " + layout.getSuggestions().size());
             dictionaryList.smoothScrollToPosition(0);
         } else {
             /*if( newState == MobileLayout.State.SELECT_DICTIONARY && lastState == MobileLayout.State.SELECT_LETTER ){
