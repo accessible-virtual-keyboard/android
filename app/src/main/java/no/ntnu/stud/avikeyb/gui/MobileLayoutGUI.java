@@ -139,8 +139,7 @@ public class MobileLayoutGUI extends LayoutGUI {
     }
 
     private void updateDictionaryPart() {
-        /*if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {*/
-        if (previousSuggestions != layout.getSuggestions()) {
+        if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {
             historyListAdapter.update(layout.getHistory());
             dictionaryListAdapter.update(layout.getSuggestions());
             Log.d("MobileLayout", "Size: " + layout.getSuggestions().size());
@@ -149,19 +148,27 @@ public class MobileLayoutGUI extends LayoutGUI {
             final int position = layout.getMarkedWord();
             Log.d("MobileGUI", "updateDictionaryPart: position: " + position);
             if (layout.getSuggestions() != null) {
-                dictionaryList.setSelection(position);
+                /*dictionaryList.setSelection(position);*/
+                dictionaryList.performItemClick(dictionaryList.getChildAt(position),
+                        position,
+                        dictionaryList.getItemIdAtPosition(position));
+
+                try{
+                    View view  = dictionaryList.getChildAt(position);
+                    int verticalScroll = view.getHeight();
+                    dictionaryList.scrollListBy(verticalScroll);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
 
-                /*View view  = dictionaryList.getChildAt(position);
-                Log.d("MobileGui", "PosX: " + view.getHeight() + " - PosY" + view.getWidth());
-                dictionaryList.scro(view.getHeight());*/
 
 
-                /*dictionaryList.performItemClick(dictionaryList.getChildAt(position),
-                        position,
-                        dictionaryList.getItemIdAtPosition(position));*/
-                /*
 
+
+
+            /*
                 dictionaryList.post(new Runnable() {
                     @Override
                     public void run() {
@@ -170,9 +177,9 @@ public class MobileLayoutGUI extends LayoutGUI {
                             dictionaryList.smoothScrollToPosition(numberOfSuggestions);
                         } else {
                             dictionaryList.smoothScrollToPosition(0);
-                        }*/
+                        }
 
-                    /*}
+                    }
                 });*/
 
 
