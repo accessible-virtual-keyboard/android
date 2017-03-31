@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Keyboard;
@@ -40,9 +41,10 @@ public class MobileLayoutGUI extends LayoutGUI {
 
     private LayoutLoader loader;
     private MobileLayout.Mode previousLayoutState;
+    private List<String> previousSuggestions = new ArrayList();
 
 
-    public MobileLayoutGUI(final Activity activity, final MobileLayout layout, int layoutResource1, int layoutResource2) {
+    public MobileLayoutGUI(Activity activity, MobileLayout layout, int layoutResource1, int layoutResource2) {
         super();
         this.activity = activity;
         this.layout = layout;
@@ -137,29 +139,43 @@ public class MobileLayoutGUI extends LayoutGUI {
     }
 
     private void updateDictionaryPart() {
-        if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {
+        /*if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {*/
+        if (previousSuggestions != layout.getSuggestions()) {
             historyListAdapter.update(layout.getHistory());
             dictionaryListAdapter.update(layout.getSuggestions());
             Log.d("MobileLayout", "Size: " + layout.getSuggestions().size());
             dictionaryList.smoothScrollToPosition(0);
         } else {
-            /*if( newState == MobileLayout.State.SELECT_DICTIONARY && lastState == MobileLayout.State.SELECT_LETTER ){
-                dictionaryListAdapter.update(layout.getSuggestions());
-                dictionaryList.smoothScrollToPosition(0);
-            }*/
-            int position = layout.getMarkedWord();
-            //Log.d(TAG, "updateDictionaryPart: position: " + position);
-            dictionaryList.performItemClick(dictionaryList.getChildAt(position),
-                    position,
-                    dictionaryList.getItemIdAtPosition(position));
+            final int position = layout.getMarkedWord();
+            Log.d("MobileGUI", "updateDictionaryPart: position: " + position);
             if (layout.getSuggestions() != null) {
-                int numberOfSuggestions = layout.getSuggestions().size() <= layout.getMaxPossibleSuggestions() ? layout.getSuggestions().size() : layout.getMaxPossibleSuggestions();
-                if (position >= numberOfSuggestions / 2) {
-                    dictionaryList.smoothScrollToPosition(numberOfSuggestions);
-                } else {
-                    dictionaryList.smoothScrollToPosition(0);
-                }
+                dictionaryList.setSelection(position);
             }
+
+                /*View view  = dictionaryList.getChildAt(position);
+                Log.d("MobileGui", "PosX: " + view.getHeight() + " - PosY" + view.getWidth());
+                dictionaryList.scro(view.getHeight());*/
+
+
+                /*dictionaryList.performItemClick(dictionaryList.getChildAt(position),
+                        position,
+                        dictionaryList.getItemIdAtPosition(position));*/
+                /*
+
+                dictionaryList.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int numberOfSuggestions = layout.getSuggestions().size() <= layout.getMaxPossibleSuggestions() ? layout.getSuggestions().size() : layout.getMaxPossibleSuggestions();
+                        if (position >= numberOfSuggestions / 2) {
+                            dictionaryList.smoothScrollToPosition(numberOfSuggestions);
+                        } else {
+                            dictionaryList.smoothScrollToPosition(0);
+                        }*/
+
+                    /*}
+                });*/
+
+
         }
     }
 
