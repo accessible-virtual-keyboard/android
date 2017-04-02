@@ -14,6 +14,7 @@ import java.util.HashMap;
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.layouts.ETOSLayout;
+import no.ntnu.stud.avikeyb.gui.utils.AutoScrollListView;
 import no.ntnu.stud.avikeyb.gui.utils.MenuAdapter;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
@@ -29,7 +30,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
     private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
     private ArrayList<Symbol> listItems = new ArrayList<>();
-    private ListView dictionaryList;
+    private AutoScrollListView dictionaryList;
 
     private MenuAdapter menuAdapter;
     private TextAdapter dictionaryAdapter;
@@ -45,7 +46,6 @@ public class ETOSLayoutGUI extends LayoutGUI {
         loader = new LayoutLoader(activity, R.layout.layout_etos);
     }
 
-    // runs only one time.
     public ViewGroup buildGUI() {
         for (Symbol symbol : layout.getSymbols()) {
             if (symbol != null && loader.hasSymbol(symbol)) {
@@ -56,7 +56,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
             }
         }
 
-        dictionaryList = (ListView) loader.getViewById(R.id.listview);
+        dictionaryList = (AutoScrollListView) loader.getViewById(R.id.listview);
         menuAdapter = new MenuAdapter(activity, R.id.listview, listItems);
         dictionaryAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
 
@@ -84,15 +84,16 @@ public class ETOSLayoutGUI extends LayoutGUI {
 
     public void updateGUI() {
 
+        //Update dictionary
         if (layout.getCurrentDictionaryPosition() == -1 && layout.getSuggestions() != null) {
             dictionaryAdapter.update(layout.getSuggestions());
         } else {
             int position = layout.getCurrentDictionaryPosition();
-            dictionaryList.performItemClick(dictionaryList.getChildAt(position),
-                    position,
-                    dictionaryList.getItemIdAtPosition(position));
+            dictionaryAdapter.setCurrentPosition(position);
+            dictionaryList.smoothScrollAuto(position);
         }
 
+        //Hide dictionary when empty
         if (layout.getSuggestions().isEmpty()) {
             emptySuggestionsView.setVisibility(View.VISIBLE);
             dictionaryList.setVisibility(View.GONE);
@@ -117,10 +118,8 @@ public class ETOSLayoutGUI extends LayoutGUI {
                 }
             }
         }
-
-    } // end of updategui
-
-}// end of class
+    }
+}
 
 
 /*
@@ -139,7 +138,7 @@ public class ETOSLayoutGUI extends LayoutGUI {
         }
  */
 
-// todo
+// todo clean up comments
         /*if (layout.getCurrentMenuPosition() == -1 && layout.getMenuOptions() != null) {
             menuAdapter.update(layout.getMenuOptions());
         } else {

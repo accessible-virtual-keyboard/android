@@ -186,8 +186,8 @@
         </TableRow>
     </TableLayout>
 
-    <ListView
-        android:id="@+id/listview"
+    <no.ntnu.stud.avikeyb.gui.utils.AutoScrollListView
+        android:id="@+id/autolistview"
         style="@style/DictionaryListStyle"
         android:layout_toEndOf="@+id/mobileTableLayout" />
 

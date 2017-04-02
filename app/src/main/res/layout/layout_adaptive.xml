@@ -214,7 +214,7 @@
           android:layout_width="0dp"
           android:layout_height="match_parent">
     </view> -->
-    <ListView
+    <no.ntnu.stud.avikeyb.gui.utils.AutoScrollListView
         android:id="@+id/listview"
         android:layout_toEndOf="@+id/adaptiveTable"
         style="@style/DictionaryListStyle" />

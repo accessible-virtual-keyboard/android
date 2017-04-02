@@ -3,6 +3,7 @@ package no.ntnu.stud.avikeyb.gui.utils;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,7 @@ import no.ntnu.stud.avikeyb.R;
  */
 
 public class TextAdapter extends ArrayAdapter<String> {
-    private int previousPosition = -1;
+    private int currentPosition = -1;
 
     public TextAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
@@ -38,27 +39,26 @@ public class TextAdapter extends ArrayAdapter<String> {
 
         // Lookup view for data population.
         TextView description = (TextView) convertView.findViewById(R.id.text_item);
-        description.setBackgroundResource(R.drawable.text_selection_colors);
         description.setTextColor(Color.BLACK);
-        
-        description.setText(suggestionText);
 
+        if (position == currentPosition) {
+            description.setBackgroundResource(R.color.selected);
+        }else {
+            description.setBackgroundResource(R.color.background);
+        }
+
+        description.setText(suggestionText);
         return super.getView(position, convertView, parent);
     }
 
-    public void selectView(int position, View convertView, ViewGroup parent){
-        /*if(previousPosition != -1){
-            getView(previousPosition, convertView, parent)
-        }*/
-        getView(position, convertView, parent).performClick();
+    public void setCurrentPosition(int newPosition){
+        currentPosition = newPosition;
+        notifyDataSetChanged();
     }
 
     public void update(List<String> updatedList) {
-        Log.d("TextAdapter", "Item count before clear: " + getCount());
         clear();
-        Log.d("TextAdapter", "Item count after clear: " + getCount());
         addAll(updatedList);
-        Log.d("TextAdapter", "Item count after adding new element: " + getCount());
         notifyDataSetChanged();
     }
 }
