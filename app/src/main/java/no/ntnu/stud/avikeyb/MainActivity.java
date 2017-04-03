@@ -237,14 +237,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         WebSocketInterface.getInstance().start();
-        WebSocketInterface.getInstance().setInputInterface(new Handler(), new InputInterface() {
+        WebSocketInterface.getInstance().setInputInterface(new Handler(), tabSwitcherInterceptor.interceptInput(new InputInterface() {
             @Override
             public void sendInputSignal(InputType inputType) {
                 if(currentLayout != null){
                     currentLayout.sendInputSignal(inputType);
                 }
             }
-        });
+        }));
     }
 
     @Override
