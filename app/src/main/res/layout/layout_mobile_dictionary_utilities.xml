@@ -2,10 +2,14 @@
 
     <LinearLayout
         style="@style/MobileGroupStyle"
-        android:weightSum="1">
+        android:weightSum="2">
 
         <TextView
             android:id="@+id/sym_mode_toggle"
+            style="@style/DefaultTextViewWordStyle" />
+
+        <TextView
+            android:id="@+id/sym_setting"
             style="@style/DefaultTextViewWordStyle" />
 
     </LinearLayout>
