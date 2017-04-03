@@ -53,6 +53,7 @@ import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
 import no.ntnu.stud.avikeyb.inputdevices.WebSocketInterface;
 import no.ntnu.stud.avikeyb.gui.core.AsyncSuggestions;
+import no.ntnu.stud.avikeyb.gui.core.TabSwitchInterceptor;
 import no.ntnu.stud.avikeyb.inputdevices.EmotivEpocDriverAndroid;
 import no.ntnu.stud.avikeyb.inputdevices.emotivepoc.PermissionsHelper;
 
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private List<String> cachedSuggestions = new ArrayList<>();
     private boolean isBroadcasting = false;
     private Button broadcastButton;
+    private TabSwitchInterceptor tabSwitcherInterceptor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
         layoutTabs.addTab(layoutTabs.newTab().setText("Mobile"));
         layoutTabs.addTab(layoutTabs.newTab().setText("Binary"));
 
+
+        tabSwitcherInterceptor = new TabSwitchInterceptor(layoutTabs);
+
         layoutWrapper = (ViewGroup) findViewById(R.id.layoutWrapper);
 
         final LinearEliminationDictionaryHandler mobileDictionary = new LinearEliminationDictionaryHandler();
@@ -122,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
 
-        TabLayout.OnTabSelectedListener tabSwitcher = new TabLayout.OnTabSelectedListener() {
+        final TabLayout.OnTabSelectedListener tabSwitcher = new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
@@ -192,10 +197,17 @@ public class MainActivity extends AppCompatActivity {
         // Update user word usage count
         keyboard.addOutputDevice(new WordUpdater(dictionaryHandler));
 
+
         keyboard.addOutputDevice(new OutputDevice() {
             @Override
             public void sendOutput(String output) {
                 WebSocketInterface.getInstance().sendOutput(output);
+            }
+        });
+        keyboard.addSettingsListener(new Keyboard.SettingsListener() {
+            @Override
+            public void onSettingsRequestd() {
+                tabSwitcherInterceptor.activate();
             }
         });
 
@@ -292,35 +304,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupInputButtons(final InputInterface input) {
+
+        final InputInterface wrappedInput = tabSwitcherInterceptor.interceptInput(input);
+
         findViewById(R.id.buttonInput1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input.sendInputSignal(InputType.INPUT1);
+                wrappedInput.sendInputSignal(InputType.INPUT1);
             }
         });
         findViewById(R.id.buttonInput2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input.sendInputSignal(InputType.INPUT2);
+                wrappedInput.sendInputSignal(InputType.INPUT2);
             }
         });
         findViewById(R.id.buttonInput3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input.sendInputSignal(InputType.INPUT3);
+                wrappedInput.sendInputSignal(InputType.INPUT3);
             }
         });
         findViewById(R.id.buttonInput4).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input.sendInputSignal(InputType.INPUT4);
+                wrappedInput.sendInputSignal(InputType.INPUT4);
             }
         });
     }
 
     // Register the input interface with the headset input driver
     private void setupInputHeadset(InputInterface input) {
-        headsetInput.setInputInterface(input);
+        headsetInput.setInputInterface(tabSwitcherInterceptor.interceptInput(input));
     }
 
     // Fill the in memory dictionaryHandler from a file

@@ -3,6 +3,8 @@ package no.ntnu.stud.avikeyb.gui.utils;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,7 @@ import no.ntnu.stud.avikeyb.R;
  */
 
 public class TextAdapter extends ArrayAdapter<String> {
-    private int previous;
+    private int currentPosition = -1;
 
     public TextAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
@@ -26,7 +28,7 @@ public class TextAdapter extends ArrayAdapter<String> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         // Get the data item for this position.
         String suggestionText = getItem(position);
 
@@ -37,12 +39,21 @@ public class TextAdapter extends ArrayAdapter<String> {
 
         // Lookup view for data population.
         TextView description = (TextView) convertView.findViewById(R.id.text_item);
-        description.setBackgroundResource(R.drawable.text_selection_colors);
         description.setTextColor(Color.BLACK);
-        
-        description.setText(suggestionText);
 
+        if (position == currentPosition) {
+            description.setBackgroundResource(R.color.selected);
+        }else {
+            description.setBackgroundResource(R.color.background);
+        }
+
+        description.setText(suggestionText);
         return super.getView(position, convertView, parent);
+    }
+
+    public void setCurrentPosition(int newPosition){
+        currentPosition = newPosition;
+        notifyDataSetChanged();
     }
 
     public void update(List<String> updatedList) {

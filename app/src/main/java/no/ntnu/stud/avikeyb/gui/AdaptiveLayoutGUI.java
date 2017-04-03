@@ -15,6 +15,7 @@ import no.ntnu.stud.avikeyb.backend.Symbol;
 import no.ntnu.stud.avikeyb.backend.Symbols;
 import no.ntnu.stud.avikeyb.backend.layouts.AdaptiveLayout;
 
+import no.ntnu.stud.avikeyb.gui.utils.AutoScrollListView;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
 import no.ntnu.stud.avikeyb.gui.utils.TextAdapter;
 
@@ -28,7 +29,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
     private Activity activity;
     private AdaptiveLayout layout;
     private TextAdapter dictionaryAdapter;
-    private ListView dictionaryList;
+    private AutoScrollListView dictionaryList;
     private View previousViewSelected;
     private TextView emptySuggestionsView;
 
@@ -62,7 +63,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         Symbol[] utilitySymbols = Symbols.build(
                 Symbol.SPACE, Symbol.COMMA, Symbol.EXCLAMATION_MARK, Symbol.DICTIONARY,
                 Symbol.CORRECT_WORD, Symbol.DELETE_WORD, Symbol.PERIOD,
-                Symbol.SPECIAL_CHARACTERS, Symbol.SEND);
+                Symbol.SETTING, Symbol.SEND);
 
 
         Symbol[] symbols = Symbols.merge(alphabetStart, Symbols.build(Symbol.QUESTION_MARK), alphabetEnd, utilitySymbols);
@@ -78,25 +79,10 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
             }
         }
 
-        dictionaryList = (ListView) loader.getViewById(R.id.listview);
+        dictionaryList = (AutoScrollListView) loader.getViewById(R.id.listview);
         dictionaryAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
 
         dictionaryList.setAdapter(dictionaryAdapter);
-        dictionaryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                if (previousViewSelected != null) {
-                    previousViewSelected.setSelected(false);
-                }
-                if (view != null) {
-                    view.setSelected(true);
-                    previousViewSelected = view;
-                }
-
-            }
-        });
-        dictionaryList.setEnabled(false);
-
 
         emptySuggestionsView = (TextView) loader.getViewById(R.id.emptySuggestions);
 
@@ -199,10 +185,8 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
 
         if (layout.getSuggestions() != null) {
             int position = layout.getCurrentSuggestion();
-
-            dictionaryList.performItemClick(dictionaryList.getChildAt(position),
-                    position,
-                    dictionaryList.getItemIdAtPosition(position));
+            dictionaryAdapter.setCurrentPosition(position);
+            dictionaryList.smoothScrollAuto(position);
         }
 
     }
