@@ -191,4 +191,8 @@
         style="@style/DictionaryListStyle"
         android:layout_toEndOf="@+id/mobileTableLayout" />
 
+    <TextView android:id="@+id/emptyInfo"
+        android:layout_toEndOf="@+id/mobileTableLayout"
+        style="@style/WaitingListTextViewStyle"/>
+
 </android.support.percent.PercentRelativeLayout>

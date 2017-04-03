@@ -8,9 +8,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import no.ntnu.stud.avikeyb.R;
 import no.ntnu.stud.avikeyb.backend.Symbol;
+import no.ntnu.stud.avikeyb.backend.dictionary.DictionaryEntry;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.gui.utils.AutoScrollListView;
 import no.ntnu.stud.avikeyb.gui.utils.LayoutLoader;
@@ -31,6 +33,7 @@ public class MobileLayoutGUI extends LayoutGUI {
 
     private AutoScrollListView dictionaryList;
     private TextAdapter dictionaryListAdapter;
+    private TextView  emptyDictionaryView;
 
     private TextAdapter historyListAdapter;
     private LayoutLoader loader;
@@ -61,6 +64,8 @@ public class MobileLayoutGUI extends LayoutGUI {
         dictionaryList = (AutoScrollListView) loader.getViewById(R.id.autolistview);
         dictionaryListAdapter = new TextAdapter(activity.getApplicationContext(), R.id.autolistview, new ArrayList<String>());
         dictionaryList.setAdapter(dictionaryListAdapter);
+
+        emptyDictionaryView = (TextView) loader.getViewById(R.id.emptyInfo);
 
         //Initialises the history list.
         ListView historyList = (ListView) loader.getViewById(R.id.historylist);
@@ -97,7 +102,8 @@ public class MobileLayoutGUI extends LayoutGUI {
         previousLayoutState = layout.getMode();
 
         updateKeyboardPart();
-        updateDictionaryPart();
+        updateLists();
+        emptyListMessage();
     }
 
     /**
@@ -126,20 +132,26 @@ public class MobileLayoutGUI extends LayoutGUI {
     }
 
     /**
-     * Updates the dictionary with new suggestions and handles proper dictionary navigation and scrolling.
+     * Updates the dictionary and word history lists and handles proper dictionary navigation and scrolling.
      */
-    private void updateDictionaryPart() {
-        if (layout.getMarkedWord() == -1 && layout.getSuggestions() != null) {
+    private void updateLists() {
+        if (layout.getMarkedWord() == -1) {
             historyListAdapter.update(layout.getHistory());
             dictionaryListAdapter.update(layout.getSuggestions());
             dictionaryListAdapter.setCurrentPosition(-1);
             dictionaryList.smoothScrollToStart();
         } else {
             int position = layout.getMarkedWord();
-            if (layout.getSuggestions() != null) {
-                dictionaryListAdapter.setCurrentPosition(position);
-                dictionaryList.smoothScrollAuto(position);
-            }
+            dictionaryListAdapter.setCurrentPosition(position);
+            dictionaryList.smoothScrollAuto(position);
+        }
+    }
+
+    private void emptyListMessage(){
+        if (layout.getSuggestions().isEmpty()) {
+            emptyDictionaryView.setVisibility(View.VISIBLE);
+        } else {
+            emptyDictionaryView.setVisibility(View.GONE);
         }
     }
 }

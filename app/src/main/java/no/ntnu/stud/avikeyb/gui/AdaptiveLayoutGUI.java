@@ -83,21 +83,6 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         dictionaryAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
 
         dictionaryList.setAdapter(dictionaryAdapter);
-        dictionaryList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-                if (previousViewSelected != null) {
-                    previousViewSelected.setSelected(false);
-                }
-                if (view != null) {
-                    view.setSelected(true);
-                    previousViewSelected = view;
-                }
-
-            }
-        });
-        dictionaryList.setEnabled(false);
-
 
         emptySuggestionsView = (TextView) loader.getViewById(R.id.emptySuggestions);
 

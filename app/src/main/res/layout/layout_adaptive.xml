@@ -220,6 +220,6 @@
         style="@style/DictionaryListStyle" />
     <TextView android:id="@+id/emptySuggestions"
         android:layout_toEndOf="@+id/adaptiveTable"
-        style="@style/NoSuggestionTextViewStyle" />
+        style="@style/EmptyListTextViewStyle" />
 
 </android.support.percent.PercentRelativeLayout>
