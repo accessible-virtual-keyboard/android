@@ -173,14 +173,14 @@
         </TableRow>
     </TableLayout>
 
-    <ListView
+    <no.ntnu.stud.avikeyb.gui.utils.AutoScrollListView
         android:id="@+id/listview"
         android:layout_toEndOf="@+id/etosTable"
         style="@style/DictionaryListStyle" />
 
     <TextView android:id="@+id/emptySuggestions"
         android:layout_toEndOf="@+id/etosTable"
-        style="@style/NoSuggestionTextViewStyle"/>
+        style="@style/EmptyListTextViewStyle"/>
 
 </android.support.percent.PercentRelativeLayout>
 

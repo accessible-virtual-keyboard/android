@@ -179,9 +179,13 @@
         </TableRow>
     </TableLayout>
 
-    <ListView
-        android:id="@+id/listview"
+    <no.ntnu.stud.avikeyb.gui.utils.AutoScrollListView
+        android:id="@+id/autolistview"
         android:layout_toEndOf="@+id/mobileTableLayout"
         style="@style/DictionaryListStyle" />
+
+    <TextView android:id="@+id/emptyInfo"
+        android:layout_toEndOf="@+id/mobileTableLayout"
+        style="@style/WaitingListTextViewStyle"/>
 
 </android.support.percent.PercentRelativeLayout>
