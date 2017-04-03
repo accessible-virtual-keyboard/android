@@ -164,7 +164,7 @@
                 style="@style/RegularTextViewLetterStyle" />
 
             <TextView
-                android:id="@+id/sym_special_characters"
+                android:id="@+id/sym_setting"
                 style="@style/RegularTextViewWordStyle" />
 
             <TextView

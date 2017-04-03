@@ -62,7 +62,7 @@ public class AdaptiveLayoutGUI extends LayoutGUI {
         Symbol[] utilitySymbols = Symbols.build(
                 Symbol.SPACE, Symbol.COMMA, Symbol.EXCLAMATION_MARK, Symbol.DICTIONARY,
                 Symbol.CORRECT_WORD, Symbol.DELETE_WORD, Symbol.PERIOD,
-                Symbol.SPECIAL_CHARACTERS, Symbol.SEND);
+                Symbol.SETTING, Symbol.SEND);
 
 
         Symbol[] symbols = Symbols.merge(alphabetStart, Symbols.build(Symbol.QUESTION_MARK), alphabetEnd, utilitySymbols);
