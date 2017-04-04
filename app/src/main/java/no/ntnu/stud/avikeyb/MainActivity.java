@@ -47,12 +47,14 @@ import no.ntnu.stud.avikeyb.backend.layouts.LayoutWithSuggestions;
 import no.ntnu.stud.avikeyb.backend.layouts.MobileLayout;
 import no.ntnu.stud.avikeyb.gui.AdaptiveLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.BinarySearchLayoutGUI;
+import no.ntnu.stud.avikeyb.gui.ChessLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
 import no.ntnu.stud.avikeyb.inputdevices.WebSocketInterface;
 import no.ntnu.stud.avikeyb.gui.core.AsyncSuggestions;
+import no.ntnu.stud.avikeyb.gui.core.ChessLayout;
 import no.ntnu.stud.avikeyb.gui.core.TabSwitchInterceptor;
 import no.ntnu.stud.avikeyb.inputdevices.EmotivEpocDriverAndroid;
 import no.ntnu.stud.avikeyb.inputdevices.emotivepoc.PermissionsHelper;
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
         layoutTabs.addTab(layoutTabs.newTab().setText("Adaptive"));
         layoutTabs.addTab(layoutTabs.newTab().setText("Mobile"));
         layoutTabs.addTab(layoutTabs.newTab().setText("Binary"));
+        layoutTabs.addTab(layoutTabs.newTab().setText("Chess"));
 
 
         tabSwitcherInterceptor = new TabSwitchInterceptor(layoutTabs);
@@ -144,6 +147,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case 3: {
                         switchLayout(binLayout, new BinarySearchLayoutGUI(MainActivity.this, binLayout));
+                        break;
+                    }
+                    case 4: {
+                        ChessLayout chessLayout = new ChessLayout(keyboard);
+                        switchLayout(chessLayout, new ChessLayoutGUI(MainActivity.this, chessLayout));
                         break;
                     }
                     default: {
