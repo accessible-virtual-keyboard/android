@@ -1,4 +1,4 @@
-package no.ntnu.stud.avikeyb.inputdevices;
+package no.ntnu.stud.avikeyb.iointerface;
 
 import android.os.Handler;
 import android.util.Log;

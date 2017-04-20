@@ -52,7 +52,7 @@ import no.ntnu.stud.avikeyb.gui.ETOSLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.LayoutGUI;
 import no.ntnu.stud.avikeyb.gui.MobileLayoutGUI;
 import no.ntnu.stud.avikeyb.gui.core.AndroidResourceLoader;
-import no.ntnu.stud.avikeyb.inputdevices.WebSocketInterface;
+import no.ntnu.stud.avikeyb.iointerface.WebSocketInterface;
 import no.ntnu.stud.avikeyb.gui.core.AsyncSuggestions;
 import no.ntnu.stud.avikeyb.gui.core.ChessLayout;
 import no.ntnu.stud.avikeyb.gui.core.TabSwitchInterceptor;
