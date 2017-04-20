@@ -56,17 +56,10 @@ import no.ntnu.stud.avikeyb.inputdevices.WebSocketInterface;
 import no.ntnu.stud.avikeyb.gui.core.AsyncSuggestions;
 import no.ntnu.stud.avikeyb.gui.core.ChessLayout;
 import no.ntnu.stud.avikeyb.gui.core.TabSwitchInterceptor;
-import no.ntnu.stud.avikeyb.inputdevices.EmotivEpocDriverAndroid;
-import no.ntnu.stud.avikeyb.inputdevices.emotivepoc.PermissionsHelper;
-
-import static android.R.attr.data;
 
 public class MainActivity extends AppCompatActivity {
 
     private ViewGroup layoutWrapper;
-
-    private EmotivEpocDriverAndroid headsetInput;
-    private PermissionsHelper headsetPermissions;
 
     private final DictionaryHandler dictionaryHandler = new DictionaryHandler();
     private Keyboard keyboard;
@@ -118,17 +111,6 @@ public class MainActivity extends AppCompatActivity {
         // Asynchronously load the dictionary enties from a file and set the entries to the
         // two in memory dictionaries.
         loadDictionaryFromFile(Arrays.asList(dictionaryHandler, mobileDictionary), R.raw.dictionary);
-
-
-/*        headsetInput = new EmotivEpocDriverAndroid(this);
-
-        // The requesting of permissions are somewhat buggy. The app probably has to be
-        // reloaded after the required permissions have been granted.
-        headsetPermissions = new PermissionsHelper(this);
-        if (!headsetPermissions.hasRequirements()) {
-            headsetPermissions.requestRequirements();
-        }*/
-
 
         final TabLayout.OnTabSelectedListener tabSwitcher = new TabLayout.OnTabSelectedListener() {
             @Override
@@ -258,8 +240,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        /*headsetInput.disconnect();*/
-
 
         WebSocketInterface.getInstance().setInputInterface(new Handler(), null);
         WebSocketInterface.getInstance().stop(); // The client will have to reconnect when the activity resumes
@@ -288,7 +268,6 @@ public class MainActivity extends AppCompatActivity {
 
         layoutGui.updateGUI();
         setupInputButtons(layout);
-        /*setupInputHeadset(layout);*/
         setupLayoutListener(layout, layoutGui);
     }
 
@@ -341,10 +320,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Register the input interface with the headset input driver
-    private void setupInputHeadset(InputInterface input) {
-        headsetInput.setInputInterface(tabSwitcherInterceptor.interceptInput(input));
-    }
 
     // Fill the in memory dictionaryHandler from a file
     private void loadDictionaryFromFile(final List<InMemoryDictionary> dictionaries, final int resourceId) {
@@ -460,25 +435,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
     }
-
-
-/*    // The below is needed for the headset connection
-    // TODO fix exceptions caused when headset isn't connected
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
-        headsetPermissions.handlePermimssionResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        headsetPermissions.handleActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        headsetInput.connect("student_group57", "pralina2017PRALINA", "ingalill"); // Hard coded user profile used for testing
-    }*/
 
 }
