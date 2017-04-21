@@ -88,13 +88,13 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
             if (layout.symbolIsActive(it.getKey())) {
 
                 if (it.getValue() instanceof TextView) {
-                    ((TextView) it.getValue()).setTextColor(ContextCompat.getColor(activity, R.color.black));
+                    ((TextView) it.getValue()).setTextColor(ContextCompat.getColor(activity, R.color.binsearch_active_fg));
                 }
 
                 if (layout.symbolIsActiveLeft(it.getKey()))
-                    it.getValue().setBackgroundColor(ContextCompat.getColor(activity, (R.color.selected)));
+                    it.getValue().setBackgroundColor(ContextCompat.getColor(activity, (R.color.binsearch_active_left_bg)));
                 else
-                    it.getValue().setBackgroundColor(ContextCompat.getColor(activity, R.color.background));
+                    it.getValue().setBackgroundColor(ContextCompat.getColor(activity, R.color.binsearch_active_right_bg));
             } else {
                 it.getValue().setBackgroundColor(ContextCompat.getColor(activity, R.color.binsearch_inactive_bg));
                 if (it.getValue() instanceof TextView) {
@@ -156,11 +156,11 @@ public class BinarySearchLayoutGUI extends LayoutGUI {
             String suggestion = layout.getSuggestions().get(position);
 
             if (layout.suggestionIsActive(suggestion)) {
-                holder.item.setTextColor(ContextCompat.getColor(activity, R.color.black));
+                holder.item.setTextColor(ContextCompat.getColor(activity, R.color.binsearch_active_fg));
                 if (layout.suggestionIsLeft(suggestion)) {
-                    holder.item.setBackgroundColor(ContextCompat.getColor(activity, R.color.selected));
+                    holder.item.setBackgroundColor(ContextCompat.getColor(activity, R.color.binsearch_active_left_bg));
                 } else {
-                    holder.item.setBackgroundColor(ContextCompat.getColor(activity, R.color.background));
+                    holder.item.setBackgroundColor(ContextCompat.getColor(activity, R.color.binsearch_active_right_bg));
                 }
             } else {
                 holder.item.setBackgroundColor(ContextCompat.getColor(activity, R.color.binsearch_inactive_bg));

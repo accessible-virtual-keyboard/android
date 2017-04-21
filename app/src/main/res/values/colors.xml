@@ -12,10 +12,6 @@
     <color name="mobileLayoutRowBackground">#72627B</color>
     <color name="mobileLayoutUnusedButtonBackground">#8D8194</color>
 
-    <color name="binsearch_active_fg">#484848</color>
-    <color name="binsearch_active_left_bg">#46A8CD</color>
-    <color name="binsearch_active_right_bg">#F5B821</color>
-
     <color name="generic_active_fg">#484848</color>
     <color name="generic_active_bg">#F5B821</color>
     <color name="generic_inactive_bg">#eeeeee</color>
@@ -29,6 +25,10 @@
     <color name="notselected">#FFFFEF</color> <!-- -->
     <color name="default_background_color">#8D8194</color>
 
-    <color name="binsearch_inactive_bg">#30eeeeee</color> <!-- for binary not active felt -->
+    <color name="binsearch_inactive_bg">#f7f7f7</color> <!-- for binary not active felt -->
     <color name="binsearch_inactive_fg">#cccccc</color> <!--for binary not active felt-->
+    <color name="binsearch_active_fg">#484848</color>
+    <!-- The colors is easy to distinguish and seems to work well for color blind people -->
+    <color name="binsearch_active_left_bg">#46A8CD</color>
+    <color name="binsearch_active_right_bg">#F5B821</color>
 </resources>
