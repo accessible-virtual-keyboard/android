@@ -28,13 +28,11 @@ public class ETOSLayoutGUI extends LayoutGUI {
     private Activity activity;
     private ETOSLayout layout;
 
-    private HashMap<Symbol, View> symbolViewMap = new HashMap<>();
-    private ArrayList<Symbol> listItems = new ArrayList<>();
+    private ArrayList<View> symbolViews = new ArrayList<>();
+
     private AutoScrollListView dictionaryList;
 
-    private MenuAdapter menuAdapter;
     private TextAdapter dictionaryAdapter;
-    private View previousViewSelected;
     private LayoutLoader loader;
     private TextView emptySuggestionsView;
 
@@ -52,12 +50,11 @@ public class ETOSLayoutGUI extends LayoutGUI {
                 TextView view = (TextView) loader.getViewForSymbol(symbol);
                 view.setText(symbol.getContent());
                 view.setTextColor(Color.BLACK);
-                symbolViewMap.put(symbol, view);
+                symbolViews.add(view);
             }
         }
 
         dictionaryList = (AutoScrollListView) loader.getViewById(R.id.listview);
-        menuAdapter = new MenuAdapter(activity, R.id.listview, listItems);
         dictionaryAdapter = new TextAdapter(activity.getApplicationContext(), R.id.listview, new ArrayList<String>());
 
 
@@ -89,48 +86,28 @@ public class ETOSLayoutGUI extends LayoutGUI {
             dictionaryList.setVisibility(View.VISIBLE);
         }
 
-        // Highlight the selected symbol
-        for (Symbol symbol : layout.getSymbols()) {
-            for (int i = 0; i < symbolViewMap.size(); i++) {
+        // Highlight the selected row or symbol
+        Symbol[] currentLayout = layout.getSymbols();
 
-                symbolViewMap.get(symbol).setBackgroundResource(R.drawable.text_selection_colors);
+        for (int i = 0; i < symbolViews.size(); i++) {
+            TextView view = (TextView) symbolViews.get(i);
 
-                if (symbol != null && symbolViewMap.containsKey(symbol)) {
+            // Because the layout of the symbols changes all the time we have to set the view
+            // content each time we update.
+            view.setText(currentLayout[i].getContent());
 
-                    if (symbol.equals(layout.getCurrentSymbol())) {
-                        symbolViewMap.get(symbol).setSelected(true);
-                    } else {
-                        symbolViewMap.get(symbol).setSelected(false);
-                    }
+            int column = i % layout.getRowSize();
+            int row = i / layout.getRowSize();
+            view.setBackgroundResource(R.drawable.text_selection_colors);
+
+            if (layout.getCurrentRow() == row) {
+                view.setSelected(true);
+                if (layout.getCurrentState() == ETOSLayout.State.SELECT_COLUMN && layout.getCurrentColumn() == column) {
+                    view.setBackgroundResource(R.color.rowselected);
                 }
+            } else {
+                view.setSelected(false); // Default non active background color
             }
         }
     }
 }
-
-
-/*
-      if (layout.getCurrentState().equals(ETOSLayout.State.SELECT_MENU)) {
-            menuAdapter.clear();
-            for (Symbol item : layout.getMenuOptions()) {
-                listItems.add(item);
-            }
-            dictionaryList.setAdapter(menuAdapter);
-
-//            menuAdapter.notifyDataSetChanged();
-//            dictionaryAdapter.notifyDataSetChanged();
-        } else {
-            dictionaryList.setAdapter(dictionaryAdapter);
-
-        }
- */
-
-// todo clean up comments
-        /*if (layout.getCurrentMenuPosition() == -1 && layout.getMenuOptions() != null) {
-            menuAdapter.update(layout.getMenuOptions());
-        } else {
-            int pos = layout.getCurrentMenuPosition();
-            dictionaryList.performItemClick(dictionaryList.getChildAt(pos),
-                    pos,
-                    dictionaryList.getItemIdAtPosition(pos));
-        } */
